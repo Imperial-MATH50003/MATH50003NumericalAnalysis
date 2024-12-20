@@ -1,0 +1,16 @@
+name = "MATH50003NumericalAnalysis"
+uuid = "9f559201-c820-4d08-baf1-f1369a1016bd"
+authors = ["Sheehan Olver <solver@mac.com>"]
+version = "0.2.0"
+
+[deps]
+Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
+
+[compat]
+Literate = "2"
+Plots = "1"
+Test = "1"
+Weave = "0.10"
