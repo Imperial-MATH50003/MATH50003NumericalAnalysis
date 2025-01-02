@@ -2,7 +2,7 @@ module MATH50003NumericalAnalysis
 
 using Weave
 
-export compilenotes, compilesheet, compilesheetsolution, compilelab, compilelabsolution
+export compilenotes, compilesheet, compilesheetsolution, compilelab, compilelabsolution, compilelabdemo
 
 
 #####
@@ -86,12 +86,21 @@ end
 import Literate
 
 function compilelab(k)
-    write("labs/lab$k.jl", replace(replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")))
+    str = replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")
+    write("labs/lab$k.jl", replace(str, r"## DEMO(.*?)## END"s => s"\1"))
     Literate.notebook("labs/lab$k.jl", "labs/"; execute=false)
 end
 
+function compilelabdemo(k)
+    str = replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")
+    write("labs/lab$(k)d.jl", replace(str, r"## DEMO(.*?)## END"s => "##"))
+    Literate.notebook("labs/lab$(k)d.jl", "labs/"; execute=false)
+end
+
 function compilelabsolution(k)
-    Literate.notebook("src/labs/lab$(k)s.jl", "labs/"; execute=false)
+    str = read("src/labs/lab$(k)s.jl", String)
+    write("labs/lab$(k)s.jl", replace(str, r"## DEMO(.*?)## END"s => s"\1"))
+    Literate.notebook("labs/lab$(k)s.jl", "labs/"; execute=false)
 end
 
 end # module

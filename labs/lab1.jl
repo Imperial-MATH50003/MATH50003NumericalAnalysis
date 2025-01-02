@@ -72,7 +72,7 @@
 # To implement this approximation in code we need to turn the sum into a for-loop.
 # Let's take as an example $f(x) = \exp(x)$. We can write:
 
-## DEMO
+
 n = 10000     # the number of terms in the summation
 ret = 0.0     # ret will store the result, accumulated one argument at a time.
               ## The .0 makes it a "real" rather than an "integer".
@@ -81,12 +81,12 @@ for j = 1:n   # j will be set to 1,2,…,n in sequence
     ret = ret + exp(j/n) # add exp(j/n) to the result. Now ret = ∑_{k = 1}^j f(k/n).
 end           # in Julia for-loops are finished with an end
 ret/n         # approximates the true answer exp(1) - exp(0) = ℯ-1 = 1.71828… to 4 digits
-## END
+
 
 # It is convenient to wrap this in a function that takes in `f` and `n` and returns
 # the right-sided rectangular rule approximation. We can adapt the above routine into a function as follows:
 
-## DEMO
+
 function rightrectangularrule(f, n) # create a function named "rightrectangularrule" that takes in two arguments
     ret = 0.0
     for j = 1:n
@@ -97,17 +97,17 @@ end # like for-loops, functions are finished with an end
 
 rightrectangularrule(exp, 100_000_000) # Use n = 100 million points to get an approximation accurate to 8 digits.
                                        ## The underscores in numbers are like commas and are ignored.
-## END
+
 
 # In the problems below we provide unit-tests to help you verify whether your answers are correct.
 # This is provided by a `Test` package which provides the "macro" `@test` which either errors if a result
 # returns false or passes if it is true.  Here we test that our
 # implementation of `rightrectangularrule` approximately matches the true integral:
 
-## DEMO
+
 using Test # loads @test. Will need to be called again if you reset Julia
 @test rightrectangularrule(exp, 100_000_000) ≈ exp(1) - 1
-## END
+
 
 # Note `≈` is a unicode character which can be typed as `\approx` followed by hitting the `[tab]` key.
 # The `@test` macro combined with `≈` allows us to provide an absolute tolerance which is useful
@@ -120,12 +120,12 @@ n = 1000
 # Note it is now easy to approximate integrals of other functions. For example, the following code computes the
 # integral of $x^2$:
 
-## DEMO
+
 function squared(x)
     x^2 # carets ^ mean "to the power of". This is actually a function that just calls x*x.
 end
 @test rightrectangularrule(squared, 10_000) ≈ 1/3 atol=1E-4 # approximates 1/3 to 3 digits
-## END
+
 
 # Note below we sometimes use a one-liner version of defining a function:
 
@@ -156,13 +156,7 @@ using Test # Loads @test again in case you didn't run the line above.
 
 function leftrectangularrule(f, n)
     ## TODO: return (1/n) * ∑_{j=0}^{n-1} f(j/n) computed using a for-loop
-    ## SOLUTION
-    ret = 0.0
-    for j = 0:n-1 # j runs from 0 to n-1 instead of 1 to n
-        ret = ret + f(j/n)
-    end
-    ret/n   # the last line of a function is returned
-    ## END
+    
 end
 
 @test leftrectangularrule(exp, 1000) ≈ exp(1) - 1 atol=1E-3 # tests that the approximation is accurate to 1E-3
@@ -177,17 +171,7 @@ end
 # Do you think it is more or less accurate than the rectangular rules?
 
 ## TODO: write  a function trapeziumrule(f, n) which returns the n-point trapezium rule approximation
-## SOLUTION
-function trapeziumrule(f, n)
-    ret = f(0)/2
-    for j = 1:n-1 # j skips first and lest point
-        ret = ret + f(j/n)
-    end
-    ret = ret + f(1)/2
-    ret/n
-end
-## This appears to be more accurate, based on the test below where we achieve 6 digits.
-## END
+
 @test trapeziumrule(exp, 1000) ≈ exp(1) - 1 atol=1E-6
 
 # **Problem 1(c)** Compare `rightrectangularrule` and `trapeziumrule`
@@ -197,30 +181,7 @@ end
 # type out `pi`.
 
 ## TODO: test the two functions defined above with varying n
-## SOLUTION
 
-trapeziumrule(x -> cos(2π*x), 1)
-trapeziumrule(x -> cos(2π*x), 3) # less than 1E-16
-trapeziumrule(x -> cos(2π*x), 5) # less than 1E-16
-
-rightrectangularrule(x -> cos(2π*x), 1)
-rightrectangularrule(x -> cos(2π*x), 3) # exact as trapeziumrule
-rightrectangularrule(x -> cos(2π*x), 5) # exact as trapeziumrule
-
-
-trapeziumrule(x -> sin(4π*x), 1) # less than 1E-15
-trapeziumrule(x -> sin(4π*x), 3) # less than 1E-15
-trapeziumrule(x -> sin(4π*x), 5) # less than 1E-16
-
-rightrectangularrule(x -> sin(4π*x), 1) # close but not exactly the same as trapeziumrule
-rightrectangularrule(x -> sin(4π*x), 3) # close but not exactly the same as trapeziumrule
-rightrectangularrule(x -> sin(4π*x), 5) # close but not exactly the same as trapeziumrule
-
-trapeziumrule(x -> sin(4π*x), 10_000) # not any more accurate
-
-## Each rule is less than a very small number but does not become smaller by increasing n.
-
-## END
 
 # ------
 
@@ -238,30 +199,30 @@ trapeziumrule(x -> sin(4π*x), 10_000) # not any more accurate
 
 # Let's try with the `leftrectangularrule` routine. First we see how we can plot functions:
 
-## DEMO
+
 using Plots # Load the plotting package
 
 m = 100 # number of plot points
 x = range(0, 1; length=m) # makes a vector of a 100 points between 0 and 1
 y = [exp(x[j]) for j=1:m] # Make a vector of exp evaluated at each point x.
 plot(x, y) # plot lines throw the specified x and y coordinates
-## END
+
 
 # We now plot the absolute value of the integral approximated
 # by the left-hand rule compared to the "true" answer `exp(1)-1` as $n$ increases:
 
-## DEMO
+
 N = 10_000 # total number of points
 rightruleerr = n -> rightrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the right-hand rectangular rule for the exponential
 errs = [abs(rightruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
 plot(1:N, errs; label="right-rule error") # label="..." labels the plot in the legend
-## END
+
 
 # This plot is very uninformative: we can see that the error tends to zero but its
 # hard to understand at what rate. We can get more information by scaling both the $x$- and $y$-axis logarithmically:
-## DEMO
+
 plot(1:N, errs; xscale=:log10, yscale=:log10, label="right-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
-## END
+
 
 # We see with 10,000 points we get about $10^{-4}$ errors.
 # We can add to this plot reference curves corresponding to $n^{-1}$ and $n^{-2}$
@@ -279,17 +240,7 @@ plot!(1:N, (1:N) .^ (-2); linestyle=:dash, label="n^-2")
 # error where the $x$- and $y$-axis are scaled logarithmically.
 
 ## TODO: Plot the absolute-value of the error of trapeziumrule for n = 1:10_000 and deduce the convergence rate
-## SOLUTION
 
-N = 10_000
-trapruleerr = n -> trapeziumrule(exp,n)- (exp(1)-1)
-errs = [abs(trapruleerr(n)) for n=1:N]
-plot(1:N, errs; xscale=:log10, yscale=:log10, label="error", yticks=10.0 .^ (-10:1))
-plot!(1:N, (1:N) .^ (-2); linestyle=:dash, label="n^-2")
-
-## We see that the error decays like C*n^{-2}
-
-## END
 
 # **Problem 2(b)** Estimate the convergence rate for `trapeziumrule` $f(x) = 1/(25\cos(2πx)^2+1)$, where you can
 # use `0.19611613513818404` as a high-accuracy value for the integral, by plotting the error for `n = 1:2000`.
@@ -308,18 +259,7 @@ function nanabs(x)
 end
 
 ## TODO: Plot the absolute-value of the error of trapeziumrule with f = x -> 1/(25cos(2π*x)^2+1) for n = 1:2000.
-## SOLUTION
 
-N = 2000
-f = x -> 1/(25cos(2π*x)^2+1)
-trapruleerr = n -> trapeziumrule(f,n) - 0.19611613513818404
-errs = [nanabs(trapruleerr(n)) for n=1:N]
-plot(1:N, errs; xscale=:log10, yscale=:log10, label="error", yticks=10.0 .^ (-16:1)) # label="error" labels the plot
-
-## We see that it actually decays faster than any algebraic convergence rate (it is exponential).
-## We also see that the error stops decaying around 1E-15.
-
-## END
 
 # -------
 
@@ -338,35 +278,35 @@ plot(1:N, errs; xscale=:log10, yscale=:log10, label="error", yticks=10.0 .^ (-16
 # function is so simple we write it as a single line (using a special
 # syntax that is equivalent to writing `function ...`):
 
-## DEMO
+
 rightdifferences(f, x, h) = (f(x+h) - f(x))/h # defines a function called rightdifferences(f, x, h) in one line
 rightdifferences(exp, 1, 0.00001)
-## END
+
 
 # We have computed `ℯ = 2.71828...` to 5 digits. One might be tempted to compute the integral by
 # just setting `h = 0`:
 
-## DEMO
+
 rightdifferences(exp, 1, 0)
-## END
+
 
 # Oh no! It returned `NaN`: this means "Not a Number", a place-holder when a calculation fails. Instead, let's try making `h`
 # very small:
 
-## DEMO
+
 rightdifferences(exp, 1, 10.0^(-15))
-## END
+
 
 # The result is completely wrong! Let's do a plot of the error as $h → 0$:
 
 ## Create  vector of errors in divided difference for h = 1,0.1,0.01,…,10^(-20)
 
-## DEMO
+
 errs = [abs(rightdifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
 plot(0:20, errs; yscale=:log10, label="error", legend=:bottomright) # scale only the y-axis, move the legend to bottom right to get out of the way
 bnds = [(h = 10.0^(-k); exp(1+h)*h/2) for k = 0:20] # error bound proven theoretically. We use ";" to write two lines at once
 plot!(0:20, bnds; linestyle=:dash, label="bound")
-## END
+
 
 
 # This raises a couple of mysteries:
@@ -388,9 +328,7 @@ plot!(0:20, bnds; linestyle=:dash, label="bound")
 
 function centraldifferences(f, x, h)
     ## TODO: return an implementation of central differences
-    ## SOLUTION
-    (f(x+h)-f(x-h))/(2h)
-    ## END
+    
 end
 
 @test centraldifferences(exp, 1, 0.00001) ≈ exp(1) atol=1E-10
@@ -401,12 +339,7 @@ end
 # Which achieves better accuracy: `rightdifferences` or `centraldifferences`?
 
 ## TODO: Plot the errors of centraldifferences
-## SOLUTION
-errs = [abs(centraldifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
-plot(0:20, errs; yscale=:log10, label="error") # scale only the y-axis
-## It still diverges but achieves much better accuracy. The optimal choice of $h$ is now
-# $≈ 10^{-5}$.
-## END
+
 
 # **Problem 3(c)** Applying central differences to itself we get an approximation to
 # second derivatives of the form:
@@ -417,18 +350,7 @@ plot(0:20, errs; yscale=:log10, label="error") # scale only the y-axis
 # and plot the error in approximating $f''(1)$, for $f(x) = \exp x$ with `h = 1,0.1,…,10^(-10)`.
 
 ## TODO: implement seconddifferences(f,x,h) and plot the error for h = 1,0.1,…,10^(-10).
-## SOLUTION
 
-function seconddifferences(f, x, h)
-    (f(x+h)-2f(x) + f(x-h))/(h^2)
-end
-
-errs = [abs(seconddifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:10]
-plot(0:10, errs; yscale=:log10, label="error") # scale only the y-axis
-
-## We see the method begins to converge but then the error grows catastrophically.
-
-## END
 
 
 
@@ -452,40 +374,4 @@ plot(0:10, errs; yscale=:log10, label="error") # scale only the y-axis
 
 ## TODO: Define each function in the statement of the problem and apply central differences
 ## to approximate their derivatives.
-## SOLUTION
-## We define the three functions:
-f = x -> exp(exp(x)cos(x) + sin(x))
-function g(x)
-    ret = 1.0
-    for k = 1:1000
-        ret = ret * (x / k -1)
-    end
-    ret
-end
-function cont(n, x)
-    ret = 2.0
-    for k = 1:n-1
-        ret = 2 + (x-1)/ret
-    end
-    1 + (x-1)/ret
-end
 
-## The following is less than 1E-10
-centraldifferences(f, 0.1, 0.000001) - centraldifferences(f, 0.1, 0.00001)
-## Hence we expect
-centraldifferences(f, 0.1, 0.000001) == 6.5847725547740765
-## is accurate to 5 digits.
-
-## The following is less than 1E-8
-centraldifferences(g, 0.1, 0.000001) - centraldifferences(g, 0.1, 0.00001)
-## Hence we expect
-centraldifferences(g, 0.1, 0.000001) == -3.593826512965359
-## is accurate to 5 digits.
-
-## The following is less than 1E-8
-centraldifferences(x -> cont(1000, x), 0.1, 0.000001) - centraldifferences(x -> cont(1000, x), 0.1, 0.00001)
-## Hence we expect
-centraldifferences(x -> cont(1000, x), 0.1, 0.000001) == 1.5811388301423257
-## is accurate to 5 digits.
-
-## END

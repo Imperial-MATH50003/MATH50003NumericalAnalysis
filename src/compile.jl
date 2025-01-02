@@ -41,6 +41,7 @@ for k = 1:1
     compilesheet(k)
 end
 
+
 for k = 1:0
     compilesheetsolution(k)
 end
@@ -50,6 +51,7 @@ end
 ####
 for k = 1:1
     compilelab(k)
+    compilelabdemo(k)
 end
 
 
