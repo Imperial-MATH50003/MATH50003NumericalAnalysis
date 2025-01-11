@@ -3,8 +3,8 @@
 
 # In this lab we explore an alternative approach to computing derivatives:
 # using _dual numbers_. This is a special mathematical object akin to complex numbers
-# that allows us to compute derivatives to very high accuracy in an automated fashion,
-# i.e. an example of [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation)
+# that allows us to compute derivatives to very high accuracy in an automated fashion.
+# This is a basic example of [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation)
 # that is extremely important in Machine Learning and other computational applications.
 # To realise dual numbers on a computer we need to introduce the notation of a "type"
 # and create a customised type to represent dual numbers, which is what we discuss first.
@@ -71,7 +71,7 @@ nanabs(x) = x == 0 ? NaN : abs(x)
 ##
 
 # The last line returns a list of `Int`s, which has the type `Tuple`.
-# Note that there is a difference between an "integer" and the type `Int`: whilst 3.0 is an integer
+# Note that there is a difference between the set concept of integer and the type `Int`: whilst `3.0` is an integer
 # its type is `Float64` so `foo(3.0) == 0`.
 
 # **Remark** Every type has a "supertype", which is an "abstract type": something you can't make an instance of it.
@@ -104,7 +104,7 @@ nanabs(x) = x == 0 ? NaN : abs(x)
 # -----
 # **Problem 1(a)** Use `typeof` to determine the type of `1.2 + 2.3im`.
 
-## TODO: What is the type of `1.2 + 2.3im`?
+## TODO: What is the type of 1.2 + 2.3im?
 
 
 
@@ -152,7 +152,7 @@ end
 # ------
 
 
-# One of the powerful parts of Julia is that it's very easy to make our own types. Lets begin with a simple
+# One of the powerful features of Julia is that it's very easy to make our own types. Let's begin with a simple
 # implementation of a rational function $p/q$ where $p$ and $q$ are `Int`s.  Thus we want to create a new
 # type called `Rat` with two fields `p` and `q` to represent the numerator and denominator, respectively.
 # (For simplicity  we won't worry about restricting $p$ and $q$ to be `Int`.)
@@ -160,7 +160,7 @@ end
 
 ##
 
-# A new instance of `Rat` is created via e.g. `Rat(1, 2)` represents 1/2
+# A new instance of `Rat` is created via e.g. `Rat(1, 2)` represents `1/2`
 # where the first argument specifies `p` and the second argument `q`.
 # The fields are accessed by `.`:
 
@@ -386,7 +386,7 @@ f(r)
 
 
 # **Problem 5(c)** By changing the initial guesses compute 5 roots to
-# $sin(x) - 1/x$. Hint: you may need to add an overload for `/(x::Real, y::Dual)`.
+# $\sin x - 1/x$. Hint: you may need to add an overload for `/(x::Real, y::Dual)`.
 
-## TODO: Use `newton` to compute roots of `sin(x) - 1/x`.
+## TODO: Use newton to compute roots of sin(x) - 1/x.
 

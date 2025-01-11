@@ -138,3 +138,59 @@ $$
 Thus the derivative is $2/1.55^2$.
 
 **END**
+
+
+----
+
+Consider a 2D analogue of dual numbers $a + b ϵ_x + c ϵ_y$ defined by the relationship
+ $ϵ_x ϵ_y = ϵ_x^2 =  ϵ_y^2 = 0$. 
+
+**Problem 5(a)** 
+Derive the formula for writing the product of two 2D dual numbers $(a + a_x ϵ_x + a_y ϵ_y) (b + b_x ϵ_x + b_y ϵ_y)$
+where $a,a_x,a_y,b,b_x,b_y \in \mathbb R$ as a 2D dual number.
+
+**SOLUTION**
+$$
+(a+a_x ϵ_x +  a_y ϵ_y)  (b+b_x ϵ_x +  b_y ϵ_y)
+= ab +(ba_x + ab_x) ϵ_x +  (ba_y+ab_y) ϵ_y
+$$
+**END**
+
+**Problem 5(b)** Show  for all 2D polynomials
+$$
+p(x,y) = \sum_{k=0}^n \sum_{j=0}^m c_{kj} x^k y^j
+$$
+that
+$$
+\begin{align*}
+p(x + a ϵ_x, y + b ϵ_y) &= p(x,y) + a  {∂ p \over ∂ x} ϵ_x  +  b  {∂ p \over ∂ y}   ϵ_y.
+\end{align*}
+$$
+
+**SOLUTION**
+By linearity it suffices to consider monomials $x^k y^j$. Assume it is true
+for all lower degree polynomials with the degree $0$ case holding trivially.
+If $j = 0$ we  have:
+$$
+(x + a ϵ_x)^k = (x + a ϵ_x)(x + a ϵ_x)^{k-1} = 
+ (x + a ϵ_x)(x^{k-1} + a (k-1) x^{k-2} ϵ_x) = 
+  x^k  + a k x^{k-1} ϵ_x
+$$
+ and similarly for $k = 0$. For $k,j \neq 0$ we can use the previous cases to get:
+$$
+(x + a ϵ_x)^k (y + b ϵ_y)^j = (x^k + k a x^{k-1} ϵ_x) (y^j + j b y^{j-1} ϵ_y)= 
+x^k y^j + k a x^{k-1} y^j ϵ_x + b j x^k y^{j-1}
+$$
+**END**
+
+**Problem 5(c)** Use 2D dual numbers to compute the gradient of $p(x,y) = (1 + x + 3xy)(1+y)$ at $x=1$ and $y=2$.
+
+**SOLUTION**
+$$
+\meeq{
+p(1+ϵ_x, 2+ϵ_y) = (2 + ϵ_x + 3(1+ϵ_x)(2+ϵ_y))(3+ϵ_y) = (2 + ϵ_x + 3(2+2ϵ_x+ϵ_y))(3+ϵ_y) \ccr
+= (8 + 7ϵ_x + 3ϵ_y)(3+ϵ_y) = 24 + 21ϵ_x + 17ϵ_y
+}
+$$
+hence the gradient is $[21,17]^⊤$.
+**END**
