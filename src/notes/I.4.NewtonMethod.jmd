@@ -1,0 +1,24 @@
+# Newton's method
+
+In school you may recall learning Newton's method: a way of approximating zeros/roots to
+a function by using a local approximation by an affine function. That is, approximate a function
+$f(x)$ locally around an initial guess $x_0$ by its first order Taylor series:
+$$
+f(x) ≈ f(x_0) + f'(x_0) (x-x_0)
+$$
+and then find the root of the right-hand side which is
+$$
+ f(x_0) + f'(x_0) (x-x_0) = 0 ⇔ x = x_0 - {f(x_0) \over f'(x_0)}.
+$$
+We can then repeat using this root as the new initial guess. In other words
+we have a sequence of _hopefully_ more accurate approximations:
+$$
+x_{k+1} = x_k - {f(x_k) \over f'(x_k)}.
+$$
+The convergence theory of Newton's method is rich and beautiful but outside
+the scope of this module. But provided $f$ is smooth, if $x_0$ is sufficiently
+close to a root this iteration will converge. 
+
+Thus _if_ we can compute derivatives, we can (sometimes) compute roots. The lab
+will explore using dual numbers to accomplish this task. This is in some sense
+a baby version of how Machine Learning algorithms train neural networks.

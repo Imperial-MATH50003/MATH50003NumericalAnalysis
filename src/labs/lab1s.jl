@@ -176,7 +176,7 @@ end
 # Write a function `trapeziumrule(f, n)` that implements this approximation.
 # Do you think it is more or less accurate than the rectangular rules?
 
-## TODO: write  a function trapeziumrule(f, n) which returns the n-point trapezium rule approximation
+## TODO: write a function trapeziumrule(f, n) which returns the n-point trapezium rule approximation
 ## SOLUTION
 function trapeziumrule(f, n)
     ret = f(0)/2

@@ -7,8 +7,8 @@ using MATH50003NumericalAnalysis
 
 compilenotes("I.1.RectangularRule")
 compilenotes("I.2.DividedDifferences")
-# compilenotes("I.3.DualNumbers")
-# compilenotes("I.4.NewtonMethod")
+compilenotes("I.3.DualNumbers")
+compilenotes("I.4.NewtonMethod")
 
 # compilenotes("II.1.Integers")
 # compilenotes("II.2.Reals")
@@ -29,7 +29,7 @@ compilenotes("I.2.DividedDifferences")
 # compilenotes("IV.5.GaussianQuadrature")
 
 
-# compilenotes("A.Asymptotics")
+compilenotes("A.Asymptotics")
 # compilenotes("A.Permutations")
 
 
@@ -37,7 +37,7 @@ compilenotes("I.2.DividedDifferences")
 # Sheets
 ####
 
-for k = 1:1
+for k = 1:2
     compilesheet(k)
 end
 
@@ -49,7 +49,7 @@ end
 ####
 # Labs
 ####
-for k = 1:1
+for k = 1:2
     compilelab(k)
     compilelabdemo(k)
 end
