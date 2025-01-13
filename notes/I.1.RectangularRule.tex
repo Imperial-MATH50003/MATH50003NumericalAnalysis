@@ -18,7 +18,7 @@ To tackle this question we consider the error incurred on a single panel $(x_{j-
 
 Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series or (3) Taylor series. In this case we use (1):
 
-\begin{lemma}[(Right-sided) Rectangular Rule error on one panel] Assuming $f$ is differentiable we have
+\begin{lemma}[(Right-sided) Rectangular Rule error on one panel] Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) f(b) + \ensuremath{\delta}
 \]
@@ -44,7 +44,7 @@ The lemma thus follows since
 
 Now summing up the errors in each panel gives us the error of using the Rectangular rule:
 
-\begin{theorem}[Rectangular Rule error] Assuming $f$ is differentiable we have
+\begin{theorem}[Rectangular Rule error] Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=1}^n f(x_j) +  \ensuremath{\delta}
 \]

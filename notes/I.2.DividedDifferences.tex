@@ -15,11 +15,15 @@ f'(x) = {f(x+h) - f(x) \over h} + \ensuremath{\delta}
 where $|\ensuremath{\delta}| \ensuremath{\leq} Mh/2$ for  $M = \sup_{x \ensuremath{\leq} t \ensuremath{\leq} x+h} |f''(t)|$.
 
 \end{proposition}
-\textbf{Proof} Follows immediately from Taylor's theorem:
+\textbf{Proof} Follows immediately from Taylor's theorem: recall that
 \[
-f(x+h) = f(x) + f'(x) h + \underbrace{{f''(t) \over 2} h^2}_{h \ensuremath{\delta}}
+f(x+h) = f(x) + f'(x) h + {f''(t) \over 2} h^2
 \]
-for some $x \ensuremath{\leq} t \ensuremath{\leq} x+h$, by bounding:
+for some $t \ensuremath{\in} [x,x+h]$. Rearranging we get
+\[
+f'(x) = {f(x+h) - f(x) \over 2} + \underbrace{\left(-{f''(t)\over 2 h^2} \right)}_\ensuremath{\delta}.
+\]
+We then bound:
 \[
 |\ensuremath{\delta}| \ensuremath{\leq} \abs{{f''(t) \over 2} h} \ensuremath{\leq} {M  h \over 2}.
 \]

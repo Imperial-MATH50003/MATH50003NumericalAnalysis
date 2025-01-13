@@ -4,7 +4,7 @@
 
 ------
 
-**Problem 1** Assuming $f$ is differentiable, prove the left-point Rectangular rule error formula
+**Problem 1** Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
 $$
 ∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
 $$
@@ -16,7 +16,7 @@ where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ 
 
 
 
-**Problem 2(a)**  Assuming $f$ is twice-differentiable, prove a one-panel Trapezium rule error bound:
+**Problem 2(a)**  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
 $$
 ∫_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  δ
 $$
@@ -32,7 +32,7 @@ The sharpest bound is $|δ| ≤ (b-a)^3 M/12$ but that would be a significantly 
 
 
 
-**Problem 2(b)** Assuming $f$ is twice-differentiable, prove a bound for the Trapezium rule error:
+**Problem 2(b)** Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
 $$
 ∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
 $$
@@ -43,7 +43,7 @@ where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
 
 -----
 
-**Problem 3** Assuming $f$ is twice-differentiable,
+**Problem 3** Assuming $f$ is twice-differentiable in $[x-h,x]$,
 for the left difference approximation
 $$
 f'(x) = {f(x) - f(x - h) \over h} + δ,
@@ -55,7 +55,7 @@ show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
 
 
 
-**Problem 4** Assuming $f$ is thrice-differentiable,
+**Problem 4** Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
 for the central differences approximation
 $$
 f'(x) = {f(x + h) - f(x - h) \over 2h} + δ,
@@ -67,7 +67,7 @@ show that $|δ| ≤ Mh^2/6$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
 
 
 
-**Problem 5**  Assuming $f$ is thrice-differentiable,
+**Problem 5**  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
 for the second-order derivative approximation
 $$
 {f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + δ

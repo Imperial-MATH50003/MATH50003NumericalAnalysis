@@ -59,7 +59,7 @@ Negative numbers may be surprising:
 ```julia
 bitstring(-Int8(1))
 ```
-This is explained in detail in Chapter [Numbers](Numbers.ipynb).
+This will be explained in detail in Chapter II.
 
 There are other primitive integer types:  `UInt8`, `UInt16`, `UInt32`, and `UInt64` are unsigned integers, 
 e.g., we do not interpret

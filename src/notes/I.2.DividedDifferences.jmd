@@ -22,11 +22,15 @@ $$
 where $|δ| ≤ Mh/2$ for  $M = \sup_{x ≤ t ≤ x+h} |f''(t)|$.
 
 **Proof**
-Follows immediately from Taylor's theorem:
+Follows immediately from Taylor's theorem: recall that
 $$
-f(x+h) = f(x) + f'(x) h + \underbrace{{f''(t) \over 2} h^2}_{h δ}
+f(x+h) = f(x) + f'(x) h + {f''(t) \over 2} h^2
 $$
-for some $x ≤ t ≤ x+h$, by bounding:
+for some $t ∈ [x,x+h]$. Rearranging we get
+$$
+f'(x) = {f(x+h) - f(x) \over 2} + \underbrace{\left(-{f''(t)\over 2 h^2} \right)}_δ.
+$$
+We then bound:
 $$
 |δ| ≤ \abs{{f''(t) \over 2} h} ≤ {M  h \over 2}.
 $$

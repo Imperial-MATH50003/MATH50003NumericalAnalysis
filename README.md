@@ -3,7 +3,7 @@ Notes and course material for MATH50003 Numerical Analysis (2024–25)
 
 Lecturer: [Dr Sheehan Olver](https://www.ma.imperial.ac.uk/~solver/)
 
-Office hour: Mondays, 11am, Huxley 6M40
+Office hour: Thursdays, 16:00–17:00, Huxley 6M40
 
 ## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf) up to Week 1
 
@@ -26,7 +26,7 @@ Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.
 
 ## Reading List
 
-1. MATH50003 Introduction to Julia
+1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/A.Julia.ipynb)
 4. [The Julia Documentation](https://docs.julialang.org)
 6. Ben Lauwens, [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book)
 5. [The Julia–Matlab–Python Cheatsheet](https://cheatsheets.quantecon.org)

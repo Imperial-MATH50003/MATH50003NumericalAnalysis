@@ -30,7 +30,7 @@ one can make a safe bet that the right tool in any analysis proof is either (1) 
 or (3) Taylor series. In this case we use (1):
 
 **Lemma ((Right-sided) Rectangular Rule error on one panel)**
-Assuming $f$ is differentiable we have
+Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
 $$
 ∫_a^b f(x) {\rm d}x = (b-a) f(b) + δ
 $$
@@ -62,7 +62,7 @@ $$
 Now summing up the errors in each panel gives us the error of using the Rectangular rule:
 
 **Theorem (Rectangular Rule error)**
-Assuming $f$ is differentiable we have
+Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
 $$
 ∫_a^b f(x) {\rm d}x =  h ∑_{j=1}^n f(x_j) +  δ
 $$
