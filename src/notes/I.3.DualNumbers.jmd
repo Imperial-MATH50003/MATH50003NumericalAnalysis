@@ -83,74 +83,95 @@ f(a + b ϵ) = ∑_{k=0}^∞ f_k (a + b ϵ)^k = f_0 + ∑_{k=1}^∞ f_k (a^k + k 
 $$
 More generally, given a differentiable function we can extend it to dual numbers:
 
-**Definition (dual extension)** Suppose a real-valued function $f$
-is differentiable at $a$. We can extend the definition of $f$ to dual numbers
-via
+**Definition (dual extension)** Suppose a real-valued function $f : Ω → ℝ$ is differentiable in $Ω ⊂ ℝ$. 
+We can construct the _dual extension_ $f̲ : Ω + ϵℝ → 𝔻$ by defining
 $$
-f(a + b ϵ) := f(a) + b f'(a) ϵ,
+f̲(a + b ϵ) := f(a) + b f'(a) ϵ.
 $$
-in which case we say that $f$ is _dual-extended_ at $a$.
+When there's no ambiguity, we may identify $f(a + b ϵ) ≡ f̲(a+b ϵ)$.
 
 
 Thus, for basic functions we have natural extensions:
 $$
 \begin{align*}
-\exp(a + b ϵ) &:= \exp(a) + b \exp(a) ϵ \\
-\sin(a + b ϵ) &:= \sin(a) + b \cos(a) ϵ \\
-\cos(a + b ϵ) &:= \cos(a) - b \sin(a) ϵ \\
-\log(a + b ϵ) &:= \log(a) + {b \over a} ϵ \\
-\sqrt{a+b ϵ} &:= \sqrt{a} + {b \over 2 \sqrt{a}} ϵ \\
-|a + b ϵ| &:= |a| + b\, {\rm sign} a\, ϵ
+\exp(a + b ϵ) &:= \exp(a) + b \exp(a) ϵ & (a,b ∈ ℝ) \\
+\sin(a + b ϵ) &:= \sin(a) + b \cos(a) ϵ & (a,b ∈ ℝ) \\
+\cos(a + b ϵ) &:= \cos(a) - b \sin(a) ϵ & (a,b ∈ ℝ) \\
+\log(a + b ϵ) &:= \log(a) + {b \over a} ϵ & (a ∈ (0,∞), b ∈ ℝ) \\
+\sqrt{a+b ϵ} &:= \sqrt{a} + {b \over 2 \sqrt{a}} ϵ & (a ∈ (0,∞), b ∈ ℝ) \\
+|a + b ϵ| &:= |a| + b\, {\rm sign} a\, ϵ & (a ∈ ℝ \backslash \{0\} , b ∈ ℝ)
 \end{align*}
 $$
 provided the function is differentiable at $a$. Note the last example does not have
-a convergent Taylor series (at 0) but we can still extend it where it is differentiable.
+a convergent Taylor series (at $0$) but we can still extend it where it is differentiable.
 
-Going further, we can add, multiply, and compose such functions:
+Going further, we can add, multiply, and compose such dual-extensions. And the beauty is these automatically
+satisfy the right properties to be dual-extensions themselves, thus allowing for differentiation of  complicated functions
+built from basic differentiable building blocks.
 
-**Lemma (product and chain rule)**
-Suppose $f$ is dual-extended at $g(a)$ and $g$ is dual-extended at $a$. Then
-$q(x) := f(g(x))$ is automatically dual-extended at $a$.
-If $f$ and $g$ are dual-extended at $a$ then 
-$r(x) := f(x) g(x)$ is also automatically dual-extended at $a$. In other words:
+The following lemma shows that addition and multiplication in some sense "commute" with the dual-extension,
+hence we can recover the product rule from dual number multiplication:
+
+**Lemma (addition/multiplication)** Suppose $f,g : Ω → ℝ$ are differentiable for $Ω ⊂ ℝ$ and $c ∈ ℝ$. Then
+for $a ∈ Ω$ and $b ∈ ℝ$ we have
 $$
 \meeq{
-q(a+b ϵ) = q(a) + b q'(a) ϵ \ccr
-r(a+b ϵ) = r(a) + b r'(a) ϵ
+\underline{f+g}(a+bϵ) = f̲(a+bϵ) + g̲(a+bϵ) \ccr 
+\underline{c f}(a+bϵ) = c f̲(a+b ϵ) \ccr
+\underline{f g}(a+bϵ) = f̲(a+b ϵ) g̲(a+b ϵ)
 }
+$$
+**Proof**
+The first two are immediate due to linearity:
+$$
+\meeq{
+\underline{(f+g)}(a+bϵ) = (f+g)(a) + b(f + g)'(a) ϵ \ccr
+ = (f(a)+bf'(a)ϵ) + (g(a)+bg'(a)ϵ) = f̲(a+bϵ) + g̲(a+bϵ), \ccr
+\underline{cf}(a+bϵ) = (cf)(a) + b(cf)'(a) ϵ = c(f(a)+bf'(a)ϵ) = cf̲(a+bϵ).
+}
+$$
+The last property essentially captures the product rule of differentiation:
+$$
+\meeq{
+\underline{f g}(a+bϵ) = f(a)g(a) + b (f(a)g'(a)+f'(a) g'(a))ϵ  \ccr
+= (f(a)+bf'(a)ϵ)(g(a)+b g'(a)ϵ) = f̲(a+b ϵ) g̲(a+b ϵ).
+}
+$$
+∎
+
+Furthermore composition recovers the chain rule:
+
+**Lemma (composition)** 
+Suppose $f : Ω → Γ$ and $g : Γ → ℝ$ are differentiable in $Ω,Γ ⊂ ℝ$. Then
+$$
+\underline{(f ∘ g)}(a+b ϵ) = f̲(g̲(a+bϵ))
 $$
 
 **Proof**
-For $q$ it follows immediately:
+Again it falls out of the properties of dual numbers:
 $$
-\meeq{
-q(a + b ϵ) = f(g(a + b ϵ)) = f(g(a) + b g'(a) ϵ) \ccr
-= f(g(a)) + b g'(a) f'(g(a))ϵ = q(a) + b q'(a) ϵ.
-}
+\underline{(f ∘ g)}(a+b ϵ) = f(g(a)) + bg'(a) f'(g(a)) ϵ = f̲(g(a)+bg'(a)ϵ) = f̲(g̲(a+bϵ))
 $$
-For $r$ we have
-$$
-\meeq{
-r(a + b ϵ) = f(a+b ϵ )g(a+b ϵ )= (f(a) + b f'(a) ϵ)(g(a) + b g'(a) ϵ) \ccr
-= f(a)g(a) + b (f'(a)g(a) + f(a)g'(a)) ϵ = r(a) +b r'(a) ϵ.
-}
-$$
-
 ∎
 
 A simple corollary is that any function defined in terms of addition, multiplication, composition, etc.
-of functions that are dual with differentiation will be differentiable via dual numbers.
+of basic functions with dual-extensions will be differentiable via dual numbers. In this following example we see a practical realisation
+of this, where we differentiate a function by just evaluating it on dual numbers, implicitly, using the dual-extension
+for the basic build blocks:
 
 **Example (differentiating non-polynomial)**
 
-Consider differentiating $f(x) =  \exp(x^2 + \E^x)$ at the point $a = 1$ by evaluating on the duals:
+Consider differentiating $f(x) =  \exp(x^2 + \cos x)$ at the point $a = 1$, where 
+we automatically use the dual-extension of $\exp$ and $\cos$. We can differente $f$
+by simply evaluating on the duals:
 $$
-f(1 + ϵ) = \exp(1 + 2ϵ + \E + \E ϵ) =  \exp(1 + \E) + \exp(1 + \E) (2 + \E) ϵ.
+f(1 + ϵ) = \exp(1 + 2ϵ + \cos 1 - \sin 1 ϵ) =  \exp(1 + \cos 1) + \exp(1 + \cos 1) (2 - \sin 1) ϵ.
 $$
 Therefore we deduce that
 $$
-f'(1) = \exp(1 + \E) (2 + \E).
+f'(1) = \exp(1 + \cos 1) (2 - \sin 1).
 $$
+
 
 ∎
 

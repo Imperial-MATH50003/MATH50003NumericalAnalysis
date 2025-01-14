@@ -28,6 +28,11 @@ function fixwhitespace(path)
     write(path, replace(read(path, String), "\n\n\n\\begin{align" => "\n\\begin{align"))
 end
 
+function fixunderbars(path)
+    write(path, replace(read(path, String), "f\\ensuremath{\\underbar}" => "\\underline{f}"))
+    write(path, replace(read(path, String), "g\\ensuremath{\\underbar}" => "\\underline{g}"))
+end
+
 function compilenotes(filename) 
     weave("src/notes/$filename.jmd"; out_path="notes/", doctype="md2tex", template="src/notes/template.tpl")
     path = "notes/$filename.tex"
@@ -39,6 +44,7 @@ function compilenotes(filename)
     replacedefinition(path, "definition", "Definition")
     # work around double newline before equation
     fixwhitespace(path)
+    fixunderbars(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
