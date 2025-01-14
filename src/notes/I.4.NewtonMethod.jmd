@@ -22,3 +22,54 @@ close to a root this iteration will converge.
 Thus _if_ we can compute derivatives, we can (sometimes) compute roots. The lab
 will explore using dual numbers to accomplish this task. This is in some sense
 a baby version of how Machine Learning algorithms train neural networks.
+
+In terms of analysis, we can guarantee convergence provided our initial guess is
+accurate enough. The first step is the bound the error of an iteration in terms
+of the previous error:
+
+
+**Theorem (Newton error)**
+Suppose $f$ is twice-differentiable and there exists
+ $x ∈ ℝ$ such that $f(x) = 0$ and $f'(x) ≠ 0$. Denote the
+error of the $k$-th Newton iteration as $ε_k := x - x_k$. Then
+$$
+|ε_{k+1}| ≤ |ε_k|^2 \left| {f''(x_k) \over 2f'(x_k)} \right|.
+$$
+
+
+**Proof**
+Use Taylor's theorem we find that
+$$
+0 = f(x) = f(x_k + ε_k) = f(x_k) + f'(x_k) ε_k + {f''(x_k) \over 2} ε_k^2.
+$$
+Rearranging this we get an expression for $f(x_k)$ that tells us that
+$$
+ε_{k+1} = x - x_{k+1} = ε_k +  {f(x_k) \over f'(x_k)} = -{f''(x_k) \over 2f'(x_k)} ε_k^2.
+$$
+Taking absolute values of each side gives the result.
+
+∎
+
+Hidden in this result is a guarantee of convergence provided $x_0$ is sufficiently close to $x$.
+
+**Corollary (Newton convergence)** Suppose in a  neighbourhood $B$ of $x$ that
+$$
+M := \sup_{y ∈ B}  \left| {f''(y) \over 2f'(y)} \right| < ∞.
+$$
+If $x_0 ∈ B$ is sufficiently close to $x$ then $x_k → x$.
+
+**Proof**
+
+Suppose $x_k ∈ B$ satisfies $|ε_k| = |x-x_k| < M^{-1}$. Then
+$$
+|ε_{k+1}| ≤ M |ε_k|^2 < |ε_k|,
+$$
+hence $x_{k+1} ∈ B$. Thus if $x_0$ satisfies this condition we have from induction
+that
+$$
+|ε_k| ≤ M^k |ε_0|^{2k}.
+$$
+Provided $x_0$ also satisfies $|ε_0| < M^{-1/2}$ this will go to zero as $k → ∞$.
+
+∎
+
