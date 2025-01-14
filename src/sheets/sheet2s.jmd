@@ -194,3 +194,33 @@ p(1+ϵ_x, 2+ϵ_y) = (2 + ϵ_x + 3(1+ϵ_x)(2+ϵ_y))(3+ϵ_y) = (2 + ϵ_x + 3(2+2ϵ
 $$
 hence the gradient is $[21,17]^⊤$.
 **END**
+
+----
+
+**Problem 6** Suppose $f$ is twice-differentiable, $f(x) = 0$, $f'(x) = 0$, but $f''$ does
+not vanish in a neighbourhood of $B$. Show 
+that the error of the $k$-th Newton iteration $ε_k := x - x_k$ satisfies
+$$
+|ε_{k+1}| ≤ M̃ |ε_k|
+$$
+where 
+$$
+M̃ ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
+$$
+
+
+**SOLUTION**
+
+Note that
+$$
+f'(x_k) = f'(x) + f''(τ) ε_k = f''(τ) ε_k
+$$
+for some $τ$ between $x$ and $x_k$. 
+Thus we get
+$$
+ε_{k+1}  = -{f''(t) \over 2f'(x_k)} ε_k^2 = -{f''(t) \over 2f''(τ)} ε_k.
+$$
+Taking absolute values of each side gives the result.
+
+
+**END**

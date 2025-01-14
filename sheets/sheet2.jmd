@@ -68,3 +68,20 @@ $$
 
 **Problem 5(c)** Use 2D dual numbers to compute the gradient of $p(x,y) = (1 + x + 3xy)(1+y)$ at $x=1$ and $y=2$.
 
+
+
+----
+
+**Problem 6** Suppose $f$ is twice-differentiable, $f(x) = 0$, $f'(x) = 0$, but $f''$ does
+not vanish in a neighbourhood of $B$. Show 
+that the error of the $k$-th Newton iteration $ε_k := x - x_k$ satisfies
+$$
+|ε_{k+1}| ≤ M̃ |ε_k|
+$$
+where 
+$$
+M̃ ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
+$$
+
+
+

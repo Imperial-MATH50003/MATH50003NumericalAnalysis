@@ -29,22 +29,27 @@ of the previous error:
 
 
 **Theorem (Newton error)**
-Suppose $f$ is twice-differentiable and there exists
- $x ∈ ℝ$ such that $f(x) = 0$ and $f'(x) ≠ 0$. Denote the
-error of the $k$-th Newton iteration as $ε_k := x - x_k$. Then
+Suppose $f$ is twice-differentiable in a neighbourhood $B$ of $x$  such that $f(x) = 0$,
+and $f'$ does not vanish in $B$. Denote the
+error of the $k$-th Newton iteration as $ε_k := x - x_k$. If $x_k ∈ B$ then
 $$
-|ε_{k+1}| ≤ |ε_k|^2 \left| {f''(x_k) \over 2f'(x_k)} \right|.
+|ε_{k+1}| ≤ M |ε_k|^2
+$$
+where
+$$
+M := {1 \over 2} \sup_{y ∈ B}  | f''(y)|   \sup_{y ∈ B} \left| {1 \over f'(y)} \right|.
 $$
 
 
 **Proof**
-Use Taylor's theorem we find that
+Using Taylor's theorem we find that
 $$
-0 = f(x) = f(x_k + ε_k) = f(x_k) + f'(x_k) ε_k + {f''(x_k) \over 2} ε_k^2.
+0 = f(x) = f(x_k + ε_k) = f(x_k) + f'(x_k) ε_k + {f''(t) \over 2} ε_k^2.
 $$
+for some $t ∈ B$ between $x$ and $x_k$. 
 Rearranging this we get an expression for $f(x_k)$ that tells us that
 $$
-ε_{k+1} = x - x_{k+1} = ε_k +  {f(x_k) \over f'(x_k)} = -{f''(x_k) \over 2f'(x_k)} ε_k^2.
+ε_{k+1} = x - x_{k+1} = ε_k +  {f(x_k) \over f'(x_k)} = -{f''(t) \over 2f'(x_k)} ε_k^2.
 $$
 Taking absolute values of each side gives the result.
 
@@ -52,11 +57,7 @@ Taking absolute values of each side gives the result.
 
 Hidden in this result is a guarantee of convergence provided $x_0$ is sufficiently close to $x$.
 
-**Corollary (Newton convergence)** Suppose in a  neighbourhood $B$ of $x$ that
-$$
-M := \sup_{y ∈ B}  \left| {f''(y) \over 2f'(y)} \right| < ∞.
-$$
-If $x_0 ∈ B$ is sufficiently close to $x$ then $x_k → x$.
+**Corollary (Newton convergence)** If $x_0 ∈ B$ is sufficiently close to $x$ then $x_k → x$.
 
 **Proof**
 
