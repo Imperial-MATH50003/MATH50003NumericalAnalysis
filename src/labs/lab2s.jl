@@ -1,4 +1,4 @@
-# # MATH50003 (2023–24)
+# # MATH50003 (2024–25)
 # # Lab 2: I.3 Dual Numbers and I.4 Newton's Method
 
 # In this lab we explore an alternative approach to computing derivatives:
@@ -255,11 +255,11 @@ Rat(1,2) + 1  # 1 + 1/2 == 3/2
 
 # **Problem 3** Support `*`, `-`, `/`, and `==` for `Rat` and `Int`.
 
-## We import `+`, `-`, `*`, `/` so we can "overload" these operations
-## specifically for `Rat`.
+## We import +, -, *, / so we can "overload" these operations
+## specifically for Rat.
 import Base: +, -, *, /, ==
 
-## The ::Rat means the following version of `==` is only called if both
+## The ::Rat means the following version of == is only called if both
 ## arguments are Rat.
 function ==(x::Rat, y::Rat)
     ## TODO: implement equality, making sure to check the case where
@@ -273,7 +273,7 @@ function ==(x::Rat, y::Rat)
     ## END
 end
 
-## We can also support equality when `x isa Rat` and `y isa Int`
+## We can also support equality when x is a Rat and y is an Int
 function ==(x::Rat, y::Int)
     ## TODO: implement
     ## SOLUTION
@@ -384,7 +384,7 @@ Dual(a::Real) = Dual(a, 0) # converts a real number to a dual number with no ϵ
 +(x::Real, y::Dual) = Dual(x) + y
 +(x::Dual, y::Real) = x + Dual(y)
 
-# a simple recursive function to support x^2, x^3, etc.
+## a simple recursive function to support x^2, x^3, etc.
 function ^(x::Dual, n::Int)
     if n < 0
         error("Not implemented") # don't support negative n, yet
@@ -540,8 +540,7 @@ contdual.b
 # x_{k+1} = x_k - {f(x_k) \over f'(x_k)}
 # $$
 # If the initial guess is "close enough" to a root $r$ of $f$ (ie $f(r) = 0$)
-# then it is known that $x_k → r$. Thus for large $N$ we have $x_N ≈ r$. Note the notion of "close enough"
-# is a complicated and rich theory beyond the scope of this module, and connects to the theory of [Mandelbrot sets](https://en.wikipedia.org/wiki/Mandelbrot_set).
+# then we have proven that $x_k → r$. Thus for large $N$ we have $x_N ≈ r$. 
 
 # Dual numbers as implemented by `Dual` gives us a powerful tool to compute derivatives and get a simple implementation
 # of Newton's method working:
