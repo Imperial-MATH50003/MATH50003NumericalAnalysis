@@ -29,7 +29,7 @@ Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.
 
 ## Reading List
 
-1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/A.Julia.ipynb)
+1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notes/A.Julia.ipynb)
 4. [The Julia Documentation](https://docs.julialang.org)
 6. Ben Lauwens, [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book)
 5. [The Julia–Matlab–Python Cheatsheet](https://cheatsheets.quantecon.org)
