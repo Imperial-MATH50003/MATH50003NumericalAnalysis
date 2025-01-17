@@ -48,11 +48,11 @@ Suppose $x_k \ensuremath{\in} B$ satisfies $|\ensuremath{\varepsilon}_k| = |r-x_
 \[
 |\ensuremath{\varepsilon}_{k+1}| \ensuremath{\leq} M |\ensuremath{\varepsilon}_k|^2 \ensuremath{\leq} |\ensuremath{\varepsilon}_k|,
 \]
-hence $x_{k+1} \ensuremath{\in} B$. Thus from induction if $x_0$ satisfies the condition $|\ensuremath{\varepsilon}_0| < M^{-1}$ condition then $x_k \ensuremath{\in} B$ for all $k$ and satisfies $|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M^{-1}$.  Thus we find
+hence $x_{k+1} \ensuremath{\in} B$. Thus from induction if $x_0$ satisfies the condition $|\ensuremath{\varepsilon}_0| < M^{-1}$ condition then $x_k \ensuremath{\in} B$ for all $k$ and satisfies $|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M^{-1}$.  Thus we find (for large enough $k$)
 \[
-|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M^k |\ensuremath{\varepsilon}_0|^{2k}.
+|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M |\ensuremath{\varepsilon}_{k-1}|^2 \ensuremath{\leq} M^3 |\ensuremath{\varepsilon}_{k-2}|^4 \ensuremath{\leq} M^7 |\ensuremath{\varepsilon}_{k-3}|^8 \ensuremath{\leq} \ensuremath{\ldots} \ensuremath{\leq} M^{2^k-1} |\ensuremath{\varepsilon}_0|^{2^k} = {1 \over M} (M|\ensuremath{\varepsilon}_0|)^{2^k}.
 \]
-Provided $x_0$ also satisfies $|\ensuremath{\varepsilon}_0| < M^{-1/2}$ this will go to zero as $k \ensuremath{\rightarrow} \ensuremath{\infty}$.
+Provided $x_0$  satisfies the strict inequality $|\ensuremath{\varepsilon}_0| < M^{-1}$ this will go to zero as $k \ensuremath{\rightarrow} \ensuremath{\infty}$.
 
 \ensuremath{\QED}
 

@@ -159,7 +159,7 @@ $$
 Furthermore composition recovers the chain rule:
 
 **Lemma (composition)** 
-Suppose $f : Ω → Γ$ and $g : Γ → ℝ$ are differentiable in $Ω,Γ ⊂ ℝ$. Then
+Suppose $f : Γ → ℝ$ and $g : Ω → Γ$ are differentiable in $Ω,Γ ⊂ ℝ$. Then
 $$
 \underline{(f ∘ g)}(a+b ϵ) = f̲(g̲(a+bϵ))
 $$
