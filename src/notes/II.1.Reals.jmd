@@ -12,7 +12,7 @@ the precise behaviour of operations such as addition, multiplication, etc. One c
 
 Before the 1980s each processor had potentially a different representation for 
 floating-point numbers, as well as different behaviour for operations. 
-IEEE introduced in 1985 was a means to standardise this across
+IEEE introduced in 1985  standardised this across
 processors so that algorithms would produce consistent and reliable results.
 
 This chapter may seem very low level for a mathematics course but there are
@@ -22,6 +22,16 @@ two important reasons to understand the behaviour of floating-point numbers in d
 
 
 ## Real numbers in binary
+
+Integers can be written in binary as follows:
+
+**Definition (binary format)**
+For $B_0,\ldots,B_p \in \{0,1\}$ denote an integer in _binary format_ by:
+$$
+±(B_p\ldots B_1B_0)_2 := ±\sum_{k=0}^p B_k 2^k
+$$
+∎
+
 
 Reals can also be presented in binary format, that is, a sequence of `0`s and `1`s alongside a decimal point:
 
@@ -125,7 +135,7 @@ $$
 $$
 \red{0}\ \green{10000}\ \blue{1010000000}
 $$
-assuming it is a half-prevision float ($F_{16}$). 
+assuming it is a half-precision float ($F_{16}$). 
 Since the sign bit is `0` it is positive. The exponent is
 $2^4 - σ = 16 - 15 = 1$
 Hence this number is:

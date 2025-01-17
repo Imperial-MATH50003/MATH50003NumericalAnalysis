@@ -12,7 +12,7 @@ In this chapter, we introduce  the  \href{https://en.wikipedia.org/wiki/IEEE_754
 \item[3. ] \href{https://en.wikipedia.org/wiki/Symmetric_level-index_arithmetic}{Level-index arithmetic}: stores numbers as iterated exponents. This is the most beautiful mathematically but unfortunately is not as useful for most applications and is not implemented in hardware.
 
 \end{itemize}
-Before the 1980s each processor had potentially a different representation for  floating-point numbers, as well as different behaviour for operations.  IEEE introduced in 1985 was a means to standardise this across processors so that algorithms would produce consistent and reliable results.
+Before the 1980s each processor had potentially a different representation for  floating-point numbers, as well as different behaviour for operations.  IEEE introduced in 1985  standardised this across processors so that algorithms would produce consistent and reliable results.
 
 This chapter may seem very low level for a mathematics course but there are two important reasons to understand the behaviour of floating-point numbers in details:
 
@@ -24,6 +24,14 @@ This chapter may seem very low level for a mathematics course but there are two 
 
 \end{itemize}
 \subsection{Real numbers in binary}
+Integers can be written in binary as follows:
+
+\begin{definition}[binary format] For $B_0,\ldots,B_p \in \{0,1\}$ denote an integer in \emph{binary format} by:
+\[
+\ensuremath{\pm}(B_p\ldots B_1B_0)_2 := \ensuremath{\pm}\sum_{k=0}^p B_k 2^k
+\]
+\end{definition}
+
 Reals can also be presented in binary format, that is, a sequence of \texttt{0}s and \texttt{1}s alongside a decimal point:
 
 \begin{definition}[real binary format] For $b_1,b_2,\ensuremath{\ldots}\in \{0,1\}$, Denote a non-negative real number in \emph{binary format} by:
@@ -104,7 +112,7 @@ F_{64} &:= F_{1023,11,52}
 \[
 \red{0}\ \green{10000}\ \blue{1010000000}
 \]
-assuming it is a half-prevision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent is $2^4 - \ensuremath{\sigma} = 16 - 15 = 1$ Hence this number is:
+assuming it is a half-precision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent is $2^4 - \ensuremath{\sigma} = 16 - 15 = 1$ Hence this number is:
 \[
 2^1 (1.1010000000)_2 = 2 (1 + 1/2 + 1/8) = 3+1/4 = 3.25.
 \]

@@ -1,7 +1,6 @@
-# Integers
 
 
-In this section we discuss the following:
+In this appendix we discuss the following:
 
 1. Unsigned integers: how computers represent non-negative integers using only $p$-bits, via [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic).
 2. Signed integers: how negative integers are handled using the [Two's-complement](https://en.wikipedia.org/wiki/Two's_complement) format.
@@ -19,14 +18,7 @@ where we use the following notation:
 To translate between integers and bits we will need to write integers in binary format. 
 That is, as sequence of `0`s and `1`s:
 
-**Definition (binary format)**
-For $B_0,\ldots,B_p \in \{0,1\}$ denote an integer in _binary format_ by:
-$$
-±(B_p\ldots B_1B_0)_2 := ±\sum_{k=0}^p B_k 2^k
-$$
-∎
-
-
+ 
 **Example (integers in binary)**
 A simple integer example is $5 = 2^2 + 2^0 = (101)_2$.
 On the other hand, we write $-5 = -(101)_2$.

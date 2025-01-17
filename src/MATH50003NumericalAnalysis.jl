@@ -99,8 +99,8 @@ end
 
 function compilelabdemo(k)
     str = replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")
-    write("labs/lab$(k)d.jl", replace(str, r"## DEMO(.*?)## END"s => "##"))
-    Literate.notebook("labs/lab$(k)d.jl", "labs/"; execute=false)
+    write("slides/lab$(k)d.jl", replace(str, r"## DEMO(.*?)## END"s => "##"))
+    Literate.notebook("slides/lab$(k)d.jl", "slides/"; execute=false)
 end
 
 function compilelabsolution(k)
