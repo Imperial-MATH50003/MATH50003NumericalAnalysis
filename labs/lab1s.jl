@@ -72,7 +72,7 @@
 # To implement this approximation in code we need to turn the sum into a for-loop.
 # Let's take as an example $f(x) = \exp(x)$. We can write:
 
-## DEMO
+
 n = 10000     # the number of terms in the summation
 ret = 0.0     # ret will store the result, accumulated one argument at a time.
               ## The .0 makes it a "real" rather than an "integer".
@@ -81,12 +81,12 @@ for j = 1:n   # j will be set to 1,2,…,n in sequence
     ret = ret + exp(j/n) # add exp(j/n) to the result. Now ret = ∑_{k = 1}^j f(k/n).
 end           # in Julia for-loops are finished with an end
 ret/n         # approximates the true answer exp(1) - exp(0) = ℯ-1 = 1.71828… to 4 digits
-## END
+
 
 # It is convenient to wrap this in a function that takes in `f` and `n` and returns
 # the right-sided rectangular rule approximation. We can adapt the above routine into a function as follows:
 
-## DEMO
+
 function rightrectangularrule(f, n) # create a function named "rightrectangularrule" that takes in two arguments
     ret = 0.0
     for j = 1:n
@@ -97,17 +97,17 @@ end # like for-loops, functions are finished with an end
 
 rightrectangularrule(exp, 100_000_000) # Use n = 100 million points to get an approximation accurate to 8 digits.
                                        ## The underscores in numbers are like commas and are ignored.
-## END
+
 
 # In the problems below we provide unit-tests to help you verify whether your answers are correct.
 # This is provided by a `Test` package which provides the "macro" `@test` which either errors if a result
 # returns false or passes if it is true.  Here we test that our
 # implementation of `rightrectangularrule` approximately matches the true integral:
 
-## DEMO
+
 using Test # loads @test. Will need to be called again if you reset Julia
 @test rightrectangularrule(exp, 100_000_000) ≈ exp(1) - 1
-## END
+
 
 # Note `≈` is a unicode character which can be typed as `\approx` followed by hitting the `[tab]` key.
 # The `@test` macro combined with `≈` allows us to provide an absolute tolerance which is useful
@@ -120,12 +120,12 @@ n = 1000
 # Note it is now easy to approximate integrals of other functions. For example, the following code computes the
 # integral of $x^2$:
 
-## DEMO
+
 function squared(x)
     x^2 # carets ^ mean "to the power of". This is actually a function that just calls x*x.
 end
 @test rightrectangularrule(squared, 10_000) ≈ 1/3 atol=1E-4 # approximates 1/3 to 3 digits
-## END
+
 
 # Note below we sometimes use a one-liner version of defining a function:
 
@@ -238,30 +238,30 @@ trapeziumrule(x -> sin(4π*x), 10_000) # not any more accurate
 
 # Let's try with the `leftrectangularrule` routine. First we see how we can plot functions:
 
-## DEMO
+
 using Plots # Load the plotting package
 
 m = 100 # number of plot points
 x = range(0, 1; length=m) # makes a vector of a 100 points between 0 and 1
 y = [exp(x[j]) for j=1:m] # Make a vector of exp evaluated at each point x.
 plot(x, y) # plot lines throw the specified x and y coordinates
-## END
+
 
 # We now plot the absolute value of the integral approximated
 # by the left-hand rule compared to the "true" answer `exp(1)-1` as $n$ increases:
 
-## DEMO
+
 N = 10_000 # total number of points
 rightruleerr = n -> rightrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the right-hand rectangular rule for the exponential
 errs = [abs(rightruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
 plot(1:N, errs; label="right-rule error") # label="..." labels the plot in the legend
-## END
+
 
 # This plot is very uninformative: we can see that the error tends to zero but its
 # hard to understand at what rate. We can get more information by scaling both the $x$- and $y$-axis logarithmically:
-## DEMO
+
 plot(1:N, errs; xscale=:log10, yscale=:log10, label="right-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
-## END
+
 
 # We see with 10,000 points we get about $10^{-4}$ errors.
 # We can add to this plot reference curves corresponding to $n^{-1}$ and $n^{-2}$
@@ -338,35 +338,35 @@ plot(1:N, errs; xscale=:log10, yscale=:log10, label="error", yticks=10.0 .^ (-16
 # function is so simple we write it as a single line (using a special
 # syntax that is equivalent to writing `function ...`):
 
-## DEMO
+
 rightdifferences(f, x, h) = (f(x+h) - f(x))/h # defines a function called rightdifferences(f, x, h) in one line
 rightdifferences(exp, 1, 0.00001)
-## END
+
 
 # We have computed `ℯ = 2.71828...` to 5 digits. One might be tempted to compute the integral by
 # just setting `h = 0`:
 
-## DEMO
+
 rightdifferences(exp, 1, 0)
-## END
+
 
 # Oh no! It returned `NaN`: this means "Not a Number", a place-holder when a calculation fails. Instead, let's try making `h`
 # very small:
 
-## DEMO
+
 rightdifferences(exp, 1, 10.0^(-15))
-## END
+
 
 # The result is completely wrong! Let's do a plot of the error as $h → 0$:
 
 ## Create  vector of errors in divided difference for h = 1,0.1,0.01,…,10^(-20)
 
-## DEMO
+
 errs = [abs(rightdifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
 plot(0:20, errs; yscale=:log10, label="error", legend=:bottomright) # scale only the y-axis, move the legend to bottom right to get out of the way
 bnds = [(h = 10.0^(-k); exp(1+h)*h/2) for k = 0:20] # error bound proven theoretically. We use ";" to write two lines at once
 plot!(0:20, bnds; linestyle=:dash, label="bound")
-## END
+
 
 
 # This raises a couple of mysteries:
