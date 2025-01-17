@@ -1,5 +1,5 @@
 # # MATH50003 (2023–24)
-# # Lab 3: II.1 Integers and II.2 Reals
+# # Lab 3: II.1 Reals and II.2 Floating Point Arithmetic
 
 # In this lab, we will explore how a computer represents integers (both signed and unsigned) and reals.
 # In particular, its usage of modular and floating point arithmetic.
@@ -20,6 +20,8 @@
 # 2. The `sizeof`, `reinterpret`, `parse`, `typemax`, `bitstring`, and `printbits` functions
 # 3. String construction and concatenation via `*`.
 # 4. Creating floating point numbers by specifying their bits.
+# 5. Setting the rounding mode in constructors like `Float32` and via `setrounding`.
+# 6. High precision floating point numbers via `big` and setting precision via `setprecision`.
 
 
 # We load an external `ColorBitstring` package
@@ -30,7 +32,7 @@ using ColorBitstring, Test
 
 # If this fails you may need to call `] add ColorBitstring`.
 
-# ## II.1 Integers
+# ## Integers
 
 # We now explore the representation and behaviour of integers in Julia,
 # which is identical to other compiled languages like C, Swift, Rust, etc.
@@ -56,7 +58,7 @@ printbits(5)
 
 
 
-# ### II.1.1 Unsigned integers
+# ### Unsigned integers
 
 # Unsigned integers are used to represent non-negative integers. In Julia
 # these correspond to types `UInt8`, `UInt16`, etc. where the number indicates
@@ -129,7 +131,7 @@ y = UInt8(2)   # An 8-bit representation of the number   2, i.e. with bits 00000
 printbits(x); println(" * "); printbits(y); println(" = ")
 printbits(x * y) # represents 252
 
-# ### II.1.2 Signed integers
+# ### Signed integers
 
 # Signed integers represent negative and non-negative integers, where
 # if the first bit is `1` it is interpreted as a negative number, according to
@@ -267,7 +269,7 @@ end
 
 @test tenthbitto1(Int32(100)) ≡ Int32(4194404)
 
-# ### II.1.3 Hexadecimal and binary format
+# ### Hexadecimal and binary format
 
 # In Julia unsigned integers are displayed in hexadecimal
 # form: that is, in base-16.
@@ -300,7 +302,7 @@ UInt8(250)
 
 # -----
 
-# ## II.2 Reals
+# ## II.1 Reals
 #
 # Real numbers interpret a sequence of bits as a real number, specified in
 # floating point.
@@ -392,7 +394,7 @@ printlnbits(Float32(2.0^(2^Q-2-σ) * (2-εₘ))) # largest normal Float32
 
 eps(Float32), floatmin(Float32), floatmax(Float32)
 
-# ### II.2.4 Sub-normal and special numbers
+# ### II.1.4 Sub-normal and special numbers
 
 # If all the exponent bits are `0` then the number represents a "sub-normal" floating point number.
 
@@ -471,3 +473,102 @@ i = 0b0111110000010001 # an UInt16
 reinterpret(Float16, i)
 
 # Thus, there are many ways of representing `NaN`. (What a waste of perfectly good bit sequences!)
+
+
+# ## II.3 Floating Point Arithmetic
+
+# In Julia, the rounding mode is specified by tags `RoundUp`, `RoundDown`, and
+# `RoundNearest`. (There are also more exotic rounding strategies `RoundToZero`, `RoundNearestTiesAway` and
+# `RoundNearestTiesUp` that we won't use.)
+
+
+
+# Let's try rounding a `Float64` to a `Float32`.
+
+
+printlnbits(1/3)  # 64 bits
+printbits(Float32(1/3))  # round to nearest 32-bit
+
+# The default rounding mode can be changed:
+
+printbits(Float32(1/3,RoundDown) ) # Rounds from a Float64 to Float32, rounding down
+
+# Or alternatively we can change the rounding mode for a chunk of code
+# using `setrounding`. The following computes upper and lower bounds for `/`:
+
+x = 1f0
+setrounding(Float32, RoundDown) do
+    x/3
+end,
+setrounding(Float32, RoundUp) do
+    x/3
+end
+
+
+# **WARNING (compiled constants)**: Why did we first create a variable `x` instead of typing `1f0/3`?
+# This is due to a very subtle issue where the compiler is _too clever for it's own good_: 
+# it recognises `1f0/3` can be computed at compile time, but failed to recognise the rounding mode
+# was changed. 
+
+# **Problem 5** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
+# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x^2/2 + x^3/6$ but where
+# each operation is rounded down/up. Use `typeof(x)` to make sure you are changing the
+# rounding mode for the right floating point type.
+
+function exp_t_3_down(x)
+    T = typeof(x) # use this to set the rounding mode
+    ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding down
+    
+end
+
+function exp_t_3_up(x)
+    ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding up
+    
+end
+
+@test exp_t_3_down(Float32(1)) ≡ 2.6666665f0 # ≡ checks type and all bits are equal
+@test exp_t_3_up(Float32(1)) ≡ 2.6666667f0
+
+
+
+# ### High-precision floating-point numbers
+
+
+# It is possible to get higher precision (more signficand and exponent bits)
+#  of a floating-point number
+# using the `BigFloat` type, which results from the usage of `big`
+# when the result is not an integer.
+# For example, here is an approximation of 1/3 accurate
+# to 77 decimal digits:
+
+big(1)/3
+
+# Note we can set the rounding mode as in `Float64`, e.g., 
+# this gives (rigorous) bounds on
+# `1/3`:
+
+setrounding(BigFloat, RoundDown) do
+  big(1)/3
+end, setrounding(BigFloat, RoundUp) do
+  big(1)/3
+end
+
+# We can also increase the precision, e.g., this finds bounds on `1/3` accurate to 
+# more than 1000 decimal places:
+
+setprecision(4_000) do # 4000 bit precision
+  setrounding(BigFloat, RoundDown) do
+    big(1)/3
+  end, setrounding(BigFloat, RoundUp) do
+    big(1)/3
+  end
+end
+
+
+# **Problem 6** Inbuilt functions like `exp`, `sqrt`, etc. support `BigFloat`.
+# Compute at least the first thousand decimal digits of `ℯ` using `setprecision`
+# and the inbuilt `exp` function.
+
+## TODO: Use big and setprecision to compute the first thousand digits of ℯ.
+
+

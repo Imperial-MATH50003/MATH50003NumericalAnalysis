@@ -80,7 +80,7 @@ similarly, for $1024 = 2^{10}$ we find that the difference $m(1024) - 1024$ is $
 ```
 **END**
 
-----
+
 **Problem 4** Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$).
 What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$?
 What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x ⊕ 2$ and $x \ominus 2$?
@@ -123,6 +123,7 @@ $$
 
 **END**
 
+----
 
 **Problem 6** Prove the following bounds on the _absolute error_ of a floating point calculation
 in idealised floating-point arithmetic $F_{∞,S}$ (i.e., you may assume all operations involve normal floating point numbers):
@@ -262,19 +263,14 @@ $$
 **END**
 
 
-**Problem 8(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that
-$$
-∏_{k=1}^n (1+ϵ_k) = 1+θ_n
-$$
+**Problem 8(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that $∏_{k=1}^n (1+ϵ_k) = 1+θ_n$
 for some constant $θ_n$ satisfying
 $$
-|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}.
 $$
-Hint: use induction.
 
 
-
-**Problem 8(b)** Show if $x_1,…,x_n ∈ F$ then
+**Problem 8(b)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
 $$
 x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
 $$
@@ -282,14 +278,3 @@ where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
 You may assume all operations are within the normalised range.
 
 
-
-**Problem 8(c)** Show if $x_1,…,x_n ∈ F$ then
-$$
-x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
-$$
-where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
-You may assume all operations are within the normalised range.
-Hint: use Problem 2.1 to first write 
-$$
-x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
-$$

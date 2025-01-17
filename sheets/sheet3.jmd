@@ -18,7 +18,7 @@ greater than $y$. What is $m(2) - 2$ and $m(1024) - 1024$?
 
 
 
-----
+
 **Problem 4** Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$).
 What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$?
 What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x ⊕ 2$ and $x \ominus 2$?
@@ -33,6 +33,7 @@ using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default roundi
 
 
 
+----
 
 **Problem 6** Prove the following bounds on the _absolute error_ of a floating point calculation
 in idealised floating-point arithmetic $F_{∞,S}$ (i.e., you may assume all operations involve normal floating point numbers):
@@ -66,5 +67,22 @@ $$
 |ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
 $$
 where we assume  that $h = 2^{-n}$ for $n ≤ S$.
+
+
+
+
+**Problem 8(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that $∏_{k=1}^n (1+ϵ_k) = 1+θ_n$
+for some constant $θ_n$ satisfying
+$$
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}.
+$$
+
+
+**Problem 8(b)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
+$$
+where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
+You may assume all operations are within the normalised range.
 
 
