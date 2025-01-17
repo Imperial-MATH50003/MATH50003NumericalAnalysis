@@ -66,11 +66,11 @@ $$
 |ε_{k+1}| ≤ M |ε_k|^2 ≤ |ε_k|,
 $$
 hence $x_{k+1} ∈ B$. Thus from induction if $x_0$ satisfies the condition $|ε_0| < M^{-1}$ condition then $x_k ∈ B$ for all $k$
-and satisfies $|ε_k| ≤ M^{-1}$.  Thus we find
+and satisfies $|ε_k| ≤ M^{-1}$.  Thus we find (for large enough $k$)
 $$
-|ε_k| ≤ M^k |ε_0|^{2k}.
+|ε_k| ≤ M |ε_{k-1}|^2 ≤ M^3 |ε_{k-2}|^4 ≤ M^7 |ε_{k-3}|^8 ≤ … ≤ M^{2^k-1} |ε_0|^{2^k} = {1 \over M} (M|ε_0|)^{2^k}.
 $$
-Provided $x_0$ also satisfies $|ε_0| < M^{-1/2}$ this will go to zero as $k → ∞$.
+Provided $x_0$  satisfies the strict inequality $|ε_0| < M^{-1}$ this will go to zero as $k → ∞$.
 
 ∎
 
