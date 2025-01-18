@@ -3,6 +3,8 @@
 
 # In this lab, we will explore how a computer represents integers (both signed and unsigned) and reals.
 # In particular, its usage of modular and floating point arithmetic.
+# We also investigate the rounding behaviour of floating point numbers
+# and see how we can manually set the rounding. 
 
 
 
@@ -26,16 +28,22 @@
 
 # We load an external `ColorBitstring` package
 # which implements functions `printbits` (and `printlnbits`)
-# to print the bits (and with a newline) of numbers in colour:
+# to print the bits (and with a newline) of numbers in colour,
+# and an external `SetRounding` package which allows for
+# manually setting the rounding mode.
 
-using ColorBitstring, Test
+using ColorBitstring, SetRounding, Test
 
-# If this fails you may need to call `] add ColorBitstring`.
+# If this fails you may need to call `] add ColorBitstring SetRounding`.
 
 # ## Integers
 
-# We now explore the representation and behaviour of integers in Julia,
+# We first explore the representation and behaviour of integers in Julia,
 # which is identical to other compiled languages like C, Swift, Rust, etc.
+# and exposes how a computer actually computes with Integers.
+# (Python is an interpreted language and its integers are more akin to
+# `BigInt` discussed later, though in NumPy it uses the same
+# types as Julia.)
 # The basic integer type, which is constructed when we write say `5` is
 # the signed integer type `Int`:
 
@@ -66,12 +74,11 @@ printbits(5)
 # from an `Int`:
 
 UInt8(5) # creates an Int and converts it to an UInt8
-         # displaying the result in hex
+         ## displaying the result in hex, i.e. base-16
 
 # This fails if a number cannot be represented as a specified type:
 # e.g. `UInt8(-5)` and `UInt8(2^8)`.
 
-# (These can also be written as e.g. `convert(UInt8, 5)`.)
 # We can also create unsigned integers by specifying their bits
 # by writing `0b` followed by a sequence of bits:
 
@@ -146,9 +153,20 @@ Int8(5) # display of Int8 does not reveal its type
 
 printbits(Int8(5)) # 5 = 2^2 + 1
 
-# Negative numbers use 2's complement, for example we have
+# Negative numbers use 2's complement. Suppose a
+# $p$-bit signed integer has the same bits as a
+# $p$-bit unsigned integer
+# $x$. If The first bit is `0` this number is treated
+# as positive and hence the signed integer is also $x$,
+# i.e., `Int8(5)` and `Int8(5)` have the same bits.
+# If the first bit of is `1` then it is interpreted as the
+# negative number $x - 2^p$.
+#
+# For example, the bits `11111011` correspond to $251$
+# but since the first bit is `1` it represents the integer
+# $251 - 2^8 = -5$:
 
-printbits(Int8(-5)) # -5 mod 256 = 251 = 1 + 2 + 2^3 + 2^4 + 2^5 + 2^6 + 2^7
+printbits(Int8(-5))
 
 # We can use the `reinterpret` function to create an unsigned integer by
 # specifying a sequence of bits and reinterpreting the bits as a signed integer:
@@ -163,29 +181,12 @@ reinterpret(Int8, 0b11111111) # Create an Int8 with the bits 11111111
 
 # -----
 
-# **Problem 2(a)** Construct an `Int8` representing the number $-63$ by specifying its
+# **Problem 2** Construct an `Int8` representing the number $-63$ by specifying its
 # bits and using `reinterpret`.
 
 ## TODO: Create an unsigned integer with 8 bits and reinterpret to get Int8(-63)
 
-
-# **Problem 2(b)** Can you predict what the output of the following will be before hitting return?
-# Check that you are correct.
-
-UInt8(120) + UInt8(10) # Convert to Int to see the number printed in decimal
-#
-Int8(120) + Int8(10)
-#
-UInt8(2)^7
-#
-Int8(2)^7
-#
-Int8(2)^8
-#
-
-
-
-
+# -----
 
 # ### Strings and parsing
 
@@ -198,17 +199,6 @@ bitstring(Int8(5))
 # Whereas `printbits` prints the bits, this actually returns a string
 # that can further be manipulated.
 
-# -----
-
-# **Problem 3(a)** Can you predict what the output of the following will be before hitting return?
-
-bitstring(11)
-#
-bitstring(-11)
-
-
-
-# -----
 
 # We can `parse` a string of digits in base 2 or 10:
 
@@ -221,16 +211,6 @@ parse(Int8, "00001011"; base=2) # represents 2^3 + 2 + 1 = 11 as an Int8
 # are represented using the minus sign:
 
 parse(Int8, "-00001011"; base=2)
-
-# -----
-
-# **Problem 3(b)** Combine `parse`, `reinterpret`, and `UInt8` to convert the
-# above string to a (negative) `Int8` with the specified bits.
-
-## TODO: combine parse and reinterpret 
-
-
-# -----
 
 # To concatenate strings we can use `*` (multiplication is used because string concatenation
 # is non-commutative):
@@ -256,7 +236,22 @@ tru = str[4:end] # drop first four characters of the string, eg "000101"
 swa = str[1:2] * "1" * tru # add the character "1" at the third position, eg "00100101"
 parse(Int8, swa; base=2) # answer is 37 = 5 + 2^5
 
+
 # -----
+
+# **Problem 3(a)** Can you predict what the output of the following will be before hitting return?
+
+bitstring(11)
+#
+bitstring(-11)
+
+
+
+# **Problem 3(b)** Combine `parse`, `reinterpret`, and `UInt8` to convert the
+# above string to a (negative) `Int8` with the specified bits.
+
+## TODO: combine parse and reinterpret 
+
 
 # **Problem 3(c)** Complete the following function that sets the 10th bit of an `Int32` to `1`,
 # and returns an `Int32`, assuming that the input is a positive integer, using `bitstring`,
@@ -268,6 +263,8 @@ function tenthbitto1(x::Int32)
 end
 
 @test tenthbitto1(Int32(100)) ≡ Int32(4194404)
+
+# ------
 
 # ### Hexadecimal and binary format
 
@@ -299,7 +296,6 @@ UInt8(250)
 
 
 
-
 # -----
 
 # ## II.1 Reals
@@ -308,7 +304,7 @@ UInt8(250)
 # floating point.
 # In Julia these correspond to 3 different floating-point types:
 
-# `Float64` is a type representing double precision ($F_{64} = F_{1023,11,52}$).
+# • `Float64` is a type representing double precision ($F_{64} = F_{1023,11,52}$).
 # We can create a `Float64` by including a
 # decimal point when writing the number:
 
@@ -318,12 +314,16 @@ UInt8(250)
 
 printbits(5.125)
 
+# Or we can see the number in a more mathematical notation:
+
+binarystring(5.125)
+
 # The red bit is the sign bit (0 means positive). The Green bits represent the exponent, in this case:
 
 σ = 1023 # the shift according to Float64 format
 0b10000000001 - σ # == 2
 
-# The blue bits are the significand. In this case represent `(1.01001)_2 = 1 + 2^(-2) + 2^(-5)`. And indeed
+# The blue bits are the significand. In this case represent $(1.01001)_2 = 1 + 2^{-2} + 2^{-5} = 1.28125$. And indeed
 # we have
 # $$
 # 2^2 (1+2^{-2} + 2^{-5}) = 5 + 2^{-3} = 5.125
@@ -333,10 +333,14 @@ printbits(5.125)
 # `Float64` is the default format for
 # scientific computing.
 #
-# `Float32` is a type representing single precision ($F_{32} = F_{127,8,23}$).  We can create a `Float32` by including a
+# • `Float32` is a type representing single precision ($F_{32} = F_{127,8,23}$).  We can create a `Float32` by including a
 # `f0` when writing the number. Here we create a `Float32` and print its bits:
 
 printbits(5.125f0) # 5.125f0 of type Float32
+
+# Or more mathematically:
+
+binarystring(5.125f0)
 
 # Now the exponent is
 
@@ -348,12 +352,16 @@ printbits(5.125f0) # 5.125f0 of type Float32
 # as the difference between 32 bits and 64 bits is indistinguishable to the eye in visualisation,
 # and more data can be fit into a GPU's limited memory.
 
-# `Float16` is a type representing half-precision ($F_{16} = F_{15,5,10}$).
+# • `Float16` is a type representing half-precision ($F_{16} = F_{15,5,10}$).
 # It is important in machine learning where one wants to maximise the amount of data
 # and high accuracy is not necessarily helpful.  We create `Float16` by converting a `Float64`
 # as follows:
 
 printbits(Float16(5.125))
+
+# I.e., mathematically:
+
+binarystring(Float16(5.125))
 
 # Now the exponent is
 
@@ -415,7 +423,7 @@ printlnbits(-0.0) # -0 has sign bit 1 and all other bits zero
 # -----
 
 
-# **Problem 4(c)** Create the smallest positive non-zero sub-normal `Float16` by specifying
+# **Problem 5** Create the smallest positive non-zero sub-normal `Float16` by specifying
 # its bits.
 
 ## TODO: create the smallest positive Float16
@@ -474,9 +482,12 @@ reinterpret(Float16, i)
 
 # Thus, there are many ways of representing `NaN`. (What a waste of perfectly good bit sequences!)
 
+# -----
 
-# ## II.3 Floating Point Arithmetic
+# ## II.2 Floating Point Arithmetic
 
+# Real numbers that cannot be exactly represented by a specified floating point format are automatically rounded
+# to the nearest float, however, the rouding mode can be changed to round up or down.
 # In Julia, the rounding mode is specified by tags `RoundUp`, `RoundDown`, and
 # `RoundNearest`. (There are also more exotic rounding strategies `RoundToZero`, `RoundNearestTiesAway` and
 # `RoundNearestTiesUp` that we won't use.)
@@ -510,7 +521,7 @@ end
 # it recognises `1f0/3` can be computed at compile time, but failed to recognise the rounding mode
 # was changed. 
 
-# **Problem 5** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
+# **Problem 6** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
 # three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x^2/2 + x^3/6$ but where
 # each operation is rounded down/up. Use `typeof(x)` to make sure you are changing the
 # rounding mode for the right floating point type.
@@ -543,6 +554,10 @@ end
 
 big(1)/3
 
+# We can see a mathematical version of what's stored:
+
+binarystring(big(1)/3)
+
 # Note we can set the rounding mode as in `Float64`, e.g., 
 # this gives (rigorous) bounds on
 # `1/3`:
@@ -565,7 +580,7 @@ setprecision(4_000) do # 4000 bit precision
 end
 
 
-# **Problem 6** Inbuilt functions like `exp`, `sqrt`, etc. support `BigFloat`.
+# **Problem 7** Inbuilt functions like `exp`, `sqrt`, etc. support `BigFloat`.
 # Compute at least the first thousand decimal digits of `ℯ` using `setprecision`
 # and the inbuilt `exp` function.
 
