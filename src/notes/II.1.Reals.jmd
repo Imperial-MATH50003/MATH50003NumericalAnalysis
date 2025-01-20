@@ -113,8 +113,9 @@ If $q = 0$ (i.e. all bits are 0) then the bits represent the sub-normal number
 $$
 x = \red{±} 2^{\green{1}-σ} × (0.\blue{b_1b_2b_3…b_S})_2.
 $$
-If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number, discussed
-later.
+If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number.
+If all sigificand bits are $0$ then it represents $±∞$. Otherwise if any significand bit is
+$1$ then it represents ${\tt NaN}$.
 
 
 ## IEEE floating-point numbers
@@ -136,9 +137,15 @@ $$
 \red{0}\ \green{10000}\ \blue{1010000000}
 $$
 assuming it is a half-precision float ($F_{16}$). 
-Since the sign bit is `0` it is positive. The exponent is
-$2^4 - σ = 16 - 15 = 1$
-Hence this number is:
+Since the sign bit is `0` it is positive. The exponent bits encode 
+$$
+q = (10000)_2 = 2^4
+$$
+hence the exponent is
+$$
+q - σ = 2^4 - 15 = 1
+$$
+and the number is:
 $$
 2^1 (1.1010000000)_2 = 2 (1 + 1/2 + 1/8) = 3+1/4 = 3.25.
 $$

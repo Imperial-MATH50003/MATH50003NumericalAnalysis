@@ -97,7 +97,7 @@ If $q = 0$ (i.e. all bits are 0) then the bits represent the sub-normal number
 \[
 x = \red{\ensuremath{\pm}} 2^{\green{1}-\ensuremath{\sigma}} \ensuremath{\times} (0.\blue{b_1b_2b_3\ensuremath{\ldots}b_S})_2.
 \]
-If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number, discussed later.
+If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number. If all sigificand bits are $0$ then it represents $\ensuremath{\pm}\ensuremath{\infty}$. Otherwise if any significand bit is $1$ then it represents ${\tt NaN}$.
 
 \subsection{IEEE floating-point numbers}
 \begin{definition}[IEEE floating-point numbers]  IEEE has 3 standard floating-point formats: 16-bit (half precision), 32-bit (single precision) and 64-bit (double precision) defined by (you \emph{do not} need to memorise these):
@@ -112,7 +112,15 @@ F_{64} &:= F_{1023,11,52}
 \[
 \red{0}\ \green{10000}\ \blue{1010000000}
 \]
-assuming it is a half-precision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent is $2^4 - \ensuremath{\sigma} = 16 - 15 = 1$ Hence this number is:
+assuming it is a half-precision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent bits encode 
+\[
+q = (10000)_2 = 2^4
+\]
+hence the exponent is
+\[
+q - \ensuremath{\sigma} = 2^4 - 15 = 1
+\]
+and the number is:
 \[
 2^1 (1.1010000000)_2 = 2 (1 + 1/2 + 1/8) = 3+1/4 = 3.25.
 \]
