@@ -179,16 +179,15 @@
 \end{align*}
 such that $|\ensuremath{\varepsilon}_1| \ensuremath{\leq} 11 \ensuremath{\epsilon}_{\rm m}$ and $|\ensuremath{\varepsilon}_2| \ensuremath{\leq} 40 \ensuremath{\epsilon}_{\rm m}$, where $\ensuremath{\epsilon}_{\rm m}$ is machine epsilon.
 
-\textbf{Problem 7} Let $x \ensuremath{\in} [0,1] \ensuremath{\cap} F_{\ensuremath{\infty},S}$. Assume that $f^{\rm FP} : F_{\ensuremath{\infty},S} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ satisfies $f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_x$ where $|\ensuremath{\delta}_x| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$ for all $x \ensuremath{\in} [0,1]$. Show that
+\textbf{Problem 7} Assume that $f^{\rm FP} : F_{\ensuremath{\infty},S} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ satisfies $f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_x$ where $|\ensuremath{\delta}_x| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$ for all $x \ensuremath{\in} F_{\ensuremath{\infty},S}$. Show that
 \[
 {f^{\rm FP}(x+h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over  2h} = f'(x) + \ensuremath{\varepsilon}
 \]
-where absolute error is bounded by
+where the (absolute) error is bounded by
 \[
-|\ensuremath{\varepsilon}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h},
+|\ensuremath{\varepsilon}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h}.
 \]
-where we assume  that $h = 2^{-n}$ for $n \ensuremath{\leq} S$.
-
+\rule{\textwidth}{1pt}
 \textbf{Problem 8(a)} Suppose $|\ensuremath{\epsilon}_k| \ensuremath{\leq} \ensuremath{\epsilon}$ and $n \ensuremath{\epsilon} < 1$. Show that $\ensuremath{\prod}_{k=1}^n (1+\ensuremath{\epsilon}_k) = 1+\ensuremath{\theta}_n$ for some constant $\ensuremath{\theta}_n$ satisfying
 \[
 |\ensuremath{\theta}_n| \ensuremath{\leq} \underbrace{n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}_{E_{n,\ensuremath{\epsilon}}}.
@@ -197,7 +196,13 @@ where we assume  that $h = 2^{-n}$ for $n \ensuremath{\leq} S$.
 \[
 x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n = x_1 \ensuremath{\cdots} x_n (1 + \ensuremath{\theta}_{n-1})
 \]
-where $|\ensuremath{\theta}_n| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$, assuming $n \ensuremath{\epsilon}_{\rm m} < 2$. You may assume all operations are within the normalised range.
+where $|\ensuremath{\theta}_n| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$, assuming $n \ensuremath{\epsilon}_{\rm m} < 2$.
+
+\textbf{Problem 8(c)} Show if $x_1,\ensuremath{\ldots},x_n \ensuremath{\in} F_{\ensuremath{\infty},S}$ then
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
+\]
+where, for $M = \ensuremath{\Sigma}_{k=1}^n |x_k|$, $|\ensuremath{\sigma}_n| \ensuremath{\leq} M E_{n-1,\ensuremath{\epsilon}_{\rm m}/2},$ assuming $n \ensuremath{\epsilon}_{\rm m} < 2$.
 
 
 

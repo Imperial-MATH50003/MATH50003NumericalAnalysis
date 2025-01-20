@@ -56,21 +56,19 @@ machine epsilon.
 
 
 **Problem 7**
-Let $x ∈ [0,1] ∩ F_{∞,S}$.
-Assume that $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfies $f^{\rm FP}(x) = f(x) + δ_x$ where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x ∈ [0,1]$.
+Assume that $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfies $f^{\rm FP}(x) = f(x) + δ_x$ where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x ∈ F_{∞,S}$.
 Show that
 $$
 {f^{\rm FP}(x+h) ⊖ f^{\rm FP}(x-h) \over  2h} = f'(x) + ε
 $$
-where absolute error is bounded by
+where the (absolute) error is bounded by
 $$
-|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
+|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h}.
 $$
-where we assume  that $h = 2^{-n}$ for $n ≤ S$.
 
 
 
-
+-----
 **Problem 8(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that $∏_{k=1}^n (1+ϵ_k) = 1+θ_n$
 for some constant $θ_n$ satisfying
 $$
@@ -83,6 +81,10 @@ $$
 x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
 $$
 where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
-You may assume all operations are within the normalised range.
 
 
+**Problem 8(c)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.

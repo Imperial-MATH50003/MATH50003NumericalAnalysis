@@ -5,11 +5,18 @@ Arithmetic operations on floating-point numbers are  _exact up to rounding_.
 There are three basic rounding strategies: round up/down/nearest.
 Mathematically we introduce a function to capture the notion of rounding:
 
-**Definition (rounding)** ${\rm fl}^{\rm up}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ denotes
-the function that rounds a real number up to the nearest floating-point number that is greater or equal.
-${\rm fl}^{\rm down}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ denotes
-the function that rounds a real number down to the nearest floating-point number that is less or equal.
-${\rm fl}^{\rm nearest}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ denotes
+**Definition (rounding)** 
+
+The function ${\rm fl}^{\rm up}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ rounds a real number up to the nearest floating-point number that is greater or equal:
+$$
+{\rm fl}^{\rm up}_{σ,Q,S}(x) := \min\{y ∈ F_{σ,Q,S} : y ≥ x\}.
+$$
+The function ${\rm fl}^{\rm down}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ 
+ rounds a real number down to the nearest floating-point number that is less or equal:
+$$
+{\rm fl}^{\rm down}_{σ,Q,S}(x) := \max\{y ∈ F_{σ,Q,S} : y ≤ x\}.
+$$
+The function ${\rm fl}^{\rm nearest}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ denotes
 the function that rounds a real number to the nearest floating-point number. In case of a tie,
 it returns the floating-point number whose least significant bit is equal to zero.
 We use the notation ${\rm fl}$ when $σ,Q,S$ and the rounding mode are implied by context,
@@ -41,7 +48,7 @@ then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
 
 In IEEE arithmetic, the arithmetic operations `+`, `-`, `*`, `/` are defined by the property
 that they are exact up to rounding.  Mathematically we denote these operations as
-$⊕, ⊖, ⊗, ⊘ : F_{σ,Q,S} ⊗ F_{σ,Q,S} → F_{σ,Q,S}$ as follows:
+$⊕, ⊖, ⊗, ⊘ : F_{σ,Q,S} × F_{σ,Q,S} → F_{σ,Q,S}$ as follows:
 $$
 \begin{align*}
 x ⊕ y &:= {\rm fl}(x+y) \\

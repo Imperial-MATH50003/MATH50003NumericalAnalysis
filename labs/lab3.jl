@@ -14,7 +14,7 @@
 #
 # 1. Behaviour of modular arithmetic for signed and unsigned integers.
 # 2. Binary and hexadecimal integer formats.
-# 3. Overflow behaviour for integers.
+# 3. Storage of floating point numbers.
 #
 # Coding knowledge:
 #
