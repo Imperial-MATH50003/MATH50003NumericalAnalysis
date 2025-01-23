@@ -31,6 +31,7 @@ end
 function fixunderbars(path)
     write(path, replace(read(path, String), "f\\ensuremath{\\underbar}" => "\\underline{f}"))
     write(path, replace(read(path, String), "g\\ensuremath{\\underbar}" => "\\underline{g}"))
+    write(path, replace(read(path, String), "M\\ensuremath{\\tilde}" => "\\tilde{M}"))
 end
 
 function compilenotes(filename) 
@@ -63,6 +64,7 @@ function compilesheet(k)
     path = "sheets/$filename.tex"
     # work around double newline before equation
     fixwhitespace(path)
+    fixunderbars(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
@@ -74,6 +76,7 @@ function compilesheetsolution(k)
     path = "sheets/$(filename)s.tex"
     # work around double newline before equation
     fixwhitespace(path)
+    fixunderbars(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end

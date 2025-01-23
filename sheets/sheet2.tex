@@ -193,13 +193,13 @@ p(x + a \ensuremath{\epsilon}_x, y + b \ensuremath{\epsilon}_y) &= p(x,y) + a  {
 \textbf{Problem 5(c)} Use 2D dual numbers to compute the gradient of $p(x,y) = (1 + x + 3xy)(1+y)$ at $x=1$ and $y=2$.
 
 \rule{\textwidth}{1pt}
-\textbf{Problem 6} Suppose $f$ is twice-differentiable in a neighbourhood of $B$ of $r$ such that $f(r) = f'(r) = 0$, where $f''$ does in $B$. Show  that the error of the $k$-th Newton iteration $\ensuremath{\varepsilon}_k := x - x_k$ satisfies
+\textbf{Problem 6} Suppose $f$ is twice-differentiable in a neighbourhood of $B$ of $r$ such that $f(r) = f'(r) = 0$, where $f''$ does not vanish in $B$. Show  that the error of the $k$-th Newton iteration $\ensuremath{\varepsilon}_k := r - x_k$ satisfies
 \[
-|\ensuremath{\varepsilon}_{k+1}| \ensuremath{\leq} M\ensuremath{\tilde} |\ensuremath{\varepsilon}_k|
+|\ensuremath{\varepsilon}_{k+1}| \ensuremath{\leq} \tilde{M} |\ensuremath{\varepsilon}_k|
 \]
 where 
 \[
-M\ensuremath{\tilde} ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
+\tilde{M} ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
 \]
 
 

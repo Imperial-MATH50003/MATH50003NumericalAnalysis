@@ -73,9 +73,9 @@ $$
 
 ----
 
-**Problem 6** Suppose $f$ is twice-differentiable in a neighbourhood of $B$ of $r$ such that $f(r) = f'(r) = 0$, where $f''$ does
+**Problem 6** Suppose $f$ is twice-differentiable in a neighbourhood of $B$ of $r$ such that $f(r) = f'(r) = 0$, where $f''$ does not vanish
 in $B$. Show 
-that the error of the $k$-th Newton iteration $ε_k := x - x_k$ satisfies
+that the error of the $k$-th Newton iteration $ε_k := r - x_k$ satisfies
 $$
 |ε_{k+1}| ≤ M̃ |ε_k|
 $$
