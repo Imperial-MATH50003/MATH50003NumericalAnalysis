@@ -177,6 +177,17 @@
 
 \input{somacros}
 
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr} 
+\def\dots{\vdots}
+	\begin{bmatrix}
+		\map[#1]
+	\end{bmatrix}
+}}
+
+
 \begin{document}
 
 \maketitle
@@ -258,11 +269,11 @@ In particular we discuss:
     \item III.1 Structured Matrices: we discuss special structured matrices such as triangular and tridiagonal.
     \item III.2 LU and Cholesky Factorisations: we look at computing a factorisation of a square matrix as a product of a lower and upper triangular matrix, including the special case where the matrix is symmetric positive
     definite. Hidden in this is an algorithm to prove positive definiteness.
-\item III.3 Polynomial Regression: often in data science one needs to approximate data by a polynomial.
-We discuss how to reduce this problem to solving a rectangular least squares problem.
 \item III.4 Orthogonal Matrices: we discuss different types of orthogonal matrices, which will be used to simplify rectangular least squares problems.
 \item III.5 QR Factorisation: we introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby solving least squares problems.
 \end{enumerate}
+
+Here we are constructing underlying computational tools that are important in applications, which we discuss later. 
 
 \input{III.1.StructuredMatrices}
 % \input{III.3.Cholesky}
@@ -270,12 +281,20 @@ We discuss how to reduce this problem to solving a rectangular least squares pro
 % \input{III.5.OrthogonalMatrices}
 % \input{III.6.QR}
 
+
+
+% \chapter{Linear Algebra Applications}
+
+%\item III.3 Polynomial Regression: often in data science one needs to approximate data by a polynomial.
+%We discuss how to reduce this problem to solving a rectangular least squares problem.
 % \item III.2 Differential Equations: using divided differences we can reduce differential equations
 % to linear systems. This motivates the investigation of numerical algorithms for solving linear systems.
 % \input{III.2.DifferentialEquations}
 
 
-% \chapter{Approximation Theory}
+
+
+% \chapter{Numerical Fourier series}
 
 % So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
 % differential equations, primarily based on representing functions by their values at a grid of points.
@@ -288,6 +307,9 @@ We discuss how to reduce this problem to solving a rectangular least squares pro
 % \begin{enumerate}
 %     \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
 %     \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+
+% \chapter{Orthogonal ploynomials}
+
 %     \item IV.3 Orthogonal Polynomials: For non-periodic functions we consider orthogonal polynomials, and discuss their basic properties.
 %     \item IV.4 Classical Orthogonal Polynomials: For certain weights, orthogonal polynomials are classical and have addition structure that are useful for computations.
 %     \item IV.5 Gaussian Quadrature: Finally, we revisit the  problem of computing integrals, and see that using orthogonal polynomials we can derive much more accurate methods.

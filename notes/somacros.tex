@@ -1,0 +1,307 @@
+
+\def\addtab#1={#1\;&=}
+
+\def\meeq#1{\def\ccr{\\\addtab}
+%\tabskip=\@centering
+ \begin{align*}
+ \addtab#1
+ \end{align*}
+  }  
+  
+  \def\leqaddtab#1\leq{#1\;&\leq}
+  \def\mleeq#1{\def\ccr{\\\addtab}
+%\tabskip=\@centering
+ \begin{align*}
+ \leqaddtab#1
+ \end{align*}
+  }  
+
+
+\def\vc#1{\mbox{\boldmath$#1$\unboldmath}}
+
+\def\vcsmall#1{\mbox{\boldmath$\scriptstyle #1$\unboldmath}}
+
+\def\vczero{{\mathbf 0}}
+
+
+%\def\beginlist{\begin{itemize}}
+%
+%\def\endlist{\end{itemize}}
+
+
+\def\pr(#1){\left({#1}\right)}
+\def\br[#1]{\left[{#1}\right]}
+\def\fbr[#1]{\!\left[{#1}\right]}
+\def\set#1{\left\{{#1}\right\}}
+\def\ip<#1>{\left\langle{#1}\right\rangle}
+\def\iip<#1>{\left\langle\!\langle{#1}\right\rangle\!\rangle}
+
+\def\norm#1{\left\| #1 \right\|}
+
+\def\abs#1{\left|{#1}\right|}
+\def\fpr(#1){\!\pr({#1})}
+
+\def\Re{{\rm Re}\,}
+\def\Im{{\rm Im}\,}
+
+\def\floor#1{\left\lfloor#1\right\rfloor}
+\def\ceil#1{\left\lceil#1\right\rceil}
+
+
+\def\mapengine#1,#2.{\mapfunction{#1}\ifx\void#2\else\mapengine #2.\fi }
+
+\def\map[#1]{\mapengine #1,\void.}
+
+\def\mapenginesep_#1#2,#3.{\mapfunction{#2}\ifx\void#3\else#1\mapengine #3.\fi }
+
+\def\mapsep_#1[#2]{\mapenginesep_{#1}#2,\void.}
+
+
+\def\vcbr{\br}
+
+
+\def\bvect[#1,#2]{
+{
+\def\dots{\cdots}
+\def\mapfunction##1{\ | \  ##1}
+\begin{pmatrix}
+		 \,#1\map[#2]\,
+\end{pmatrix}
+}
+}
+
+\def\vect[#1]{
+{\def\dots{\ldots}
+	\vcbr[{#1}]
+}}
+
+\def\vectt[#1]{
+{\def\dots{\ldots}
+	\vect[{#1}]^{\top}
+}}
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr} 
+\def\dots{\vdots}
+	\begin{pmatrix}
+		\map[#1]
+	\end{pmatrix}
+}}
+
+
+
+\def\thetaB{\mbox{\boldmath$\theta$}}
+\def\zetaB{\mbox{\boldmath$\zeta$}}
+
+
+\def\newterm#1{{\it #1}\index{#1}}
+
+
+\def\TT{{\mathbb T}}
+\def\C{{\mathbb C}}
+\def\R{{\mathbb R}}
+\def\II{{\mathbb I}}
+\def\F{{\mathcal F}}
+\def\E{{\rm e}}
+\def\I{{\rm i}}
+\def\D{{\rm d}}
+\def\dx{\D x}
+\def\CC{{\cal C}}
+\def\DD{{\cal D}}
+\def\U{{\mathbb U}}
+\def\A{{\cal A}}
+\def\K{{\cal K}}
+\def\DTU{{\cal D}_{{\rm T} \rightarrow {\rm U}}}
+\def\LL{{\cal L}}
+\def\B{{\cal B}}
+\def\T{{\cal T}}
+\def\W{{\cal W}}
+
+
+\def\tF_#1{{\tt F}_{#1}}
+\def\Fm{\tF_m}
+\def\Fab{\tF_{\alpha,\beta}}
+\def\FC{\T}
+\def\FCpmz{\FC^{\pm {\rm z}}}
+\def\FCz{\FC^{\rm z}}
+
+\def\tFC_#1{{\tt T}_{#1}}
+\def\FCn{\tFC_n}
+
+\def\rmz{{\rm z}}
+
+\def\chapref#1{Chapter~\ref{Chapter:#1}}
+\def\secref#1{Section~\ref{Section:#1}}
+\def\exref#1{Exercise~\ref{Exercise:#1}}
+\def\lmref#1{Lemma~\ref{Lemma:#1}}
+\def\propref#1{Proposition~\ref{Proposition:#1}}
+\def\warnref#1{Warning~\ref{Warning:#1}}
+\def\thref#1{Theorem~\ref{Theorem:#1}}
+\def\defref#1{Definition~\ref{Definition:#1}}
+\def\probref#1{Problem~\ref{Problem:#1}}
+\def\corref#1{Corollary~\ref{Corollary:#1}}
+
+\def\sgn{{\rm sgn}\,}
+\def\Ai{{\rm Ai}\,}
+\def\Bi{{\rm Bi}\,}
+\def\wind{{\rm wind}\,}
+\def\erf{{\rm erf}\,}
+\def\erfc{{\rm erfc}\,}
+\def\qqquad{\qquad\quad}
+\def\qqqquad{\qquad\qquad}
+
+
+\def\spand{\hbox{ and }}
+\def\spodd{\hbox{ odd}}
+\def\speven{\hbox{ even}}
+\def\qand{\quad\hbox{and}\quad}
+\def\qqand{\qquad\hbox{and}\qquad}
+\def\qfor{\quad\hbox{for}\quad}
+\def\qqfor{\qquad\hbox{for}\qquad}
+\def\qas{\quad\hbox{as}\quad}
+\def\qqas{\qquad\hbox{as}\qquad}
+\def\qor{\quad\hbox{or}\quad}
+\def\qqor{\qquad\hbox{or}\qquad}
+\def\qqwhere{\qquad\hbox{where}\qquad}
+
+
+
+%%% Words
+
+\def\naive{na\"\i ve\xspace}
+\def\Jmap{Joukowsky map\xspace}
+\def\Mobius{M\"obius\xspace}
+\def\Holder{H\"older\xspace}
+\def\Mathematica{{\sc Mathematica}\xspace}
+\def\apriori{apriori\xspace}
+\def\WHf{Weiner--Hopf factorization\xspace}
+\def\WHfs{Weiner--Hopf factorizations\xspace}
+
+\def\Jup{J_\uparrow^{-1}}
+\def\Jdown{J_\downarrow^{-1}}
+\def\Jin{J_+^{-1}}
+\def\Jout{J_-^{-1}}
+
+
+
+\def\bD{\D\!\!\!^-}
+
+\def\Abstract#1\par{\begin{abstract}#1\end{abstract}}
+\def\Keywords#1\par{\begin{keywords}{#1}\end{keywords}}
+\def\Section#1#2.{\section{#2}\label{Section:#1} }
+\def\Appendix#1#2.{\appendix \section{#2}\label{Section:#1} }
+
+\def\Subsectionl#1#2.{\subsection{#2}\label{subsec:#1}}
+\def\Subsection#1.{\subsection{#1}}
+
+\def\Subsubsection#1.{\subsubsection{#1}}
+
+
+\def\Problem#1#2\par{\begin{problem}\label{Problem:#1} #2\end{problem}}
+\def\Theorem#1#2\par{\begin{theorem}\label{Theorem:#1} #2\end{theorem}}
+\def\Conjecture#1#2\par{\begin{conjecture}\label{Conjecture:#1} #2\end{conjecture}}
+\def\Proposition#1#2\par{\begin{proposition}\label{Proposition:#1} #2\end{proposition}}
+\def\Definition#1#2\par{\begin{definition}\label{Definition:#1} #2\end{definition}}
+\def\Corollary#1#2\par{\begin{corollary}\label{Corollary:#1} #2\end{corollary}}
+\def\Lemma#1#2\par{\begin{lemma}\label{Lemma:#1} #2\end{lemma}}
+\def\Example#1#2\par{\begin{example}\label{Example:#1} #2\end{example}}
+\def\Remark #1\par{\begin{remark*}#1\end{remark*}}
+
+\def\figref#1{Figure~\ref{fig:#1}}
+
+\def\Figurew[#1]#2#3\par{
+\begin{figure}[tb]
+\begin{center}{
+\includegraphics[width=#2]{Figures/#1}}
+\end{center}
+\caption{#3}\label{fig:#1} 
+\end{figure}
+}
+
+\def\Figure[#1]#2\par{
+\begin{figure}[tb]
+\begin{center}{
+\includegraphics{Figures/#1}}
+\end{center}
+\caption{#2}\label{fig:#1} 
+\end{figure}
+}
+
+\def\Figurefixed[#1]#2\par{
+\Figurew[#1]{0.48 \hsize}{#2}\par
+}
+
+\def\Figuretwow#1#2#3#4\par{
+\begin{figure}[tb]
+\begin{center}{
+\includegraphics[width=#3]{Figures/#1}\includegraphics[width=#3]{Figures/#2}}
+\end{center}
+\caption{#4}\label{fig:#1} 
+\end{figure}
+}
+
+\def\Figuretwowframed#1#2#3#4\par{
+\begin{figure}[tb]
+\begin{center}{
+\fbox{\includegraphics[width=#3]{Figures/#1}}\fbox{\includegraphics[width=#3]{Figures/#2}}}
+\end{center}
+\caption{#4}\label{fig:#1} 
+\end{figure}
+}
+
+\def\Figuretwo[#1,#2]#3\par{
+	\Figuretwow{#1}{#2}{0.48 \hsize}
+		#3\par	
+}
+
+\def\Figuretwoframed[#1,#2]#3\par{
+	\Figuretwowframed{#1}{#2}{0.48 \hsize}
+		#3\par	
+}
+
+\def\Figurethreew#1#2#3#4#5\par{
+\begin{figure}[tb]
+\begin{center}{
+\includegraphics[width=#4]{Figures/#1} \includegraphics[width=#4]{Figures/#2} \includegraphics[width=#4]{Figures/#3}}
+\end{center}
+\caption{#5}\label{fig:#1} %\prooflabel{#1}
+\end{figure}
+}
+
+\def\Figurethree#1#2#3#4\par{
+	\Figurethreew{#1}{#2}{#3}{0.3 \hsize}
+		{#4}\par	
+}
+
+\def\Figurematrixfour#1#2#3#4#5\par{
+\begin{figure}[tb]
+\begin{center}{
+\vbox{\hbox{\includegraphics[width= 0.48 \hsize]{Figures/#1} \includegraphics[width= 0.48 \hsize]{Figures/#2}}\hbox{\includegraphics[width= 0.48 \hsize]{Figures/#3}\includegraphics[width= 0.48 \hsize]{Figures/#4}}}}
+\end{center}
+\caption{#5}\label{fig:#1} %\prooflabel{#1}
+\end{figure}
+}
+
+
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
+\def\elll#1{\ell^{\lambda,#1}}
+\def\elllp{\ell^{\lambda,p}}
+\def\elllRp{\ell^{(\lambda,R),p}}
+
+
+\def\elllRpz_#1{\ell_{#1{\rm z}}^{(\lambda,R),p}}
+
+
+\def\sopmatrix#1{\begin{pmatrix}#1\end{pmatrix}}
+
+\def\Proof{\begin{proof}}
+\def\mqed{\end{proof}}
+
+\gdef\reffilename{\jobname}
+\def\References{\bibliography{\reffilename}}
+
+\outer\def\ends{ 
+\end{document}
+}
