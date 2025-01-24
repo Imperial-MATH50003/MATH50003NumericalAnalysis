@@ -42,7 +42,7 @@ for k = 1:3
 end
 
 
-for k = 1:1
+for k = 1:2
     compilesheetsolution(k)
 end
 
@@ -58,7 +58,7 @@ end
 
 
 compilelabsolution(1)
-# compilelabsolution(2)
+compilelabsolution(2)
 # compilelabsolution(3)
 # compilelabsolution(4)
 # compilelabsolution(5)

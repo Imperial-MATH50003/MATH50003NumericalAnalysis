@@ -48,40 +48,40 @@ nanabs(x) = x == 0 ? NaN : abs(x)
 # for example, a number.
 # By default when we write an integer (e.g. `-123`) it is of type `Int`:
 
-## DEMO
+
 typeof(5)
-## END
+
 
 # On a 64-bit machine this will print `Int64`, where the `64` indicates it is using precisely 64 bits
 # to represent the number (a topic we will come back to in Part II). If we write something with
 # a decimal point it represents a "real" number, whose storage is of type `Float64`:
 
-## DEMO
+
 typeof(5.3)
-## END
+
 
 # This is called a "floating point" number, and again the `64` indicates it is using precisely
 # 64 bits to represent this number. (We will see this is why computations like divided differences
 # have large errors: because we are limiting the number of "digits" to represent numbers we need to
 # round our computations.) Note that some operations involving `Int`s return `Float64`s:
 
-## DEMO
+
 1/5 # 1 and 5 are Int but output is a Float64
-## END
+
 
 # It is possible to have functions behave differently depending on the input type.
 # To do so we can add a restriction denoted `::Int` or `::Float64` to the function "signature".
 # Here we create a function `foo` that is equal to `1` if the input is an `Int`, `0` if the input is
 # a `Float64`, and `-1` otherwise:
 
-## DEMO
+
 foo(x::Int) = 1 # The ::Int means this version is called when the input is an Int
 foo(x::Float64) = 0
 foo(x) = -1 # This is equivalent to f(x::Any) = -1
 ## Anything that is not an Int or Float64 will call this
 
 foo(3), foo(2.5), foo("hi"), foo(3.0)
-## END
+
 
 # The last line returns a list of `Int`s, which has the type `Tuple`.
 # Note that there is a difference between the set concept of integer and the type `Int`: whilst `3.0` is an integer
@@ -98,29 +98,29 @@ foo(3), foo(2.5), foo("hi"), foo(3.0)
 # to represent the complex number $x + {\rm i} y$. In Julia ${\rm i} = \sqrt{-1}$ is denoted `im` and
 # hence we can create a complex number like $1+2{\rm i}$ as follows:
 
-## DEMO
+
 z = 1 + 2im
-## END
+
 
 # This complex number has two "fields": the real and imaginary part. Accessing the fields is done
 # using a `.`, here we display the real and imaginary parts as a `Tuple`:
 
-## DEMO
+
 z.re, z.im
-## END
+
 
 # When we ask  its type we see it is a `Complex{Int}`:
 
-## DEMO
+
 typeof(z)
-## END
+
 
 # The `{Int}` indicates that each of the fields is an `Int`.
 # Note we can add, subtract, multiply, or apply functions like `exp` to complex numbers:
 
-## DEMO
+
 exp(2z^2 + 3im)
-## END
+
 
 # -----
 # **Problem 1(a)** Use `typeof` to determine the type of `1.2 + 2.3im`.
@@ -200,34 +200,34 @@ plot!(1:1000, [nanabs(exp_t(-100, n) - exp(-100)) for n = 1:1000]; yscale=:log10
 # (For simplicity  we won't worry about restricting $p$ and $q$ to be `Int`.)
 # We can construct such a type using the `struct` keyword:
 
-## DEMO
+
 struct Rat
     p
     q
 end
-## END
+
 
 # A new instance of `Rat` is created via e.g. `Rat(1, 2)` represents `1/2`
 # where the first argument specifies `p` and the second argument `q`.
 # The fields are accessed by `.`:
 
-## DEMO
+
 x = Rat(1, 2) # Rat(1, 2) creates an instance with fields equal to the input
 @test x.p == 1
 @test x.q == 2
-## END
+
 
 # Unfortunately we can't actually do anything with this type, yet:
 
-## DEMO
+
 x + x
-## END
+
 
 # The error is telling us to overload the `+` function when the inputs are both `Rat`.
 # To do this we need to "import" the `+` function and then we can overload it like any
 # other function:
 
-## DEMO
+
 import Base: + # allows us to overload +
 
 ## Here putting ::Rat after both x and y means this version of +
@@ -240,16 +240,16 @@ end
 
 Rat(1,2) + Rat(3,4) # 1/2 + 3/4 == 10/8 (== 5/4) which is represented
                     ## as Rat(10, 8)
-## END
+
 
 # We can support mixing `Rat` and `Int` by adding additional functionality:
 
-## DEMO
+
 Rat(p::Int) = Rat(p,1) # an Int is converted to p/1
 +(x::Rat, y::Int) = x + Rat(y) # To add a Rat to an Int we convert the Int into a Rat and use the previously defined +
 
 Rat(1,2) + 1  # 1 + 1/2 == 3/2
-## END
+
 
 # -----
 
@@ -316,19 +316,19 @@ end
 # in a way similar to `Complex` or `Rat`. For simplicity we don't restrict the types of `a` and `b`
 # but for us they will usually be `Float64`. We create this type very similar to `Rat` above:
 
-## DEMO
+
 struct Dual
     a
     b
 end
-## END
+
 
 # We can easily support addition of dual numbers as in `Rat` using the formula
 # $$
 # (a+bϵ) + (c+dϵ) = (a+c) + (b+d)ϵ
 # $$
 
-## DEMO
+
 function +(x::Dual, y::Dual)
     a,b = x.a, x.b # x == a+bϵ. This gets out a and b
     c,d = y.a, y.b # y == c+dϵ. This gets out c and d
@@ -336,7 +336,7 @@ function +(x::Dual, y::Dual)
 end
 
 Dual(1,2) + Dual(3,4) # just adds each argument
-## END
+
 
 # For multiplication we used the fact that $ϵ^2 = 0$ to derive the formula
 # $$
@@ -345,7 +345,7 @@ Dual(1,2) + Dual(3,4) # just adds each argument
 # Here we support this operation by overloading `*` when the inputs are both
 # `Dual`:
 
-## DEMO
+
 import Base: * # we want to also overload *
 
 function *(x::Dual, y::Dual)
@@ -353,7 +353,7 @@ function *(x::Dual, y::Dual)
     c,d = y.a, y.b # y == c+dϵ. This gets out c and d
     Dual(a*c, b*c + a*d)
 end
-## END
+
 
 
 # ### I.3.1 Differentiating polynomials
@@ -367,10 +367,10 @@ end
 # We can use this fact to differentiate simple polynomials that only use `+`
 # and `*`:
 
-## DEMO
+
 f = x -> x*x*x + x
 f(Dual(2,1)) # (2^3 + 2) + (3*2^2+1)*ϵ
-## END
+
 
 # A polynomial like `x^3 + 1` is not yet supported.
 # To support this we need to add addition of `Dual` with `Int` or `Float64`.
@@ -378,7 +378,7 @@ f(Dual(2,1)) # (2^3 + 2) + (3*2^2+1)*ϵ
 # will support both at the same time.
 # We can overload the appropriate functions as follows:
 
-## DEMO
+
 import Base: ^
 
 Dual(a::Real) = Dual(a, 0) # converts a real number to a dual number with no ϵ
@@ -404,7 +404,7 @@ end
 
 f = x -> x^3 + 1
 f(Dual(2,1))  # 2^3+1 + 3*2^2*ϵ
-## END
+
 
 # ### I.3.2 Differentiating functions
 
@@ -412,17 +412,17 @@ f(Dual(2,1))  # 2^3+1 + 3*2^2*ϵ
 # a _dual extension_, that is, are consistent with the formula $f(a+bϵ) = f(a) + bf'(a)ϵ$
 # as follows:
 
-## DEMO
+
 import Base: exp
 exp(x::Dual) = Dual(exp(x.a), exp(x.a) * x.b)
-## END
+
 
 # We can use this to differentiate a function that composes these basic operations:
 
-## DEMO
+
 f = x -> exp(x^2 + exp(x))
 f(Dual(1, 1))
-## END
+
 
 
 # What makes dual numbers so effective is that, unlike divided differences, they are not
@@ -547,7 +547,7 @@ contdual.b
 # Dual numbers as implemented by `Dual` gives us a powerful tool to compute derivatives and get a simple implementation
 # of Newton's method working:
 
-## DEMO
+
 ## derivative(f, x) computes the derivative at a point x using Dual
 derivative(f, x) = f(Dual(x,1)).b
 
@@ -560,7 +560,7 @@ end
 
 f = x -> x^5 + x^2 + 1
 r = newton(f, 0.1, 100)
-## END
+
 
 # We can test that we have indeed found a root:
 f(r)

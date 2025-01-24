@@ -1,17 +1,6 @@
 **Numerical Analysis MATH50003 (2023–24) Problem Sheet 4**
 
 
-**Problem 8(c)** Show if $x_1,…,x_n ∈ F$ then
-$$
-x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
-$$
-where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
-You may assume all operations are within the normalised range.
-Hint: use Problem 2.1 to first write 
-$$
-x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
-$$
-
 **Problem 5** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 $$

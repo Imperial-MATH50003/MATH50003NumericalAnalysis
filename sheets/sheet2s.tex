@@ -163,24 +163,123 @@
 \[
 2x^2 + 3x + 4, (x+1)(x+2)(x+3), (2x+1)x^3.
 \]
+\textbf{SOLUTION} (a)
+\[
+2(2+\ensuremath{\epsilon})^2 + 3(2+\ensuremath{\epsilon}) + 4 = 2(4+4\ensuremath{\epsilon}) + 6+3\ensuremath{\epsilon} + 4 = 18 + 11\ensuremath{\epsilon}
+\]
+so the derivative is 11.
+
+(b) 
+\[
+(3+\ensuremath{\epsilon})(4+\ensuremath{\epsilon})(5+\ensuremath{\epsilon}) = (12+7\ensuremath{\epsilon})(5+\ensuremath{\epsilon}) = 60+47\ensuremath{\epsilon}
+\]
+so the derivative is 47.
+
+(c)
+\[
+(2(2+\ensuremath{\epsilon})+1)(2+\ensuremath{\epsilon})^3 = 
+(5+2\ensuremath{\epsilon})(4+4\ensuremath{\epsilon})(2+\ensuremath{\epsilon}) = 
+(20 + 28\ensuremath{\epsilon})(2+\ensuremath{\epsilon}) = 40 + 76\ensuremath{\epsilon}
+\]
+so the derivative is 76.
+
+\textbf{END}
+
 \textbf{Problem 2} What should the following functions applied to dual numbers return for $x = a+b \ensuremath{\epsilon}$:
 \[
 f(x) = x^{100} + 1, g(x) = 1/x, h(x) = \tan x.
 \]
+\textbf{SOLUTION}
+\[
+f(a+ b\ensuremath{\epsilon}) = f(a) + b f'(a) \ensuremath{\epsilon} = a^{100} + 1 + 100ba^{99} \ensuremath{\epsilon}
+\]
+valid everywhere.
+\[
+g(a+ b\ensuremath{\epsilon}) =  {1 \over a} - {b \over a^2} \ensuremath{\epsilon}
+\]
+valid for $a \ensuremath{\neq} 0$.
+\[
+h(a+b\ensuremath{\epsilon}) = \tan a + b \sec^2 a \ensuremath{\epsilon}
+\]
+valid for $a \ensuremath{\notin} \{ k\ensuremath{\pi}+\ensuremath{\pi}/2 : k \ensuremath{\in} \ensuremath{\bbZ}\}$.
+
+\textbf{END}
+
 \textbf{Problem 3(a)} What is the correct definition of division on dual numbers, i.e., for what choice of $s$ and $t$ does the following hold:
 \[
 (a + b \ensuremath{\epsilon} )/(c + d \ensuremath{\epsilon} ) = s + t \ensuremath{\epsilon}.
 \]
+\textbf{SOLUTION}
+
+As with complex numbers, division is easiest to understand by first multiplying with the conjugate, that is:
+\[
+\frac{a+b\ensuremath{\epsilon}}{c+d\ensuremath{\epsilon}} = \frac{(a+b\ensuremath{\epsilon})(c-d\ensuremath{\epsilon})}{(c+d\ensuremath{\epsilon})(c-d\ensuremath{\epsilon})}.
+\]
+Expanding the products and dropping terms with $\ensuremath{\epsilon}^2$ then leaves us with the definition of division for dual numbers (where the denominator must have non-zero real part):
+\[
+\frac{a}{c} + \frac{bc - ad}{c^2}\ensuremath{\epsilon}.
+\]
+Thus we have $s = \frac{a}{c}$ and $t = \frac{bc - ad}{c^2}$.
+
+\textbf{END}
+
 \textbf{Problem 3(b)} A \emph{field} is a commutative ring such that $0 \ensuremath{\neq} 1$ and all nonzero elements have a multiplicative inverse, i.e., there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to define $a^{-1} := 1/a$ to make $\ensuremath{\bbD}$ a field? Why or why not?
+
+\textbf{SOLUTION}
+
+An example that doesn't work is $z = 0 + \ensuremath{\epsilon}$ where the formula is undefined, i.e, it would give:
+\[
+z^{-1} = \ensuremath{\infty} + \ensuremath{\infty}\ensuremath{\epsilon}
+\]
+\textbf{END}
 
 \textbf{Problem 4} Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
 \[
 \exp(\exp x \cos x + \sin x), \prod_{k=1}^3 \left({x \over k}-1\right),\hbox{ and } f^{\rm s}_2(x) = {1 + {x - 1 \over 2 + {x-1 \over 2}}}
 \]
+\textbf{SOLUTION}
+
+We now compute the derivatives of the three functions by evaluating for $x = 0.1 + \ensuremath{\epsilon}$. For the first function we have:
+\begin{align*}
+&\exp(\exp(0.1 + \ensuremath{\epsilon})\cos(0.1+\ensuremath{\epsilon}) + \sin(0.1+\ensuremath{\epsilon})) \\
+&=\exp((\exp(0.1) + \ensuremath{\epsilon}\exp(0.1))(\cos(0.1)-\sin(0.1)\ensuremath{\epsilon}) + \sin(0.1)+\cos(0.1)\ensuremath{\epsilon}) \\
+&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1) + (\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))\ensuremath{\epsilon}) \\
+&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\\
+&\qquad + \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))\ensuremath{\epsilon} 
+\end{align*}
+therefore the derivative is the dual part
+\[
+\exp(\exp(0.1)\cos(0.1)+ \sin(0.1))(\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))
+\]
+For the second function we have:
+\begin{align*}
+ \left(0.1+\ensuremath{\epsilon}-1\right) \left({0.1 + \ensuremath{\epsilon} \over 2}-1\right)\left({0.1 + \ensuremath{\epsilon} \over 3}-1\right)
+ &=\left(-0.9+\ensuremath{\epsilon}\right) \left(-0.95 + \ensuremath{\epsilon}/2\right)\left(-29/30 + \ensuremath{\epsilon}/3\right) \\
+&=\left(171/200 -1.4\ensuremath{\epsilon}\right)\left(-29/30 + \ensuremath{\epsilon}/3\right)  \\
+&= -1653/2000 + 983\ensuremath{\epsilon}/600
+\end{align*}
+Thus the derivative is $983/600$.
+
+For the third function we have:
+\begin{align*}
+{1 + {0.1+\ensuremath{\epsilon} - 1 \over 2 + {0.1+\ensuremath{\epsilon}-1 \over 2}}} &=  {1 + {-0.9+\ensuremath{\epsilon} \over 1.55 + \ensuremath{\epsilon}/2}}\\
+&= 1 -18/31 + 2\ensuremath{\epsilon}/1.55^2
+\end{align*}
+Thus the derivative is $2/1.55^2$.
+
+\textbf{END}
+
 \rule{\textwidth}{1pt}
 Consider a 2D analogue of dual numbers $a + b \ensuremath{\epsilon}_x + c \ensuremath{\epsilon}_y$ defined by the relationship  $\ensuremath{\epsilon}_x \ensuremath{\epsilon}_y = \ensuremath{\epsilon}_x^2 =  \ensuremath{\epsilon}_y^2 = 0$. 
 
 \textbf{Problem 5(a)}  Derive the formula for writing the product of two 2D dual numbers $(a + a_x \ensuremath{\epsilon}_x + a_y \ensuremath{\epsilon}_y) (b + b_x \ensuremath{\epsilon}_x + b_y \ensuremath{\epsilon}_y)$ where $a,a_x,a_y,b,b_x,b_y \in \mathbb R$ as a 2D dual number.
+
+\textbf{SOLUTION}
+\[
+(a+a_x \ensuremath{\epsilon}_x +  a_y \ensuremath{\epsilon}_y)  (b+b_x \ensuremath{\epsilon}_x +  b_y \ensuremath{\epsilon}_y)
+= ab +(ba_x + ab_x) \ensuremath{\epsilon}_x +  (ba_y+ab_y) \ensuremath{\epsilon}_y
+\]
+\textbf{END}
 
 \textbf{Problem 5(b)} Show  for all 2D polynomials
 \[
@@ -190,7 +289,27 @@ that
 \begin{align*}
 p(x + a \ensuremath{\epsilon}_x, y + b \ensuremath{\epsilon}_y) &= p(x,y) + a  {\ensuremath{\partial} p \over \ensuremath{\partial} x} \ensuremath{\epsilon}_x  +  b  {\ensuremath{\partial} p \over \ensuremath{\partial} y}   \ensuremath{\epsilon}_y.
 \end{align*}
+\textbf{SOLUTION} By linearity it suffices to consider monomials $x^k y^j$. Assume it is true for all lower degree polynomials with the degree $0$ case holding trivially. If $j = 0$ we  have:
+\[
+(x + a \ensuremath{\epsilon}_x)^k = (x + a \ensuremath{\epsilon}_x)(x + a \ensuremath{\epsilon}_x)^{k-1} = 
+ (x + a \ensuremath{\epsilon}_x)(x^{k-1} + a (k-1) x^{k-2} \ensuremath{\epsilon}_x) = 
+  x^k  + a k x^{k-1} \ensuremath{\epsilon}_x
+\]
+and similarly for $k = 0$. For $k,j \neq 0$ we can use the previous cases to get:
+\[
+(x + a \ensuremath{\epsilon}_x)^k (y + b \ensuremath{\epsilon}_y)^j = (x^k + k a x^{k-1} \ensuremath{\epsilon}_x) (y^j + j b y^{j-1} \ensuremath{\epsilon}_y)= 
+x^k y^j + k a x^{k-1} y^j \ensuremath{\epsilon}_x + b j x^k y^{j-1}
+\]
+\textbf{END}
+
 \textbf{Problem 5(c)} Use 2D dual numbers to compute the gradient of $p(x,y) = (1 + x + 3xy)(1+y)$ at $x=1$ and $y=2$.
+
+\textbf{SOLUTION}
+\meeq{
+p(1+\ensuremath{\epsilon}_x, 2+\ensuremath{\epsilon}_y) = (2 + \ensuremath{\epsilon}_x + 3(1+\ensuremath{\epsilon}_x)(2+\ensuremath{\epsilon}_y))(3+\ensuremath{\epsilon}_y) = (2 + \ensuremath{\epsilon}_x + 3(2+2\ensuremath{\epsilon}_x+\ensuremath{\epsilon}_y))(3+\ensuremath{\epsilon}_y) \ccr
+= (8 + 7\ensuremath{\epsilon}_x + 3\ensuremath{\epsilon}_y)(3+\ensuremath{\epsilon}_y) = 24 + 21\ensuremath{\epsilon}_x + 17\ensuremath{\epsilon}_y
+}
+hence the gradient is $[21,17]^\ensuremath{\top}$. \textbf{END}
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 6} Suppose $f$ is twice-differentiable in a neighbourhood of $B$ of $r$ such that $f(r) = f'(r) = 0$, where $f''$ does not vanish in $B$. Show  that the error of the $k$-th Newton iteration $\ensuremath{\varepsilon}_k := r - x_k$ satisfies
@@ -201,6 +320,20 @@ where
 \[
 \tilde{M} ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
 \]
+\textbf{SOLUTION}
+
+Note that
+\[
+f'(x_k) = f'(x) + f''(\ensuremath{\tau}) \ensuremath{\varepsilon}_k = f''(\ensuremath{\tau}) \ensuremath{\varepsilon}_k
+\]
+for some $\ensuremath{\tau}$ between $x$ and $x_k$.  Thus we get
+\[
+\ensuremath{\varepsilon}_{k+1}  = -{f''(t) \over 2f'(x_k)} \ensuremath{\varepsilon}_k^2 = -{f''(t) \over 2f''(\ensuremath{\tau})} \ensuremath{\varepsilon}_k.
+\]
+Taking absolute values of each side gives the result.
+
+\textbf{END}
+
 
 
 \end{document}
