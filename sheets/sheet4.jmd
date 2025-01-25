@@ -1,0 +1,65 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 4**
+
+
+**Problem 1** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+$0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+$$
+\meeq{
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
+}
+$$
+Generalise (without proof) these formulæ to the case $n < 0$ and to where there are no restrictions
+on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
+
+
+
+
+**Problem 2(a)** Compute the following floating point interval arithmetic
+expression assuming half-precision $F_{16}$ arithmetic:
+$$
+[1,1] ⊖ ([1,1] ⊘ 6)
+$$
+Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction.
+
+
+
+
+**Problem 2(b)** Writing
+$$
+\sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + δ_{x,2n+1}
+$$
+Prove the bound $|δ_{x,2n+1}| ≤ 1/(2n+3)!$, assuming $x ∈ [0,1]$.
+
+
+
+
+**Problem 2(c)** Combine the previous parts to prove that:
+$$
+\sin 1 ∈ [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+$$
+You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$.
+
+
+
+-----
+
+**Problem 3** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
+in approximating matrix multiplication with idealised floating point: for
+$$
+A 𝐱 =  \begin{pmatrix}
+⨁_{j=1}^n A_{1,j} ⊗ x_j\\
+⋮ \\
+⨁_{j=1}^n A_{1,j} ⊗ x_j
+\end{pmatrix} + δ
+$$
+use Problem 8 on PS3 to show that
+$$
+\| δ \|_∞ ≤ 2 \|A\|_∞ \| 𝐱 \|_∞ E_{n,ϵ_{\rm m}/2}
+$$
+for $E_{n,ϵ} := {n ϵ \over 1-nϵ}$,
+where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$.
+
+
+
+

@@ -190,24 +190,14 @@ import Base: -
 function -(X::Interval)
     a,b = promote(X.a, X.b)
     ## TODO: return an interval representing {-x : x in X}
-    ## SOLUTION
-    Interval(-b, -a)
-    ## END
+    
 end
 
 function -(X::Interval, Y::Interval)
     a,b,c,d = promote(X.a, X.b, Y.a, Y.b)
     T = typeof(a)
     ## TODO: return an interval implementing X ⊖ Y
-    ## SOLUTION
-    α = setrounding(T, RoundDown) do
-        a - d
-    end
-    β = setrounding(T, RoundUp) do
-        b - c
-    end
-    Interval(α, β)
-    ## END
+    
 end
 
 @test -Interval(0.1,0.2) == Interval(-0.2, -0.1)
@@ -219,45 +209,7 @@ end
 
 ## TODO: overload / and *, again.
 
-## SOLUTION
-function /(X::Interval, n::Int)
-    a,b = promote(X.a, X.b)
-    T = eltype(a)
-    if n == 0
-        error("Dividing by zero not support")
-    end
-    α = setrounding(T, RoundDown) do
-        if n > 0
-            a / n
-        else
-            b / n
-        end
-    end
-    β = setrounding(T, RoundUp) do
-        if n > 0
-            b / n
-        else
-            a / n
-        end
-    end
-    Interval(α, β)
-end
 
-function *(X::Interval, Y::Interval)
-    a,b,c,d = promote(X.a, X.b, Y.a, Y.b)
-    T = typeof(a)
-    if !(a ≤ b && c ≤ d)
-        error("Empty intervals not supported.")
-    end
-    α = setrounding(T, RoundDown) do
-        min(a*c, a*d, b*c, b*d)
-    end
-    β = setrounding(T, RoundUp) do
-        max(a*c, a*d, b*c, b*d)
-    end
-    Interval(α, β)
-end
-## END
 
 @test Interval(1.1, 1.2) * Interval(2.1, 3.1) ≡ Interval(2.31, 3.72)
 @test Interval(-1.2, -1.1) * Interval(2.1, 3.1) ≡ Interval(-3.72, -2.31)
@@ -342,27 +294,7 @@ end
 ## TODO: re-overload exp_bound but without the restrictions on positivity and adjusting the
 ## the bound appropriately.
 
-## SOLUTION
-function exp_bound(X::Interval, n)
-    a,b = promote(X.a, X.b)
-    T = typeof(a)
-    
-    if !(-2 ≤ a ≤ b ≤ 2)
-        ## check our assumptions are met. This is optional: in the exam, proper error checking is
-        ## not expected unless explicitly asked for.
-        error("Interval must be a subset of [-2, 2]")
-    end
-    ret = exp_t(X, n) # the code for Taylor series should work on Interval unmodified
-    ## avoid overflow in computing factorial by using `big`.
-    ## Convert to type `T` to support rounding.
-    f = T(factorial(big(n + 1)),RoundDown)
 
-    δ = setrounding(T, RoundUp) do
-        T(8) * T(2)^(n+1) / f # need to convert 3 to the right type to set the rounding
-    end
-    ret + Interval(-δ,δ)
-end
-## END
 
 @test exp(big(-2)) in exp_bound(Interval(-2.0), 20)
 
@@ -376,12 +308,7 @@ function sin_t(x, n)
     ret = x
     s = x
     ## TODO: Compute the first 2n+1 terms of the Taylor series of sin, without using the factorial function
-    ## SOLUTION
-    for k = 1:n
-        s = -s/(2k*(2k+1)) * x^2
-        ret = ret + s
-    end
-    ## END
+    
     ret
 end
 
@@ -395,17 +322,7 @@ function sin_bound(X::Interval, n)
     a,b = promote(X.a, X.b)
     T = typeof(a)
     ## TODO: complete the implementation to include the error in truncating the Taylor series. 
-    ## SOLUTION    
-    ret = sin_t(X, n) # the code for Taylor series should work on Interval unmodified
-    ## avoid overflow in computing factorial by using `big`.
-    ## Convert to type `T` to support rounding.
-    f = T(factorial(big(2n + 3)),RoundDown)
-
-    err = setrounding(T, RoundUp) do
-        T(1) / f # need to convert 3 to the right type to set the rounding
-    end
-    ret + Interval(-err,err)
-    ## END
+    
 end
 
 
@@ -459,54 +376,12 @@ A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 # **Problem 1(a)** Create a 5×6 matrix whose entries are `Int` which is
 # one in all entries. Hint: use a for-loop, `ones`, `fill`, or a comprehension.
 ## TODO: Create a matrix of ones, 4 different ways
-## SOLUTION
 
-## 1. For-loop:
-
-ret = zeros(Int, 5, 6)
-for k = 1:5, j = 1:6
-    ret[k,j] = 1
-end
-ret
-
-## 2. Ones:
-
-ones(Int, 5, 6)
-
-## 3. Fill:
-
-fill(1, 5, 6)
-
-## 4. Comprehension:
-
-[1 for k=1:5, j=1:6]
-
-
-## END
 
 # **Problem 1(b)** Create a 1 × 5 `Matrix{Int}` with entries `A[k,j] = j`. Hint: use a for-loop or a comprehension.
 
 ## TODO: Create a 1 × 5  matrix whose entries equal the column, 2 different ways
-## SOLUTION
 
-## 1. For-loop
-
-A = zeros(Int, 1, 5)
-for j = 1:5
-    A[1,j] = j
-end
-
-## 2. Comprehension
-
-[j for k=1:1, j=1:5]
-
-## There is also a third way:
-## 3. convert transpose:
-
-## Note: (1:5)' is a "row-vector" which behaves differently than a matrix
-Matrix((1:5)')
-
-## END
 
 # -------
 # #### Transposes and adjoints
@@ -611,25 +486,7 @@ r[2] = 3   # Not allowed
 # **Problem 1(c)** Create a vector of length 5 whose entries are `Float64`
 # approximations of `exp(-k)`. Hint: use a for-loop, broadcasting `f.(x)` notation, or a comprehension.
 ## TODO: Create a vector whose entries are exp(-k), 3 different ways
-## SOLUTION
 
-## 1. For-loop
-v = zeros(5) # defaults to Float64
-for k = 1:5
-    v[k] = exp(-k)
-end
-
-## 2. Broadcast:
-exp.(-(1:5))
-
-## we can also do this explicitly
-broadcast(k -> exp(-k), 1:5)
-
-## 4. Comprehension:
-[exp(-k) for k=1:5]
-
-
-## END
 
 
 # ------
@@ -837,11 +694,7 @@ function mul_cols(U::UpperTriangular, x)
     b = zeros(n) # the returned vector, begins of all zeros
 
     ## TODO: populate b so that U*x ≈ b
-    ## SOLUTION
-    for j = 1:n, k = 1:j
-        b[k] += U[k, j] * x[j]
-    end
-    ## END
+    
 
     b
 end
@@ -865,16 +718,7 @@ function ldiv(U::UpperTriangular, b)
 
     x = zeros(n)  # the solution vector
     ## TODO: populate x with the entries according to back substitution.
-    ## SOLUTION
-    for k = n:-1:1  # start with k=n, then k=n-1, ...
-        r = b[k]  # dummy variable
-        for j = k+1:n
-            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
-        end
-        ## after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]
-        x[k] = r/U[k,k]
-    end
-    ## END
+    
     x
 end
 
@@ -947,17 +791,7 @@ size(U::UpperTridiagonal) = (length(U.d),length(U.d))
 function getindex(U::UpperTridiagonal, k::Int, j::Int)
     d,du,du2 = U.d,U.du,U.du2
     ## TODO: return U[k,j]
-    ## SOLUTION
-    if j == k+2
-    	return U.du2[k]
-    elseif j == k+1
-    	return U.du[k]
-    elseif j == k
-    	return U.d[k]
-    else # off band entries are zero
-    	return 0.0
-    end
-    ## END
+    
 end
 
 ## setindex!(U, v, k, j) gets called when we write (U[k,j] = v).
@@ -968,15 +802,7 @@ function setindex!(U::UpperTridiagonal, v, k::Int, j::Int)
     end
 
     ## TODO: modify d,du,du2 so that U[k,j] == v
-    ## SOLUTION
-    if j == k+2
-    	du2[k] = v
-    elseif j == k+1
-    	du[k] = v
-    elseif j == k
-    	d[k] = v
-    end
-    ## END
+    
     U # by convention we return the matrix
 end
 
@@ -1007,11 +833,7 @@ function *(U::UpperTridiagonal, x::AbstractVector)
     n = size(U,1)
     b = zeros(n) # the returned vector, assume Float64 values
     ## TODO: populate b so that U*x ≈ b (up to rounding)
-    ## SOLUTION
-    for j = 1:n, k = max(j-2,1):j
-        b[k] += U[k, j] * x[j]
-    end
-    ## END
+    
     b
 end
 
@@ -1023,16 +845,7 @@ function \(U::UpperTridiagonal, b::AbstractVector)
 
     x = zeros(n)  # the solution vector, assume Float64 values
     ## TODO: populate x so that U*x ≈ b
-    ## SOLUTION
-    for k = n:-1:1  # start with k=n, then k=n-1, ...
-        r = b[k]  # dummy variable
-        for j = k+1:min(n, k+2)
-            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
-        end
-        ## after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]
-        x[k] = r/U[k,k]
-    end
-    ## END
+    
     x
 end
 

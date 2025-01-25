@@ -73,41 +73,6 @@ $$
 
 **END**
 
-**Problem 1(c)** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
-in approximating matrix multiplication with idealised floating point: for
-$$
-A 𝐱 =  \begin{pmatrix}
-⨁_{j=1}^n A_{1,j} ⊗ x_j\\
-⋮ \\
-⨁_{j=1}^n A_{1,j} ⊗ x_j
-\end{pmatrix} + δ
-$$
-show that
-$$
-\| δ \|_∞ ≤ 2 \|A\|_∞ \| 𝐱 \|_∞ E_{n,ϵ_{\rm m}/2}
-$$
-where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$.
-
-**SOLUTION**
-We have for the $k$=th row
-$$
-⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
-∑_{j=1}^n A_{k,j} x_j (1+δ_j) + σ_{k,n}
-$$
-where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where from 1(b) we have
-$$
-M_k = Σ_{j=1}^n |A_{k,j}x_j (1+δ_j)| = Σ_{j=1}^n |A_{k,j}| |x_j| (1+|δ_j|)  ≤ 2 \max |x_j| Σ_{j=1}^n |A_{k,j}|
-≤ 2 \|𝐱\|_∞ \|A \|_∞
-$$
-Similarly, we also have 
-$$
-|∑_{j=1}^n A_{k,j} x_j δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
-$$
-and so the result follows from
-$$
-ϵ_{\rm m}/2 + 2E_{n-1,ϵ_{\rm m}/2} ≤ {ϵ_{\rm m}/2 + ϵ_{\rm m} (n-1) \over 1-(n-1)ϵ_{\rm m}/2} ≤ {ϵ_{\rm m} n \over 1-nϵ_{\rm m}/2} = 2E_{n,ϵ_{\rm m}/2}.
-$$
-**END**
 
 
 

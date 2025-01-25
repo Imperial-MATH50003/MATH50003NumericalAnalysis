@@ -1,4 +1,4 @@
-# # MATH50003 (2023–24)
+# # MATH50003 (2024–25)
 # # Lab 3: II.1 Reals and II.2 Floating Point Arithmetic
 
 # In this lab, we will explore how a computer represents integers (both signed and unsigned) and reals.

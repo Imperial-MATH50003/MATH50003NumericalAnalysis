@@ -1,7 +1,7 @@
-**Numerical Analysis MATH50003 (2023–24) Problem Sheet 4**
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 4**
 
 
-**Problem 5** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+**Problem 1** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 $$
 \meeq{
@@ -49,7 +49,7 @@ $$
 **END**
 
 
-**Problem 6(a)** Compute the following floating point interval arithmetic
+**Problem 2(a)** Compute the following floating point interval arithmetic
 expression assuming half-precision $F_{16}$ arithmetic:
 $$
 [1,1] ⊖ ([1,1] ⊘ 6)
@@ -77,7 +77,7 @@ $$
 **END**
 
 
-**Problem 6(b)** Writing
+**Problem 2(b)** Writing
 $$
 \sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + δ_{x,2n+1}
 $$
@@ -94,7 +94,7 @@ The bound follows since all derivatives of $\sin$ are bounded by 1 and we have a
 **END**
 
 
-**Problem 6(c)** Combine the previous parts to prove that:
+**Problem 2(c)** Combine the previous parts to prove that:
 $$
 \sin 1 ∈ [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 $$
@@ -117,4 +117,45 @@ $$
 \end{align*}
 $$
 
+**END**
+
+-----
+
+**Problem 3** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
+in approximating matrix multiplication with idealised floating point: for
+$$
+A 𝐱 =  \begin{pmatrix}
+⨁_{j=1}^n A_{1,j} ⊗ x_j\\
+⋮ \\
+⨁_{j=1}^n A_{1,j} ⊗ x_j
+\end{pmatrix} + δ
+$$
+use Problem 8 on PS3 to show that
+$$
+\| δ \|_∞ ≤ 2 \|A\|_∞ \| 𝐱 \|_∞ E_{n,ϵ_{\rm m}/2}
+$$
+for $E_{n,ϵ} := {n ϵ \over 1-nϵ}$,
+where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$.
+
+
+
+**SOLUTION**
+We have for the $k$=th row
+$$
+⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
+∑_{j=1}^n A_{k,j} x_j (1+δ_j) + σ_{k,n}
+$$
+where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where from 1(b) we have
+$$
+M_k = Σ_{j=1}^n |A_{k,j}x_j (1+δ_j)| = Σ_{j=1}^n |A_{k,j}| |x_j| (1+|δ_j|)  ≤ 2 \max |x_j| Σ_{j=1}^n |A_{k,j}|
+≤ 2 \|𝐱\|_∞ \|A \|_∞
+$$
+Similarly, we also have 
+$$
+|∑_{j=1}^n A_{k,j} x_j δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
+$$
+and so the result follows from
+$$
+ϵ_{\rm m}/2 + 2E_{n-1,ϵ_{\rm m}/2} ≤ {ϵ_{\rm m}/2 + ϵ_{\rm m} (n-1) \over 1-(n-1)ϵ_{\rm m}/2} ≤ {ϵ_{\rm m} n \over 1-nϵ_{\rm m}/2} = 2E_{n,ϵ_{\rm m}/2}.
+$$
 **END**
