@@ -39,7 +39,7 @@ using SetRounding, LinearAlgebra, Test
 
 # -----
 #
-# ## II.4 Interval Arithmetic
+# ## II.3 Interval Arithmetic
 
 # In lectures we introduced the idea of using set arithmetic to compute rigorous bounds on algorithms.
 # To implement this in practice
