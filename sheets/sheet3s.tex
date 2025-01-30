@@ -398,17 +398,61 @@ where
 \[
 |\ensuremath{\theta}_n| \ensuremath{\leq} \underbrace{n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}_{E_{n,\ensuremath{\epsilon}}}.
 \]
+\textbf{SOLUTION}
+\[
+\ensuremath{\prod}_{k=1}^{n+1} (1+\ensuremath{\epsilon}_k) = \ensuremath{\prod}_{k=1}^n (1+\ensuremath{\epsilon}_k) (1+\ensuremath{\epsilon}_{n+1}) = (1+\ensuremath{\theta}_n)(1+\ensuremath{\epsilon}_{n+1}) = 1 + \underbrace{\ensuremath{\theta}_n + \ensuremath{\epsilon}_{n+1} + \ensuremath{\theta}_n\ensuremath{\epsilon}_{n+1}}_{\ensuremath{\theta}_{n+1}}
+\]
+where
+\begin{align*}
+|\ensuremath{\theta}_{n+1}| &\ensuremath{\leq} {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}(1+\ensuremath{\epsilon}) + \ensuremath{\epsilon} \\
+&={n \ensuremath{\epsilon} + n \ensuremath{\epsilon}^2 \over 1-(n+1)\ensuremath{\epsilon}} \underbrace{{1-(n+1)\ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}}_{\ensuremath{\leq} 1}  + {\ensuremath{\epsilon}-(n+1)\ensuremath{\epsilon}^2 \over 1-(n+1)\ensuremath{\epsilon}} \\
+&\ensuremath{\leq} {(n+1)  -  \ensuremath{\epsilon} \over 1-(n+1)\ensuremath{\epsilon}} \ensuremath{\epsilon} \ensuremath{\leq} {(n+1) \ensuremath{\epsilon} \over 1-(n+1)\ensuremath{\epsilon}} = E_{n+1,\ensuremath{\epsilon}}.
+\end{align*}
+\textbf{END}
+
 \textbf{Problem 8(b)} Show if $x_1,\ensuremath{\ldots},x_n \ensuremath{\in} F_{\ensuremath{\infty},S}$ then
 \[
 x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n = x_1 \ensuremath{\cdots} x_n (1 + \ensuremath{\theta}_{n-1})
 \]
 where $|\ensuremath{\theta}_n| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$, assuming $n \ensuremath{\epsilon}_{\rm m} < 2$.
 
+\textbf{SOLUTION}
+
+We can expand out:
+\[
+x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n = (\ensuremath{\cdots}((x_1 x_2)(1+\ensuremath{\delta}_1) x_3(1+\ensuremath{\delta}_2)\ensuremath{\cdots} x_n(1+\ensuremath{\delta}_{n-1})) = x_1 \ensuremath{\cdots} x_n (1+\ensuremath{\delta}_1) \ensuremath{\cdots} (1+\ensuremath{\delta}_{n-1})
+\]
+where $|\ensuremath{\delta}_k| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/2$. The result then follows from the previous result.
+
+\textbf{END}
+
 \textbf{Problem 8(c)} Show if $x_1,\ensuremath{\ldots},x_n \ensuremath{\in} F_{\ensuremath{\infty},S}$ then
 \[
 x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
 \]
 where, for $M = \ensuremath{\Sigma}_{k=1}^n |x_k|$, $|\ensuremath{\sigma}_n| \ensuremath{\leq} M E_{n-1,\ensuremath{\epsilon}_{\rm m}/2},$ assuming $n \ensuremath{\epsilon}_{\rm m} < 2$.
+
+\textbf{SOLUTION}
+
+Using Problem 8(a) we write:
+\meeq{
+(\ensuremath{\cdots}((x_1 + x_2)(1+\ensuremath{\delta}_1) + x_3)(1+\ensuremath{\delta}_2)\ensuremath{\cdots}+x_n)(1+\ensuremath{\delta}_{n-1})
+= x_1 \ensuremath{\prod}_{k=1}^{n-1} (1+\ensuremath{\delta}_k) +  \ensuremath{\sum}_{j=2}^n x_j \ensuremath{\prod}_{k=j-1}^{n-1} (1+\ensuremath{\delta}_j) \ccr
+= x_1(1+\ensuremath{\theta}_{n-1}) + \ensuremath{\sum}_{j=2}^n x_j (1 + \ensuremath{\theta}_{n-j+1})
+}
+where we have for $j = 2,\ensuremath{\ldots},n$
+\[
+|\ensuremath{\theta}_{n-j+1}| \ensuremath{\leq} E_{n-j+1,\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}.
+\]
+Thus we have 
+\[
+\ensuremath{\sum}_{j=1}^n x_j (1 + \ensuremath{\theta}_{n-j+1})= \ensuremath{\sum}_{j=1}^n x_j + \underbrace{\ensuremath{\sum}_{j=1}^n x_j \ensuremath{\theta}_{n-j+1}}_{\ensuremath{\sigma}_n}
+\]
+where
+\[
+|\ensuremath{\sigma}_n| \ensuremath{\leq}  \ensuremath{\sum}_{j=1}^n |x_j \ensuremath{\theta}_{n-j+1}| \ensuremath{\leq} \sup_j |\ensuremath{\theta}_{n-j+1}| \ensuremath{\sum}_{j=1}^n |x_j|  \ensuremath{\leq} \| \ensuremath{\bm{\x}}\|_1 E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}.
+\]
+\textbf{END}
 
 
 
