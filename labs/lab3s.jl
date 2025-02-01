@@ -99,14 +99,20 @@ UInt8(5) # creates an Int and converts it to an UInt8
 # **Problem 1(a)** Use binary format to create an `UInt32` corresponding to $(101101)_2$.
 
 ## TODO: Create an UInt32 representing (101101)_2
-
+## SOLUTION
+UInt32(0b101101) # without the UInt32 it will be a UInt8. Another solution would be 0b00000000000101101
+## END
 
 
 # **Problem 1(b)** What happens if you specify more than 64 bits using `0b⋅⋅…⋅⋅`?
 # What if you specify more than 128 bits?
 
 ## TODO: Experiment with 0b with different amounts of digits.
+## SOLUTION
+typeof(0b111111111111111111111111111111111111111111111111111111111111111111111111111111111111) # creates a UInt128
 
+typeof(0b111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111) # creates a BigInt
+## END
 
 # -----
 
@@ -205,7 +211,12 @@ reinterpret(Int8, 0b11111111) # Create an Int8 with the bits 11111111
 # bits and using `reinterpret`.
 
 ## TODO: Create an unsigned integer with 8 bits and reinterpret to get Int8(-63)
+## SOLUTION
+## -63 + 256 = 193 = 128 + 64 + 1 = 2^7 + 2^6 + 1 = (11000001)_2
 
+reinterpret(Int8,0b11000001)
+
+## END
 # -----
 
 # ### Strings and parsing
@@ -272,13 +283,24 @@ bitstring(11)
 #
 bitstring(-11)
 
-
+## SOLUTION
+bitstring(11) # "0000000000000000000000000000000000000000000000000000000000001011"
+bitstring(-11) # "1111111111111111111111111111111111111111111111111111111111110101"
+## this is because mod(-11, 2^64) == 2^64 - 12 == 0b10000…000 - 0b1100 == 0b111…11 - 0b1011 + 0b1
+## END
 
 # **Problem 3(b)** Combine `parse`, `reinterpret`, and `UInt8` to convert the
 # above string to a (negative) `Int8` with the specified bits.
 
 ## TODO: combine parse and reinterpret 
+## SOLUTION
 
+## The above code creates the bits "11110101". Instead, we first parse the bits:
+
+x = reinterpret(Int8, parse(UInt8, "10001011"; base=2)) # -117
+bitstring(x)
+
+## END
 
 # **Problem 3(c)** Complete the following function that sets the 10th bit of an `Int32` to `1`,
 # and returns an `Int32`, assuming that the input is a positive integer, using `bitstring`,
@@ -286,7 +308,10 @@ bitstring(-11)
 
 function tenthbitto1(x::Int32)
     ## TODO: change the 10th bit of x to 1
-    
+    ## SOLUTION
+    ret = bitstring(x)
+    parse(Int32, ret[1:9] * "1" * ret[11:end]; base=2)
+    ## END
 end
 
 @test tenthbitto1(Int32(100)) ≡ Int32(4194404)
@@ -413,7 +438,9 @@ binarystring(Float16(5.125))
 # `1 01010 1010101010`.
 
 ## TODO: Construct a Float16 with the bits 1 01010 1010101010
-
+## SOLUTION
+reinterpret(Float16, 0b1010101010101010)
+## END
 
 
 #
@@ -421,7 +448,14 @@ binarystring(Float16(5.125))
 # **Problem 4(b)** Use `printbits` to guess the binary representation of $1/5$.
 
 ## TODO: Use printbits and guess the binary expansion of 1/5.
+## SOLUTION
 
+printbits(1/5)
+## exponent is 0b01111111100 == 1020 so we have 2^(1020 - 1023) = 2^(-3)
+## significand is 1.1001100110011001100110011001100110011001100110011010
+## guess: 1/5 == 2^(-3) (1.10011001100…)_2 2^(-3) (∑_{k=0}^∞ (2^(-4k) + 2^(-4k-1)))
+
+## END
 
 # -----
 
@@ -466,7 +500,10 @@ printlnbits(-0.0) # -0 has sign bit 1 and all other bits zero
 # its bits.
 
 ## TODO: create the smallest positive Float16
-
+## SOLUTION
+## sign is + so sign bit is 0, exponent is 00000 and significand is all zeros apart from a 1:
+reinterpret(Float16, 0b0000000000000001) # == nextfloat(Float16(0))
+## END
 
 # -----
 
@@ -572,12 +609,21 @@ end
 function exp_t_3_down(x)
     T = typeof(x) # use this to set the rounding mode
     ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding down
-    
+    ## SOLUTION
+    setrounding(T, RoundDown) do
+        1 + x + x^2/2 + x^3/6
+    end
+    ## END
 end
 
 function exp_t_3_up(x)
     ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding up
-    
+    ## SOLUTION
+    T = typeof(x) # use this to set the rounding mode
+    setrounding(T, RoundUp) do
+        1 + x + x^2/2 + x^3/6
+    end
+    ## END
 end
 
 @test exp_t_3_down(Float32(1)) ≡ 2.6666665f0 # ≡ checks type and all bits are equal
@@ -632,5 +678,12 @@ end
 # and the inbuilt `exp` function.
 
 ## TODO: Use big and setprecision to compute the first thousand digits of ℯ.
+## SOLUTION
+x = setprecision(4_000) do
+    exp(big(1.0))
+end
 
+length(string(x)) == 1207 # we have 1205 digits
+
+## END
 

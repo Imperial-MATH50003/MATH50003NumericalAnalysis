@@ -212,9 +212,9 @@ $$
 
 **SOLUTION**
 
-Note that
+We can apply Taylor's theorem to $f'$ around $x = r$ to get
 $$
-f'(x_k) = f'(x) + f''(τ) ε_k = f''(τ) ε_k
+f'(x_k) = f'(r + ε_k) = f'(r) + f''(τ) ε_k = f''(τ) ε_k
 $$
 for some $τ$ between $x$ and $x_k$. 
 Thus we get

@@ -267,6 +267,21 @@ $$
 |θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}.
 $$
 
+**SOLUTION**
+
+$$
+∏_{k=1}^{n+1} (1+ϵ_k) = ∏_{k=1}^n (1+ϵ_k) (1+ϵ_{n+1}) = (1+θ_n)(1+ϵ_{n+1}) = 1 + \underbrace{θ_n + ϵ_{n+1} + θ_nϵ_{n+1}}_{θ_{n+1}}
+$$
+where
+$$
+\begin{align*}
+|θ_{n+1}| &≤ {n ϵ \over 1-nϵ}(1+ϵ) + ϵ \\
+&={n ϵ + n ϵ^2 \over 1-(n+1)ϵ} \underbrace{{1-(n+1)ϵ \over 1-nϵ}}_{≤ 1}  + {ϵ-(n+1)ϵ^2 \over 1-(n+1)ϵ} \\
+&≤ {(n+1)  -  ϵ \over 1-(n+1)ϵ} ϵ ≤ {(n+1) ϵ \over 1-(n+1)ϵ} = E_{n+1,ϵ}.
+\end{align*}
+$$
+
+**END**
 
 **Problem 8(b)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
 $$
@@ -274,9 +289,46 @@ x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
 $$
 where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
 
+**SOLUTION**
+
+We can expand out:
+$$
+x_1 ⊗ ⋯ ⊗ x_n = (⋯((x_1 x_2)(1+δ_1) x_3(1+δ_2)⋯ x_n(1+δ_{n-1})) = x_1 ⋯ x_n (1+δ_1) ⋯ (1+δ_{n-1})
+$$
+where $|δ_k| ≤ ϵ_{\rm m}/2$. The result then follows from the previous result.
+
+**END**
+
 
 **Problem 8(c)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
 $$
 x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
 $$
 where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
+
+
+**SOLUTION**
+
+Using Problem 8(a) we write:
+$$
+\meeq{
+(⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
+= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j) \ccr
+= x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
+}
+$$
+where we have for $j = 2,…,n$
+$$
+|θ_{n-j+1}| ≤ E_{n-j+1,ϵ_{\rm m}/2} ≤ E_{n-1,ϵ_{\rm m}/2}.
+$$
+Thus we have 
+$$
+∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
+$$
+where
+$$
+|σ_n| ≤  ∑_{j=1}^n |x_j θ_{n-j+1}| ≤ \sup_j |θ_{n-j+1}| ∑_{j=1}^n |x_j|  ≤ \| 𝐱\|_1 E_{n-1,ϵ_{\rm m}/2}.
+$$
+
+
+**END**
