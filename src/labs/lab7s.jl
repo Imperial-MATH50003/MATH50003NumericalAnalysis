@@ -1,5 +1,5 @@
 # # MATH50003 (2024–25)
-# # Lab 7: IV.2 Differential Equations and V.1 Fourier series
+# # Lab 7: IV.1 Differential Equations and V.1 Fourier series
 
 # We also explore the reduction of differential equations to
 # banded linear systems via divided differences. When we get lower bidiagonal systems these can be solved

@@ -1,0 +1,85 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 5**
+
+
+**Problem 1** By computing the Cholesky factorisation, determine
+which of the following matrices are symmetric positive definite:
+$$
+\begin{bmatrix} 1 & -1  \\
+-1 & 3
+\end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
+2 & 1 & 2\\
+2 & 2 & 1
+\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
+2 & 4 & 2\\
+1 & 2 & 5
+\end{bmatrix},
+\begin{bmatrix} 4 & 2 & 2 & 1  \\
+2 & 4 & 2 & 2\\
+2 & 2 & 4 & 2 \\
+1 & 2 & 2 & 4
+\end{bmatrix}
+$$
+
+
+
+**Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
+factorisation of the form
+$$
+A = U U^⊤
+$$
+where $U$ is upper triangular with positive entries on the diagonal.
+
+
+
+
+**Problem 3(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
+for any $n$:
+$$
+Δ_n := \begin{bmatrix}
+2 & -1 \\
+-1 & 2 & -1 \\
+& -1 & 2 & ⋱ \\
+&& ⋱ & ⋱ & -1 \\
+&&& -1 & 2
+\end{bmatrix}
+$$
+Hint: consider a matrix $K_n^{(α)}$ that equals $Δ_n$ apart from the top left entry which is $α > 1$ and use a proof by induction.
+
+
+
+
+**Problem 3(b)**
+Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
+$L_n$ is lower triangular.
+
+
+
+----
+
+
+**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
+
+
+
+**Problem 1(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
+on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
+$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
+
+
+
+**Problem 1(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
+Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
+Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
+$\det(AB) = \det A \det B$.
+
+
+
+**Problem 1(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
+
+
+
+**Problem 1(e)** 
+The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
+where $V ∈ U(n)$ and $Λ$ is diagonal.
+Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+

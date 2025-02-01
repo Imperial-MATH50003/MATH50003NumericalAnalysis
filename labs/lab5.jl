@@ -91,28 +91,7 @@ norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 # Hint: you can either allocate a vector of errors that is populated in a for-loop or write a simple comprehension.
 
 ## TODO: Do a log-log plot for A with its 1,1 entry set to different ε and guess the growth rate.
-## SOLUTION
 
-A = [1.0 1 1;
-     2   4 8;
-     1   4 9]
-
-b = [1,2,3]
-
-
-n = 15
-errs = zeros(n)
-for k = 1:n
-    A[1,1] = 10.0 ^ (1-k)
-    L,U = lu(A, NoPivot())
-    errs[k] = norm(A\b - U \ (L \ b))
-end
-
-nanabs(x) = x == 0 ? NaN : abs(x)
-scatter(0:n-1, nanabs.(errs); yscale=:log10, xticks = 0:15, yticks= 10.0 .^ (-16:0), legend=:bottomright)
-## The error grows exponentially, roughly like 10^k
-
-## END
 
 
 
@@ -175,19 +154,7 @@ x = U \ c # invert U with back substitution
 
 function badmatrix(n)
     ## TODO: make the "bad matrix" with `Int` entries defined above and return it
-    ## SOLUTION
-    A = zeros(Int, n, n)
-    for k = 1:n
-        A[k,n] = 1
-    end
-    for j = 1:n-1
-        A[j,j] = 1
-        for k = j+1:n
-            A[k,j] = -1
-        end
-    end
-    A
-    ## END
+    
 end
 
 @test badmatrix(3) isa Matrix{Int}
@@ -200,10 +167,7 @@ end
 ## TODO: Use `lu` on `badmatrix(n)` and a small perturbation to determine if it
 ## is using pivoting.
 
-## SOLUTION
-lu(badmatrix(5)).p # == 1:5, that is no pivoting has occurred
-lu(badmatrix(5) + eps()randn(5,5)).p # ≠ 1:5, we have pivoted
-## END
+
 
 
 # **Problem 2(c)** We can test the accuracy of a method for inverting a matrix
@@ -215,25 +179,7 @@ lu(badmatrix(5) + eps()randn(5,5)).p # ≠ 1:5, we have pivoted
 
 ## TODO: plot the error norm(A*(A\b) - b) for the perturbed and unperturbed badmatrix(n).
 ## What do you observe?
-## SOLUTION
-baderrs = zeros(4)
-perterrs = zeros(4)
 
-for k = 1:4
-    n = 25k
-    b = randn(n)
-    A = badmatrix(n)
-    Ã = A + 1E-15*randn(n,n)
-    baderrs[k] = norm(A * (A \ b) - b)
-    perterrs[k] = norm(Ã * (Ã \ b) - b)
-end
-
-plot(25:25:100, baderrs; label="bad", yscale=:log10)
-plot!(25:25:100, perterrs; label="perturbed")
-
-## The perturbation errors stay very small, whilst the unperturbed
-## errors blow up.
-## END
 
 
 # -----
@@ -314,12 +260,7 @@ L̃ = cholesky(A).L
 # $$
 
 ## TODO: Check if you got PS6 Q1 correct using a computer to do the Cholesky factorisation.
-## SOLUTION
-cholesky([1 -1; -1 3]) # succeeds so is SPD
-cholesky([1 2 2; 2 1 2; 2 2 1]) # throws an error so not SPD
-cholesky([3 2 1; 2 4 2; 1 2 5]) # succeeds so is SPD
-cholesky([4 2 2 1; 2 4 2 2; 2 2 4 2; 1 2 2 4]) # succeeds so is SPD
-## END
+
 
 
 # **Problem 4** Complete the following
@@ -338,13 +279,7 @@ function mycholesky(A::SymTridiagonal)
 
     ## TODO: populate the diagonal entries ld and the sub-diagonal entries ll
     ## of L so that L*L' ≈ A
-    ## SOLUTION
-    ld[1] = sqrt(d[1])
-    for k = 1:n-1
-        ll[k] = u[k]/ld[k]
-        ld[k+1] = sqrt(d[k+1]-ll[k]^2)
-    end
-    ## END
+    
 
     Bidiagonal(ld, ll, :L)
 end
@@ -443,17 +378,7 @@ size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
 function *(Q::Rotations, x::AbstractVector)
     ## TODO: Apply Q in O(n) operations. You may assume x has Float64 entries.
     ## Hint: you may wish to use copy(x) and only change the relevant entries. 
-    ## SOLUTION
-    y = copy(x) # copies x to a new Vector 
-    θ = Q.θ
-    ## Does Q1....Qn x
-    for k = length(θ):-1:1
-        #below has 4 ops to make the matrix and 12 to do the matrix-vector multiplication,
-        #total operations will be 48n = O(n)
-        c, s = cos(θ[k]), sin(θ[k])
-        y[k:(k+1)] = [c -s; s c] * y[k:(k+1)]
-    end
-    ## END
+    
 
     y
 end
@@ -461,17 +386,7 @@ end
 function getindex(Q::Rotations, k::Int, j::Int)
     ## TODO: Return Q[k,j] in O(n) operations using *.
 
-    ## SOLUTION
-    ## recall that A_kj = e_k'*A*e_j for any matrix A
-    ## so if we use * above, this will take O(n) operations
-    n = size(Q)[1]
-    ej = zeros(eltype(Q), n)
-    ej[j] = 1
-    ## note, must be careful to ensure that ej is a VECTOR
-    ## not a MATRIX, otherwise * above will not be used
-    Qj = Q * ej
-    Qj[k]
-    ## END
+    
 end
 
 θ = randn(5)
@@ -565,19 +480,11 @@ size(Q::Reflection) = (length(Q.v),length(Q.v))
 function getindex(Q::Reflection, k::Int, j::Int)
     ## TODO: implement Q[k,j] == (I - 2v*v')[k,j] but using O(1) operations.
     ## Hint: the function `conj` gives the complex-conjugate
-    ## SOLUTION
-    if k == j
-        1 - 2Q.v[k]*conj(Q.v[j])
-    else
-        - 2Q.v[k]*conj(Q.v[j])
-    end
-    ## END
+    
 end
 function *(Q::Reflection, x::AbstractVector)
     ## TODO: implement Q*x, equivalent to (I - 2v*v')*x but using only O(n) operations
-    ## SOLUTION
-    x - 2*Q.v * dot(Q.v,x) # (Q.v'*x) also works instead of dot
-    ## END
+    
 end
 
 ## If your code is correct, these "unit tests" will succeed
@@ -604,15 +511,7 @@ Q = Reflection(v)
 
 function householderreflection(s::Bool, x::AbstractVector)
     ## TODO: return a Reflection corresponding to a Householder reflection
-    ## SOLUTION
-    y = copy(x) # don't modify x
-    if s
-        y[1] -= norm(x)
-    else
-        y[1] += norm(x)
-    end
-    Reflection(y/norm(y))
-    ## END
+    
 end
 
 x = randn(5)
@@ -650,12 +549,7 @@ function *(Q::Reflections, x::AbstractVector)
     ## TODO: Apply Q in O(mn) operations by applying
     ## the reflection corresponding to each column of Q.V to x
     
-    ## SOLUTION
-    m,n = size(Q.V)
-    for j = n:-1:1
-        x = Reflection(Q.V[:, j]) * x
-    end
-    ## END
+    
 
     x
 end
@@ -677,21 +571,13 @@ end
 function getindex(Q::Reflections, k::Int, j::Int)
     ## TODO: Return Q[k,j] in O(mn) operations (hint: use *)
 
-    ## SOLUTION
-    T = eltype(Q.V)
-    m,n = size(Q)
-    eⱼ = zeros(T, m)
-    eⱼ[j] = one(T)
-    return (Q*eⱼ)[k]
-    ## END
+    
 end
 
 import LinearAlgebra: adjoint
 function adjoint(Q::Reflections) # called when calling Q'
     ## TODO: return the adjoint as a Reflections
-    ## SOLUTION
-    Reflections(Q.V[:,end:-1:1])
-    ## END
+    
 end
 
 Y = randn(5,3)
