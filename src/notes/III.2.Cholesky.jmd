@@ -1,9 +1,42 @@
 # LU and Cholesky factorisations
 
-In this section we consider the following factorisations for square invertible  matrices $A$:
-1. The _LU factorisation_: $A = LU$ where $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination without pivoting, so may not exist (e.g. if $a_{11} = 0$).
-1. The _PLU factorisation_: $A = P^⊤ LU$ where $P$ is a permutation matrix (a matrix when multiplying a vector is equivalent to permuting its rows), $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination with pivoting. It always exists but may be unstable in extremely rare cases. We won't discuss the details of computing the PLU factorisation but will explore practical usage in the lab.
-2. For a real square _symmetric positive definite_ ($A ∈ ℝ^{n × n}$ such that $A^⊤ = A$ and $𝐱^⊤ A 𝐱 > 0$ for all $𝐱 ∈ ℝ^n$, $𝐱 ≠ 0$)  matrix the LU decomposition has a special form called the _Cholesky factorisation_: $A = L L^⊤$. This provides an algorithmic way to _prove_ that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
+One of the most fundamental problems in linear algebra is solving linear systems, for a field $𝔽$ (for us either
+$ℝ$ or $ℂ$), invertible matrix $A∈ 𝔽^{n × n}$ and vector $𝐛 ∈ 𝔽^n$, find a $𝐱 ∈ 𝔽^n$ such that
+$$
+A 𝐱 = 𝐛.
+$$
+This can of course be done via Gaussian elimination, uing row swaps (or _pivotting_) if a zero is encountered
+on the diagonal, which can readily be implemented on a computer. However,
+a basic observation makes the practical implementation more straightforward and easier to apply to multiple
+right-hand sides. 
+
+In particular, Gaussian elimination is equivalent to an _LU factorisation_:
+$$
+A =L U
+$$
+where $L$ is lower triangular and $U$ is upper triangular. Thus if compute $L$ and $U$ we can deduce
+$$
+𝐱 = A^{-1} 𝐛= U^{-1} L^{-1} 𝐛
+$$
+where $L$ and $U$ are invertible via forward- and back-substitution.
+
+On the other hand, Gaussian elemination with pivotting (row-swapping) is equivalent to a _PLU factorisation_:
+$$
+A = P^⊤ LU
+$$
+where $P$ is a permutation matrix (see appendix). Thus if compute $P, L$ and $U$ we can deduce
+$$
+𝐱 = A^{-1} 𝐛= U^{-1} L^{-1} P 𝐛
+$$
+where multiplication by $P$ is a simple swap of entries of $𝐛$ and $L$ and $U$ are again invertible via forward- and back-substitution.
+
+Finally, in the special case where $A$ is  a real square _symmetric positive definite_ ($A ∈ ℝ^{n × n}$ such that $A^⊤ = A$ and $𝐱^⊤ A 𝐱 > 0$ for all $𝐱 ∈ ℝ^n$, $𝐱 ≠ 0$)
+matrix the LU factorisation has a special form called the _Cholesky factorisation_:
+$$
+A = L L^⊤,
+$$
+i.e., $U = L^⊤$.
+This provides an algorithmic way to _prove_ that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
 
 ## Outer products
 
@@ -194,7 +227,7 @@ $$
 
 First we establish some basic properties of positive definite matrices:
 
-**Proposition (conj. pos. def.)** If  $A ∈ ℝ^{n × n}$ is positive definite and
+**Proposition (conjugating positive definite)** If  $A ∈ ℝ^{n × n}$ is positive definite and
 $V ∈ ℝ^{n × n}$ is non-singular then
 $$
 V^⊤ A V
@@ -218,7 +251,7 @@ $$
 
 ∎
 
-**Lemma (subslice pos. def.)** If $A ∈ ℝ^{n × n}$ is positive definite
+**Lemma (subslice positive definite)** If $A ∈ ℝ^{n × n}$ is positive definite
 and $𝐤 = [k_1,…,k_m]^⊤ ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
  then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
 positive definite.

@@ -1,17 +1,37 @@
 
 \section{LU and Cholesky factorisations}
-In this section we consider the following factorisations for square invertible  matrices $A$:
+One of the most fundamental problems in linear algebra is solving linear systems, for a field $\ensuremath{\bbF}$ (for us either $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$), invertible matrix $A\ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ and vector $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbF}^n$, find a $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^n$ such that
+\[
+A \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}.
+\]
+This can of course be done via Gaussian elimination, uing row swaps (or \emph{pivotting}) if a zero is encountered on the diagonal, which can readily be implemented on a computer. However, a basic observation makes the practical implementation more straightforward and easier to apply to multiple right-hand sides. 
 
-\begin{itemize}
-\item[1. ] The \emph{LU factorisation}: $A = LU$ where $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination without pivoting, so may not exist (e.g. if $a_{11} = 0$).
+In particular, Gaussian elimination is equivalent to an \emph{LU factorisation}:
+\[
+A =L U
+\]
+where $L$ is lower triangular and $U$ is upper triangular. Thus if compute $L$ and $U$ we can deduce
+\[
+\ensuremath{\bm{\x}} = A^{-1} \ensuremath{\bm{\b}}= U^{-1} L^{-1} \ensuremath{\bm{\b}}
+\]
+where $L$ and $U$ are invertible via forward- and back-substitution.
 
+On the other hand, Gaussian elemination with pivotting (row-swapping) is equivalent to a \emph{PLU factorisation}:
+\[
+A = P^\ensuremath{\top} LU
+\]
+where $P$ is a permutation matrix (see appendix). Thus if compute $P, L$ and $U$ we can deduce
+\[
+\ensuremath{\bm{\x}} = A^{-1} \ensuremath{\bm{\b}}= U^{-1} L^{-1} P \ensuremath{\bm{\b}}
+\]
+where multiplication by $P$ is a simple swap of entries of $\ensuremath{\bm{\b}}$ and $L$ and $U$ are again invertible via forward- and back-substitution.
 
-\item[2. ] The \emph{PLU factorisation}: $A = P^\ensuremath{\top} LU$ where $P$ is a permutation matrix (a matrix when multiplying a vector is equivalent to permuting its rows), $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination with pivoting. It always exists but may be unstable in extremely rare cases. We won't discuss the details of computing the PLU factorisation but will explore practical usage in the lab.
+Finally, in the special case where $A$ is  a real square \emph{symmetric positive definite} ($A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$) matrix the LU factorisation has a special form called the \emph{Cholesky factorisation}:
+\[
+A = L L^\ensuremath{\top},
+\]
+i.e., $U = L^\ensuremath{\top}$. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
 
-
-\item[3. ] For a real square \emph{symmetric positive definite} ($A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$)  matrix the LU decomposition has a special form called the \emph{Cholesky factorisation}: $A = L L^\ensuremath{\top}$. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
-
-\end{itemize}
 \subsection{Outer products}
 In what follows we will use outer products extensively:
 
@@ -168,7 +188,7 @@ A \emph{Cholesky factorisation} is a form of Gaussian elimination (without pivot
 
 First we establish some basic properties of positive definite matrices:
 
-\begin{proposition}[conj. pos. def.] If  $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $V \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is non-singular then
+\begin{proposition}[conjugating positive definite] If  $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $V \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is non-singular then
 \[
 V^\ensuremath{\top} A V
 \]
@@ -188,7 +208,7 @@ a_{kk} = \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_k > 0.
 \]
 \ensuremath{\QED}
 
-\begin{lemma}[subslice pos. def.] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $\ensuremath{\bm{\k}} = [k_1,\ensuremath{\ldots},k_m]^\ensuremath{\top} \ensuremath{\in} \{1,\ensuremath{\ldots},n\}^m$ is a vector of $m$ integers where any integer appears only once,  then $A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} m}$ is also positive definite. \end{lemma}
+\begin{lemma}[subslice positive definite] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $\ensuremath{\bm{\k}} = [k_1,\ensuremath{\ldots},k_m]^\ensuremath{\top} \ensuremath{\in} \{1,\ensuremath{\ldots},n\}^m$ is a vector of $m$ integers where any integer appears only once,  then $A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} m}$ is also positive definite. \end{lemma}
 \textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^m, \ensuremath{\bm{\x}} \ensuremath{\neq} 0$, consider $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbR}^n$ such that $y_{k_j} = x_j$ and zero otherwise. Then we have
 \[
 \ensuremath{\bm{\x}}^\ensuremath{\top} A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\bm{\x}} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m x_\ensuremath{\ell} x_j a_{k_\ensuremath{\ell},k_j} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m y_{k_\ensuremath{\ell}} y_{k_j} a_{k_\ensuremath{\ell},k_j}  = \ensuremath{\sum}_{\ensuremath{\ell}=1}^n \ensuremath{\sum}_{j=1}^n y_\ensuremath{\ell} y_j a_{\ensuremath{\ell},j} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
