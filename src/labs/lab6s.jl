@@ -1,26 +1,25 @@
 # # MATH50003 (2024–25)
-# # Lab 6: III.4 QR Factorisation and IV.1 Polynomial Regression
+# # Lab 6: III.4 Orthogonal Matrices and III.5 QR Factorisation
 
+# This lab explores orthogonal matrices, including rotations and reflections.
+# We will construct special types to capture the structure of these orthogonal operations,
+# with the goal of implementing fast matrix*vector and matrix\vector operations.
 
 # We also compute the QR factorisation with Householder reflections, and use this
 # to solve least squares problems.
 
 
-# We also explore polynomial interpolation and regression, and see that when
-# interpolating at an evenly spaced grid one can encounter issues with convergence.
-# This is overcome via regression, but we are left with the question of how to
-# solve the underlying least squares problems. 
+
 
 
 # **Learning Outcomes**
 #
 # Mathematical knowledge:
 #
+# 1. Constructing rotation and reflection matrices.
 # 2. Computing the QR factorisation using reflections.
 # 3. Computing a tridiagonal QR factorisation using rotations.
 # 4. The relationship between QR and least squares.
-# 2. Vandermonde matrices and least squares.
-# 3. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
 
 #
 # Coding knowledge:
@@ -36,6 +35,349 @@ using LinearAlgebra, Test
 
 
 
+# ## III.5 Orthogonal and Unitary Matrices
+
+# Here we explore representing rotations and reflections, which are
+# special types of orthogonal/unitary matrices. 
+
+# ### III.5.1 Rotations
+
+# A (simple) rotation matrix is an element of the special orthogonal group $SO(2)$ and has a matrix representation
+# $$
+#  \begin{bmatrix} c & -s \\ s & c \end{bmatrix}
+# $$
+# such that $c^2 + s^2 = 1$. 
+# More generally, we can generalise simple rotations on higher dimensional vectors by acting on two indices at a time.
+# There are multiple ways of storing a rotation matrix, here we explore the most intuitive (but not the fastest!) way of storing just an angle $θ$
+# so that $c = \cos θ$ and $s = \sin θ$.
+
+# We will use a syntax in a struct that forces a field to be a special type. In what follows we define
+# the `getindex` by first implementing multiplication, a pattern that will be reused in the problems.
+
+
+
+struct Rotation <: AbstractMatrix{Float64}
+    θ::Float64 # The ::Float64 means θ can only be a Float64
+end
+
+import Base: *, size, getindex
+
+size(Q::Rotation) = (2, 2)
+
+function *(Q::Rotation, x::AbstractVector)
+    if length(x) ≠ 2
+        error("dimension mismatch")
+    end
+    θ = Q.θ
+    c,s = cos(θ), sin(θ)
+    a,b = x # special syntax so that a == x[1] and b == x[2]
+    [c*a - s*b, s*a + c*b]
+end
+
+function getindex(Q::Rotation, k::Int, j::Int)
+    ## We use the overloaded * above as we will follow this pattern later.
+    e_k = zeros(2)
+    e_j = zeros(2)
+    e_k[k] = 1  # will error if k ≠ 1 or 2
+    e_j[j] = 1  # will error if j ≠ 1 or 2
+    e_k'*(Q*e_j)
+end
+
+Q = Rotation(0.1)
+
+# We can test the ability to rotate a vector to the $x$-axis. Here we use the inbuilt `atan(y,x)` function
+# to compute the angle of a vector:
+
+
+x = [-1,-2]
+θ = atan(x[2], x[1]) # angle of the vector x
+Q = Rotation(-θ) # rotate back
+Q * x # first entry is norm(x), second entry is 0
+
+
+# -----
+
+# **Problem 5** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
+# of rotations of angle `θ[k]`, each acting on the entries `k:k+1`. That is, it returns $Q = Q_1⋯Q_k$ such that
+# $$
+# Q_k[k:k+1,k:k+1] = 
+# \begin{bmatrix}
+# \cos θ[k] & -\sin θ[k]\\
+# \sin θ[k] & \cos θ[k]
+# \end{bmatrix}
+# $$
+# with all other entries being equivalent to the identity.
+
+struct Rotations <: AbstractMatrix{Float64}
+    θ::Vector{Float64} # a vector of angles
+end
+
+
+
+## we use the number of rotations to deduce the dimensions of the matrix
+size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
+
+function *(Q::Rotations, x::AbstractVector)
+    ## TODO: Apply Q in O(n) operations. You may assume x has Float64 entries.
+    ## Hint: you may wish to use copy(x) and only change the relevant entries. 
+    ## SOLUTION
+    y = copy(x) # copies x to a new Vector 
+    θ = Q.θ
+    ## Does Q1....Qn x
+    for k = length(θ):-1:1
+        #below has 4 ops to make the matrix and 12 to do the matrix-vector multiplication,
+        #total operations will be 48n = O(n)
+        c, s = cos(θ[k]), sin(θ[k])
+        y[k:(k+1)] = [c -s; s c] * y[k:(k+1)]
+    end
+    ## END
+
+    y
+end
+
+function getindex(Q::Rotations, k::Int, j::Int)
+    ## TODO: Return Q[k,j] in O(n) operations using *.
+
+    ## SOLUTION
+    ## recall that A_kj = e_k'*A*e_j for any matrix A
+    ## so if we use * above, this will take O(n) operations
+    n = size(Q)[1]
+    ej = zeros(eltype(Q), n)
+    ej[j] = 1
+    ## note, must be careful to ensure that ej is a VECTOR
+    ## not a MATRIX, otherwise * above will not be used
+    Qj = Q * ej
+    Qj[k]
+    ## END
+end
+
+θ = randn(5)
+Q = Rotations(θ)
+@test Q'Q ≈ I
+@test Rotations([π/2, -π/2]) ≈ [0 0 -1; 1 0 0; 0 -1 0]
+
+
+# ------
+
+# ### III.5.2 Reflections
+
+
+# We can also construct reflections, defined by a normalised vector $𝐯$ as
+# $$
+# Q_{𝐯} := I - 2𝐯𝐯^⋆
+# $$
+# The obvious way is to create a dense vector, eg.
+
+x = randn(5) # vector we want to reflect
+v = x/norm(x) # normalise x
+Q = I - 2v*v' # a reflection matrix
+
+# Note `I` is a special convenience type that represents the identity matrix for any dimension.
+
+# A special type of reflection is a Householder reflection, which maps a vector to the $x$-axis.
+# Using dense matrices we can construct it as follows:
+
+
+function dense_householderreflection(x)
+    y = copy(x)
+    if x[1] == 0
+        y[1] += norm(x) 
+    else # note sign(z) = exp(im*angle(z)) where `angle` is the argument of a complex number
+        y[1] += sign(x[1])*norm(x) 
+    end
+    w = y/norm(y)
+    I - 2*w*w'
+end
+
+
+x = randn(3) + im*randn(3)
+Q = dense_householderreflection(x)
+Q * x # all the entries apart from the first are numerically zero
+
+# A matrix-vector product is $O(n^2)$ operations but we know we can reduce it to $O(n)$.
+# Thus we will create a special type to represent the reflection and obtain the better complexity
+# multiplication. Because we want the matrix to be real when the entries are real we will use
+# a special feature called "templating". Here by adding the `{T}` after the type we allow this to
+# be either a `Float64` or `ComplexF64` (or indeed a `BigFloat`). We also do some checking
+# to make sure that our defining vector is already normalised. 
+
+struct Reflection{T} <: AbstractMatrix{T}
+    v::Vector{T} # T can be either a Float64 or ComplexF64
+end
+
+function Reflection(v::Vector)
+    T = eltype(v) # find the type of the entries of v
+    if !(norm(v) ≈ 1)
+        error("input must be normalised")
+    end
+    Reflection{T}(v) # create an instance of Reflection, specifying the entry type
+end
+
+
+## Implementations of Reflection * AbstractMatrix
+## You may wish to use this below to solve Problem 3.
+function *(Q::Reflection, X::AbstractMatrix)
+    T = promote_type(eltype(Q), eltype(X))
+    m,n = size(X)
+    ret = zeros(T, m, n)
+    for j = 1:n
+        ret[:,j] = Q * X[:,j]
+    end
+    ret
+end
+
+
+# -----
+
+# **Problem 6(a)** Complete the implementation of a type representing an n × n
+# reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
+# The reflection may be complex (that is, $Q ∈ U(n)$ is unitary).
+
+## Represents I - 2v*v'
+
+
+size(Q::Reflection) = (length(Q.v),length(Q.v))
+
+## getindex(Q, k, j) is synonym for Q[k,j]
+function getindex(Q::Reflection, k::Int, j::Int)
+    ## TODO: implement Q[k,j] == (I - 2v*v')[k,j] but using O(1) operations.
+    ## Hint: the function `conj` gives the complex-conjugate
+    ## SOLUTION
+    if k == j
+        1 - 2Q.v[k]*conj(Q.v[j])
+    else
+        - 2Q.v[k]*conj(Q.v[j])
+    end
+    ## END
+end
+function *(Q::Reflection, x::AbstractVector)
+    ## TODO: implement Q*x, equivalent to (I - 2v*v')*x but using only O(n) operations
+    ## SOLUTION
+    x - 2*Q.v * dot(Q.v,x) # (Q.v'*x) also works instead of dot
+    ## END
+end
+
+## If your code is correct, these "unit tests" will succeed
+n = 10
+x = randn(n) + im*randn(n)
+v = x/norm(x)
+Q = Reflection(v)
+@test Q == I-2v*v'
+@test Q'Q ≈ I
+
+
+## We can scale to very large sizes. here we check the reflection property on an 100_000 matrix:
+n = 100_000
+x = randn(n) + im*randn(n)
+v = x/norm(x)
+Q = Reflection(v)
+@test Q*x ≈ -x
+
+
+# **Problem 6(b)** Complete the following implementation of a Housholder reflection  so that the
+# unit tests pass, using the `Reflection` type created above.
+# Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
+# You may assume `x` has real entries.
+
+function householderreflection(s::Bool, x::AbstractVector)
+    ## TODO: return a Reflection corresponding to a Householder reflection
+    ## SOLUTION
+    y = copy(x) # don't modify x
+    if s
+        y[1] -= norm(x)
+    else
+        y[1] += norm(x)
+    end
+    Reflection(y/norm(y))
+    ## END
+end
+
+x = randn(5)
+Q = householderreflection(true, x)
+@test Q isa Reflection
+@test Q*x ≈ [norm(x);zeros(eltype(x),length(x)-1)]
+
+Q = householderreflection(false, x)
+@test Q isa Reflection
+@test Q*x ≈ [-norm(x);zeros(eltype(x),length(x)-1)]
+
+
+
+# **Problem 6(c)**
+# Complete the definition of `Reflections` which supports a sequence of reflections,
+# that is,
+# $$
+# Q = Q_{𝐯_1} ⋯ Q_{𝐯_m}
+# $$
+# where the vectors are stored as a matrix $V ∈ ℂ^{n × m}$ whose $j$-th column is $𝐯_j∈ ℂ^n$, and
+# $$
+# Q_{𝐯_j} = I - 2 𝐯_j 𝐯_j^⋆
+# $$
+# is a reflection.
+
+
+struct Reflections{T} <: AbstractMatrix{T}
+    V::Matrix{T} # Columns of V are the householder vectors
+end
+
+size(Q::Reflections) = (size(Q.V,1), size(Q.V,1))
+
+
+function *(Q::Reflections, x::AbstractVector)
+    ## TODO: Apply Q in O(mn) operations by applying
+    ## the reflection corresponding to each column of Q.V to x
+    
+    ## SOLUTION
+    m,n = size(Q.V)
+    for j = n:-1:1
+        x = Reflection(Q.V[:, j]) * x
+    end
+    ## END
+
+    x
+end
+
+
+## Implementations of Reflections * AbstractMatrix
+## You may wish to use this below to solve Problem 3.
+function *(Q::Reflections, X::AbstractMatrix)
+    T = promote_type(eltype(Q), eltype(X))
+    m,n = size(X)
+    ret = zeros(T, m, n)
+    for j = 1:n
+        ret[:,j] = Q * X[:,j]
+    end
+    ret
+end
+
+
+function getindex(Q::Reflections, k::Int, j::Int)
+    ## TODO: Return Q[k,j] in O(mn) operations (hint: use *)
+
+    ## SOLUTION
+    T = eltype(Q.V)
+    m,n = size(Q)
+    eⱼ = zeros(T, m)
+    eⱼ[j] = one(T)
+    return (Q*eⱼ)[k]
+    ## END
+end
+
+import LinearAlgebra: adjoint
+function adjoint(Q::Reflections) # called when calling Q'
+    ## TODO: return the adjoint as a Reflections
+    ## SOLUTION
+    Reflections(Q.V[:,end:-1:1])
+    ## END
+end
+
+Y = randn(5,3)
+V = Y * Diagonal([1/norm(Y[:,j]) for j=1:3])
+Q = Reflections(V)
+@test Q ≈ (I - 2V[:,1]*V[:,1]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,3]*V[:,3]')
+@test Q' isa Reflections
+@test Q' ≈ (I - 2V[:,3]*V[:,3]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,1]*V[:,1]')
+@test Q'Q ≈ I
 
 
 # -----
@@ -286,203 +628,3 @@ end
 
 @test A\b ≈ leastsquares(A,b)
 
-
-# ## III.4 Polynomial Interpolation and Regression
-
-# We now explore the practical usage of polynomial interpolation and regression.
-# In particular we will see that polynomial interpolation may fail as the number
-# of points becomes large. 
-
-# ### III.4.1 Polynomial Interpolation
-
-# A quick-and-dirty way to to do interpolation is to invert the Vandermonde matrix.
-# That is, for
-# $$
-# p(x) = ∑_{k = 0}^{n-1} c_k x^k
-# $$
-# and $x_1, …, x_n ∈ ℝ$, we choose $c_k$ so that $p(x_j) = f(x_j)$ for
-# $j = 1, …, n$. We do so by creating the square Vandermonde matrix 
-# $$
-# V := \begin{bmatrix} 1 & x_1 & ⋯ & x_1^{n-1} \\
-#                     ⋮ & ⋮ & ⋱ & ⋮ \\
-#                     1 & x_n & ⋯ & x_n^{n-1}
-#                     \end{bmatrix}.
-# $$
-# If the function samples are
-# $$
-#  𝐟 = \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_n) \end{bmatrix}
-# $$
-# then the coefficients of the interpolatory polynomial
-# $$
-#       𝐜 = \begin{bmatrix}
-#           c_0 \\ ⋮ \\ c_{n-1} \end{bmatrix} 
-# $$
-# must satisfy $V 𝐜 = 𝐟$.  Thus inverting the Vandermonde matrix tells us the coefficients.
-
-# Here we see an example of this using `n` evenly spaced points:
-
-f = x -> cos(10x)
-n = 5
-𝐱 = range(0, 1; length=n) # evenly spaced points (BAD for interpolation)
-V =  [𝐱[j]^k for j = 1:n, k = 0:n-1] # Vandermonde matrix, also can be written as x .^ (0:n)'
-𝐟 = f.(𝐱) # evaluate f at x[k], equivalent to [f(x[k]) for k = 1:n]
-𝐜 = V \ 𝐟 # invert the Vandermonde matrix and determine the coefficients
-p = x -> dot(𝐜, x .^ (0:n-1)) # take a dot product with monomials x .^ 0:n-1 == [x^j for j=0:n-1]
-@test p.(𝐱) ≈ V * 𝐜 # evaluating the polynomial on x is the same as applying V
-
-
-𝐠 = range(0,1; length=1000) # plotting grid, sample a lot more than interpolation points
-
-## To evaluate a polynomial on the plotting grid its faster to create the rectangular Vandermonde matrix associated with that grid:
-V_g = [𝐠[j]^k for j = 1:length(𝐠), k = 0:n-1]
-
-plot(𝐠, f.(𝐠); label="function")
-plot!(𝐠, V_g*𝐜; label="interpolation")
-scatter!(𝐱, f.(𝐱); label="samples")
-
-
-# Whether an interpolation is actually close to a function is a subtle question,
-# involving properties of the function, distribution of the sample points $x_1,…,x_n$,
-# and round-off error.
-# A classic example is:
-# $$
-#   f_M(x) = {1 \over M x^2 + 1}
-# $$
-# where the choice of $M$ can dictate whether interpolation at evenly spaced points converges.
-
-# -------
-
-# **Problem 6(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
-# points, plotting the solution at a grid of $1000$ points. For $n = 50$ does your interpolation match
-# the true function?  Does increasing $n$ to 400 improve the accuracy? How about using `BigFloat`?
-# Hint: make sure to make your `range` be `BigFloat` valued, e.g., `range(big(-1), big(1); length=n)`.
-
-## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
-## the plotting grid with 1000 points, for $n = 50$ and $400$.
-
-## SOLUTION
-
-n = 50
-𝐱 = range(-1, 1; length=n)
-𝐠 = range(-1, 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## We see large errors near ±1 for both examples. 
-
-
-n = 400
-𝐱 = range(-1, 1; length=n)
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-##  M = 4 appears to converge whilst M = 25 breaks down.
-
-## Now do big float
-n = 400
-𝐱 = range(big(-1), 1; length=n)
-𝐠 = range(big(-1), 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## With M = 4 it looks like it now is converging. This suggests the issue before was numerical error.
-## For M = 25 the solution is even less accurate, which suggests the issue is a lack of mathematical
-## convergence.
-
-## END
-
-# ------
-
-# ### III.4.2 Polynomial regression
-
-# To overcome issues with interpolation we will instead use regression: use more points than
-# the degree of the polynomial. As an example, suppose we want to fit noisy data by a quadratic
-# $$
-# p(x) = c₀ + c₁ x + c₂ x^2
-# $$
-# That is, we want to choose $c₀,c₁,c₂$ at data samples $x_1, …, x_m$ so that the following is true:
-# $$
-# c₀ + c₁ x_j + c₂ x_j^2 ≈ f_j
-# $$
-# where $f_j$ are given by data. We can reinterpret this as a least squares problem: minimise the norm
-# $$
-# \left\| \begin{bmatrix} 1 & x_1 & x_1^2 \\ ⋮ & ⋮ & ⋮ \\ 1 & x_m & x_m^2 \end{bmatrix}
-# \begin{bmatrix} p₀ \\ p₁ \\ p₂ \end{bmatrix} - \begin{bmatrix} f_1 \\ ⋮ \\ f_m \end{bmatrix} \right \|
-# $$
-# When a matrix is rectangular `\` solves a least squares problem for us:
-
-m,n = 100,3
-
-𝐱 = range(0,1; length=m) # 100 points
-𝐟 = 2 .+ 𝐱 .+ 2𝐱.^2 .+ 0.1 .* randn.() # Noisy quadratic samples, built with broadcast notation.
-
-V = 𝐱 .^ (0:2)'  # 100 x 3 Vandermonde matrix, equivalent to [ones(m) x x.^2]
-
-𝐜 = V \ 𝐟 # coefficients are, very roughly, [2,1,2]
-
-# We can visualise the fit:
-
-𝐠 =range(0, 1; length=1000)
-
-p = x -> 𝐜[1] + 𝐜[2]x + 𝐜[3]x^2
-
-scatter(𝐱, 𝐟; label="samples", legend=:bottomright)
-plot!(𝐠, p.(𝐠); label="quadratic")
-
-# -----
-
-# **Problem 6(b)** Repeat the previous problem but now using _least squares_: instead of interpolating,
-# use least squares on a large grid: choose the coefficients of a degree $(n-1)$ polynomial so that
-# $$
-#     \left\| \begin{bmatrix} p(x_1) \\ ⋮ \\ p(x_m) \end{bmatrix} - \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_m) \end{bmatrix} \right \|.
-# $$
-# is minimised, where $n = 50$ and $m = 500$. 
-# Does this improve the accuracy near the endpoints? Do you think convergence for a least squares approximation
-# is dictated by the radius of convergence of the corresponding Taylor series?
-# Hint: use the rectangular Vandermonde matrix to setup the Least squares system.
-
-## TODO: approximate 1/(10x^2 + 1) and 1/(25x^2 + 1) using a least squares system where the 
-
-## SOLUTION
-n = 50 # use basis [1,x,…,x^(49)]
-𝐱 = range(-1, 1; length=500) # least squares grid
-𝐠 = range(-1, 1; length=2000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-
-## Yes, now both approximations appear to be converging.
-## This is despite the radius of convergence of both functions being
-## smaller than the interval of interpolation.
-
-## END

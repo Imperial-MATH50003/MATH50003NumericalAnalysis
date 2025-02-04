@@ -1,9 +1,24 @@
 # # MATH50003 (2024–25)
-# # Lab 7: IV.1 Differential Equations and V.1 Fourier series
+# # Lab 7: IV.1 Polynomial Regression and IV.2 Differential Equations
+
+# We also explore polynomial interpolation and regression, and see that when
+# interpolating at an evenly spaced grid one can encounter issues with convergence.
+# This is overcome via regression, but we are left with the question of how to
+# solve the underlying least squares problems. 
 
 # We also explore the reduction of differential equations to
 # banded linear systems via divided differences. When we get lower bidiagonal systems these can be solved
 # using forward substitution, whereas we will discuss the tridiagonal case later.
+
+# **Learning Outcomes**
+#
+# Mathematical knowledge:
+
+# 2. Vandermonde matrices and least squares.
+# 3. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
+
+# Coding knowledge:
+
 
 # We first load  packages we need including a couple new ones:
 
@@ -41,6 +56,207 @@ plot(u)
 #
 
 
+
+
+# ## III.4 Polynomial Interpolation and Regression
+
+# We now explore the practical usage of polynomial interpolation and regression.
+# In particular we will see that polynomial interpolation may fail as the number
+# of points becomes large. 
+
+# ### III.4.1 Polynomial Interpolation
+
+# A quick-and-dirty way to to do interpolation is to invert the Vandermonde matrix.
+# That is, for
+# $$
+# p(x) = ∑_{k = 0}^{n-1} c_k x^k
+# $$
+# and $x_1, …, x_n ∈ ℝ$, we choose $c_k$ so that $p(x_j) = f(x_j)$ for
+# $j = 1, …, n$. We do so by creating the square Vandermonde matrix 
+# $$
+# V := \begin{bmatrix} 1 & x_1 & ⋯ & x_1^{n-1} \\
+#                     ⋮ & ⋮ & ⋱ & ⋮ \\
+#                     1 & x_n & ⋯ & x_n^{n-1}
+#                     \end{bmatrix}.
+# $$
+# If the function samples are
+# $$
+#  𝐟 = \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_n) \end{bmatrix}
+# $$
+# then the coefficients of the interpolatory polynomial
+# $$
+#       𝐜 = \begin{bmatrix}
+#           c_0 \\ ⋮ \\ c_{n-1} \end{bmatrix} 
+# $$
+# must satisfy $V 𝐜 = 𝐟$.  Thus inverting the Vandermonde matrix tells us the coefficients.
+
+# Here we see an example of this using `n` evenly spaced points:
+
+f = x -> cos(10x)
+n = 5
+𝐱 = range(0, 1; length=n) # evenly spaced points (BAD for interpolation)
+V =  [𝐱[j]^k for j = 1:n, k = 0:n-1] # Vandermonde matrix, also can be written as x .^ (0:n)'
+𝐟 = f.(𝐱) # evaluate f at x[k], equivalent to [f(x[k]) for k = 1:n]
+𝐜 = V \ 𝐟 # invert the Vandermonde matrix and determine the coefficients
+p = x -> dot(𝐜, x .^ (0:n-1)) # take a dot product with monomials x .^ 0:n-1 == [x^j for j=0:n-1]
+@test p.(𝐱) ≈ V * 𝐜 # evaluating the polynomial on x is the same as applying V
+
+
+𝐠 = range(0,1; length=1000) # plotting grid, sample a lot more than interpolation points
+
+## To evaluate a polynomial on the plotting grid its faster to create the rectangular Vandermonde matrix associated with that grid:
+V_g = [𝐠[j]^k for j = 1:length(𝐠), k = 0:n-1]
+
+plot(𝐠, f.(𝐠); label="function")
+plot!(𝐠, V_g*𝐜; label="interpolation")
+scatter!(𝐱, f.(𝐱); label="samples")
+
+
+# Whether an interpolation is actually close to a function is a subtle question,
+# involving properties of the function, distribution of the sample points $x_1,…,x_n$,
+# and round-off error.
+# A classic example is:
+# $$
+#   f_M(x) = {1 \over M x^2 + 1}
+# $$
+# where the choice of $M$ can dictate whether interpolation at evenly spaced points converges.
+
+# -------
+
+# **Problem 6(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
+# points, plotting the solution at a grid of $1000$ points. For $n = 50$ does your interpolation match
+# the true function?  Does increasing $n$ to 400 improve the accuracy? How about using `BigFloat`?
+# Hint: make sure to make your `range` be `BigFloat` valued, e.g., `range(big(-1), big(1); length=n)`.
+
+## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
+## the plotting grid with 1000 points, for $n = 50$ and $400$.
+
+## SOLUTION
+
+n = 50
+𝐱 = range(-1, 1; length=n)
+𝐠 = range(-1, 1; length=1000) # plotting grid
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+## We see large errors near ±1 for both examples. 
+
+
+n = 400
+𝐱 = range(-1, 1; length=n)
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+##  M = 4 appears to converge whilst M = 25 breaks down.
+
+## Now do big float
+n = 400
+𝐱 = range(big(-1), 1; length=n)
+𝐠 = range(big(-1), 1; length=1000) # plotting grid
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+## With M = 4 it looks like it now is converging. This suggests the issue before was numerical error.
+## For M = 25 the solution is even less accurate, which suggests the issue is a lack of mathematical
+## convergence.
+
+## END
+
+# ------
+
+# ### III.4.2 Polynomial regression
+
+# To overcome issues with interpolation we will instead use regression: use more points than
+# the degree of the polynomial. As an example, suppose we want to fit noisy data by a quadratic
+# $$
+# p(x) = c₀ + c₁ x + c₂ x^2
+# $$
+# That is, we want to choose $c₀,c₁,c₂$ at data samples $x_1, …, x_m$ so that the following is true:
+# $$
+# c₀ + c₁ x_j + c₂ x_j^2 ≈ f_j
+# $$
+# where $f_j$ are given by data. We can reinterpret this as a least squares problem: minimise the norm
+# $$
+# \left\| \begin{bmatrix} 1 & x_1 & x_1^2 \\ ⋮ & ⋮ & ⋮ \\ 1 & x_m & x_m^2 \end{bmatrix}
+# \begin{bmatrix} p₀ \\ p₁ \\ p₂ \end{bmatrix} - \begin{bmatrix} f_1 \\ ⋮ \\ f_m \end{bmatrix} \right \|
+# $$
+# When a matrix is rectangular `\` solves a least squares problem for us:
+
+m,n = 100,3
+
+𝐱 = range(0,1; length=m) # 100 points
+𝐟 = 2 .+ 𝐱 .+ 2𝐱.^2 .+ 0.1 .* randn.() # Noisy quadratic samples, built with broadcast notation.
+
+V = 𝐱 .^ (0:2)'  # 100 x 3 Vandermonde matrix, equivalent to [ones(m) x x.^2]
+
+𝐜 = V \ 𝐟 # coefficients are, very roughly, [2,1,2]
+
+# We can visualise the fit:
+
+𝐠 =range(0, 1; length=1000)
+
+p = x -> 𝐜[1] + 𝐜[2]x + 𝐜[3]x^2
+
+scatter(𝐱, 𝐟; label="samples", legend=:bottomright)
+plot!(𝐠, p.(𝐠); label="quadratic")
+
+# -----
+
+# **Problem 6(b)** Repeat the previous problem but now using _least squares_: instead of interpolating,
+# use least squares on a large grid: choose the coefficients of a degree $(n-1)$ polynomial so that
+# $$
+#     \left\| \begin{bmatrix} p(x_1) \\ ⋮ \\ p(x_m) \end{bmatrix} - \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_m) \end{bmatrix} \right \|.
+# $$
+# is minimised, where $n = 50$ and $m = 500$. 
+# Does this improve the accuracy near the endpoints? Do you think convergence for a least squares approximation
+# is dictated by the radius of convergence of the corresponding Taylor series?
+# Hint: use the rectangular Vandermonde matrix to setup the Least squares system.
+
+## TODO: approximate 1/(10x^2 + 1) and 1/(25x^2 + 1) using a least squares system where the 
+
+## SOLUTION
+n = 50 # use basis [1,x,…,x^(49)]
+𝐱 = range(-1, 1; length=500) # least squares grid
+𝐠 = range(-1, 1; length=2000) # plotting grid
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+
+## Yes, now both approximations appear to be converging.
+## This is despite the radius of convergence of both functions being
+## smaller than the interval of interpolation.
+
+## END
 
 
 #-----

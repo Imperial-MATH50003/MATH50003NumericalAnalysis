@@ -157,78 +157,47 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 5}
+\textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 6}
 
-\textbf{Problem 1} Compute the LU decomposition of the following matrices:
-\[
-\begin{bmatrix}
-1 & 2 & 0 \\
-3 & 1 & 2 \\
-0 & 3 & 1
-\end{bmatrix}, \begin{bmatrix}
-1 & 2 & 0 & 0 \\
-3 & 1 & 2 & 0 \\
-0 &  3 & 1 & 2 \\
-0 & 0  & 3 & 1
-\end{bmatrix}
-\]
-\textbf{Problem 2} Compute the PLU decomposition for the following matrices:
-\[
-\begin{bmatrix}
-0 & 2 & 1 \\
-2 & 6 & 1 \\
-1 & 1 & 4
-\end{bmatrix},
-\begin{bmatrix}
-1 & 2 & -1 & 0 \\
-2 & 4 & -2 & 1 \\
--3 & -5 & 6 & 1 \\
--1 & 2 & 8 & -2
-\end{bmatrix}
-\]
-\textbf{Problem 3} Prove that every invertible matrix as a $UPL$ factorisation
-\[
-A = U P L
-\]
-where $P$ is a permutation matrix, $U$ is upper triangular, and $L$ is lower triangular.
+\textbf{Problem 1(a)} Show for a unitary matrix $Q \ensuremath{\in} U(n)$ and a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q \ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}}\|.$
+
+\textbf{Problem 1(b)} Show that the eigenvalues $\ensuremath{\lambda}$ of a unitary matrix $Q$ are on the unit circle: $|\ensuremath{\lambda}| = 1$. Hint: recall for any eigenvalue $\ensuremath{\lambda}$ that there exists a unit eigenvector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\| \ensuremath{\bm{\v}} \| = 1$). 
+
+\textbf{Problem 1(c)} Show for an orthogonal matrix $Q \ensuremath{\in} O(n)$ that $\det Q = \ensuremath{\pm}1$. Give an example of $Q \ensuremath{\in} U(n)$ such that $\det Q \ensuremath{\neq} \ensuremath{\pm}1$. Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^\ensuremath{\top}$ and $\det(AB) = \det A \det B$.
+
+\textbf{Problem 1(d)} A normal matrix commutes with its adjoint. Show that $Q \ensuremath{\in} U(n)$ is normal.
+
+\textbf{Problem 1(e)}  The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V \ensuremath{\Lambda} V^\ensuremath{\star}$ where $V \ensuremath{\in} U(n)$ and $\ensuremath{\Lambda}$ is diagonal. Use this to show that  $Q \ensuremath{\in} U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
 
 \rule{\textwidth}{1pt}
-\textbf{Problem 1} By computing the Cholesky factorisation, determine which of the following matrices are symmetric positive definite:
+\textbf{Problem 2} Consider the vectors
 \[
-\begin{bmatrix} 1 & -1  \\
--1 & 3
-\end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
-2 & 1 & 2\\
-2 & 2 & 1
-\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
-2 & 4 & 2\\
-1 & 2 & 5
-\end{bmatrix},
-\begin{bmatrix} 4 & 2 & 2 & 1  \\
-2 & 4 & 2 & 2\\
-2 & 2 & 4 & 2 \\
-1 & 2 & 2 & 4
-\end{bmatrix}
+\ensuremath{\bm{\a}} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  \ensuremath{\bm{\b}} = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
 \]
-\textbf{Problem 2} Show that a matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is symmetric positive definite if and only if it has a \emph{reverse} Cholesky factorisation of the form
+Use reflections to determine the entries of orthogonal/unitary matrices $Q_1, Q_2, Q_3$ such that
 \[
-A = U U^\ensuremath{\top}
+Q_1 \ensuremath{\bm{\a}} = \begin{bmatrix} 3 \\ 0 \\ 0 \end{bmatrix}, Q_2 \ensuremath{\bm{\a}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix},
+Q_3 \ensuremath{\bm{\b}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}
 \]
-where $U$ is upper triangular with positive entries on the diagonal.
+\textbf{Problem 3(a)} What simple rotation matrices $Q_1,Q_2 \ensuremath{\in} SO(2)$ have the property that:
+\[
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+\]
+\textbf{Problem 3(b)} Find an orthogonal matrix that is a product of two simple rotations but acting on two different subspaces:
+\[
+Q  = \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_2 & & -\sin \ensuremath{\theta}_2  \\ & 1 \\
+\sin \ensuremath{\theta}_2  & & \cos \ensuremath{\theta}_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_1 & -\sin \ensuremath{\theta}_1  \\ \sin \ensuremath{\theta}_1 & \cos \ensuremath{\theta}_1 \\ && 1 \end{bmatrix}}_{Q_1}
+\]
+so that, for $\ensuremath{\bm{\a}}$ defined above,
+\[
+Q \ensuremath{\bm{\a}}  = \begin{bmatrix} \|\ensuremath{\bm{\a}}\| \\ 0 \\ 0 \end{bmatrix}.
+\]
+Hint: you do not need to determine $\ensuremath{\theta}_1, \ensuremath{\theta}_2$, instead you can write the entries of  $Q_1, Q_2$  directly using just square-roots. 
 
-\textbf{Problem 3(a)} Use the Cholesky factorisation to prove that the following $n \ensuremath{\times} n$ matrix is symmetric positive definite for any $n$:
-\[
-\ensuremath{\Delta}_n := \begin{bmatrix}
-2 & -1 \\
--1 & 2 & -1 \\
-& -1 & 2 & \ensuremath{\ddots} \\
-&& \ensuremath{\ddots} & \ensuremath{\ddots} & -1 \\
-&&& -1 & 2
-\end{bmatrix}
-\]
-Hint: consider a matrix $K_n^{(\ensuremath{\alpha})}$ that equals $\ensuremath{\Delta}_n$ apart from the top left entry which is $\ensuremath{\alpha} > 1$ and use a proof by induction.
+\rule{\textwidth}{1pt}
+\textbf{Problem 4(a)} Show that every matrix $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative. Make sure to include the case of more columns than rows (i.e. $m < n$). 
 
-\textbf{Problem 3(b)} Deduce its Cholesky factorisations: $\ensuremath{\Delta}_n = L_n L_n^\ensuremath{\top}$ where $L_n$ is lower triangular.
+\textbf{Problem 4(b)} Show that the QR factorisation of a square invertible matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is unique, provided that the diagonal of $R$ is positive.
 
 
 

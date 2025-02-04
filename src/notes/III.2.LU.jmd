@@ -1,0 +1,221 @@
+# LU and PLU factorisation
+
+One of the most fundamental problems in linear algebra is solving linear systems. For a field $𝔽$ (for us either
+$ℝ$ or $ℂ$), given invertible matrix $A∈ 𝔽^{n × n}$ and vector $𝐛 ∈ 𝔽^n$, find $𝐱 ∈ 𝔽^n$ such that
+$$
+A 𝐱 = 𝐛.
+$$
+This can of course be done via Gaussian elimination, uing row swaps (or _pivoting_) if a zero is encountered
+on the diagonal, which can be viewed as an algorithm that can be implemented on a computer. However,
+a basic observation makes the practical implementation more straightforward and easier to apply to multiple
+right-hand sides, and connects with fundamental aspects in matrix analysis.
+
+In particular, Gaussian elimination is equivalent to an _LU factorisation_:
+$$
+A =L U
+$$
+where $L$ is lower triangular and $U$ is upper triangular. Thus if we compute $L$ and $U$ we can deduce
+$$
+𝐱 = A^{-1} 𝐛= U^{-1} L^{-1} 𝐛
+$$
+where  $𝐜 = L^{-1} 𝐛$ can be computed using forward-substitution and $U^{-1} 𝐜$ using back-substitution.
+
+On the other hand, Gaussian elemination with pivoting (row-swapping) is equivalent to a _PLU factorisation_:
+$$
+A = P^⊤ LU
+$$
+where $P$ is a permutation matrix (see appendix). Thus if compute $P, L$ and $U$ we can deduce
+$$
+𝐱 = A^{-1} 𝐛= U^{-1} L^{-1} P 𝐛
+$$
+where multiplication by $P$ is a simple swap of entries of $𝐛$ and $L$ and $U$ are again invertible via forward- and back-substitution.
+
+## Outer products
+
+In what follows we will use outer products extensively:
+
+**Definition (outer product)** Given $𝐱 ∈ 𝔽^m$ and $𝐲 ∈ 𝔽^n$ the _outer product_ is:
+$$
+𝐱 𝐲^⊤ := [𝐱 y_1 | ⋯ | 𝐱 y_n] = \begin{bmatrix} x_1 y_1 & ⋯ & x_1 y_n \\
+                        ⋮ & ⋱ & ⋮ \\
+                        x_m y_1 & ⋯ & x_m y_n \end{bmatrix} ∈ 𝔽^{m × n}.
+$$
+Note this is equivalent to matrix-matrix multiplication if we view $𝐱$ as a $m × 1$ matrix and $𝐲^⊤$ as a $1 × n$ matrix.
+∎
+
+**Proposition (rank-1)** A matrix $A ∈ 𝔽^{m×n}$ has rank 1 if and only if there exists $𝐱 ∈ 𝔽^m$ and $𝐲 ∈ 𝔽^n$ such that
+$$
+A = 𝐱 𝐲^⊤.
+$$
+**Proof**
+This follows immediately as if $A = 𝐱 𝐲^⊤$ then all columns are multiples of $𝐱$. On the other hand, if $A$ has rank-1 then its columns span
+a one-dimensional subspace: there exists $𝐱 ∈ 𝔽^m$
+$$
+{\rm span}(𝐚_1, …, 𝐚_n) = \{ c 𝐱 : c ∈ 𝔽 \}.
+$$
+Thus there exist $y_k ∈ ℝ$ such that $𝐚_k = y_k 𝐱$ and we have
+$$
+A = 𝐱 \underbrace{\begin{bmatrix} y_1 & ⋯ & y_n \end{bmatrix}}_{𝐲^⊤}.
+$$
+∎
+
+## LU factorisation
+
+Gaussian elimination  can be interpreted as an LU factorisation. Write a matrix
+$A ∈ 𝔽^{n × n}$ as follows:
+$$
+A =  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ 𝐯_1 & K_1 \end{bmatrix}
+$$
+where $α_1 = a_{11}$, $𝐯_1 = A[2:n, 1]$ and $𝐰_1 = A[1, 2:n]$ (that is, $𝐯_1 ∈ 𝔽^{n-1}$ is a vector whose entries are the 2nd through last row of the first column of $A$ whilst $𝐰_1 ∈ 𝔽^{n-1}$ is a vector containing the 2nd through last column of the first row of $A$). Gaussian elimination consists of taking the first row, dividing by
+$α_1$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
+$$
+\begin{bmatrix}
+1 \\
+-𝐯_1/α_1 & I \end{bmatrix} A = \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & K_1 -𝐯_1𝐰_1^⊤ /α_1 \end{bmatrix}
+$$
+where $A_2 := K_1 -𝐯_1𝐰_1^⊤ /α_1$  happens to be a rank-1 perturbation of $K_1$.
+We can write this another way:
+$$
+A = \underbrace{\begin{bmatrix}
+1 \\
+𝐯_1/α_1 & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & A_2 \end{bmatrix}
+$$
+Now assume we continue this process and manage to deduce an LU factorisation $A_2 = L̃ Ũ$.
+Then
+$$
+A = L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & L̃ Ũ \end{bmatrix}
+= \underbrace{L_1 \begin{bmatrix}
+1 \\
+ & L̃ \end{bmatrix}}_L  \underbrace{\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & Ũ \end{bmatrix}}_U
+$$
+Note we can multiply through to find
+$$
+L = \begin{bmatrix}
+1 \\
+𝐯_1/α_1 & L̃ \end{bmatrix}.
+$$
+Noting that if $A ∈ 𝔽^{1 × 1}$ then it has a trivial LU factorisation we can use the above construction to proceed recursively until we arrive at the trivial case. 
+That is, we write:
+$$
+\meeq{
+A = L_1\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & A_2 \end{bmatrix} =  L_1\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & L_2 \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ & A_3 \end{bmatrix} \end{bmatrix} \ccr
+=  L_1 \begin{bmatrix} 1 \\ & L_2 \end{bmatrix} \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  &  \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ &  L_3 \begin{bmatrix} α_3 & 𝐰_3^⊤ \\ & A_4 \end{bmatrix}  \end{bmatrix} \end{bmatrix} \ccr
+= \underbrace{\begin{bmatrix} 1 \\ 
+                𝐯_1/α_1 & \begin{bmatrix} 1 \\ 𝐯_2/α_2 & \begin{bmatrix} 1 \\ 𝐯_3/α_3 & ⋱ \end{bmatrix} \end{bmatrix} \end{bmatrix}}_L  \underbrace{\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  &  \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ &   \begin{bmatrix} α_3 & 𝐰_3^⊤ \\ & ⋱ \end{bmatrix} \end{bmatrix} \end{bmatrix}}_U.
+}
+$$
+We can see this procedure clearer in the following example.
+
+
+**Example (LU by-hand)**
+Consider the matrix
+$$
+A = \begin{bmatrix} 1 & 1 & 1 \\
+                    2 & 4 & 8 \\
+                    1 & 4 & 9
+                    \end{bmatrix} = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 &  & 1
+                    \end{bmatrix}}_{L_1} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 3 & 8
+                    \end{bmatrix}
+$$
+In more detail, for $α_1 := a_{11} = 1$, $𝐯_1 := A[2:3,1] = \vectt[2,1]$, $𝐰_1 = A[1,2:3] = \vectt[1,1]$ and
+$$
+K_1 := A[2:3,2:3] = \begin{bmatrix} 4 & 8 \\ 4 & 9 \end{bmatrix}
+$$
+we have
+$$
+A_2 := K_1 -𝐯_1𝐰_1^⊤ /α_1 = \begin{bmatrix} 4 & 8 \\ 4 & 9 \end{bmatrix} - \begin{bmatrix} 2 & 2 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 6 \\ 3 & 8 \end{bmatrix}.
+$$
+We then repeat the process and determine (with $α_2 := A_2[1,1] = 2$, $𝐯_2 := A_2[2:2,1] = [3]$, $𝐰_2 := A_2[1,2:2] = [6]$ and $K_2 := A_2[2:2,2:2] = [8]$):
+$$
+A_2 =  \begin{bmatrix}2 & 6 \\ 3 & 8 \end{bmatrix} =
+\underbrace{\begin{bmatrix}
+1 \\
+3/2 & 1
+\end{bmatrix}}_{L_2} \begin{bmatrix} 2 & 6 \\
+            & -1 \end{bmatrix}
+$$
+The last “matrix" is 1 x 1 so we get the trivial decomposition:
+$$
+A_3 := K_2 - 𝐯_2 𝐰_2^⊤ /α_2 =  [-1] = \underbrace{[1]}_{L_3} [-1]
+$$
+Putting everything together and placing the $j$-th column of $L_j$ inside the $j$-th column of $L$ we have
+$$
+A = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 & 3/2 & 1
+                    \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 1 & 1 & 1 \\
+                     & 2 & 6 \\
+                     &  & -1
+                    \end{bmatrix}}_U
+$$
+∎
+
+
+
+## PLU factorisation
+
+We learned in first year linear algebra that if a diagonal entry is zero
+when doing Gaussian elimination one has to _row pivot_. For stability,
+in implementation one may wish to pivot even if the diagonal entry is nonzero: swap the largest in magnitude entry for the entry on the diagonal turns out to be significantly more stable than standard LU.
+
+This is equivalent to a PLU decomposition. Here we use a _permutation matrix_, whose action on a vector permutes its entries, as discussed in the appendix. That is, consider a
+permutation which we identify with a vector ${\mathbf σ} = [σ_1,…,σ_n]$ containing the integers $1,…,n$ exactly once. The permutation operator represents the action of permuting the entries in a vector:
+$$
+P_σ(𝐯) := 𝐯[{\mathbf σ}] = \Vectt[v_{σ_1},⋮,v_{σ_n}]
+$$
+This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$ (more precisely the entries  of $P_σ$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogonal, that is, $P_σ^{-1} = P_σ^\top$.
+
+
+**Theorem (PLU)** A matrix $A ∈ ℂ^{n × n}$ is invertible if and only if it has a PLU decomposition:
+$$
+A = P^⊤ L U
+$$
+where the diagonal of $L$ are all equal to 1 and the diagonal of $U$ are all non-zero, and $P$ is a permutation matrix.
+
+**Proof**
+
+If we have a PLU decomposition of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. Hence we consider the orther direction.
+
+
+If $A ∈ ℂ^{1 × 1}$ we trivially have an LU decomposition $A = [1] * [a_{11}]$ as all $1 × 1$ matrices are triangular.
+We now proceed by induction: assume all invertible matrices of lower dimension have a PLU factorisation.
+As $A$ is invertible not all entries in the first column are zero. Therefore there exists a permutation
+$P_1$ so that $α := (P_1 A)[1,1] ≠ 0$. Hence we write
+$$
+P_1 A = \begin{bmatrix} α & 𝐰^⊤ \\
+                        𝐯 & K
+                        \end{bmatrix} = \underbrace{\begin{bmatrix}
+1 \\
+𝐯/α & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α & 𝐰^⊤ \\  & K - 𝐯 𝐰^⊤/α \end{bmatrix}
+$$
+We deduce that $A_2 := K - 𝐯 𝐰^⊤/α$ is invertible because $A$ and $L_1$ are invertible
+(Exercise).
+
+By assumption we can write $A_2 = P̃^⊤ L̃ Ũ$. Thus we have:
+$$
+\begin{align*}
+\underbrace{\begin{bmatrix} 1 \\
+            & P̃ \end{bmatrix} P_1}_P A &= \begin{bmatrix} 1 \\
+            & P̃ \end{bmatrix} L_1 \begin{bmatrix} α & 𝐰^⊤ \\
+                         & A_2
+                        \end{bmatrix}  =
+            \begin{bmatrix} 1 \\ & P̃ \end{bmatrix} L_1  \begin{bmatrix} α & 𝐰^⊤ \\  & P̃^⊤ L̃  Ũ \end{bmatrix} \\
+            &= \begin{bmatrix}
+1 \\
+P̃ 𝐯/α & P̃ \end{bmatrix} \begin{bmatrix} 1 &  \\  &  P̃^⊤ L̃  \end{bmatrix}  \begin{bmatrix} α & 𝐰^⊤ \\  &  Ũ \end{bmatrix} \\
+&= \underbrace{\begin{bmatrix}
+1 \\
+P̃ 𝐯/α & L̃  \end{bmatrix}}_L \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\  &  Ũ \end{bmatrix}}_U. \\
+\end{align*}
+$$
+
+∎
+
+We don't discuss the practical implementation of this factorisation
+(though an algorithm is hidden in the above proof). We also note that
+for stability one uses the permutation that always puts the largest in
+magnitude entry in the top row. In the lab we explore the practical usage of this factorisation.

@@ -32,6 +32,9 @@ function fixunderbars(path)
     write(path, replace(read(path, String), "f\\ensuremath{\\underbar}" => "\\underline{f}"))
     write(path, replace(read(path, String), "g\\ensuremath{\\underbar}" => "\\underline{g}"))
     write(path, replace(read(path, String), "M\\ensuremath{\\tilde}" => "\\tilde{M}"))
+    write(path, replace(read(path, String), "L\\ensuremath{\\tilde}" => "\\tilde{L}"))
+    write(path, replace(read(path, String), "U\\ensuremath{\\tilde}" => "\\tilde{U}"))
+    write(path, replace(read(path, String), "P\\ensuremath{\\tilde}" => "\\tilde{P}"))
 end
 
 function compilenotes(filename) 
