@@ -1,0 +1,292 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 4}
+
+\textbf{Problem 1} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+\meeq{
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
+}
+Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and to where there are no restrictions on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
+
+\textbf{SOLUTION}
+
+For $X/n$: if $x \ensuremath{\in} X$ then $a/n \ensuremath{\leq} x/n \ensuremath{\leq} b/n$ means $x/n \ensuremath{\in} [a/n,b/n]$. Similarly, if $z \ensuremath{\in} [a/n,b/n]$ then $a \ensuremath{\leq} nz \ensuremath{\leq} b$ hence $nz \ensuremath{\in} X$ and therefore $z \ensuremath{\in} X/n$.
+
+For $XY$: if $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ then $ac \ensuremath{\leq} xy \ensuremath{\leq} bd$ means $xy \ensuremath{\in} [ac,bd]$. Note $ac,bd \ensuremath{\in} XY$. To employ convexity we take logarithms. In particular if $z \ensuremath{\in} [ac,bd]$ then $\log a + \log c \ensuremath{\leq} \log z \ensuremath{\leq} \log b + \log d$. Hence write
+\[
+\log z = (1-t) (\log a + \log c) + t (\log b + \log d) =
+        \underbrace{(1-t)\log a + t \log b}_{\log x} + \underbrace{(1-t)\log c + t \log d}_{\log y}
+\]
+i.e. we have $z = xy$ where
+\meeq{
+x = \exp((1-t)\log a + t \log b) = a^{1-t} b^t \ensuremath{\in} X \ccr
+y = \exp((1-t)\log c + t \log d) = c^{1-t} d^t \ensuremath{\in} Y.
+}
+The generalisation to negative cases proceeds by being a bit careful with the signs. Eg if $n < 0$ we need to swap the order hence we get:
+\[
+A/n =  \begin{cases}
+[a/n,b/n] & n > 0  \\
+[b/n,a/n] & n < 0
+\end{cases}
+\]
+For multiplication we just use $\min$ and $\max$ in a naive fashion:
+\[
+AB = [\min(ac,ad,bc,bd), \max(ac,ad,bc,bd)].
+\]
+\textbf{END}
+
+\textbf{Problem 2(a)} Compute the following floating point interval arithmetic expression assuming half-precision $F_{16}$ arithmetic:
+\[
+[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6)
+\]
+Hint: it might help to write $1 = (0.1111\ensuremath{\ldots})_2$ when doing subtraction.
+
+\textbf{SOLUTION} Note that
+\[
+{1 \over 6} = {1 \over 2} {1\over 3} = 2^{-3} (1.010101\ensuremath{\ldots})_2
+\]
+Thus
+\[
+[1,1] \ensuremath{\oslash} 6 = 2^{-3} [(1.0101010101)_2, (1.0101010110)_2]
+\]
+And hence
+\meeq{
+[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6) = [1,1] \ensuremath{\ominus} [(0.0010101010101)_2, (0.0010101010110)_2] \ccr
+= [{\rm fl}^{\rm down}(0.11010101010\magenta{10111111\ensuremath{\ldots}})_2, {\rm fl}^{\rm up}(0.11010101010\magenta{011111\ensuremath{\ldots}})_2] \ccr
+= 2^{-1}[(1.1010101010)_2, (1.1010101011)_2] = [0.8330078125,0.83349609375]
+}
+\textbf{END}
+
+\textbf{Problem 2(b)} Writing
+\[
+\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \ensuremath{\delta}_{x,2n+1}
+\]
+Prove the bound $|\ensuremath{\delta}_{x,2n+1}| \ensuremath{\leq} 1/(2n+3)!$, assuming $x \ensuremath{\in} [0,1]$.
+
+\textbf{SOLUTION}
+
+We have from Taylor's theorem up to order $x^{2n+2}$:
+\[
+\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \underbrace{{\sin^{2n+3}(t) x^{2n+3} \over (2n+3)!}}_{\ensuremath{\delta}_{x,2n+1}}.
+\]
+The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| \ensuremath{\leq} 1$.
+
+\textbf{END}
+
+\textbf{Problem 2(c)} Combine the previous parts to prove that:
+\[
+\sin 1 \ensuremath{\in} [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+\]
+You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$.
+
+\textbf{SOLUTION} Using $n = 1$ we have
+\[
+\ensuremath{\sum}_{k=0}^1 {(-1)^k x^{2k+1} \over (2k+1)!} = x - {x^2 \over 3!} \ensuremath{\in} x \ensuremath{\ominus} ((x \ensuremath{\otimes} x) \ensuremath{\oslash} 6).
+\]
+Noting that in floating point $1 \ensuremath{\otimes} 1 = 1$ (ie it is exact) we compute
+\begin{align*}
+\sin 1 &\ensuremath{\in} [1,1] \ensuremath{\ominus} [1,1] \ensuremath{\oslash} 6 \ensuremath{\oplus} [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr
+ = [(0.11010101010)_2, (0.11010101011)_2] \ensuremath{\oplus} [-(0.0000001000100010)_2, (0.00000010001000101)_2] \ccr
+  =
+[{\rm fl}^{\rm down}(0.11010011000\magenta{11101111\ensuremath{\ldots}})_2,
+ {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr
+ = [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+\end{align*}
+\textbf{END}
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 3} For $A \ensuremath{\in} F_{\ensuremath{\infty},S}^{n \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$ consider the error in approximating matrix multiplication with idealised floating point: for
+\[
+A \ensuremath{\bm{\x}} =  \begin{pmatrix}
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j\\
+\ensuremath{\vdots} \\
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j
+\end{pmatrix} + \ensuremath{\delta}
+\]
+use Problem 8 on PS3 to show that
+\[
+\| \ensuremath{\delta} \|_\ensuremath{\infty} \ensuremath{\leq} 2 \|A\|_\ensuremath{\infty} \| \ensuremath{\bm{\x}} \|_\ensuremath{\infty} E_{n,\ensuremath{\epsilon}_{\rm m}/2}
+\]
+for $E_{n,\ensuremath{\epsilon}} := {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}$, where  $n \ensuremath{\epsilon}_{\rm m} < 2$ and the matrix norm is $\|A \|_\ensuremath{\infty} := \max_k \ensuremath{\sum}_{j=1}^n |a_{kj}|$.
+
+\textbf{SOLUTION} We have for the $k$=th row
+\[
+\ensuremath{\bigoplus}_{j=1}^n A_{k,j} \ensuremath{\otimes} x_j =  \ensuremath{\bigoplus}_{j=1}^n A_{k,j} x_j (1+\ensuremath{\delta}_j) = 
+\ensuremath{\sum}_{j=1}^n A_{k,j} x_j (1+\ensuremath{\delta}_j) + \ensuremath{\sigma}_{k,n}
+\]
+where we know $|\ensuremath{\sigma}_n| \ensuremath{\leq} M_k E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$, where from 1(b) we have
+\[
+M_k = \ensuremath{\Sigma}_{j=1}^n |A_{k,j}x_j (1+\ensuremath{\delta}_j)| = \ensuremath{\Sigma}_{j=1}^n |A_{k,j}| |x_j| (1+|\ensuremath{\delta}_j|)  \ensuremath{\leq} 2 \max |x_j| \ensuremath{\Sigma}_{j=1}^n |A_{k,j}|
+\ensuremath{\leq} 2 \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty}
+\]
+Similarly, we also have 
+\[
+|\ensuremath{\sum}_{j=1}^n A_{k,j} x_j \ensuremath{\delta}_j| \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty} \ensuremath{\epsilon}_{\rm m}/2
+\]
+and so the result follows from
+\[
+\ensuremath{\epsilon}_{\rm m}/2 + 2E_{n-1,\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m}/2 + \ensuremath{\epsilon}_{\rm m} (n-1) \over 1-(n-1)\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m} n \over 1-n\ensuremath{\epsilon}_{\rm m}/2} = 2E_{n,\ensuremath{\epsilon}_{\rm m}/2}.
+\]
+\textbf{END}
+
+
+
+\end{document}
