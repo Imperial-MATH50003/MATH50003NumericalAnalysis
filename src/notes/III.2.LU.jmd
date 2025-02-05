@@ -1,4 +1,4 @@
-# LU and PLU factorisation
+# LU and PLU factorisations
 
 One of the most fundamental problems in linear algebra is solving linear systems. For a field $𝔽$ (for us either
 $ℝ$ or $ℂ$), given invertible matrix $A∈ 𝔽^{n × n}$ and vector $𝐛 ∈ 𝔽^n$, find $𝐱 ∈ 𝔽^n$ such that
@@ -10,7 +10,7 @@ on the diagonal, which can be viewed as an algorithm that can be implemented on 
 a basic observation makes the practical implementation more straightforward and easier to apply to multiple
 right-hand sides, and connects with fundamental aspects in matrix analysis.
 
-In particular, Gaussian elimination is equivalent to an _LU factorisation_:
+In particular, Gaussian elimination is equivalent to computing an _LU factorisation_:
 $$
 A =L U
 $$
@@ -24,7 +24,7 @@ On the other hand, Gaussian elemination with pivoting (row-swapping) is equivale
 $$
 A = P^⊤ LU
 $$
-where $P$ is a permutation matrix (see appendix). Thus if compute $P, L$ and $U$ we can deduce
+where $P$ is a permutation matrix (see appendix). Thus if we can compute $P, L$ and $U$ we can deduce
 $$
 𝐱 = A^{-1} 𝐛= U^{-1} L^{-1} P 𝐛
 $$
@@ -48,12 +48,13 @@ $$
 A = 𝐱 𝐲^⊤.
 $$
 **Proof**
-This follows immediately as if $A = 𝐱 𝐲^⊤$ then all columns are multiples of $𝐱$. On the other hand, if $A$ has rank-1 then its columns span
+If $A = 𝐱 𝐲^⊤$ then all columns are multiples of $𝐱$, that is the column span has dimension 1. 
+On the other hand, if $A$ has rank-1 then its columns span
 a one-dimensional subspace: there exists $𝐱 ∈ 𝔽^m$
 $$
 {\rm span}(𝐚_1, …, 𝐚_n) = \{ c 𝐱 : c ∈ 𝔽 \}.
 $$
-Thus there exist $y_k ∈ ℝ$ such that $𝐚_k = y_k 𝐱$ and we have
+Thus there exist $y_k ∈ 𝔽$ such that $𝐚_k = y_k 𝐱$ and we have
 $$
 A = 𝐱 \underbrace{\begin{bmatrix} y_1 & ⋯ & y_n \end{bmatrix}}_{𝐲^⊤}.
 $$
@@ -66,36 +67,38 @@ $A ∈ 𝔽^{n × n}$ as follows:
 $$
 A =  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ 𝐯_1 & K_1 \end{bmatrix}
 $$
-where $α_1 = a_{11}$, $𝐯_1 = A[2:n, 1]$ and $𝐰_1 = A[1, 2:n]$ (that is, $𝐯_1 ∈ 𝔽^{n-1}$ is a vector whose entries are the 2nd through last row of the first column of $A$ whilst $𝐰_1 ∈ 𝔽^{n-1}$ is a vector containing the 2nd through last column of the first row of $A$). Gaussian elimination consists of taking the first row, dividing by
+where $α = a_{11}$, $𝐯 = A[2:n, 1]$ and $𝐰 = A[1, 2:n]$ (that is, $𝐯 ∈ 𝔽^{n-1}$ is a vector whose entries are the 2nd through last row of the first column of $A$ whilst $𝐰 ∈ 𝔽^{n-1}$ is a vector containing the 2nd through last column of the first row of $A$). Gaussian elimination consists of taking the first row, dividing by
 $α_1$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
 $$
-\begin{bmatrix}
+\underbrace{\begin{bmatrix}
 1 \\
--𝐯_1/α_1 & I \end{bmatrix} A = \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & K_1 -𝐯_1𝐰_1^⊤ /α_1 \end{bmatrix}
+-𝐯/α & I \end{bmatrix}}_{L_1^{-1}} A = \begin{bmatrix} α & 𝐰^⊤ \\  & K -𝐯𝐰^⊤ /α \end{bmatrix}
 $$
-where $A_2 := K_1 -𝐯_1𝐰_1^⊤ /α_1$  happens to be a rank-1 perturbation of $K_1$.
+where $A_2 := K -𝐯𝐰^⊤ /α$  happens to be a rank-1 perturbation of $K$.
 We can write this another way:
 $$
 A = \underbrace{\begin{bmatrix}
 1 \\
-𝐯_1/α_1 & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & A_2 \end{bmatrix}
+𝐯/α & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α & 𝐰^⊤ \\  & A_2 \end{bmatrix}
 $$
 Now assume we continue this process and manage to deduce an LU factorisation $A_2 = L̃ Ũ$.
 Then
 $$
-A = L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & L̃ Ũ \end{bmatrix}
+A = L_1 \begin{bmatrix} α & 𝐰^⊤ \\  & L̃ Ũ \end{bmatrix}
 = \underbrace{L_1 \begin{bmatrix}
 1 \\
- & L̃ \end{bmatrix}}_L  \underbrace{\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & Ũ \end{bmatrix}}_U
+ & L̃ \end{bmatrix}}_L  \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\  & Ũ \end{bmatrix}}_U
 $$
 Note we can multiply through to find
 $$
 L = \begin{bmatrix}
 1 \\
-𝐯_1/α_1 & L̃ \end{bmatrix}.
+𝐯/α & L̃ \end{bmatrix}.
 $$
 Noting that if $A ∈ 𝔽^{1 × 1}$ then it has a trivial LU factorisation we can use the above construction to proceed recursively until we arrive at the trivial case. 
-That is, we write:
+
+
+Rather than a recursive definition, we can view the above as an inductive procedure:
 $$
 \meeq{
 A = L_1\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & A_2 \end{bmatrix} =  L_1\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & L_2 \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ & A_3 \end{bmatrix} \end{bmatrix} \ccr
@@ -215,7 +218,94 @@ $$
 
 ∎
 
-We don't discuss the practical implementation of this factorisation
-(though an algorithm is hidden in the above proof). We also note that
-for stability one uses the permutation that always puts the largest in
-magnitude entry in the top row. In the lab we explore the practical usage of this factorisation.
+
+For stability one uses the permutation that always puts the largest in
+magnitude entry in the top row, eg., by a simple swap with the row corresponding to the diagonal. 
+One could try to justify this by considering floating point rounding,
+but actually there is no guaranteed this will produce accurate results and indeed in the lab we given an example of
+a ‘bad matrix’ where large errors are still produced. However, it is observed in practice that the probability of encountering
+a ‘bad matrix’ is extremely small. The biggest open problem in numerical linear algebra is proving this observation rigorously.
+
+Again, the above recursive proof encodes an inductive procedure, which we see in the following example.
+
+
+**Example (PLU by-hand)**
+Consider the matrix
+$$
+A = \begin{bmatrix}
+0 & 2 & 1 \\
+2 & 6 & 2 \\
+1 & -1 & 5
+\end{bmatrix}
+$$
+The largest entry in the first column is `2` in the second row, hence we swap these rows then factor:
+$$
+\underbrace{\begin{bmatrix} 0 & 1 \\ 
+1 & 0 \\
+&& 1 \end{bmatrix}}_{P_1} A =  \begin{bmatrix}
+2 & 6 & 2 \\
+0 & 2 & 1 \\
+1 & -1 & 5
+\end{bmatrix} =  \underbrace{\begin{bmatrix}
+1 &  &  \\
+0 & 1 &  \\
+1/2 & 0 & 1
+\end{bmatrix}}_{L_1} \begin{bmatrix}
+2 & 6 & 2 \\
+0 & 2 & 1 \\
+0 & -4 & 4
+\end{bmatrix}
+$$
+Even though
+$$
+A_2 := \begin{bmatrix}
+ 2 & 1 \\
+ -4 & 4
+\end{bmatrix}
+$$
+is non-singular, we still permute the largest entry to the diagonal (this is helpful on a computer for stability).
+So we permute again to get:
+$$
+\underbrace{\begin{bmatrix} 0 & 1 \\ 
+1 & 0  \end{bmatrix}}_{P_2} A_2 =  \begin{bmatrix}
+ -4 & 4\\
+ 2 & 1 
+\end{bmatrix}
+ =  \underbrace{\begin{bmatrix}
+ 1 & \\
+ -1/2 & 1 
+\end{bmatrix}}_{L_2}  =  \underbrace{\begin{bmatrix}
+ -4 & 4\\
+  & 3
+\end{bmatrix}}_{U_2}
+$$
+Putting it together we have
+$$
+\meeq{
+A = P_1^⊤ L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\
+                & A_2 \end{bmatrix}
+                =  P_1^⊤ L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\
+                & P_2^⊤ L_2 U_2 \end{bmatrix} \ccr
+    =  P_1^⊤ \begin{bmatrix}
+                1 \\
+                𝐯_1/α_1 & I \end{bmatrix} \begin{bmatrix} 1 & \\
+                & P_2^⊤ L_2 \end{bmatrix}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\
+                &  U_2 \end{bmatrix} =  P_1^⊤ \begin{bmatrix} 1 \\ & P_2^⊤ \end{bmatrix} \begin{bmatrix}
+                1 \\
+                P_2 𝐯_1/α_1 & L_2 \end{bmatrix}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\
+                &  U_2 \end{bmatrix} \ccr
+    = \underbrace{\begin{bmatrix}
+                0 & 0 & 1 \\
+                1 & 0 & 0 \\
+                0 & 1 & 0 \end{bmatrix}}_{P^⊤}
+                \underbrace{\begin{bmatrix}
+                1 \\
+                1/2 & 1 \\
+                0 & -1/2 & 1 \end{bmatrix}}_L \underbrace{\begin{bmatrix} 
+                2 & 6 & 2 \\
+                 & -4 & 4\\
+  && 3
+\end{bmatrix}}_U.
+}
+$$
+∎

@@ -1,12 +1,10 @@
 
 \section{Cholesky factorisation}
-In the special case where $A$ is  a real square \emph{symmetric positive definite} ($A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$) matrix the LU factorisation has a special form called the \emph{Cholesky factorisation}:
+In the special case where $A$ is  a real square \emph{symmetric positive definite} (SPD, that is $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$) matrix the LU factorisation has a special form called the \emph{Cholesky factorisation}:
 \[
 A = L L^\ensuremath{\top},
 \]
-i.e., $U = L^\ensuremath{\top}$. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
-
-A \emph{Cholesky factorisation} is a form of Gaussian elimination (without pivoting) that exploits symmetry in the problem, resulting in a substantial speedup. It is only applicable for \emph{symmetric positive definite} (SPD) matrices, or rather, the algorithm for computing it succeeds if and only if the matrix is SPD. In other words, it gives an algorithmic way to prove whether or not a matrix is SPD.
+i.e., $U = L^\ensuremath{\top}$, but now $L$ does not necessarily have 1 on the diagonal. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
 
 \begin{definition}[positive definite] A square matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is \emph{positive definite} if for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, x \ensuremath{\neq} 0$ we have
 \[
@@ -36,10 +34,10 @@ a_{kk} = \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_k > 0.
 \]
 \ensuremath{\QED}
 
-\begin{lemma}[subslice positive definite] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $\ensuremath{\bm{\k}} = [k_1,\ensuremath{\ldots},k_m]^\ensuremath{\top} \ensuremath{\in} \{1,\ensuremath{\ldots},n\}^m$ is a vector of $m$ integers where any integer appears only once,  then $A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} m}$ is also positive definite. \end{lemma}
-\textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^m, \ensuremath{\bm{\x}} \ensuremath{\neq} 0$, consider $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbR}^n$ such that $y_{k_j} = x_j$ and zero otherwise. Then we have
+\begin{lemma}[subslice positive definite] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite then $A[2:n,2:n] \ensuremath{\in} \ensuremath{\bbR}^{(n-1) \ensuremath{\times} (n-1)}$ is also positive definite. \end{lemma}
+\textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^{n-1}$, define $\ensuremath{\bm{\y}} := [0,\ensuremath{\bm{\x}}]$. Then we have
 \[
-\ensuremath{\bm{\x}}^\ensuremath{\top} A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\bm{\x}} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m x_\ensuremath{\ell} x_j a_{k_\ensuremath{\ell},k_j} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m y_{k_\ensuremath{\ell}} y_{k_j} a_{k_\ensuremath{\ell},k_j}  = \ensuremath{\sum}_{\ensuremath{\ell}=1}^n \ensuremath{\sum}_{j=1}^n y_\ensuremath{\ell} y_j a_{\ensuremath{\ell},j} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
+\ensuremath{\bm{\x}}^\ensuremath{\top} A[2:n,2:n] \ensuremath{\bm{\x}} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
 \]
 \ensuremath{\QED}
 
@@ -58,7 +56,7 @@ where $L$ is lower triangular with positive diagonal entries.
 \]
 where we use the fact that $L$ is non-singular.
 
-For the other direction we will prove it by induction, with the $1 \ensuremath{\times} 1$ case being trivial. Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions. Write
+For the other direction we will prove it by induction, with the $1 \ensuremath{\times} 1$ case being trivial. Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions. Modifying the LU factorisation slightly we write
 \[
 A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\v}}^\ensuremath{\top} \\
                     \ensuremath{\bm{\v}}   & K
@@ -74,9 +72,9 @@ A_2 = K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \en
 \]
 and hence $A = L L^\ensuremath{\top}$ for
 \[
-L= L_1 \begin{bmatrix}1 \\ & L_2 \end{bmatrix} = \begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\ {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & L_2 \end{bmatrix}
+L= L_1 \begin{bmatrix}1 \\ & L_2 \end{bmatrix} = \begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\ {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & L_2 \end{bmatrix}.
 \]
-satisfies $A = L L^\ensuremath{\top}$. \ensuremath{\QED}
+\ensuremath{\QED}
 
 \begin{example}[Cholesky by hand] Consider the matrix
 \[

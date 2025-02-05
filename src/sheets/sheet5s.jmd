@@ -6,21 +6,18 @@ $$
 \begin{bmatrix}
 1 & 2 & 0 \\
 3 & 1 & 2 \\
-0 & 3 & 1
+0 & 5 & 1
 \end{bmatrix}, \begin{bmatrix}
+0 &  5 & 5 & 5 \\
 1 & 2 & 0 & 0 \\
-3 & 1 & 2 & 0 \\
-0 &  5 & 1 & 2 \\
+3 & 3 & 3 & 0 \\
 0 & 0  & 3 & 1
-\end{bmatrix}, \begin{bmatrix}
-0 & 2 & 1 \\
-2 & 6 & 1 \\
-1 & 1 & 4
 \end{bmatrix}
 $$
 **SOLUTION**
 
-_Part 1_
+
+_Matrix 1_
 For the LU factorisation we have:
 $$
 A = \begin{bmatrix}
@@ -31,12 +28,11 @@ A = \begin{bmatrix}
 1 \\
 3 & 1 \\
 0 & 0 & 1
-\end{bmatrix}_{L_1}   \begin{bmatrix}
+\end{bmatrix}}_{L_1}   \begin{bmatrix}
 1 & 2 & 0 \\
  & -5 & 2 \\
  & 5 & 1
 \end{bmatrix}
-}
 $$
 We now have
 $$
@@ -46,10 +42,9 @@ A_2 = \begin{bmatrix}
   \underbrace{\begin{bmatrix}
     1\\
     -1 & 1
-\end{bmatrix}_{L_2}   \begin{bmatrix}
+\end{bmatrix}}_{L_2}   \begin{bmatrix}
   -5 & 2 \\
    & 3 \end{bmatrix}
-}
 $$
 We can put it together to find:
 $$
@@ -57,11 +52,11 @@ A = \underbrace{\begin{bmatrix}
 1 \\
 3 & 1 \\
 0 & -1 & 1
-\end{bmatrix}_{L} \underbrace{\begin{bmatrix}
+\end{bmatrix}}_{L} \underbrace{\begin{bmatrix}
 1 & 2 & 0\\
  & -5 & 2 \\
 0 & 0 & 3
-\end{bmatrix}_{U}
+\end{bmatrix}}_{U}
 $$
 
 For the PLU factorisation we need to permute the largest entry to the diagonal
@@ -69,7 +64,6 @@ each stage:
 $$
 \underbrace{\begin{bmatrix} 0 & 1 \\
 1 & 0 \\
-&& 1
 && 1 \end{bmatrix}}_{P_1} A = \begin{bmatrix}
 3 & 1 & 2 \\
 1 & 2 & 0 \\
@@ -89,13 +83,13 @@ $$
 \underbrace{\begin{bmatrix} 0 & 1 \\
 1 & 0 \end{bmatrix}}_{P_2} A_2 = \begin{bmatrix}5 & 1 \\
 5/3 & -2/3 \end{bmatrix} = \underbrace{\begin{bmatrix}1 \\
-1/3 & 1 \end{bmatrix}}_{L_2} \end{bmatrix} 5 & 1 \\ & -1 \end{bmatrix}
+1/3 & 1 \end{bmatrix}}_{L_2} \begin{bmatrix} 5 & 1 \\ & -1 \end{bmatrix}
 $$
 We thus have:
 $$
 P_1 A = L_1 \begin{bmatrix} 1 \\ & P_2^⊤ L_2 \end{bmatrix} \underbrace{\begin{bmatrix}  3 & 1 & 2 \\ 
     & 5 & 1 \\ && -1 \end{bmatrix}}_U = 
-    = \begin{bmatrix} 1 \\ & P_2^⊤ \end{bamtrix} 
+    = \begin{bmatrix} 1 \\ & P_2^⊤ \end{bmatrix} 
     \underbrace{\begin{bmatrix} 1 \\ 
     0 & 1 \\
     1/3 & 1/3 & 1 \end{bmatrix}}_L U,
@@ -110,25 +104,118 @@ P = \begin{bmatrix} 1 \\ & P_2 \end{bmatrix} P_1 = \begin{bmatrix}
 $$
 
 
+_Matrix 2_
+
+This has no LU factorisation since the first entry is 0 so we only deduce the PLU. First permute the largest entry to the diagonal
+by a simple swap and factor:
+$$
+\underbrace{\begin{bmatrix}
+0 &  & 1 \\
+ & 1 \\
+ 1 & & 0 \\
+ &&& 1
+\end{bmatrix}}_{P_1} A = \begin{bmatrix} 3 & 3 &3 \\
+1 & 2 \\
+ & 5  & 5 & 5 \\
+ && 3 & 1 
+ \end{bmatrix} = 
+  \underbrace{\begin{bmatrix} 1 &  & \\
+1 & 1 \\
+1/3 &   &  1 \\
+ &&  & 1 
+ \end{bmatrix}}_{L_1}
+  \begin{bmatrix} 3 & 3 &3 \\
+ & 1 & -1 \\
+ & 5  & 1 & 2 \\
+ && 3 & 1 
+ \end{bmatrix}
+$$
+We repeat with the subslice:
+$$
+\underbrace{\begin{bmatrix}
+0 & 1 &  \\
+1 & 0 \\
+  & & 1 \\
+\end{bmatrix}}_{P_2}  A_2 =
+  \begin{bmatrix} 
+  5  & 5 & 5 \\
+  1 & -1 \\
+ & 3 & 1 
+ \end{bmatrix} = 
+   \underbrace{\begin{bmatrix} 
+  1  &  &  \\
+  1/5 & 1 \\
+0 &  & 1 
+ \end{bmatrix}}_{L_2}   \begin{bmatrix} 
+  5  & 5 & 5 \\
+   & -2 & -1 \\
+ & 3 & 1 
+ \end{bmatrix}
+$$
+Finally, we have
+$$
+\underbrace{\begin{bmatrix}
+0 & 1   \\
+1 & 0 
+\end{bmatrix}}_{P_3}  A_3 = \begin{bmatrix}3 & 1 \\ -2 & -1 \end{bmatrix}
+= \underbrace{\begin{bmatrix}1 &  \\ -2/3 & 1 \end{bmatrix}}_{L_3}
+\underbrace{\begin{bmatrix}3 & 1 \\  & -1/3 \end{bmatrix}}_{U_3}
+$$
+
+We now need to swap the lower matrices and permutations which we do one step at a time. 
+We already know $A_3 = P_3^⊤ L_3 U_3$ which tells us that
+$$
+\meeq{
+A_2 = P_2^⊤ L_2 \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ & A_3 \end{bmatrix} = 
+P_2^⊤ \begin{bmatrix} 1 \\ & P_3^⊤ \end{bmatrix} \begin{bmatrix}
+1 \\
+P_3 𝐯_2/α_2 & L_3 \end{bmatrix}  \begin{bmatrix} α_2 & 𝐰_2^⊤ \\ & U_3 \end{bmatrix} \ccr
+= \underbrace{\begin{bmatrix}
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{bmatrix}}_{P̃_2^⊤} \underbrace{\begin{bmatrix} 1 \\ 
+0 & 1 \\
+1/5 & -2/3 & 1 \end{bmatrix}}_{L̃_2} \underbrace{\begin{bmatrix} 
+  5  & 5 & 5 \\
+   & 3 & 1 \\
+ &  & -1/3 
+ \end{bmatrix}}_{Ũ_2}
+}
+$$
+Finally,
+$$
+\meeq{
+A = P_1^⊤ L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ & A_2 \end{bmatrix} = 
+P_1^⊤ \begin{bmatrix} 1 \\ & P̃_2^⊤ \end{bmatrix} \begin{bmatrix}
+1 \\
+P̃_2 𝐯_1/α_1 & L̃_2 \end{bmatrix}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ & Ũ_2 \end{bmatrix} \ccr
+= \underbrace{\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{bmatrix}}_{P^⊤}   \underbrace{\begin{bmatrix}1 \\
+1/3 & 1 \\ 
+0 &  0 & 1 \\
+1& 1/5 & -2/3 & 1 \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 
+ 3 & 3 &3 & 0\\
+  &5  & 5 & 5 \\
+   && 3 & 1 \\
+ &  && -2/3 
+ \end{bmatrix}}_{U}
+}
+$$
+
+
+
+
 **END**
 
-
-**Problem 2** Prove $A ∈ ℝ^{n × n}$ is invertible if and only if it has a $UPL$ factorisation
-$$
-A = U P L
-$$
-where $P$ is a permutation matrix, $U$ is upper triangular with ones on the diagonal, and $L$ is lower triangular
-with nonzero diagonal.
-
-**SOLUTION**
-
-
-
-**END**
 
 ------
 
-**Problem 1** By computing the Cholesky factorisation, determine
+**Problem 2** By computing the Cholesky factorisation, determine
 which of the following matrices are symmetric positive definite:
 $$
 \begin{bmatrix} 1 & -1  \\
@@ -136,9 +223,6 @@ $$
 \end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
 2 & 1 & 2\\
 2 & 2 & 1
-\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
-2 & 4 & 2\\
-1 & 2 & 5
 \end{bmatrix},
 \begin{bmatrix} 4 & 2 & 2 & 1  \\
 2 & 4 & 2 & 2\\
@@ -180,27 +264,6 @@ and finally $A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
 
 *Matrix 3*
 
-$$A_0=\begin{bmatrix}
-3 & 2 & 1 \\
-2 & 4 & 2 \\
-1 & 2 & 5
-\end{bmatrix}$$
-and then
-$$
-A_1=
-\begin{bmatrix}
-4&2\\
-2&5
-\end{bmatrix}-\frac{1}{3}\begin{bmatrix} 2 \\ 1 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix}=\frac{1}{3}
-\begin{bmatrix}
-8&4\\
-4&14
-\end{bmatrix}
-$$
-and finally $3A_2=14-\frac{4× 4}{8} = 12 >0$, so Matrix 3 is SPD.
-
-*Matrix 4*
-
 $$
 A_0=\begin{bmatrix}
 4 & 2 & 2 & 1 \\
@@ -238,7 +301,7 @@ and finally $3A_3=9-\frac{3× 3}{8}>0$, so Matrix 4 is SPD.
 
 **END**
 
-**Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
+**Problem 3** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
 factorisation of the form
 $$
 A = U U^⊤
@@ -273,7 +336,7 @@ $$
 **END**
 
 
-**Problem 3(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
+**Problem 4(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
 for any $n$:
 $$
 Δ_n := \begin{bmatrix}
@@ -327,7 +390,7 @@ we conclude that $Δ_n$ has a Cholesky factorisation and hence is symmetric posi
 
 **END**
 
-**Problem 3(b)**
+**Problem 4(b)**
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
 $L_n$ is lower triangular.
 

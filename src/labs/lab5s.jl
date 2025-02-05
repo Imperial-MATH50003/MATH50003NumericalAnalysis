@@ -26,13 +26,13 @@
 
 using LinearAlgebra, Plots, Test
 
-# ### III.2 LU and Cholesky Factorisations
+# ### III.2 LU and PLU Factorisations
 
 # LU, PLU and Cholesky factorisations are closely related
 # matrix factorisations that reduce a square matrix to a product of
 # lower and upper triangular matrices, possibly with a permutation matrix.
 # We will only focus on the practical usage of LU and PLU, without digging into the
-# details of implementation. For the Cholesky factorisation we will look at implementation.
+# details of implementation. 
 
 # ### III.2.1 LU Factorisation
 
@@ -135,7 +135,7 @@ L,U,σ = lu(A)
 
 # The permutation matrix is encoded as a vector $σ$. More precisely, we have
 # $$
-#     P^⊤ 𝐯 = 𝐯[σ]
+#     P 𝐯 = 𝐯[σ]
 # $$
 # Thus we can solve a linear system by  first permuting the entries of the right-hand side:
 
@@ -235,7 +235,7 @@ plot!(25:25:100, perterrs; label="perturbed")
 
 # -----
     
-# ## III.2.3 Cholesky factorisation
+# ## III.3 Cholesky factorisation
 
 # The Cholesky factorisation is a special case of LU factorisation for the case
 # when a matrix is symmetric positive definite (SPD). Hidden in the proof that a Cholesky factorisation
@@ -310,7 +310,7 @@ L̃ = cholesky(A).L
 # \end{bmatrix}
 # $$
 
-## TODO: Check if you got PS6 Q1 correct using a computer to do the Cholesky factorisation.
+## TODO: Check if you got PS5 Q1 correct using a computer to do the Cholesky factorisation.
 ## SOLUTION
 cholesky([1 -1; -1 3]) # succeeds so is SPD
 cholesky([1 2 2; 2 1 2; 2 2 1]) # throws an error so not SPD

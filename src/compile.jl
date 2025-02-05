@@ -37,7 +37,7 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:3
+for k = 1:5
     compilesheet(k)
 end
 
@@ -49,7 +49,7 @@ end
 ####
 # Labs
 ####
-for k = 1:3
+for k = 1:5
     compilelab(k)
     compilelabdemo(k)
 end

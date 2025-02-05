@@ -4,19 +4,13 @@
 # Cholesky factorisation
 
 
-In the special case where $A$ is  a real square _symmetric positive definite_ ($A ∈ ℝ^{n × n}$ such that $A^⊤ = A$ and $𝐱^⊤ A 𝐱 > 0$ for all $𝐱 ∈ ℝ^n$, $𝐱 ≠ 0$)
+In the special case where $A$ is  a real square _symmetric positive definite_ (SPD, that is $A ∈ ℝ^{n × n}$ such that $A^⊤ = A$ and $𝐱^⊤ A 𝐱 > 0$ for all $𝐱 ∈ ℝ^n$, $𝐱 ≠ 0$)
 matrix the LU factorisation has a special form called the _Cholesky factorisation_:
 $$
 A = L L^⊤,
 $$
-i.e., $U = L^⊤$.
+i.e., $U = L^⊤$, but now $L$ does not necessarily have 1 on the diagonal.
 This provides an algorithmic way to _prove_ that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
-
-
-A _Cholesky factorisation_ is a form of Gaussian elimination (without pivoting)
-that exploits symmetry in the problem, resulting in a substantial speedup.
-It is only applicable for _symmetric positive definite_ (SPD)
-matrices, or rather, the algorithm for computing it succeeds if and only if the matrix is SPD. In other words, it gives an algorithmic way to prove whether or not a matrix is SPD.
 
 **Definition (positive definite)** A square matrix $A ∈ ℝ^{n × n}$ is _positive definite_ if
 for all $𝐱 ∈ ℝ^n, x ≠ 0$ we have
@@ -52,13 +46,12 @@ $$
 ∎
 
 **Lemma (subslice positive definite)** If $A ∈ ℝ^{n × n}$ is positive definite
-and $𝐤 = [k_1,…,k_m]^⊤ ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
- then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
+then $A[2:n,2:n] ∈ ℝ^{(n-1) × (n-1)}$ is also
 positive definite.
 **Proof**
-For all $𝐱 ∈ ℝ^m, 𝐱 ≠ 0$, consider $𝐲 ∈ ℝ^n$ such that $y_{k_j} = x_j$ and zero otherwise. Then we have
+For all $𝐱 ∈ ℝ^{n-1}$, define $𝐲 := [0,𝐱]$. Then we have
 $$
-𝐱^⊤ A[𝐤,𝐤] 𝐱 = ∑_{ℓ=1}^m ∑_{j=1}^m x_ℓ x_j a_{k_ℓ,k_j} = ∑_{ℓ=1}^m ∑_{j=1}^m y_{k_ℓ} y_{k_j} a_{k_ℓ,k_j}  = ∑_{ℓ=1}^n ∑_{j=1}^n y_ℓ y_j a_{ℓ,j} = 𝐲^⊤ A 𝐲 > 0.
+𝐱^⊤ A[2:n,2:n] 𝐱 = 𝐲^⊤ A 𝐲 > 0.
 $$
 
 ∎
@@ -81,7 +74,7 @@ where we use the fact that $L$ is non-singular.
 
 For the other direction we will prove it by induction, with the $1 × 1$ case being trivial.
 Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions.
-Write
+Modifying the LU factorisation slightly we write
 $$
 A = \begin{bmatrix} α & 𝐯^⊤ \\
                     𝐯   & K
@@ -98,9 +91,8 @@ A_2 = K - {𝐯 𝐯^⊤ \over α} = L_2 L_2^⊤
 $$
 and hence $A = L L^⊤$ for
 $$
-L= L_1 \begin{bmatrix}1 \\ & L_2 \end{bmatrix} = \begin{bmatrix} \sqrt{α} \\ {𝐯 \over \sqrt{α}} & L_2 \end{bmatrix}
+L= L_1 \begin{bmatrix}1 \\ & L_2 \end{bmatrix} = \begin{bmatrix} \sqrt{α} \\ {𝐯 \over \sqrt{α}} & L_2 \end{bmatrix}.
 $$
-satisfies $A = L L^⊤$.
 ∎
 
 

@@ -1,5 +1,5 @@
 # # MATH50003 (2024–25)
-# # Lab 5: III.2 Cholesky Factorisation and III.3 Orthogonal Matrices
+# # Lab 5: III.2 LU Factorisation and III.3 Cholesky Factorisation
 
 # In this lab we explore using LU, PLU and Cholesky factorisations, and
 # implement algorithms for computing a Cholesky factorisation. We explore
@@ -8,17 +8,14 @@
 # postive definite. 
 
 
-# This lab explores orthogonal matrices, including rotations and reflections.
-# We will construct special types to capture the structure of these orthogonal operations,
-# with the goal of implementing fast matrix*vector and matrix\vector operations.
-
 
 # **Learning Outcomes**
 #
 # Mathematical knowledge:
 #
-# 1. Cholesky and reverse Cholesky factorisations, including for banded matrices.
-# 1. Constructing rotation and reflection matrices.
+# 1. LU and PLU factorisations
+# 2. Cholesky and reverse Cholesky factorisations, including for banded matrices.
+
 #
 # Coding knowledge:
 #
@@ -29,13 +26,13 @@
 
 using LinearAlgebra, Plots, Test
 
-# ### III.2 LU and Cholesky Factorisations
+# ### III.2 LU and PLU Factorisations
 
 # LU, PLU and Cholesky factorisations are closely related
 # matrix factorisations that reduce a square matrix to a product of
 # lower and upper triangular matrices, possibly with a permutation matrix.
 # We will only focus on the practical usage of LU and PLU, without digging into the
-# details of implementation. For the Cholesky factorisation we will look at implementation.
+# details of implementation. 
 
 # ### III.2.1 LU Factorisation
 
@@ -117,7 +114,7 @@ L,U,σ = lu(A)
 
 # The permutation matrix is encoded as a vector $σ$. More precisely, we have
 # $$
-#     P^⊤ 𝐯 = 𝐯[σ]
+#     P 𝐯 = 𝐯[σ]
 # $$
 # Thus we can solve a linear system by  first permuting the entries of the right-hand side:
 
@@ -184,7 +181,7 @@ end
 
 # -----
     
-# ## III.2.3 Cholesky factorisation
+# ## III.3 Cholesky factorisation
 
 # The Cholesky factorisation is a special case of LU factorisation for the case
 # when a matrix is symmetric positive definite (SPD). Hidden in the proof that a Cholesky factorisation
@@ -259,7 +256,7 @@ L̃ = cholesky(A).L
 # \end{bmatrix}
 # $$
 
-## TODO: Check if you got PS6 Q1 correct using a computer to do the Cholesky factorisation.
+## TODO: Check if you got PS5 Q1 correct using a computer to do the Cholesky factorisation.
 
 
 
@@ -293,297 +290,3 @@ L = mycholesky(A)
 
 
 
-# ## III.5 Orthogonal and Unitary Matrices
-
-# Here we explore representing rotations and reflections, which are
-# special types of orthogonal/unitary matrices. 
-
-# ### III.5.1 Rotations
-
-# A (simple) rotation matrix is an element of the special orthogonal group $SO(2)$ and has a matrix representation
-# $$
-#  \begin{bmatrix} c & -s \\ s & c \end{bmatrix}
-# $$
-# such that $c^2 + s^2 = 1$. 
-# More generally, we can generalise simple rotations on higher dimensional vectors by acting on two indices at a time.
-# There are multiple ways of storing a rotation matrix, here we explore the most intuitive (but not the fastest!) way of storing just an angle $θ$
-# so that $c = \cos θ$ and $s = \sin θ$.
-
-# We will use a syntax in a struct that forces a field to be a special type. In what follows we define
-# the `getindex` by first implementing multiplication, a pattern that will be reused in the problems.
-
-
-
-struct Rotation <: AbstractMatrix{Float64}
-    θ::Float64 # The ::Float64 means θ can only be a Float64
-end
-
-import Base: *, size, getindex
-
-size(Q::Rotation) = (2, 2)
-
-function *(Q::Rotation, x::AbstractVector)
-    if length(x) ≠ 2
-        error("dimension mismatch")
-    end
-    θ = Q.θ
-    c,s = cos(θ), sin(θ)
-    a,b = x # special syntax so that a == x[1] and b == x[2]
-    [c*a - s*b, s*a + c*b]
-end
-
-function getindex(Q::Rotation, k::Int, j::Int)
-    ## We use the overloaded * above as we will follow this pattern later.
-    e_k = zeros(2)
-    e_j = zeros(2)
-    e_k[k] = 1  # will error if k ≠ 1 or 2
-    e_j[j] = 1  # will error if j ≠ 1 or 2
-    e_k'*(Q*e_j)
-end
-
-Q = Rotation(0.1)
-
-# We can test the ability to rotate a vector to the $x$-axis. Here we use the inbuilt `atan(y,x)` function
-# to compute the angle of a vector:
-
-
-x = [-1,-2]
-θ = atan(x[2], x[1]) # angle of the vector x
-Q = Rotation(-θ) # rotate back
-Q * x # first entry is norm(x), second entry is 0
-
-
-# -----
-
-# **Problem 5** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
-# of rotations of angle `θ[k]`, each acting on the entries `k:k+1`. That is, it returns $Q = Q_1⋯Q_k$ such that
-# $$
-# Q_k[k:k+1,k:k+1] = 
-# \begin{bmatrix}
-# \cos θ[k] & -\sin θ[k]\\
-# \sin θ[k] & \cos θ[k]
-# \end{bmatrix}
-# $$
-# with all other entries being equivalent to the identity.
-
-struct Rotations <: AbstractMatrix{Float64}
-    θ::Vector{Float64} # a vector of angles
-end
-
-
-
-## we use the number of rotations to deduce the dimensions of the matrix
-size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
-
-function *(Q::Rotations, x::AbstractVector)
-    ## TODO: Apply Q in O(n) operations. You may assume x has Float64 entries.
-    ## Hint: you may wish to use copy(x) and only change the relevant entries. 
-    
-
-    y
-end
-
-function getindex(Q::Rotations, k::Int, j::Int)
-    ## TODO: Return Q[k,j] in O(n) operations using *.
-
-    
-end
-
-θ = randn(5)
-Q = Rotations(θ)
-@test Q'Q ≈ I
-@test Rotations([π/2, -π/2]) ≈ [0 0 -1; 1 0 0; 0 -1 0]
-
-
-# ------
-
-# ### III.5.2 Reflections
-
-
-# We can also construct reflections, defined by a normalised vector $𝐯$ as
-# $$
-# Q_{𝐯} := I - 2𝐯𝐯^⋆
-# $$
-# The obvious way is to create a dense vector, eg.
-
-x = randn(5) # vector we want to reflect
-v = x/norm(x) # normalise x
-Q = I - 2v*v' # a reflection matrix
-
-# Note `I` is a special convenience type that represents the identity matrix for any dimension.
-
-# A special type of reflection is a Householder reflection, which maps a vector to the $x$-axis.
-# Using dense matrices we can construct it as follows:
-
-
-function dense_householderreflection(x)
-    y = copy(x)
-    if x[1] == 0
-        y[1] += norm(x) 
-    else # note sign(z) = exp(im*angle(z)) where `angle` is the argument of a complex number
-        y[1] += sign(x[1])*norm(x) 
-    end
-    w = y/norm(y)
-    I - 2*w*w'
-end
-
-
-x = randn(3) + im*randn(3)
-Q = dense_householderreflection(x)
-Q * x # all the entries apart from the first are numerically zero
-
-# A matrix-vector product is $O(n^2)$ operations but we know we can reduce it to $O(n)$.
-# Thus we will create a special type to represent the reflection and obtain the better complexity
-# multiplication. Because we want the matrix to be real when the entries are real we will use
-# a special feature called "templating". Here by adding the `{T}` after the type we allow this to
-# be either a `Float64` or `ComplexF64` (or indeed a `BigFloat`). We also do some checking
-# to make sure that our defining vector is already normalised. 
-
-struct Reflection{T} <: AbstractMatrix{T}
-    v::Vector{T} # T can be either a Float64 or ComplexF64
-end
-
-function Reflection(v::Vector)
-    T = eltype(v) # find the type of the entries of v
-    if !(norm(v) ≈ 1)
-        error("input must be normalised")
-    end
-    Reflection{T}(v) # create an instance of Reflection, specifying the entry type
-end
-
-
-## Implementations of Reflection * AbstractMatrix
-## You may wish to use this below to solve Problem 3.
-function *(Q::Reflection, X::AbstractMatrix)
-    T = promote_type(eltype(Q), eltype(X))
-    m,n = size(X)
-    ret = zeros(T, m, n)
-    for j = 1:n
-        ret[:,j] = Q * X[:,j]
-    end
-    ret
-end
-
-
-# -----
-
-# **Problem 6(a)** Complete the implementation of a type representing an n × n
-# reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
-# The reflection may be complex (that is, $Q ∈ U(n)$ is unitary).
-
-## Represents I - 2v*v'
-
-
-size(Q::Reflection) = (length(Q.v),length(Q.v))
-
-## getindex(Q, k, j) is synonym for Q[k,j]
-function getindex(Q::Reflection, k::Int, j::Int)
-    ## TODO: implement Q[k,j] == (I - 2v*v')[k,j] but using O(1) operations.
-    ## Hint: the function `conj` gives the complex-conjugate
-    
-end
-function *(Q::Reflection, x::AbstractVector)
-    ## TODO: implement Q*x, equivalent to (I - 2v*v')*x but using only O(n) operations
-    
-end
-
-## If your code is correct, these "unit tests" will succeed
-n = 10
-x = randn(n) + im*randn(n)
-v = x/norm(x)
-Q = Reflection(v)
-@test Q == I-2v*v'
-@test Q'Q ≈ I
-
-
-## We can scale to very large sizes. here we check the reflection property on an 100_000 matrix:
-n = 100_000
-x = randn(n) + im*randn(n)
-v = x/norm(x)
-Q = Reflection(v)
-@test Q*x ≈ -x
-
-
-# **Problem 6(b)** Complete the following implementation of a Housholder reflection  so that the
-# unit tests pass, using the `Reflection` type created above.
-# Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
-# You may assume `x` has real entries.
-
-function householderreflection(s::Bool, x::AbstractVector)
-    ## TODO: return a Reflection corresponding to a Householder reflection
-    
-end
-
-x = randn(5)
-Q = householderreflection(true, x)
-@test Q isa Reflection
-@test Q*x ≈ [norm(x);zeros(eltype(x),length(x)-1)]
-
-Q = householderreflection(false, x)
-@test Q isa Reflection
-@test Q*x ≈ [-norm(x);zeros(eltype(x),length(x)-1)]
-
-
-
-# **Problem 6(c)**
-# Complete the definition of `Reflections` which supports a sequence of reflections,
-# that is,
-# $$
-# Q = Q_{𝐯_1} ⋯ Q_{𝐯_m}
-# $$
-# where the vectors are stored as a matrix $V ∈ ℂ^{n × m}$ whose $j$-th column is $𝐯_j∈ ℂ^n$, and
-# $$
-# Q_{𝐯_j} = I - 2 𝐯_j 𝐯_j^⋆
-# $$
-# is a reflection.
-
-
-struct Reflections{T} <: AbstractMatrix{T}
-    V::Matrix{T} # Columns of V are the householder vectors
-end
-
-size(Q::Reflections) = (size(Q.V,1), size(Q.V,1))
-
-
-function *(Q::Reflections, x::AbstractVector)
-    ## TODO: Apply Q in O(mn) operations by applying
-    ## the reflection corresponding to each column of Q.V to x
-    
-    
-
-    x
-end
-
-
-## Implementations of Reflections * AbstractMatrix
-## You may wish to use this below to solve Problem 3.
-function *(Q::Reflections, X::AbstractMatrix)
-    T = promote_type(eltype(Q), eltype(X))
-    m,n = size(X)
-    ret = zeros(T, m, n)
-    for j = 1:n
-        ret[:,j] = Q * X[:,j]
-    end
-    ret
-end
-
-
-function getindex(Q::Reflections, k::Int, j::Int)
-    ## TODO: Return Q[k,j] in O(mn) operations (hint: use *)
-
-    
-end
-
-import LinearAlgebra: adjoint
-function adjoint(Q::Reflections) # called when calling Q'
-    ## TODO: return the adjoint as a Reflections
-    
-end
-
-Y = randn(5,3)
-V = Y * Diagonal([1/norm(Y[:,j]) for j=1:3])
-Q = Reflections(V)
-@test Q ≈ (I - 2V[:,1]*V[:,1]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,3]*V[:,3]')
-@test Q' isa Reflections
-@test Q' ≈ (I - 2V[:,3]*V[:,3]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,1]*V[:,1]')
-@test Q'Q ≈ I
