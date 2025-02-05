@@ -23,6 +23,9 @@ Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.
 4. II.3 Interval Arithmetic and III.1 Structured Matrices
    - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb)
    - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4.pdf)
+5. III.2 LU and PLU Factorisations and III.3 Cholesky Factorisation
+   - [Lab 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5.ipynb)
+   - [Sheet 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5.pdf)   
 
 
 ## Assessment
