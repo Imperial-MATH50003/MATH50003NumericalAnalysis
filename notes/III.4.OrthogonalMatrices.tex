@@ -1,6 +1,16 @@
 
 \section{Orthogonal and Unitary Matrices}
-To solve least squares problems, we will  factorise a matrix $A$ as $A = QR$ where $R$ is a \emph{right-triangular matrix} and $Q$ is either an \emph{orthogonal} or \emph{unitary} matrix.
+PLU factorisations are an effective scheme for inverting systems, however, we saw in the lab that for very special matrices it can fail to be accurate. In the next two sections we introduce an alternative approach that is guaranteed to be stable: factorise a matrix as
+\[
+A = QR
+\]
+where $Q$ is an orthogonal/unitary matrix and $R$ is a \emph{right-triangular matrix}, which for square matrices is another name for upper-triangular.
+
+This factorisation is valid for rectangular matrices $A$, where now \emph{right-triangular} is a rectangular version of upper-triangular. For rectangular systems we can no longer solve linear systems of the form $A\ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ (unless $\ensuremath{\bm{\b}}$ lies in the column span of $A$) but instead we want to solve $A\ensuremath{\bm{\x}} \ensuremath{\approx} \ensuremath{\bm{\b}}$. More precisely, we can use the QR factorisation to solve \emph{least squares} problems, find $\ensuremath{\bm{\x}}$ that minimises the 2-norm:
+\[
+\|A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|
+\]
+Before we discuss the computation of a QR factorisation and its role in solving least-squares problems, we introduce orthogonal and unitary matrices, including the special case of a Householder reflection which underlies QR.
 
 \begin{definition}[orthogonal/unitary matrix] A square real matrix is \emph{orthogonal} if its inverse is its transpose:
 \[

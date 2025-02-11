@@ -15,9 +15,10 @@ compilenotes("II.2.Arithmetic")
 compilenotes("II.3.Intervals")
 
 compilenotes("III.1.StructuredMatrices")
-compilenotes("III.2.Cholesky")
-compilenotes("III.3.OrthogonalMatrices")
-# compilenotes("III.6.QR")
+compilenotes("III.2.LU")
+compilenotes("III.3.Cholesky")
+compilenotes("III.4.OrthogonalMatrices")
+compilenotes("III.5.QR")
 
 # compilenotes("III.4.Regression")
 # compilenotes("III.2.DifferentialEquations")
