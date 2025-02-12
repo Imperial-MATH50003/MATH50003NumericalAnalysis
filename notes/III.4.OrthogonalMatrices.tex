@@ -61,7 +61,7 @@ We remark a related concept to orthogonal/unitary matrices are rectangular matri
 \[
 U = [\ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}
 \]
-where $m \ensuremath{\geq} n$ such that $U^\ensuremath{\star} U =  I_n$ (the $n \ensuremath{\times} n$ identity matrix). In this case we must have $UU^\ensuremath{\star} \ensuremath{\neq} I_m$ as the rank of $U$ is $n < m$. 
+where $m \ensuremath{\geq} n$ such that $U^\ensuremath{\star} U =  I_n$ (the $n \ensuremath{\times} n$ identity matrix). In the case where $m > n$ we must have $UU^\ensuremath{\star} \ensuremath{\neq} I_m$ as the rank of $U$ is $n < m$. 
 
 \subsection{Rotations}
 We begin with a general definition:
@@ -263,7 +263,7 @@ Q_{\ensuremath{\bm{\x}}}^{\ensuremath{\pm},\rm H} \ensuremath{\bm{\x}}  =  (I - 
 
 \textbf{Remark} Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, but we won't discuss this in more detail.
 
-We can extend this definition for complexes:
+We can extend this definition for complex vectors. In this case the choice of the sign is delicate and so we only generalise the default choice using a complex-analogue of the sign fuunction.
 
 \begin{definition}[Householder reflection, complex case] For a given vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$, define the Householder reflection as
 \[

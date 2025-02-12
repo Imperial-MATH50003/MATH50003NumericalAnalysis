@@ -44,36 +44,30 @@ $$
 
 
 
-**Problem 3(a)** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
+**Problem 3** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
 $$
 Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
 $$
 
 
 
-**Problem 3(b)** Find an orthogonal matrix that is a product of two simple rotations but
-acting on two different subspaces:
-$$
-Q  = \underbrace{\begin{bmatrix} \cos θ_2 & & -\sin θ_2  \\ & 1 \\
-\sin θ_2  & & \cos θ_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos θ_1 & -\sin θ_1  \\ \sin θ_1 & \cos θ_1 \\ && 1 \end{bmatrix}}_{Q_1}
-$$
-so that, for $𝐚$ defined above,
-$$
-Q 𝐚  = \begin{bmatrix} \|𝐚\| \\ 0 \\ 0 \end{bmatrix}.
-$$
-Hint: you do not need to determine $θ_1, θ_2$, instead you can write the entries of  $Q_1, Q_2$ 
-directly using just square-roots. 
-
-
-
 ----
 
-**Problem 4(a)** Show that every matrix $A ∈ ℝ^{m × n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative.
+**Problem 4** Use Householder reflections to compute QR and reduce QR factorisations of the matrix
+$$
+A = \begin{bmatrix} -1 & 2 \\ 
+2 & 4 \\ 
+2 & 3 \end{bmatrix}.
+$$
+
+
+
+**Problem 5(a)** Show that every matrix $A ∈ ℝ^{m × n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative.
 Make sure to include the case of more columns than rows (i.e. $m < n$). 
 
 
 
-**Problem 4(b)** Show that the QR factorisation of a square invertible matrix $A ∈ ℝ^{n × n}$ is unique,
+**Problem 5(b)** Show that the QR factorisation of a square invertible matrix $A ∈ ℝ^{n × n}$ is unique,
 provided that the diagonal of $R$ is positive.
 
 

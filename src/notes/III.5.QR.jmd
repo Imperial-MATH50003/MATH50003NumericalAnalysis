@@ -1,7 +1,7 @@
 # QR Factorisation
 
 Let $A ∈ ℂ^{m × n}$ be a rectangular or square matrix such that $m ≥ n$ (i.e. more rows then columns).
-In this chapter we consider two closely related factorisations:
+In this section we consider two closely related factorisations:
 
 
 **Definition (QR factorisation)** The _QR factorisation_ is
@@ -39,8 +39,7 @@ $$
 In this chapter we discuss the following:
 
 1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR factorisation using Gram–Schmidt.
-2. Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach
-for computing QR factorisations.
+2. Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach for computing QR factorisations.
 3. QR and least squares: We discuss the QR factorisation and its usage in solving least squares problems.
 
 
@@ -79,13 +78,13 @@ $$
 ∎
 
  
-It is possible to find $\hat Q$ and $\hat R$ the  using the _Gram–Schmidt algorithm_.
+It is possible to find $\hat Q$ and $\hat R$   using the _Gram–Schmidt algorithm_.
 We construct it column-by-column. For $j = 1, 2, …, n$ define
 $$
 \begin{align*}
-𝐯_j &:= 𝐚_j - ∑_{k=1}^{j-1} \underbrace{𝐪_k^⋆ 𝐚_j}_{r_{kj}} 𝐪_k \\
-r_{jj} &:= {\|𝐯_j\|} \\
-𝐪_j &:= {𝐯_j \over r_{jj}}
+𝐯_j &:= 𝐚_j - ∑_{k=1}^{j-1} \underbrace{𝐪_k^⋆ 𝐚_j}_{r_{kj}} 𝐪_k, \\
+r_{jj} &:= {\|𝐯_j\|}, \\
+𝐪_j &:= {𝐯_j \over r_{jj}}.
 \end{align*}
 $$
 
@@ -188,93 +187,83 @@ where $R$ is right triangular.
 
 
 
-**Example (QR by hand, non-examinable)** We will now do an example by hand. Consider the $4 × 3$ matrix
+**Example (QR by hand)** We will now do an example by hand. Consider the $4 × 3$ matrix
 $$
 A = \begin{bmatrix} 
-2 & 3 & 0 \\ 
-0 & 0 & 1 \\
--2 & -3 & 0 \\
--1 & -3 & -3
+1 & 1 & 1 \\ 
+-1 & 0 & 1 \\
+-1 & -1 & 0 \\
+-1 & 0 & 0
 \end{bmatrix}
 $$
-For the first column we have
+For the first column, noting the entry $a_{11} > 0$ and $\| 𝐚_1 \|$ = 2 we have
 $$
-𝐲_1 := [-1,0,-2,-1]
+𝐲_1 = \Vectt[1,-1,-1,-1]  - \Vectt[2,0,0,0] = \Vectt[-1,-1,-1,-1] ⇒ 𝐰_1 = {𝐲_1 \over \| 𝐲_1 \|} = {1 \over 2} \Vectt[1,1,1,1].
 $$
-where $\| 𝐲_1 \|^2 = 6$. Hence
+ Hence
 $$
-Q_1 := I - {1 \over 3} \begin{bmatrix} -1 \\ 0 \\ -2 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & 0 & -2 & -1 \end{bmatrix} =
- {1 \over 3} \begin{bmatrix}
-2 & 0 & -2 & -1 \\
-0 & 3 & 0 & 0 \\
--2 & 0 & -1 & -2 \\
--1 & 0 & -2 &  2
+Q_1 := I - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 & 1 \end{bmatrix} =
+ {1 \over 2} \begin{bmatrix}
+1 & -1 & -1 & -1 \\
+-1 & 1 & -1 & -1 \\
+-1 & -1 & 1 & -1 \\
+-1 & -1 & -1 &  1
 \end{bmatrix}
 $$
 so that
 $$
-Q_1 A = \begin{bmatrix} 3 &  5 & 1 \\
+Q_1 A = \begin{bmatrix} 2 &  1 & 0 \\
  & 0 & 1 \\
-  & 1 & 2 \\
-& -1 & -2
+  & -1 & 2 \\
+& 0 & -2
 \end{bmatrix}
 $$
-For the second column we have
+For the second column we have a zero, which we can take as positive. Thus we have
 $$
-𝐲_2 :=  [-\sqrt{2},1,-1]
+𝐲_2 :=  [0,-1,0] - \Vectt[1,0,0] = \Vectt[-1,-1,0]  ⇒ 𝐰_2 = {𝐲_2 \over \| 𝐲_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
 $$
-where $\| 𝐲_2 \|^2 = 4$. Thus we have
+Thus we have
 $$
-Q_2 := I - {1 \over 2}
- \begin{bmatrix} -\sqrt{2} \\1 \\ -1
-\end{bmatrix} \begin{bmatrix} -\sqrt{2} & 1 & -1 \end{bmatrix}
+Q_2 := I - 
+ \begin{bmatrix} -1 \\ -1 \\ 0
+\end{bmatrix} \begin{bmatrix} -1 & -1 & 0 \end{bmatrix}
 = \begin{bmatrix}
-0 & 1/\sqrt{2} & -1/\sqrt{2} \\
-1/\sqrt{2} & 1/2 & 1/2 \\
--1/\sqrt{2} & 1/2 & 1/2
+0 & -1 & 0 \\
+-1& 0 & 0 \\
+0 & 0 & 1
 \end{bmatrix}
 $$
 so that
 $$
-\tilde Q_2 Q_1 A = \begin{bmatrix} 3 & 5 & 1 \\
- & \sqrt{2} & 2\sqrt{2} \\
-  & 0 & 1/\sqrt{2} \\
-& 0 & -1/\sqrt{2}
+\tilde Q_2 Q_1 A = \begin{bmatrix} 2 & 1 & 0 \\
+ & 1 & 1 \\
+  &  & 0 \\
+&  & -1
 \end{bmatrix}
 $$
 The final vector is 
 $$
-𝐲_3 := [1/\sqrt{2}-1,-1/\sqrt{2}]
+𝐲_3 := \Vectt[0,-1] - \Vectt[1,0] = \Vectt[1,1] ⇒ 𝐰_3 = {1 \over \sqrt{2}} \Vectt[1,1].
 $$
-where $\| 𝐲_3 \|^2 = 2 - 2/\sqrt{2}$. Hence
+Hence
 $$
-Q_3 := I - {\sqrt{2} \over \sqrt{2} - 1} \begin{bmatrix}
-1/\sqrt{2}-1 \\
--1/\sqrt{2}
-\end{bmatrix} \begin{bmatrix}
-1/\sqrt{2}-1 &
--1/\sqrt{2}
-\end{bmatrix} =
-\begin{bmatrix}
-\sqrt{2} & -\sqrt{2}\\
--\sqrt{2} & -\sqrt{2}
-\end{bmatrix}
+Q_3 := I - \Vectt[1,1] \begin{bmatrix} 1 & 1 \end{bmatrix} = \sopmatrix{0 & - 1 \\ -1 & 0}
 $$
 so that 
 $$
-\tilde Q_3 \tilde Q_2 Q_1 A = \begin{bmatrix} 3 & 5 & 1 \\
- & \sqrt{2} & 2\sqrt{2} \\
-  & 0 & 1 \\
-& 0 & 0
+\tilde Q_3 \tilde Q_2 Q_1 A = \begin{bmatrix} 2 & 1 & 0 \\
+ & 1 & 1 \\
+  &  & 1 \\
+&  & 0
 \end{bmatrix} =: R
 $$
 and
 $$
-Q := Q_1 \tilde Q_2 \tilde Q_3 =  \begin{bmatrix}
-2/3 & -1/(3\sqrt{2}) & 0 & 1/\sqrt{2} \\
-0 &  0 & 1 & 0 \\
--2/3 & 1/(3\sqrt{2}) & 0 & 1/\sqrt{2} \\ 
--1/3 & - 4/(3\sqrt{2}) & 0 & 0
+Q := Q_1 \tilde Q_2 \tilde Q_3 = {1 \over 2}  \begin{bmatrix}
+1 & 1 & 1 & -1 \\
+-1 & 1 & 1 & 1 \\
+-1 & -1 & 1 & -1 \\
+-1 & 1 & -1 & -1
 \end{bmatrix}.
 $$
 
@@ -282,11 +271,13 @@ $$
 ## QR and least squares
 
 We consider rectangular matrices with more rows than columns. Given $A ∈ ℂ^{m × n}$ and $𝐛 ∈ ℂ^m$,
-least squares consists of finding a vector $𝐱 ∈ ℂ^n$ that minimises the 2-norm: $\| A 𝐱 - 𝐛 \|$.
+a least squares problem consists of finding a vector $𝐱 ∈ ℂ^n$ that minimises the 2-norm: $\| A 𝐱 - 𝐛 \|$.
+There is a lot of theory around least squares, however, we focus on a simple computational aspect: we can
+solve least squares problems using the QR factorisation.
 
 
-**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ with $m ≥ n$ has full rank. Given a QR factorisation $A = Q R$
-then
+**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ with $m ≥ n$ has full rank and a QR factorisation $A = Q R$
+(which includes within it a reduced QR factorisation $A = \hat Q \hat R$). The vector
 $$
 𝐱 = \hat R^{-1} \hat Q^⋆ 𝐛
 $$
