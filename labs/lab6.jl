@@ -35,12 +35,12 @@ using LinearAlgebra, Test
 
 
 
-# ## III.5 Orthogonal and Unitary Matrices
+# ## III.4 Orthogonal and Unitary Matrices
 
 # Here we explore representing rotations and reflections, which are
 # special types of orthogonal/unitary matrices. 
 
-# ### III.5.1 Rotations
+# ### III.4.1 Rotations
 
 # A (simple) rotation matrix is an element of the special orthogonal group $SO(2)$ and has a matrix representation
 # $$
@@ -97,7 +97,7 @@ Q * x # first entry is norm(x), second entry is 0
 
 # -----
 
-# **Problem 5** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
+# **Problem 1** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
 # of rotations of angle `θ[k]`, each acting on the entries `k:k+1`. That is, it returns $Q = Q_1⋯Q_k$ such that
 # $$
 # Q_k[k:k+1,k:k+1] = 
@@ -139,7 +139,7 @@ Q = Rotations(θ)
 
 # ------
 
-# ### III.5.2 Reflections
+# ### III.4.2 Reflections
 
 
 # We can also construct reflections, defined by a normalised vector $𝐯$ as
@@ -195,7 +195,6 @@ end
 
 
 ## Implementations of Reflection * AbstractMatrix
-## You may wish to use this below to solve Problem 3.
 function *(Q::Reflection, X::AbstractMatrix)
     T = promote_type(eltype(Q), eltype(X))
     m,n = size(X)
@@ -209,7 +208,7 @@ end
 
 # -----
 
-# **Problem 6(a)** Complete the implementation of a type representing an n × n
+# **Problem 2(a)** Complete the implementation of a type representing an n × n
 # reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
 # The reflection may be complex (that is, $Q ∈ U(n)$ is unitary).
 
@@ -246,7 +245,7 @@ Q = Reflection(v)
 @test Q*x ≈ -x
 
 
-# **Problem 6(b)** Complete the following implementation of a Housholder reflection  so that the
+# **Problem 2(b)** Complete the following implementation of a Housholder reflection  so that the
 # unit tests pass, using the `Reflection` type created above.
 # Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
 # You may assume `x` has real entries.
@@ -267,7 +266,7 @@ Q = householderreflection(false, x)
 
 
 
-# **Problem 6(c)**
+# **Problem 2(c)**
 # Complete the definition of `Reflections` which supports a sequence of reflections,
 # that is,
 # $$
@@ -298,7 +297,6 @@ end
 
 
 ## Implementations of Reflections * AbstractMatrix
-## You may wish to use this below to solve Problem 3.
 function *(Q::Reflections, X::AbstractMatrix)
     T = promote_type(eltype(Q), eltype(X))
     m,n = size(X)
@@ -334,7 +332,7 @@ Q = Reflections(V)
 # -----
 
 
-# ## III.6 QR Factorisation
+# ## III.5 QR Factorisation
 
 # The QR factorisation of a matrix $A ∈ ℂ^{m × n}$ is of the form
 # $$
@@ -343,12 +341,12 @@ Q = Reflections(V)
 # where $Q$ is unitary and $R$ is right-triangular: all entries below the diagonal are zero. We focus on the case where $m ≥ n$. 
 # It can be computed using Gram–Schmidt, Householder reflections or rotations.
 
-# ### III.6.1 Reduced QR and Gram–Schmidt
+# ### III.5.1 Reduced QR and Gram–Schmidt
 
 # The Gram–Schmidt process can be used to compute the QR factorisation by orthogonalising the columns
 # of $A$ in sequence. We won't discuss this in more detail as it is numerically better to use reflections/rotations.
 
-# ### III.6.2 Householder reflections and QR
+# ### III.5.2 Householder reflections and QR
 
 # In the notes we use Householder reflections to prove that a QR factorisation exists.
 # The iterative proof actually encodes an algorithm, which we can implement as follows:
@@ -500,7 +498,7 @@ Q, R = bandedqr(A)
 
 
 
-# ### III.6.3 QR and least squares
+# ### III.5.3 QR and least squares
 
 # When we type `A \ b` with a rectangular matrix `A` it is
 # solving a least squares system, and behind the scenes it is using a QR factorisation.
