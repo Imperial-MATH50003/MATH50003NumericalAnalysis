@@ -36,7 +36,7 @@ $$
 
 
 
-In this chapter we discuss the following:
+In this section we discuss the following:
 
 1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR factorisation using Gram–Schmidt.
 2. Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach for computing QR factorisations.
@@ -138,7 +138,7 @@ where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$.
 That is, we have made the first column triangular.
 In terms of an algorithm, we then introduce zeros into the first column of $A_2$,
 leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple
-proof by induction, reminisicent of our proof for the Cholesky factorisation:
+proof by induction, reminisicent of our proofs for the PLU and Cholesky factorisations:
 
 **Theorem (QR)** 
 Every matrix $A ∈ ℂ^{m × n}$ has a QR factorisation:
@@ -187,40 +187,42 @@ where $R$ is right triangular.
 
 
 
-**Example (QR by hand)** We will now do an example by hand. Consider the $4 × 3$ matrix
+**Example (QR by hand)** We will now do an example by hand. Because the numbers become impossibly complicated
+with the correct choice of sign, in this example we will  choose a sign so that the results are doable by hand. A computer would handle
+the complicated transcendental numbers without issue.  Consider the $4 × 3$ matrix
 $$
 A = \begin{bmatrix} 
 1 & 1 & 1 \\ 
 -1 & 0 & 1 \\
--1 & -1 & 0 \\
+1 & -1 & 0 \\
 -1 & 0 & 0
 \end{bmatrix}
 $$
-For the first column, noting the entry $a_{11} > 0$ and $\| 𝐚_1 \|$ = 2 we have
+For the first column, noting the entry $a_{11} > 0$ and so we want to choose the Householder reflection that
+makes this negative, but this would lead to very transcendantal numbers. So instead we choose the "wrong" sign and leave it positive. Since $\| 𝐚_1 \|$ = 2 we have
 $$
-𝐲_1 = \Vectt[1,-1,-1,-1]  - \Vectt[2,0,0,0] = \Vectt[-1,-1,-1,-1] ⇒ 𝐰_1 = {𝐲_1 \over \| 𝐲_1 \|} = {1 \over 2} \Vectt[1,1,1,1].
+𝐲_1 = \Vectt[1,-1,1,-1]  -\Vectt[2,0,0,0] = \Vectt[-1,-1,1,-1] ⇒ 𝐰_1 = {𝐲_1 \over \| 𝐲_1 \|} = {1 \over 2} \Vectt[-1,-1,1,-1].
 $$
  Hence
 $$
-Q_1 := I - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 & 1 \end{bmatrix} =
+Q_1 :=  I - {1 \over 2} \begin{bmatrix} -1 \\ -1 \\ 1 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & -1 & 1 & -1 \end{bmatrix} =
  {1 \over 2} \begin{bmatrix}
-1 & -1 & -1 & -1 \\
--1 & 1 & -1 & -1 \\
--1 & -1 & 1 & -1 \\
--1 & -1 & -1 &  1
-\end{bmatrix}
+1 & -1 & 1 & -1 \\
+-1 & 1 & 1 & -1 \\
+1 & 1 & 1 & 1 \\
+-1 & -1 & 1 &  1
 $$
 so that
 $$
 Q_1 A = \begin{bmatrix} 2 &  1 & 0 \\
- & 0 & 1 \\
-  & -1 & 2 \\
-& 0 & -2
+ & 0 & 0 \\
+  & 1 & 1 \\
+& 0 & -1
 \end{bmatrix}
 $$
-For the second column we have a zero, which we can take as positive. Thus we have
+For the second column we have a positive entry so we want to send it to be negative. Thus we have
 $$
-𝐲_2 :=  [0,-1,0] - \Vectt[1,0,0] = \Vectt[-1,-1,0]  ⇒ 𝐰_2 = {𝐲_2 \over \| 𝐲_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
+𝐲_2 :=  \Vectt[2/3,-1/3,2/3] + \Vectt[1,0,0] = \Vectt[5/3,-1/3,2/3]  ⇒ 𝐰_2 = {𝐲_2 \over \| 𝐲_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
 $$
 Thus we have
 $$
