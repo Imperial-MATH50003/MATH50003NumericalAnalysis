@@ -6,11 +6,11 @@ A = QR
 \]
 where $Q$ is an orthogonal/unitary matrix and $R$ is a \emph{right-triangular matrix}, which for square matrices is another name for upper-triangular.
 
-This factorisation is valid for rectangular matrices $A$, where now \emph{right-triangular} is a rectangular version of upper-triangular. For rectangular systems we can no longer solve linear systems of the form $A\ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ (unless $\ensuremath{\bm{\b}}$ lies in the column span of $A$) but instead we want to solve $A\ensuremath{\bm{\x}} \ensuremath{\approx} \ensuremath{\bm{\b}}$. More precisely, we can use the QR factorisation to solve \emph{least squares} problems, find $\ensuremath{\bm{\x}}$ that minimises the 2-norm:
+This factorisation is valid for rectangular matrices $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$, where now \emph{right-triangular} is a rectangular version of upper-triangular. For rectangular systems we can no longer solve linear systems of the form $A\ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ (unless $\ensuremath{\bm{\b}}$ lies in the column span of $A$) but instead we want to solve $A\ensuremath{\bm{\x}} \ensuremath{\approx} \ensuremath{\bm{\b}}$, where $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ and $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbC}^m$. More precisely, we can use a QR factorisation to solve \emph{least squares} problems, find $\ensuremath{\bm{\x}}$ that minimises the 2-norm:
 \[
 \|A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|
 \]
-Before we discuss the computation of a QR factorisation and its role in solving least-squares problems, we introduce orthogonal and unitary matrices, including the special case of a Householder reflection which underlies QR.
+Before we discuss the computation of a QR factorisation and its role in solving least-squares problems, we introduce orthogonal and unitary matrices. In particular we will discuss reflections and rotations, which can be used to represent more general orthogonal matrices.
 
 \begin{definition}[orthogonal/unitary matrix] A square real matrix is \emph{orthogonal} if its inverse is its transpose:
 \[
@@ -46,7 +46,7 @@ Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\
 \item[7. ] Both $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
 
 \end{itemize}
-On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
+On a computer there are multiple ways of representing orthogonal/unitary matrices. The obvious way is to store entries  as a dense matrix, however, this is very inefficient. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
 
 More generally, we will use the group structure: represent general orthogonal/unitary matrices as products of simpler elements of the group. In partular we will use two building blocks:
 
@@ -100,7 +100,7 @@ We have $Q \ensuremath{\in} SO(2)$ if and only if $Q = Q_\ensuremath{\theta}$ fo
 \end{proposition}
 \textbf{Proof}
 
-We will write $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$. Then we have
+First assume $Q_\ensuremath{\theta}$ is of that form and write $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$. Then we have
 \[
 Q_\ensuremath{\theta}^\ensuremath{\top}Q_\ensuremath{\theta} = \begin{pmatrix} c & s \\ -s & c \end{pmatrix} \begin{pmatrix} c & -s \\ s & c \end{pmatrix} = 
 \begin{pmatrix} c^2 + s^2 & 0 \\ 0 & c^2 + s^2 \end{pmatrix} = I
@@ -233,7 +233,7 @@ Note that \emph{building} the matrix $Q_{\ensuremath{\bm{\v}}}$ will be expensiv
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
 \]
 \subsubsection{Householder reflections}
-Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$. We begin with the real case:
+Just as rotations can be used to rotate vectors to be aligned with coordinate axes, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$. We begin with the real case:
 
 \begin{definition}[Householder reflection, real case] For a given vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, define the Householder reflection
 \[

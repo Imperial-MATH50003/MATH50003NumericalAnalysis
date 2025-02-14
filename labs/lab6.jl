@@ -348,7 +348,13 @@ Q = Reflections(V)
 
 # ### III.5.2 Householder reflections and QR
 
-# In the notes we use Householder reflections to prove that a QR factorisation exists.
+# In the notes we use Householder reflections to prove that a QR factorisation exists. That is, 
+# Then we compute a householder $Q_1$ reflection corresponding to the first row
+# and write
+# $$
+# Q_1A = \begin{bmatrix} α & 𝐰^⊤ \\
+#            & A_2 \end{bmatrix}
+# $$
 # The iterative proof actually encodes an algorithm, which we can implement as follows:
 
 
@@ -361,7 +367,7 @@ function householderqr(A)
 
     R = zeros(T, m, n)
     Q = Matrix(one(T)*I, m, m)
-    Aⱼ = copy(A)
+    Aⱼ = copy(A) # initate the recurrence with the full matrix
 
     for j = 1:n
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
@@ -376,7 +382,7 @@ function householderqr(A)
         ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
         Q[:,j:end] = Q[:,j:end]*Q₁
 
-        Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction"
+        Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction", we get out the bottom right block of Q₁*Aⱼ
     end
     Q,R
 end
