@@ -123,7 +123,7 @@ scatter!(𝐱, f.(𝐱); label="samples")
 
 # -------
 
-# **Problem 6(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
+# **Problem 1(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
 # points, plotting the solution at a grid of $1000$ points. For $n = 50$ does your interpolation match
 # the true function?  Does increasing $n$ to 400 improve the accuracy? How about using `BigFloat`?
 # Hint: make sure to make your `range` be `BigFloat` valued, e.g., `range(big(-1), big(1); length=n)`.
@@ -225,7 +225,7 @@ plot!(𝐠, p.(𝐠); label="quadratic")
 
 # -----
 
-# **Problem 6(b)** Repeat the previous problem but now using _least squares_: instead of interpolating,
+# **Problem 1(b)** Repeat the previous problem but now using _least squares_: instead of interpolating,
 # use least squares on a large grid: choose the coefficients of a degree $(n-1)$ polynomial so that
 # $$
 #     \left\| \begin{bmatrix} p(x_1) \\ ⋮ \\ p(x_m) \end{bmatrix} - \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_m) \end{bmatrix} \right \|.
@@ -331,7 +331,7 @@ plot!(ns, ns .^ (-1); label="1/n", linestyle=:dash)
 
 # ------
 
-# **Problem 5(a)** Implement Backward Euler as derived in the problem sheet to approximate
+# **Problem 2(a)** Implement Backward Euler as derived in the problem sheet to approximate
 # indefinite-integration. How does the error compare to forward
 # for $f(x) = \cos x$ on the interval $[0,1]$?
 # Use the method to approximate the indefinite intergral of
@@ -412,7 +412,7 @@ uf = A\[c; f.(x[2:end])]
 
 ## END
 
-# **Problem 5(b)** Implement indefinite-integration
+# **Problem 2(b)** Implement indefinite-integration
 # where we impose the equation on the midpoints $x̃_1,…,x̃_n$ defined as
 # $$
 # x̃_j = {x_{j+1} + x_j \over 2} = a + (j-1/2)h
@@ -525,7 +525,7 @@ scatter!(x, 𝐮; label="forward")
 # ----
 
 
-# **Problem  6** Implement backward Euler for solving:
+# **Problem  3** Implement backward Euler for solving:
 # $$
 # \begin{align*}
 # u(0) &= 1, u'(t) - \cos(t) u(t) = t
@@ -594,7 +594,7 @@ scatter!(x, 𝐮; label="finite differences")
 
 # -----
 
-# **Problem 7(a)** Estimate the rate of convergence in the ∞-norm using the previous example with an increasing number of grid points.
+# **Problem 4(a)** Estimate the rate of convergence in the ∞-norm using the previous example with an increasing number of grid points.
 
 ## TODO: Plot the ∞-norm error and estimate the convergence rate.
 ## SOLUTION
@@ -615,7 +615,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 ## END
 
 
-# **Problem 7(b)** Construct a finite-difference approximation to the
+# **Problem 4(b)** Construct a finite-difference approximation to the
 # forced Helmholtz equation
 # $$
 # \begin{align*}
@@ -653,7 +653,7 @@ x = range(0, 1; length=n+1)
 
 
 
-# **Problem 2(a)** Consider the Helmholtz equations
+# **Problem 5(a)** Consider the Helmholtz equations
 # $$
 # \begin{align*}
 # u(0) &= 0 \\
@@ -683,7 +683,7 @@ end
 lu(helmholtz(20, 2), NoPivot()) # L is lower bidiagonal and U is upper bidiagonal, regardless of n or k
 ## END
 
-# **Problem 2(b)** Repeat Problem 2(a) but with a PLU factorisation. 
+# **Problem 5(b)** Repeat Problem 2(a) but with a PLU factorisation. 
 # Are $L$ and $U$ still banded?
 
 ## TODO: Check sparsity of PLU factorisation
