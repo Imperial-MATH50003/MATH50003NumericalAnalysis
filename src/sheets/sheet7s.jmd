@@ -211,7 +211,56 @@ Multiplying it out we confirm that our conjecture is correct in this case.
 
 **END**
 
-**Problem 3** Derive  Backward Euler: use the left-sided divided difference approximation
+**Problem 3** Compute the interpolatory quadrature rule
+$$
+∫_{-1}^1 f(x) w(x) \dx ≈ ∑_{j=1}^n w_j f(x_j)
+$$
+for the points $[x_1,x_2,x_3] = [-1,1/2,1]$, for the weights $w(x) = 1$ and $w(x) = \sqrt{1-x^2}$.
+
+**SOLUTION**
+
+• $w(x) = 1$
+
+• $w(x) = \sqrt{1-x^2}$
+
+For the points $𝐱 = \{-1, 1/2, 1\}$ we have the Lagrange polynomials:
+$$
+ℓ_1(x) = \left(\frac{x - 1/2}{-1 - 1/2}\right)\cdot\left(\frac{x - 1}{-1 - 1}\right) = \frac{1}{3}\left(x^2 - \frac{3}{2}x + \frac{1}{2}\right),
+$$
+and
+$$
+ℓ_2(x) = -\frac{4}{3}x^2 + \frac{4}{3}, ℓ_3(x) =x^2 + \frac{1}{2}x - \frac{1}{2},
+$$
+similarly. We can then compute the weights,
+$$
+w_j = \int_{-1}^1 ℓ_j(x)w(x)dx,
+$$
+using,
+$$
+\int_{-1}^1 x^k \sqrt{1-x^2}dx = \begin{cases}
+ \frac{π}{2} &	k=0 \\
+ 0 & k=1 \\
+\frac{π}{8} & k=2
+ \end{cases}
+$$
+to find,
+$$
+w_j = \begin{cases}
+ 	\frac{π}{8} & j = 1 \\
+ 	\frac{π}{2} & j = 2 \\
+ 	-\frac{π}{8} & j = 3,
+ \end{cases}
+$$
+so that the interpolatory quadrature rule is:
+$$
+Σ_3^{w,𝐱}(f) = \frac{π}{2}\left(\frac{1}{4}f(-1) + f(1/2) -\frac{1}{4}f(1) \right)
+$$
+
+**END**
+
+----
+
+**Problem 4** Derive  Backward Euler: use the left-sided divided difference approximation
 $$
 u'(x) ≈ {u(x) - u(x-h)  \over h}
 $$
@@ -259,7 +308,7 @@ $$
 **END**
 
 
-**Problem 4** Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
+**Problem 5** Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
 $$
 \meeq{
 u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.

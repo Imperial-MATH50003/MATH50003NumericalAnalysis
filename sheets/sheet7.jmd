@@ -1,0 +1,71 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
+
+
+
+**Problem 1** Use Lagrange interpolation to
+interpolate the function $\cos x$ by a polynomial at the points
+$[0,2,3,4]$ and evaluate at $x = 1$.
+
+
+
+**Problem 2** Compute the LU factorisation of the following transposed Vandermonde matrices:
+$$
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix}
+$$
+Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix.
+
+
+
+**Problem 3** Compute the interpolatory quadrature rule
+$$
+∫_{-1}^1 f(x) w(x) \dx ≈ ∑_{j=1}^n w_j f(x_j)
+$$
+for the points $[x_1,x_2,x_3] = [-1,1/2,1]$, for the weights $w(x) = 1$ and $w(x) = \sqrt{1-x^2}$.
+
+
+
+----
+
+**Problem 4** Derive  Backward Euler: use the left-sided divided difference approximation
+$$
+u'(x) ≈ {u(x) - u(x-h)  \over h}
+$$
+to reduce the first order ODE
+$$
+\meeq{
+u(a) =  c, \qquad u'(x) + ω(x) u(x) = f(x)
+}
+$$
+to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the
+gridpoints $x_1,…,x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
+
+
+
+
+
+**Problem 5** Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
+$$
+\meeq{
+u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
+}
+$$
+
+
+
+
+
+

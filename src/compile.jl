@@ -20,13 +20,15 @@ compilenotes("III.3.Cholesky")
 compilenotes("III.4.OrthogonalMatrices")
 compilenotes("III.5.QR")
 
-# compilenotes("III.4.Regression")
-# compilenotes("III.2.DifferentialEquations")
-# compilenotes("IV.1.Fourier")
-# compilenotes("IV.2.DFT")
-# compilenotes("IV.3.OrthogonalPolynomials")
-# compilenotes("IV.4.ClassicalOPs")
-# compilenotes("IV.5.GaussianQuadrature")
+compilenotes("IV.1.Regression")
+compilenotes("IV.2.DifferentialEquations")
+
+# compilenotes("V.1.Fourier")
+# compilenotes("V.2.DFT")
+
+# compilenotes("VI.3.OrthogonalPolynomials")
+# compilenotes("VI.4.ClassicalOPs")
+# compilenotes("VI.5.GaussianQuadrature")
 
 
 compilenotes("A.Asymptotics")

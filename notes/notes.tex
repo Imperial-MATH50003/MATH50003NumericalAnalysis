@@ -180,7 +180,7 @@
 
 \def\Vectt[#1]{
 {
-\def\mapfunction##1{##1 \cr} 
+\def\mapfunction##1{##1 \cr}
 \def\dots{\vdots}
 	\begin{bmatrix}
 		\map[#1]
@@ -201,14 +201,14 @@ In particular we investigate the following mathematical problems which can not i
 
 \begin{enumerate}
 \item Integration. General integrals have no closed form expressions. Can we use a computer to approximate the values of definite integrals?
-\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network. 
+\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network.
 \item Root finding. There is no general formula for finding roots (zeros) of arbitrary functions, or even polynomials that are of degree 5 (quintics) or higher. Can we compute roots of general functions using a computer?
 \end{enumerate}
 
 In this chapter we discuss:
 
 \begin{enumerate}
-\item I.1 Rectangular rule: we review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule. 
+\item I.1 Rectangular rule: we review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule.
 \item I.2 Divided differences: we investigate approximating derivatives by a divided difference and again deduce the convergence rates. In the lab/problem sheet we extend the approach to the central differences formula and computing second derivatives. We also observe a mystery: the approximations may have significant errors in practice, and there is a limit to the accuracy.
 \item I.3 Dual numbers: we introduce the algebraic notion of a {\it dual number} which allows the implemention of {\it forward-mode automatic differentiation}, a high accuracy alternative to divided differences for computing derivatives.
 \item I.4 Newton's method: Newton's method is a basic approach for computing roots/zeros of a function. We use dual numbers to implement this algorithm.
@@ -223,9 +223,9 @@ In this chapter we discuss:
 
 \chapter{Representing Numbers}
 
-In this chapter we aim to answer the question: when can we rely on computations done on a computer?  Why are some computations (differentiation via divided differences), extremely inaccurate whilst others (integration via rectangular rule) accurate up to about 16 digits?  In order to address these questions we need to dig deeper and understand at a basic level what a computer is actually doing when manipulating numbers. 
+In this chapter we aim to answer the question: when can we rely on computations done on a computer?  Why are some computations (differentiation via divided differences), extremely inaccurate whilst others (integration via rectangular rule) accurate up to about 16 digits?  In order to address these questions we need to dig deeper and understand at a basic level what a computer is actually doing when manipulating numbers.
 
-Before we begin it is important to have a basic model of how a computer works. Our simplified model of a computer will consist of a \href{https://en.wikipedia.org/wiki/Central_processing_unit}{Central Processing Unit (CPU)}\ensuremath{\emdash}the  brains of the computer\ensuremath{\emdash}and \href{https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage}{Memory}\ensuremath{\emdash}where  data is stored. Inside the CPU there are \href{https://en.wikipedia.org/wiki/Processor_register}{registers}, where data is temporarily stored after being loaded from memory, manipulated by the CPU, then stored back to memory.  Memory is a sequence of bits: \texttt{1}s and \texttt{0}s, essentially ``on/off" switches, and memory is {\it finite}.  Finally, if one has a $p$-bit CPU (eg a 32-bit or 64-bit CPU), each register consists of exactly $p$-bits. Most likely $p = 64$ on your machine. 
+Before we begin it is important to have a basic model of how a computer works. Our simplified model of a computer will consist of a \href{https://en.wikipedia.org/wiki/Central_processing_unit}{Central Processing Unit (CPU)}\ensuremath{\emdash}the  brains of the computer\ensuremath{\emdash}and \href{https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage}{Memory}\ensuremath{\emdash}where  data is stored. Inside the CPU there are \href{https://en.wikipedia.org/wiki/Processor_register}{registers}, where data is temporarily stored after being loaded from memory, manipulated by the CPU, then stored back to memory.  Memory is a sequence of bits: \texttt{1}s and \texttt{0}s, essentially ``on/off" switches, and memory is {\it finite}.  Finally, if one has a $p$-bit CPU (eg a 32-bit or 64-bit CPU), each register consists of exactly $p$-bits. Most likely $p = 64$ on your machine.
 
 
 Thus representing numbers on a computer must overcome three fundamental limitations:
@@ -241,7 +241,7 @@ In particular we discuss:
 
 \begin{enumerate}
 \item II.1 Reals:  real numbers are approximated by floating point numbers, which are a computers version of scientific notation.
-\item II.2 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds. 
+\item II.2 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds.
 \item II.3 Interval Arithmetic: rounding can be controlled in order to implement {\it interval arithmetic}, a way to compute rigorous bounds for computations. In the lab, we use this to compute up to 15 digits of ${\rm e} \equiv \exp 1$ rigorously with precise bounds on the error.
 \end{enumerate}
 
@@ -255,7 +255,7 @@ In particular we discuss:
 
 Many problems in mathematics are linear: for example, polynomial regression and
 differential equations. Numerical methods for such applications invariably result
-in (finite-dimensional) linear systems that must be solved numerically on a computer: 
+in (finite-dimensional) linear systems that must be solved numerically on a computer:
 the dimensions of the problems are often in the 1000s, millions, or even billions.
 One would certainly not want to tackle that with Gaussian elimination by hand!
 In this chapter we discuss algorithms, and in particular matrix factorisations, that are
@@ -275,7 +275,7 @@ In particular we discuss:
 \item III.5 QR Factorisation: we introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby solving least squares problems.
 \end{enumerate}
 
-Here we are constructing underlying computational tools that are important in applications, such as solving differential equations and data regression, which we discuss later. 
+Here we are constructing underlying computational tools that are important in applications, such as solving differential equations and data regression, which we discuss later.
 
 \input{III.1.StructuredMatrices}
 \input{III.2.LU}
@@ -285,15 +285,22 @@ Here we are constructing underlying computational tools that are important in ap
 
 
 
-% \chapter{Linear Algebra Applications}
+\chapter{Linear Algebra Applications}
 
-%\item III.3 Polynomial Regression: often in data science one needs to approximate data by a polynomial.
-%We discuss how to reduce this problem to solving a rectangular least squares problem.
-% \item III.2 Differential Equations: using divided differences we can reduce differential equations
-% to linear systems. This motivates the investigation of numerical algorithms for solving linear systems.
+Numerical linear algebra underlies many numerical methods in applications, from simulating fluids, to understanding data,
+and underpins neural networks. Here we briefly investigate some applications, allowing us to go beyond our preliminary numerical algorithms from Chapter I,
+giving methods for approximating functions, a more powerful numerical method for computing integrals, and the ability to solve ordinary differential equations.
 
-% \input{III.4.Regression}
-% \input{III.2.DifferentialEquations}
+\begin{enumerate}
+\item IV.1 Polynomial Interpolation and Regression: Often in data science one needs to approximate data by a polynomial.
+We discuss polynomial interpolation and see how it can be used to compute integrals. We also discuss regression, where more data is used than the degree of the polynomial,
+leading to a robust approach can be produced by solving a rectangular least squares problem.
+\item IV.2 Differential Equations: Divided differences can can be used to {\it discretise} differential equations. That is, we can recast differential equation
+as (approximately) solutions to linear systems. 
+\end{enumerate}
+
+\input{IV.1.Regression}
+\input{IV.2.DifferentialEquations}
 
 
 
@@ -336,7 +343,7 @@ Here we are constructing underlying computational tools that are important in ap
 % We further saw that rigorous computations and analysis could be deduced by understanding floating point arithmetic, and its usage in
 % constructing interval arithmetic.
 % We also saw the relationship between these problems and numerical linear algebra, exploring some fundamental algorithms for solving linear
-% systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials. 
+% systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials.
 % Gaussian quadrature was a final example where more sophisticated mathematics can lead to more powerful numerical algorithms,
 % achieving exponential convergence for smooth functions.
 
@@ -345,12 +352,12 @@ Here we are constructing underlying computational tools that are important in ap
 % \begin{enumerate}
 % \item Machine Learning (ML): Dual numbers (forward-mode automatic differentiation), Newton's method, and polynomial regression
 %  are baby versions of how ML trains neural networks.  As an example, consider a neural network trained to recognise whether a picture
-%  is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog". 
+%  is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog".
 %  The process of training is essentially regression: find the right parameters so that our function equals (or approximately equals) the
 %  training data at the given ``samples". Since this problem is nonlinear its not as simple as least squares, instead, it relies on more sophisticated
 %  optimisation techniques, that require automatic differentiation to compute gradients for the parameters.
 % \item \href{https://sciml.ai}{Scientific Machine Learning (SciML)}: A particular exciting field is the combination of ML and traditional numerical algorithms for differential equations.
-% For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to 
+% For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to
 % fit real-world data. This is an area where Julia has excelled as it allows high-level, differentiable, code that is compiled and hence efficient.
 %  \item Computer-assisted proofs: By combining interval arithmetic with methods for solving differential equations important theorems in dynamical
 %  systems and elsewhere have been proven. The synthesis of numerical analysis and pure mathematics is really just at the beginning and will likely
@@ -362,7 +369,7 @@ Here we are constructing underlying computational tools that are important in ap
 % \item Spectral methods: orthogonal polynomials in higher dimensions and spherical harmonics (which can be viewed as Fourier series on the sphere)
 % underly spectral methods, which are powerful high-accuracy techniques for solving PDEs, used a lot in fluid simulations which
 % need more accuracy than conventional FEM allows. \href{https://dedalus-project.org}{Dedalus} is a software package for
-% solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package 
+% solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package
 % \href{https://github.com/JuliaApproximation/ApproxFun.jl}{ApproxFun.jl} give a user friendly way of computing with functions built
 % on orthogonal polynomials.
 % \end{enumerate}
