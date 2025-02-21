@@ -314,7 +314,11 @@ plot!(ns, ns .^ (-1); label="1/n", linestyle=:dash)
 
 # ------
 
-# **Problem 5(a)** Implement Backward Euler as derived in the problem sheet to approximate
+# **Problem 5(a)** In the problem sheet we derived Backward Euler using the left-sided divided difference
+# $$
+#   u'(x) ≈ {u(x) - u(x-h) \over h}
+# $$
+# Implement Backward Euler to approximate
 # indefinite-integration. How does the error compare to forward
 # for $f(x) = \cos x$ on the interval $[0,1]$?
 # Use the method to approximate the indefinite intergral of

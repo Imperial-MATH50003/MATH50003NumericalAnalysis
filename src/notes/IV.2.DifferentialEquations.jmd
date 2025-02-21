@@ -6,7 +6,7 @@ linear systems by replacing derivatives with divided difference approximations.
 
 We will focus on the following differential equations. Indefinite integration for $a ≤ x ≤ b$
 can be viewed as solving a very simple first-order linear ODE: given a constant $c ∈ 𝔽$ (where
-as before $𝔽$ is usually $ℝ$ or $ℂ$) and
+ $𝔽$ is either $ℝ$ or $ℂ$) and
 a function $f : [a,b] → 𝔽$, find a differentiable
 function $u : [a,b] → 𝔽$ such that
 $$
@@ -37,21 +37,22 @@ u(b) = d
 }
 $$
 In higher dimensions, the Poisson equation (and other _elliptic_ partial differential equations)
-typically have boundary conditions imposed on the boundary of a complicated geometry 
-and the techniques we discuss for our simple 1D model problem
+typically have boundary conditions imposed on the boundary of a complicated geometry, and give the temperature
+equilibrium of a plate where the temperature is held fixed.
+The techniques we discuss for our simple 1D model problem
 extend to these more challenging settings.
 
 
 Briefly, the basic idea of finite differences is a systematic way of reducing a differential equation
 to a linear system. For each problem we will do the following steps:
 
-1. Discretise $[a,b]$ by a grid of points $x_0,…,x_n$ and write the ODE on each grid point.
-2. Replace derivatives of the solution $u$ with its values on a grid $u(x_j)$ by using a divided difference formula.
+1. Discretise the interval $[a,b]$ by a grid of points $x_0,…,x_n$ and write the ODE on each grid point.
+2. Replace true derivatives of the solution $u$ with approximate derivatives in terms of values on the grid $u(x_j)$ via the divided difference formula.
 3. In the formula replace unknown values of $u(x_j)$ at the grid by new unknowns $u_j$.
 3. Deduce from this  a linear system that can be solved to compute $u_j$ so that (hopefully) $u_j ≈ u(x_j)$. 
 
-**Remark** One can prove convergence of finite difference approximations but this is beyond the scope
-of this module. In the lab we determine convergence rates experimentally.
+**Remark** There is a rich theory proving convergence of finite difference approximations to the true solution of ODEs but this is beyond the scope
+of this module, instead, we just learn the recipe. In the lab we determine convergence rates experimentally.
 
 
 
@@ -65,7 +66,7 @@ u'(x) &= f(x)
 \end{align*}
 $$
 As in integration we will use an evenly spaced grid $a = x_0 < x_1 < … < x_n = b$ defined by
-$x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + ∫_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules to
+$x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + ∫_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules 
 to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another approach that will generalise to
 other differential equations. 
 
@@ -229,3 +230,4 @@ $$
    && 1/h^2 & -2/h^2 & 1/h^2 \\ 
    &&&& 1 \end{bmatrix}}_A \underbrace{\Vectt[u_0,u_1,⋮,u_n]}_{𝐮} = 𝐛
 $$
+This can be solved in $O(n)$ complexity using a banded LU or QR factorisation.

@@ -5,7 +5,7 @@
 A more robust scheme that overcomes some of the issues with naive polynomial interpolation is \emph{polynomial regression}, where we use more data than the degrees of freedom in the polynomial. We can determine such a polynomial by solving a \emph{least squares peroblem}: instead of insisting that the polynomial matches data exactly, we find the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. 
 
 \subsection{Polynomial interpolation}
-Our prelimary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
+Our prelimary goal is given a set of points and data at those points, usually samples of a function $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 
 \begin{definition}[interpolatory polynomial] Given \emph{distinct} points $\ensuremath{\bm{\x}} = \vectt[x_1,\ensuremath{\ldots},x_n] \ensuremath{\in} \ensuremath{\bbC} ^n$ and \emph{data} $\ensuremath{\bm{\f}} = \vectt[f_1,\ensuremath{\ldots},f_n] \ensuremath{\in} \ensuremath{\bbC}^n$, a degree $n-1$ \emph{interpolatory polynomial} $p(x)$ satisfies
 \[
@@ -61,7 +61,7 @@ We can invert square Vandermonde matrix numerically in $O(n^3)$ operations using
 
 Plugging in the grid points verifies that $\ensuremath{\ell}_k(x_j) = \ensuremath{\delta}_{kj}$.
 
-We can use the Lagrange basis to direct construct the interpolatory polynomial:
+We can use the Lagrange basis to directly construct the interpolatory polynomial:
 
 \begin{theorem}[Lagrange interpolation] The unique interpolation polynomial is:
 \[
@@ -83,12 +83,12 @@ p(x) &= \ensuremath{\ell}_1(x) + {\rm e} \ensuremath{\ell}_2(x) + {\rm e}^2 \ens
 \end{align*}
 \end{example}
 
-\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea: interpolation is inherently ill-conditioned. The lab  explores this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation.  This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors).  We will discuss alternative bases later.
+\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea as it  is inherently ill-conditioned. The lab  explores this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation.  This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors).  Use alternative sets of points and bases entirely overcomes this issue.
 
 \subsection{Interpolatory quadrature rules}
 Interpolation leads naturally to quadrature rules where one integrates the interpolatory polynomial exactly. This can be viewed as an extension of one-panel Rectangular Rules (which are degree 0 interpolants at a single point) and Trapezium Rules (which are degree 1 interpolants at two points).  Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple weighted sum:
 
-\begin{definition}[interpolatory quadrature rule] Given a set of points $\ensuremath{\bm{\x}} = [x_1,\ensuremath{\ldots},x_n]$ the interpolatory quadrature rule is:
+\begin{definition}[interpolatory quadrature rule] Given a set of points $\ensuremath{\bm{\x}} = [x_1,\ensuremath{\ldots},x_n]^\ensuremath{\top}$ the interpolatory quadrature rule is:
 \[
 \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f] := \ensuremath{\sum}_{j=1}^n w_j f(x_j)
 \]
@@ -132,7 +132,7 @@ This is indeed exact for polynomials up to degree $2$ (and no more):
 \end{example}
 
 \subsection{Polynomial regression}
-In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the lab) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression}: use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.
+In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the lab) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression}: use more sample points  than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.
 
 More precisely, for $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^m$ and for $n < m$ we want to find a degree $n-1$ polynomial
 \[

@@ -13,7 +13,7 @@ the polynomial matches data exactly, we find the polynomial whose samples at the
 
 ## Polynomial interpolation
 
-Our prelimary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function
+Our prelimary goal is given a set of points and data at those points, usually samples of a function
 $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 
 **Definition (interpolatory polynomial)** Given _distinct_ points $𝐱 = \vectt[x_1,…,x_n] ∈ ℂ ^n$
@@ -80,7 +80,7 @@ $$
 
 Plugging in the grid points verifies that $ℓ_k(x_j) = δ_{kj}$.
 
-We can use the Lagrange basis to direct construct the interpolatory polynomial:
+We can use the Lagrange basis to directly construct the interpolatory polynomial:
 
 **Theorem (Lagrange interpolation)**
 The unique interpolation polynomial is:
@@ -108,12 +108,11 @@ $$
 ∎
 
 
-**Remark** Interpolating at evenly spaced points is a really _bad_ idea:
-interpolation is inherently ill-conditioned.
+**Remark** Interpolating at evenly spaced points is a really _bad_ idea as it  is inherently ill-conditioned.
 The lab  explores this issue experimentally. Another
 serious issue is that monomials are a horrible basis for interpolation. 
 This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). 
-We will discuss alternative bases later.
+Use alternative sets of points and bases entirely overcomes this issue.
 
 ## Interpolatory quadrature rules
 
@@ -124,7 +123,7 @@ at two points).
 Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple
 weighted sum:
 
-**Definition (interpolatory quadrature rule)** Given a set of points $𝐱 = [x_1,…,x_n]$
+**Definition (interpolatory quadrature rule)** Given a set of points $𝐱 = [x_1,…,x_n]^⊤$
 the interpolatory quadrature rule is:
 $$
 Σ_n^{w,𝐱}[f] := ∑_{j=1}^n w_j f(x_j)
@@ -182,7 +181,7 @@ $$
 
 In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the lab)
 interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the
-noise rather than the signal. A simple solution is _polynomial regression_: use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called _linear regression_.
+noise rather than the signal. A simple solution is _polynomial regression_: use more sample points  than the degrees of freedom in the polynomial. The special case of an affine polynomial is called _linear regression_.
 
 More precisely, for $𝐱 ∈ ℂ^m$ and for $n < m$ we want to find a degree $n-1$ polynomial
 $$

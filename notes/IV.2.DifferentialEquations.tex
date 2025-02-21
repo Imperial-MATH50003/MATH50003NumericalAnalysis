@@ -2,7 +2,7 @@
 \section{Differential Equations via Finite Differences}
 Linear algebra is a powerful tool for solving linear equations, including \ensuremath{\infty}-dimensional ones like differential equations. In this section we discuss \emph{finite differences}: an algorithmic way of reducing ODEs to linear systems by replacing derivatives with divided difference approximations. 
 
-We will focus on the following differential equations. Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$ can be viewed as solving a very simple first-order linear ODE: given a constant $c \ensuremath{\in} \ensuremath{\bbF}$ (where as before $\ensuremath{\bbF}$ is usually $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$) and a function $f : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$, find a differentiable function $u : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$ such that
+We will focus on the following differential equations. Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$ can be viewed as solving a very simple first-order linear ODE: given a constant $c \ensuremath{\in} \ensuremath{\bbF}$ (where  $\ensuremath{\bbF}$ is either $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$) and a function $f : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$, find a differentiable function $u : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$ such that
 \meeq{
 u(a) = c, \ccr
 u'(x) = f(x).
@@ -18,15 +18,15 @@ u(a) = c, \ccr
 u''(x) = f(x), \ccr
 u(b) = d
 }
-In higher dimensions, the Poisson equation (and other \emph{elliptic} partial differential equations) typically have boundary conditions imposed on the boundary of a complicated geometry  and the techniques we discuss for our simple 1D model problem extend to these more challenging settings.
+In higher dimensions, the Poisson equation (and other \emph{elliptic} partial differential equations) typically have boundary conditions imposed on the boundary of a complicated geometry, and give the temperature equilibrium of a plate where the temperature is held fixed. The techniques we discuss for our simple 1D model problem extend to these more challenging settings.
 
 Briefly, the basic idea of finite differences is a systematic way of reducing a differential equation to a linear system. For each problem we will do the following steps:
 
 \begin{itemize}
-\item[1. ] Discretise $[a,b]$ by a grid of points $x_0,\ensuremath{\ldots},x_n$ and write the ODE on each grid point.
+\item[1. ] Discretise the interval $[a,b]$ by a grid of points $x_0,\ensuremath{\ldots},x_n$ and write the ODE on each grid point.
 
 
-\item[2. ] Replace derivatives of the solution $u$ with its values on a grid $u(x_j)$ by using a divided difference formula.
+\item[2. ] Replace true derivatives of the solution $u$ with approximate derivatives in terms of values on the grid $u(x_j)$ via the divided difference formula.
 
 
 \item[3. ] In the formula replace unknown values of $u(x_j)$ at the grid by new unknowns $u_j$.
@@ -35,7 +35,7 @@ Briefly, the basic idea of finite differences is a systematic way of reducing a 
 \item[4. ] Deduce from this  a linear system that can be solved to compute $u_j$ so that (hopefully) $u_j \ensuremath{\approx} u(x_j)$. 
 
 \end{itemize}
-\textbf{Remark} One can prove convergence of finite difference approximations but this is beyond the scope of this module. In the lab we determine convergence rates experimentally.
+\textbf{Remark} There is a rich theory proving convergence of finite difference approximations to the true solution of ODEs but this is beyond the scope of this module, instead, we just learn the recipe. In the lab we determine convergence rates experimentally.
 
 \subsection{Indefinite integration}
 We begin with the simplest differential equation on an interval $[a,b]$:
@@ -43,7 +43,7 @@ We begin with the simplest differential equation on an interval $[a,b]$:
 u(a) &= c, \\
 u'(x) &= f(x)
 \end{align*}
-As in integration we will use an evenly spaced grid $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules to to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another approach that will generalise to other differential equations. 
+As in integration we will use an evenly spaced grid $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules  to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another approach that will generalise to other differential equations. 
 
 Consider a divided difference approximation like right-sided divided differences: 
 \[
@@ -186,5 +186,7 @@ u_n] = \ensuremath{\bm{\b}}
    && 1/h^2 & -2/h^2 & 1/h^2 \\ 
    &&&& 1 \end{bmatrix}}_A \underbrace{\Vectt[u_0,u_1,\ensuremath{\vdots},u_n]}_{\ensuremath{\bm{\u}}} = \ensuremath{\bm{\b}}
 \]
+This can be solved in $O(n)$ complexity using a banded LU or QR factorisation.
+
 
 
