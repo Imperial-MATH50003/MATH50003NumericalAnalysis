@@ -305,21 +305,25 @@ as (approximate) solutions to linear systems.  We investigate using this approac
 
 
 
-% \chapter{Numerical Fourier series}
+ \chapter{Numerical Fourier series}
 
-% So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
-% differential equations, primarily based on representing functions by their values at a grid of points.
-% But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
-% numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
-% and orthogonal polynomials for non-periodic functions that are smooth within an interval.
-% Here we introduce these fundamental tools and explore applications to quadrature (computing integrals) where they
-% produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
+ So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
+ differential equations, primarily based on representing functions by their values at a grid of points.
+ But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
+ numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
+ and orthogonal polynomials for non-periodic functions that are smooth within an interval.
+ Here we introduce these fundamental tools and explore applications to quadrature (computing integrals) where they
+ produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
 
-% \begin{enumerate}
-%     \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
-%     \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+ \begin{enumerate}
+     \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
+     \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+\end{enumerate}
 
-% \chapter{Orthogonal ploynomials}
+\input{V.1.Fourier}
+\input{V.2.DFT}
+
+% \chapter{Orthogonal Polynomials}
 
 %     \item IV.3 Orthogonal Polynomials: For non-periodic functions we consider orthogonal polynomials, and discuss their basic properties.
 %     \item IV.4 Classical Orthogonal Polynomials: For certain weights, orthogonal polynomials are classical and have addition structure that are useful for computations.
@@ -329,8 +333,7 @@ as (approximate) solutions to linear systems.  We investigate using this approac
 % We stop at integration, but Fourier and orthogonal polynomial expansions also lead to very effective scheme for solving differential equations
 % and many other applications.
 
-% \input{IV.1.Fourier}
-% \input{IV.2.DFT}
+
 % \input{IV.3.OrthogonalPolynomials}
 % \input{IV.4.ClassicalOPs}
 % \input{IV.5.GaussianQuadrature}

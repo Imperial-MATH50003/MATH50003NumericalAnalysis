@@ -23,8 +23,8 @@ compilenotes("III.5.QR")
 compilenotes("IV.1.Regression")
 compilenotes("IV.2.DifferentialEquations")
 
-# compilenotes("V.1.Fourier")
-# compilenotes("V.2.DFT")
+compilenotes("V.1.Fourier")
+compilenotes("V.2.DFT")
 
 # compilenotes("VI.3.OrthogonalPolynomials")
 # compilenotes("VI.4.ClassicalOPs")
@@ -40,7 +40,7 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:5
+for k = 1:8
     compilesheet(k)
 end
 
@@ -52,7 +52,7 @@ end
 ####
 # Labs
 ####
-for k = 1:5
+for k = 1:8
     compilelab(k)
     compilelabdemo(k)
 end
