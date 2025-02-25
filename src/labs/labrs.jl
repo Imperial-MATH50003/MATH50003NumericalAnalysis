@@ -1,4 +1,4 @@
-# # MATH50003 (2023–24)
+# # MATH50003 (2024–25)
 # # Revision Lab
 
 using LinearAlgebra, SetRounding, Test
@@ -189,54 +189,9 @@ end
 @test sqrt(big(2.0)) in sqrt(Interval(2.0))
 
 
-# **Problem 6(a)**  Consider the Schrödinger equation with quadratic oscillator:
-# $$
-# u(-L) = u(L) = 0, -u'' + x^2 u = f(x)
-# $$
-# Use row-eliminations to recast the tridiagonal finite-difference discretisation as a symmetric tridiagonal
-# system, solved via the `SymTridiagonal` type,.
 
-function schrodingersolve(n, L, f)
-    x = range(-L,L;length=n+1) # discretisation grid
-    ## TODO: Implement finite differences using a SymTridiagonal matrix, by using the knowledge of the solution at ±L.
-    ## SOLUTION
-    ## In the standard triangular discretisation, we can 
-    h = step(x)
-    A = SymTridiagonal(2/h^2 .+  x[2:end-1].^2, fill(-1/h^2, n-2))
-    [0; A \ f.(x[2:end-1]); 0]
-    ## END
-end
 
-f = x-> 2exp(-x^2) - 3exp(-x^2)*x^2
-n,L = 10000,10
-x = range(-L,L;length=n+1)
-@test schrodingersolve(n, L, f) ≈ exp.(-x.^2) atol=1E-4
-
-# **Problem 6(b)** The `eigvals` function computes eigenvalues of a matrix. Use this alongside the
-# symmetric diagonal discretisation to approximate $λ$ such that
-# $$
-# u(-L) = u(L) = 0, -u'' + x^2 u = λ u
-# $$
-# has a non-zero solution (i.e., an eigenvalue of the differential equation).
-# Can you conjecture their exact value if $L → ∞$? 
-
-function shrodingereigvals(n, L)    
-    x = range(-L,L;length=n+1) # discretisation grid
-    ## TODO: Use eigvals with a SymTridiagonal discretisation to approximate the eigenvalues of a Schrödinger operator
-    ## SOLUTION
-    h = step(x)
-    eigvals(SymTridiagonal(2/h^2 .+  x[2:end].^2, fill(-1/h^2, n-1)))
-    ## END
-end
-
-## TODO: add experiments and a comment where you conjecture the true eigenvalues.
-## SOLUTION
-
-shrodingereigvals(10_000, 100) # the eigvals are approx 1, 3, 5, …
-## Conjecture: 1+2k are the true eigenvalues eigenvalue.
-## END
-
-# **Problem 7** Implement `reversecholesky(A)` that returns an upper-triangular matrix `U` such that `U*U' ≈ A`.
+# **Problem 6** Implement `reversecholesky(A)` that returns an upper-triangular matrix `U` such that `U*U' ≈ A`.
 # You may assume the input is symmetric positive definite and has `Float64` values. You must not use the inbuilt `cholesky`
 # function or in any other way reduce the problem to a standard Cholesky factorisation.
 
@@ -274,30 +229,7 @@ U = reversecholesky(A)
 
 
 
-# **Problem 8** Complete the function `lagrangebasis(g, k, x)` where `g` is a vector of grid
-# points, that computes the Lagrange basis function at the point `x`. You may assume all numbers
-# are `Float64`.
-
-function lagrangebasis(g::AbstractVector, k, x)
-    n = length(g) # number of points
-    ## TODO: compute ℓ_k(x) corresponding to the grid g
-    ## SOLUTION
-    ret = 1.0
-    for j = 1:n
-        if j ≠ k
-            ret *= (x-g[j])/(g[k]-g[j])
-        end
-    end
-    ret
-    ## END
-end
-
-g = 1:5
-@test lagrangebasis(g, 2, 2) == 1
-@test lagrangebasis(g, 2, 3) == lagrangebasis(g, 2, 4) ==  0
-@test lagrangebasis(g, 3, 0.1) ≈ 8.169525
-
-# **Problem 9(a)**  Construct a reverse Householder reflection, that gives an orthogonal matrix
+# **Problem 7(a)**  Construct a reverse Householder reflection, that gives an orthogonal matrix
 # $Q$ such that, for $𝐱 ∈ ℝ^n$,
 # $$
 # 𝐱^⊤ Q = \|𝐱\|𝐞_1^⊤.
@@ -319,7 +251,7 @@ x = randn(5)
 Q = reversehouseholderreflection(x)
 @test x'Q ≈ [norm(x) zeros(1,4)]
 
-# **Problem 9(b)** 
+# **Problem 7(b)** 
 # Complete the function `lq(A)` that
 # returns a LQ factorisation, that is, `A = LQ` where  `L` is lower triangular and `Q` is an orthogonal
 # matrix. You may assume that `A` is a square `Matrix{Float64}`.  Do not manipulate the problem
@@ -345,3 +277,74 @@ L,Q = lq(A)
 @test Q'Q ≈ I
 @test L*Q ≈ A
 @test L ≈ tril(L) # it is acceptable to have small non-zero entries in L
+
+
+# **Problem 8** Complete the function `lagrangebasis(g, k, x)` where `g` is a vector of grid
+# points, that computes the Lagrange basis function at the point `x`. You may assume all numbers
+# are `Float64`.
+
+function lagrangebasis(g::AbstractVector, k, x)
+    n = length(g) # number of points
+    ## TODO: compute ℓ_k(x) corresponding to the grid g
+    ## SOLUTION
+    ret = 1.0
+    for j = 1:n
+        if j ≠ k
+            ret *= (x-g[j])/(g[k]-g[j])
+        end
+    end
+    ret
+    ## END
+end
+
+g = 1:5
+@test lagrangebasis(g, 2, 2) == 1
+@test lagrangebasis(g, 2, 3) == lagrangebasis(g, 2, 4) ==  0
+@test lagrangebasis(g, 3, 0.1) ≈ 8.169525
+
+# **Problem 9(a)**  Consider the Schrödinger equation with quadratic oscillator:
+# $$
+# u(-L) = u(L) = 0, -u'' + x^2 u = f(x)
+# $$
+# Use row-eliminations to recast the tridiagonal finite-difference discretisation as a symmetric tridiagonal
+# system, solved via the `SymTridiagonal` type,.
+
+function schrodingersolve(n, L, f)
+    x = range(-L,L;length=n+1) # discretisation grid
+    ## TODO: Implement finite differences using a SymTridiagonal matrix, by using the knowledge of the solution at ±L.
+    ## SOLUTION
+    ## In the standard triangular discretisation, we can 
+    h = step(x)
+    A = SymTridiagonal(2/h^2 .+  x[2:end-1].^2, fill(-1/h^2, n-2))
+    [0; A \ f.(x[2:end-1]); 0]
+    ## END
+end
+
+f = x-> 2exp(-x^2) - 3exp(-x^2)*x^2
+n,L = 10000,10
+x = range(-L,L;length=n+1)
+@test schrodingersolve(n, L, f) ≈ exp.(-x.^2) atol=1E-4
+
+# **Problem 9(b)** The `eigvals` function computes eigenvalues of a matrix. Use this alongside the
+# symmetric diagonal discretisation to approximate $λ$ such that
+# $$
+# u(-L) = u(L) = 0, -u'' + x^2 u = λ u
+# $$
+# has a non-zero solution (i.e., an eigenvalue of the differential equation).
+# Can you conjecture their exact value if $L → ∞$? 
+
+function shrodingereigvals(n, L)    
+    x = range(-L,L;length=n+1) # discretisation grid
+    ## TODO: Use eigvals with a SymTridiagonal discretisation to approximate the eigenvalues of a Schrödinger operator
+    ## SOLUTION
+    h = step(x)
+    eigvals(SymTridiagonal(2/h^2 .+  x[2:end].^2, fill(-1/h^2, n-1)))
+    ## END
+end
+
+## TODO: add experiments and a comment where you conjecture the true eigenvalues.
+## SOLUTION
+
+shrodingereigvals(10_000, 100) # the eigvals are approx 1, 3, 5, …
+## Conjecture: 1+2k are the true eigenvalues eigenvalue.
+## END

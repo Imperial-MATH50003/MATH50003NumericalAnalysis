@@ -32,7 +32,15 @@ Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.
 7. IV.1 Polynomial Interpolation and Regression and IV.2 Differential Equations via Finite Differences
    - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb)
    - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf)
+8. V.1 Fourier Expansions and V.2 Discrete Fourier Transform
+   - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb)
+   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf)
 
+
+## Revision
+
+1. [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labr.ipynb)
+2. Revision Sheet
 
 
 ## Assessment

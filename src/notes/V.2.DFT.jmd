@@ -11,7 +11,6 @@ is unitary which leads to important properties including interpolation.
 most influencial algorithms of the 20th century: the Fast Fourier Transform. But this is beyond the scope of this module.
 
 
-## The Discrete Fourier transform
 
 **Definition (DFT)**
 The _Discrete Fourier Transform (DFT)_ is defined as:
@@ -108,7 +107,7 @@ $$
 
 
 
-## Interpolation
+## Trigonometric Interpolation
 
 We investigated  interpolation and least squares using polynomials at evenly spaced points, observing that
 there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier
