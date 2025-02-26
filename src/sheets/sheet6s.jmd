@@ -152,7 +152,11 @@ $$
 **SOLUTION**
 Because the first entry has negative sign we have
 $$
-𝐲_1 = \Vectt[-1,2,2] - 3\Vectt[1,0,0] = \Vectt[-4,2,2] ⇒ 𝐰 = {1 \over \sqrt{6}} \Vectt[-2,1,1].
+𝐲_1 = \Vectt[-1,2,2] - 3\Vectt[1,0,0] = \Vectt[-4,2,2] ⇒ 𝐰_1 = {1 \over \sqrt{6}} \Vectt[-2,1,1].
+$$
+Hence
+$$
+Q_1 = I - 2𝐰_1 𝐰_1^⊤ = \begin{bmatrix} -1 & 2 & 2 \\ 2 & 2 & -1 \\ 2 & -1 & 2 \end{bmatrix}/3
 $$
 Note that
 $$
@@ -160,8 +164,38 @@ Q_1 𝐚_2 = 𝐚_2 - {1 \over 3}  \Vectt[-2,1,1] (-4 + 4 + 3) = \Vectt[4, 3, 2]
 $$
 thus
 $$
-Q_1 A = \sopmatrix{3 & 4 \\ & 3 \\ & 2}
+ A = Q_1\sopmatrix{3 & 4 \\ & 3 \\ & 2}
 $$
+Continuing we have $A_2 = [3,2]$ hence construct
+$$
+𝐲_2 = \Vectt[3,2] + \sqrt{13}\Vectt[1,0] = \Vectt[3+\sqrt{13},2] ⇒ 𝐰_2 = {1 \over \sqrt{26+6\sqrt{13}}} \Vectt[3+\sqrt{13},2].
+$$
+Hence
+$$
+Q_2 = I - 2 𝐰_2 𝐰_2^⊤ = \begin{bmatrix} -9-3\sqrt{13} & -6-2\sqrt{13} \\ 
+                                         -6-2\sqrt{13} & 9+3\sqrt{13} \end{bmatrix}/(13+3\sqrt{13})
+$$
+and we have
+$$
+A = \underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q \begin{bmatrix}3 & 4 \\ & -\sqrt{13} \\ & 0 
+\end{bmatrix}
+$$
+where
+$$
+Q = \begin{bmatrix} -1 & -30-10\sqrt{13} & 6+2\sqrt{13} \\
+            2 & -12-4\sqrt{13} & -21-7\sqrt{13} \\
+            2 & -3-\sqrt{13} & 24+8\sqrt{13} \end{bmatrix} \begin{bmatrix} 1/3 \\ & 1/(3(13+3\sqrt{13})) \\ && 1/(3(13+3\sqrt{13})) \end{bmatrix}
+$$
+The reduced QR factorisation comes from dropping the last column of $Q$ and row of $R$:
+$$
+A = \underbrace{\begin{bmatrix} -1 & -30-10\sqrt{13}  \\
+            2 & -12-4\sqrt{13}  \\
+            2 & -3-\sqrt{13}  \end{bmatrix} \begin{bmatrix} 1/3 \\ & 1/(3(13+3\sqrt{13})) \end{bmatrix}}_{Q̂} 
+            \underbrace{\begin{bmatrix}3 & 4 \\ & -\sqrt{13} 
+\end{bmatrix}}_{R̂}
+$$
+
+
 
 **END**
 

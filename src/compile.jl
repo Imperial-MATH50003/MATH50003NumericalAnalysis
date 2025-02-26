@@ -45,14 +45,14 @@ for k = 1:5
 end
 
 
-for k = 1:3
+for k = 1:6
     compilesheetsolution(k)
 end
 
 ####
 # Labs
 ####
-for k = 1:5
+for k = 1:6
     compilelab(k)
     compilelabdemo(k)
 end
@@ -63,9 +63,9 @@ end
 compilelabsolution(1)
 compilelabsolution(2)
 compilelabsolution(3)
-# compilelabsolution(4)
-# compilelabsolution(5)
-# compilelabsolution(6)
+compilelabsolution(4)
+compilelabsolution(5)
+compilelabsolution(6)
 # compilelabsolution(7)
 # compilelabsolution(8)
 
