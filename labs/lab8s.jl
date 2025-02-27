@@ -462,13 +462,13 @@ scatter!(θ, exp.(θ)) # we interpolate
 # $$
 # f_n(θ) = ∑_{k=0}^{n-1} c_k^n \cos k θ.
 # $$
-# Compare $f_n$ and $f$ for  $f(θ) = \exp θ$  and $\exp(\cos(θ))$ on $[0,π]$ for $n = 5, 20$.
+# Compare $f_n$ and $f$ for  $f(θ) = \exp θ$  and $\exp(\cos(θ))$ on $[0,π]$ for $n = 5, and 20$.
 # Does the approximate cosine expansion interpolate both functions? Expain how the convergence properties better than Fourier, even for non-even functions.
 # Can you explain this phenomena?
 
 ## TODO: by plotting the cosine expansion make some observations on the interpolation and convergence
 
-## SOLUTION
+
 g = range(0,π,1000)
 plot(g, exp.(g); label="exp")
 n = 5
