@@ -1,17 +1,28 @@
 # # MATH50003 (2024–25)
 # # Lab 8: V.1 Fourier Expansions and V.2 Discrete Fourier Transform
 
+# This lab explores the practical implementation of Fourier expansions on a computer,
+# in particular, via use the periodic Trapezium rule for approximating the Fourier coefficients.
+# This has a number of wonderful properties including interpolating data exactly, and
+# can be expressed cleanly in terms of the Discrete Fourier Transform (DFT).
+# We also explore the closely related cousins of the Fourier expansion: the Fourier–Taylor expansion
+# (for functions with only non-negative Fourier coefficients) and the Cosine expansion (for even functions).
+
 # 
 # **Learning Outcomes**
 #
 # Mathematical knowledge:
 
-# 1. 
+# 1. Computing Fourier coefficients and approximating Fourier expansions.
+# 2. Extensions to Cosine expansions and discrete cosine coefficients.
+# 3. The relationship between regularity and convergence of Fourier expansions.
+# 4. The Discrete Fourier Transform and the Discrete Cosine Transform.
+# 5. The interpolatory behaviour of approximate Fourier expansions.
 
 # Coding knowledge:
 
-# 1. The FFTW.jl package and the `fft` function.
-# 2. 
+# 1. The QuadGK.jl package and `quadgk` function for black box numerical integration.
+# 2. The FFTW.jl package and the `fft` function for applying the Discrete Fourier Transform fast.
 
 
 # We first load  packages we need including two new ones, FFTW.jl (for the fast Foourier transform)
@@ -252,24 +263,243 @@ end
 f = θ -> exp(cos(θ))
 @test periodictrapeziumrule(f, 10) ≈ quadgk(f, 0, 2π)[1]/(2π)
 
-# **Problem 3** Implement the functio
+# This satisfies the discrete orthogonality property:
 
-# **Problem 4**
-
+n = 5
+k = 3
+@test [periodictrapeziumrule(θ -> exp(im*(k-ℓ)*θ), n) for ℓ=-20:20] ≈ [mod(ℓ,n) == mod(k,n) ? 1 : 0 for ℓ=-20:20]
 
 # ### V.1.3 Convergence of Approximate Fourier expansions
 
 
-# **Problem 5**
+
+# We can use the periodic trapezium rule to compute discrete Fourier coefficients $f̂_k^n$ via:
+
+discretefouriercoefficient(f, k, n) = periodictrapeziumrule(θ -> exp(-im*k*θ)f(θ), n)
+
+# These satisfy the aliasing formula
+# $$
+# f̂_k^n = ⋯ + f̂_{k-n} + f̂_k + f̂_{k+n} + …
+# $$
+# which we can verify for this case since $f̂_k$ decays very rapidly:
+
+n = 4
+@test discretefouriercoefficient(f, 1, n) ≈  fouriercoefficient(f, 1-2n) + fouriercoefficient(f, 1-n) + fouriercoefficient(f, 1) + fouriercoefficient(f, 1+n) + fouriercoefficient(f, 1+2n)
+
+# ------
+
+
+
+# **Problem 3** Implement the following function `discretecosinecoefficient(f, k, n)` that implements the discrete Cosine coefficient defined via
+# $$
+# c_k^n := \begin{cases} 1 & k = 0 \\ 2 & \hbox{otherwise} \end{cases} {1 \over n} ∑_{j=1}^n f(θ_j) \cos k θ_j
+# $$
+# where $θ_j = π(j-1/2)/n$.
+
+function discretecosinecoefficient(f, k, n)
+    ## TODO: implement the above approximation to the coefficient in the cosine expansion
+    ## SOLUTION
+    ret = 0.0
+    for j = 1:n
+        θⱼ = π*(j-1/2)/n
+        ret = ret + f(θⱼ)*cos(k*θⱼ)
+    end
+    if k == 0
+        ret/n
+    else
+        2ret/n
+    end
+    ## END
+end
+
+n = 5
+@test [discretecosinecoefficient(θ -> 1, ℓ, n) for ℓ = 0:n-1] ≈ [ℓ == 0 ? 1 : 0 for ℓ=0:n-1]
+
+k = 3
+@test [discretecosinecoefficient(θ -> cos(k*θ), ℓ, n) for ℓ = 0:n-1] ≈ [ℓ == k ? 1 : 0 for ℓ=0:n-1]
+
+
+
+# ------
 
 # ## V.2 Discrete Fourier Transform
 
+# The discrete Fourier transform (DFT) expresses the map from function values to discrete Fourier coefficients as a matrix:
 
-# The Fast Fourier Transform is 
+discretefouriertransform(n) = [exp(-2im*π/n * k*j) for k=0:n-1,j=0:n-1]/sqrt(n)
+
+n = 10
+Q = discretefouriertransform(n)
+@test Q'Q ≈ I # Q is unitary
+θ = [2π*j/n for j=0:n-1]
+## Matches the discrete Fourier coefficient:
+@test Q/sqrt(n) * exp.(θ) ≈ [discretefouriercoefficient(exp, k, n) for k=0:n-1]
 
 
-# **Problem 6**
+# FFTW.jl gives its own implementation of the DFT (up to multiplication by $\sqrt n$) computed via the Fast Fourier Transform (FFT):
+
+@test fft(exp.(θ)) ≈ sqrt(n) * Q * exp.(θ)
+
+# Matrix multiplication is $O(n^2)$ operations whilst the FFT costs $O(n \log n)$ operations, which is
+# a substantial speedup.
+
+# **Problem 4** Use `fft` in the function `specialsum(n)` to construct a vector to compute $[S_n(0),…,S_n(n-1)]$ for
+# $$
+#    S_n(k) := ∑_{p=0}^∞ {1 \over (k+p n)!}.
+# $$
+
+function specialsum(n)
+    ## TODO: implement a numerical algorithm using fft to compute [S_n(0),…,S_n(n-1)], fast enough that the test passes
+    ## SOLUTION
+    θ = range(0,2π,n+1)[1:end-1] # == [2π*j/n for j=0:n-1]
+    fft(exp.(exp.(im .* θ)))/n
+    ## END
+end
+
+
+n = 5
+@test specialsum(n) ≈ [sum(1/factorial(big(k+p*n)) for p = 0:10) for k=0:n-1]
+n = 100_000
+@test length(specialsum(n)) == n
+@test specialsum(n)[1:10] ≈ [1/factorial(k) for k=0:n-1]
+# -----
 
 # ### V.2.1 Trigonometric Interpolation
 
-# **Problem 7**
+# An important property of approximate Fourier expansions is that they interpolate the data at the specified grid.
+# In the case of the Fourier–Taylor expansion we can observe this by plotting the real (and imaginary) part of the expansion:
+
+
+g = range(0,2π,1000) # plotting grid
+f = θ -> exp(exp(im*θ)) # function with a converging Fourier–Taylor expansion
+plot(g, real.(f.(g)); label="exp(exp(iθ))")
+n = 4
+θ = [2π/n*j for j=0:n-1]
+𝐟ₖ = fft(f.(θ))/n
+fₙ = θ -> transpose([exp(im*k*θ) for k=0:n-1])𝐟ₖ
+plot!(g, real.(fₙ.(g)); label="n = $n")
+
+scatter!(θ, real.(f.(θ)); label=nothing) # we interpolate exactly at the grid points
+
+# This example converges very rapidly (and with `n=6` the two curves would be indistinguishable).
+# But the interpolation property is true even for functions where we fail to converge:
+
+f = θ -> exp(θ) # function without a converging Fourier–Taylor expansion
+plot(g, real.(f.(g)); label="exp(θ)")
+n = 4
+θ = [2π/n*j for j=0:n-1]
+𝐟ₖ = fft(f.(θ))/n
+fₙ = θ -> transpose([exp(im*k*θ) for k=0:n-1])𝐟ₖ
+plot!(g, real.(fₙ.(g)); label="n = $n")
+
+scatter!(θ, real.(f.(θ)); label=nothing) # we still interpolate exactly at the grid points
+
+# ------
+
+# **Problem 5(a)** Plot the real part of the approximate Fourier expansion
+# $$
+# f_{-m:m}(θ) : = ∑_{k=-m}^m f̂_k^n {\rm e}^{{\rm i}kθ}
+# $$
+# and verify that it interpolates $f(θ) = \exp(θ)$ at the specified grid for $m=5,10,20$. Does the approximation appear to converge?
+
+## TODO: Compare $\exp(θ)$ to its approximate Fourier expansion and describe the observed convergence
+## SOLUTION
+
+g = range(0,2π,1000)
+plot(g, exp.(g); label="exp")
+m = 5
+𝐟ₖ = [discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
+fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
+plot!(g, real.(fₙ.(g)); label="m = $m")
+θ = [2π/(2m+1)*j for j=0:2m]
+scatter!(θ, exp.(θ)) # we interpolate
+##
+m = 10
+plot(g, exp.(g); label="exp")
+𝐟ₖ = discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
+fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
+plot!(g, real.(fₙ.(g)); label="m = $m")
+θ = [2π/(2m+1)*j for j=0:2m]
+scatter!(θ, exp.(θ)) # we interpolate
+##
+m = 20
+plot(g, exp.(g); label="exp")
+𝐟ₖ = discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
+fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
+plot!(g, real.(fₙ.(g)); label="m = $m")
+θ = [2π/(2m+1)*j for j=0:2m]
+scatter!(θ, exp.(θ)) # we interpolate
+
+## it appears to converge away from 0 and 2π.
+
+
+## END
+
+
+
+# **Problem 5(b)** Consider the approximate cosine expansion
+# $$
+# f_n(θ) = ∑_{k=0}^{n-1} c_k^n \cos k θ.
+# $$
+# Compare $f_n$ and $f$ for  $f(θ) = \exp θ$  and $\exp(\cos(θ))$ on $[0,π]$ for $n = 5, and 20$.
+# Does the approximate cosine expansion interpolate both functions? Expain how the convergence properties better than Fourier, even for non-even functions.
+# Can you explain this phenomena?
+
+## TODO: by plotting the cosine expansion make some observations on the interpolation and convergence
+
+
+g = range(0,π,1000)
+plot(g, exp.(g); label="exp")
+n = 5
+𝐜ₖ = [discretecosinecoefficient(exp, k, n) for k =0:n-1]
+fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
+plot!(g, fₙ.(g); label="n = $n")
+θ = [π*(j-1/2)/n for j=1:n]
+scatter!(θ, exp.(θ)) # we interpolate
+##
+plot(g, exp.(g); label="exp")
+n = 20
+𝐜ₖ = [discretecosinecoefficient(exp, k, n) for k =0:n-1]
+fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
+plot!(g, fₙ.(g); label="n = $n")
+θ = [π*(j-1/2)/n for j=1:n]
+scatter!(θ, exp.(θ)) # we interpolate, but this time we converge!!
+##
+g = range(0,π,1000)
+f = θ -> exp(cos(θ))
+plot(g, f.(g); label="exp(cos(θ))")
+n = 5
+𝐜ₖ = [discretecosinecoefficient(f, k, n) for k =0:n-1]
+fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
+plot!(g, fₙ.(g); label="n = $n")
+θ = [π*(j-1/2)/n for j=1:n]
+scatter!(θ, f.(θ)) # we interpolate, but even with just 5 points it matches the function exactly to the eye
+##
+plot(g, f.(g); label="exp(cos(θ))")
+n = 20
+𝐜ₖ = [discretecosinecoefficient(f, k, n) for k =0:n-1]
+fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
+plot!(g, fₙ.(g); label="n = $n")
+θ = [π*(j-1/2)/n for j=1:n]
+scatter!(θ, f.(θ)) # still matches exactly
+
+## The explanation is probably not immediately obvious but results since a cosine expansion approximates a "reflection" of
+## the input function that makes it even, that is in the case of exp(θ) we are actually approximating
+
+
+g = range(-2π,2π,1000)
+f_even = θ -> if 0 ≤ θ ≤ π
+    exp(θ)
+elseif π ≤ θ ≤ 2π
+    exp(2π-θ)
+elseif -π ≤ θ ≤ π
+    exp(-θ)
+elseif -2π ≤ θ ≤ -π
+    exp(2π+θ)
+end
+
+plot(g, f_even.(g))
+## This extension matches $\exp(θ)$ exactly on $[0,π]$ but is periodic and continuous, hence has better convergence properties
+## than our original Fourier example.
+
+## END

@@ -124,64 +124,62 @@ end
 
 # ### V.1.1 Convergence of Fourier series
 
+# Different function have different rates of convergence for their Fourier series,
+# which is largely dictated by the rate of decay in their coefficients. We can explore
+# how different _regularity_, i.e., the smoothness of the function, influences the rate of decay
+# of a Fourier expansion.
+
+# **Problem 2(a)** Plot  the absolute value of coefficients for the functions $\exp θ$, 
+# $θ (2π - θ) \exp θ$ and $θ^2 (2π-θ)^2 \exp θ$. By scaling the $x$- and $y$-axis logarithmically deduce
+# experimentally the rate of decay.
+
+## TODO: plot the coefficients for the three functions with different smoothness properties and deduce the rate of decay.
 
 
-# ## Problem 2
-# 
+
+# **Problem 2(b)** Repeat the above for $1/(\cos^2 θ + 1)$ and $1/(25 \cos^2 θ + 1)$, $\exp(\cos θ)$. Is the
+# convergence algebraic, exponential, or super-exponential? 
+
+## TODO: plot the coefficients for the three functions with different smoothness properties and deduce the rate of decay.
 
 
+
+# ### V.1.2 Trapezium rule and discrete Fourier coefficients
+
+# Above we use `quadgk` to compute the Fourier integrals, however, this has highly limited the number of coefficients
+# we can compute as it becomes prohibitively expensive for large `k`. Instead, we can leverage the Trapezium rule which has
+# highly structured error properties for computing Fourier integrals. We can use a modified version of the `trapeziumrule` function
+# from Lab 1:
+
+function periodictrapeziumrule(f, n)
+    ret = 0.0
+    for j = 0:n-1
+        ret = ret + f(2π*j/n)
+    end
+    ret/n
+end
+
+f = θ -> exp(cos(θ))
+@test periodictrapeziumrule(f, 10) ≈ quadgk(f, 0, 2π)[1]/(2π)
+
+# **Problem 3** Implement the functio
+
+# **Problem 4**
+
+
+# ### V.1.3 Convergence of Approximate Fourier expansions
+
+
+# **Problem 5**
 
 # ## V.2 Discrete Fourier Transform
 
 
+# The Fast Fourier Transform is 
 
 
+# **Problem 6**
 
-# The Discrete Cosine Transform and Chebyshev Expansions
+# ### V.2.1 Trigonometric Interpolation
 
-# Cosine series and the discrete Cosine transform are close relatives of Fourier series and the discrete Fourier transform.  A _Fourier series_ in triginometric polynomials is an expansion
-
-# $$f(\theta) = \sum_{k=0}^\infty c_k \cos k \theta + \sum_{k=1}^\infty s_k \sin k \theta,$$
-
-# where 
-
-# $$
-# \begin{align*}
-# c_0 &= {1 \over 2 \pi} \int_0^{2 \pi} f(\theta) \cos k \theta d \theta \cr
-# c_k &= {1 \over \pi} \int_0^{2 \pi} f(\theta) \cos k \theta d \theta \cr
-# s_k &= {1 \over \pi} \int_0^{2 \pi} f(\theta) \sin k \theta d \theta \cr
-# \end{align*}
-# $$
-
-# A Cosine series is an expansion like
-
-# $$f(\theta) = \sum_{k=0}^\infty c_k \cos k \theta$$
-
-# That is, it is a Fourier series with only cosine terms, no sine terms.  
-
-# ## Cosine series for even functions
-
-# Even functions satisfy $f(\theta) = f(-\theta)$.  Cosine expansions capture evenness, because each Cosine term is even: $\cos k \theta = \cos(-k\theta)$.
-
-
-# **Exercise 1(a)** Why is it true that, if $f$ is even, we have
-
-# $$s_k = 0?$$
-
-# Verify this statement for $k=1,2,3$ using `quadgk` for the even function $f(\theta) = e^{\cos \theta}$.
-
-
-
-# **Exercise 1(b)** When $f$ is even, the integrals can be reduced to have a period.  Explain why its true that
-
-# \begin{align*}
-# c_0 &= {1 \over  \pi} \int_0^{\pi} f(\theta) \cos k \theta d \theta \cr
-# c_k &= {2\over \pi} \int_0^{\pi} f(\theta) \cos k \theta d \theta \cr
-# \end{align*}
-
-# Verify this statement using `quadgk` for the even function $f(\theta) = e^{\cos \theta}$ for $k=0,1,2,3$.
-
-
-# **Exercise 1(c)** Use `quadgk` to approximate $c_k$ for $f(\theta) = e^{\cos \theta}$.  Verify
-
-# $$f(\theta) \approx \sum_{k=0}^9 c_k \cos k \theta$$
+# **Problem 7**
