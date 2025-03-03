@@ -24,7 +24,7 @@ For rectangular matrices we will see that the QR factorisation leads to efficien
 \[
 A = QR = \begin{bmatrix} \hat Q | \ensuremath{\bm{\q}}_{n+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix} \begin{bmatrix} \hat R \\  \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} = \hat Q \hat R.
 \]
-In this chapter we discuss the following:
+In this section we discuss the following:
 
 \begin{itemize}
 \item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR factorisation using Gram\ensuremath{\endash}Schmidt.
@@ -103,7 +103,7 @@ where
 \[
 \ensuremath{\alpha}_1 := -{\rm csign}(a_{11})  \|\ensuremath{\bm{\a}}_1\|, \ensuremath{\bm{\w}}_1 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
 \]
-where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. That is, we have made the first column triangular. In terms of an algorithm, we then introduce zeros into the first column of $A_2$, leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple proof by induction, reminisicent of our proof for the Cholesky factorisation:
+where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. That is, we have made the first column triangular. In terms of an algorithm, we then introduce zeros into the first column of $A_2$, leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple proof by induction, reminisicent of our proofs for the PLU and Cholesky factorisations:
 
 \begin{theorem}[QR]  Every matrix $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has a QR factorisation:
 \[
@@ -143,7 +143,7 @@ where $R$ is right triangular.
 
 \ensuremath{\QED}
 
-\begin{example}[QR by hand] We will now do an example by hand. Consider the $4 \ensuremath{\times} 3$ matrix
+\begin{example}[QR by hand] We will now do an example by hand. Consider finding the QR factorisation where the diagonal of $R$ is positive for the $4 \ensuremath{\times} 3$ matrix
 \[
 A = \begin{bmatrix} 
 1 & 1 & 1 \\ 
@@ -152,15 +152,15 @@ A = \begin{bmatrix}
 -1 & 0 & 0
 \end{bmatrix}
 \]
-For the first column, noting the entry $a_{11} > 0$ and $\| \ensuremath{\bm{\a}}_1 \|$ = 2 we have
+For the first column, since the entry $a_{11} > 0$ on a computer  we would want to choose the Householder reflection that makes this negative, but in this case we want $R$ to have a positive diagonal (partly because the numbers involved become very complicated otherwise!). So instead we choose the "wrong" sign and leave it positive. Since $\| \ensuremath{\bm{\a}}_1 \|$ = 2 we have
 \[
-\ensuremath{\bm{\y}}_1 = \Vectt[1,-1,-1,-1]  - \Vectt[2,0,0,0] = \Vectt[-1,-1,-1,-1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_1 = {\ensuremath{\bm{\y}}_1 \over \| \ensuremath{\bm{\y}}_1 \|} = {1 \over 2} \Vectt[1,1,1,1].
+\ensuremath{\bm{\y}}_1 = \Vectt[1,-1,-1,-1]  -\Vectt[2,0,0,0] = \Vectt[-1,-1,1,-1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_1 = {\ensuremath{\bm{\y}}_1 \over \| \ensuremath{\bm{\y}}_1 \|} = {1 \over 2} \Vectt[-1,-1,-1,-1].
 \]
 Hence
 \[
-Q_1 := I - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 & 1 \end{bmatrix} =
+Q_1 :=  I - {1 \over 2} \begin{bmatrix} -1 \\ -1 \\ 1 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & -1 & 1 & -1 \end{bmatrix} =
  {1 \over 2} \begin{bmatrix}
-1 & -1 & -1 & -1 \\
+1 & -1 & 1 & -1 \\
 -1 & 1 & -1 & -1 \\
 -1 & -1 & 1 & -1 \\
 -1 & -1 & -1 &  1
@@ -169,14 +169,14 @@ Q_1 := I - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \\ 1 \end{bmatrix} \begin{bma
 so that
 \[
 Q_1 A = \begin{bmatrix} 2 &  1 & 0 \\
- & 0 & 1 \\
-  & -1 & 2 \\
-& 0 & -2
+ & 0 & 0 \\
+  & -1 & -1 \\
+& 0 & -1
 \end{bmatrix}
 \]
-For the second column we have a zero, which we can take as positive. Thus we have
+For the second column we have a zero entry so on a computer we can either send it to positive or negative sign,  but in this case we are told to make it positive. Thus we have
 \[
-\ensuremath{\bm{\y}}_2 :=  [0,-1,0] - \Vectt[1,0,0] = \Vectt[-1,-1,0]  \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_2 = {\ensuremath{\bm{\y}}_2 \over \| \ensuremath{\bm{\y}}_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
+\ensuremath{\bm{\y}}_2 :=   [0,-1,0] - \Vectt[1,0,0] = \Vectt[-1,-1,0]  \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_2 = {\ensuremath{\bm{\y}}_2 \over \| \ensuremath{\bm{\y}}_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
 \]
 Thus we have
 \[
@@ -199,7 +199,7 @@ so that
 \]
 The final vector is 
 \[
-\ensuremath{\bm{\y}}_3 := \Vectt[0,-1] - \Vectt[1,0] = \Vectt[1,1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_3 = {1 \over \sqrt{2}} \Vectt[1,1].
+\ensuremath{\bm{\y}}_3 := \Vectt[0,-1] - \Vectt[1,0] = \Vectt[-1,-1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_3 = -{1 \over \sqrt{2}} \Vectt[1,1].
 \]
 Hence
 \[

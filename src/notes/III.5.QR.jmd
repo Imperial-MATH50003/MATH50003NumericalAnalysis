@@ -197,8 +197,8 @@ A = \begin{bmatrix}
 -1 & 0 & 0
 \end{bmatrix}
 $$
-For the first column, noting the entry $a_{11} > 0$ and so on a computer 
-want to choose the Householder reflection that
+For the first column, since the entry $a_{11} > 0$ on a computer 
+we would want to choose the Householder reflection that
 makes this negative, but in this case we want $R$ to have a positive diagonal (partly because the numbers involved become very complicated
 otherwise!). So instead we choose the "wrong" sign and leave it positive. Since $\| 𝐚_1 \|$ = 2 we have
 $$
@@ -212,6 +212,7 @@ Q_1 :=  I - {1 \over 2} \begin{bmatrix} -1 \\ -1 \\ 1 \\ -1 \end{bmatrix} \begin
 -1 & 1 & -1 & -1 \\
 -1 & -1 & 1 & -1 \\
 -1 & -1 & -1 &  1
+\end{bmatrix}
 $$
 so that
 $$
