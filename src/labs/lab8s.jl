@@ -26,14 +26,14 @@
 
 
 # We first load  packages we need including two new ones, FFTW.jl (for the fast Fourier transform)
-# and QuadGK.jl (for black-box numerical integration)
+# and QuadGK.jl (for black-box numerical integration).
 
 using LinearAlgebra, Plots, FFTW, QuadGK, Test
 
 
 # ## V.1 Fourier Expansions
 
-# We consider the Fourier expansion
+# Consider the Fourier expansion
 # $$
 # f(x) = ∑_{k=-∞}^∞ f̂_k {\rm e}^{{\rm i}kθ}
 # $$
@@ -366,6 +366,7 @@ Q = discretefouriertransform(n)
 # Matrix multiplication is $O(n^2)$ operations whilst the FFT costs $O(n \log n)$ operations, which is
 # a substantial speedup.
 
+# -----
 # **Problem 4** Use `fft` in the function `specialsum(n)` to construct a vector to compute $[S_n(0),…,S_n(n-1)]$ for
 # $$
 #    S_n(k) := ∑_{p=0}^∞ {1 \over (k+p n)!}.
