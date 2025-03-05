@@ -1,0 +1,329 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 8**
+
+
+
+**Problem 1** Give explicit formulae for $\hat f_k$ and $\hat f_k^n$ for the following functions:
+$$
+\cos θ, \cos 4θ, \sin^4θ, {3 \over 3 - {\rm e}^{\rm i θ}}, {1 \over 1 - 2{\rm e}^{\rm i θ}}
+$$
+
+**SOLUTION**
+
+(1) Just expand in complex exponentials to find that
+$$
+\cos θ = {\exp({\rm i} θ) + \exp(-{\rm i} θ) \over 2}
+$$
+that is $\hat f_1 = \hat f_{-1} = 1/2$, $\hat f_k = 0$ otherwise.
+Therefore for $p∈ ℤ$ we have
+$$
+\begin{align*}
+\hat f_k^1 &= \hat f_1 + \hat f_{-1} = 1 \\
+\hat f_{2p}^2 &= 0, \hat f_{2p+1}^2 = \hat f_1 + \hat f_{-1} = 1 \\
+\hat f_{1+np}^n &= \hat f_{-1+np}^n = 1/2, \hat f_k^n = 0
+\end{align*}
+$$
+for $n = 3,4,…$.
+
+(2) Similarly
+$$
+\cos 4 θ = {\exp(4{\rm i} θ) + \exp(-4{\rm i} θ) \over 2}
+$$
+that is $\hat f_4 = \hat f_{-4} = 1/2$, $\hat f_k = 0$ otherwise.
+Therefore for $p∈ ℤ$ we have
+$$
+\begin{align*}
+\hat f_p^1 &= \hat f_4 + \hat f_{-4} = 1 \\
+\hat f_{2p}^2 &= \hat f_4 + \hat f_{-4} = 1, \hat f_{2p+1}^2 = 0 \\
+\hat f_{3p}^3 &= 0, \hat f_{3p±1}^3 = \hat f_{±4} =1/2 \\
+\hat f_{4p}^4 &= \hat f_{-4} + \hat f_4 = 1, \hat f_{4p±1}^4 = 0,  \hat f_{4p+2}^4 = 0 \\
+\hat f_{5p}^5 &= 0, \hat f_{5p+1}^5 = \hat f_{-4} = 1/2, \hat f_{5p-1}^5 = \hat f_{4} = 1/2,  \hat f_{5p±2}^5 =0  \\
+\hat f_{6p}^6 &=0, \hat f_{6p±1}^6 = 0,  \hat f_{6p+2}^6 = \hat f_{-4} = 1/2,  \hat f_{6p-2}^6 = \hat f_{4} = 1/2, \hat f_{6p+3}^6 =0  \\
+\hat f_{7p}^7 &= 0, \hat f_{7p±1}^7 = 0,  \hat f_{7p±2}^7 = 0, \hat f_{7p±3}^7 = \hat f_{∓4} = 1/2 \\
+\hat f_{8p}^8 &= \hat f_{8p±1}^8 = \hat f_{8p±2}^8 =  \hat f_{8p±3}^8 = 0, \hat f_{8p+4}^8 = \hat f_4 + \hat f_{-4} = 1 \\
+\hat f_{k+pn}^n &= \hat f_k \hbox{ for $-4 ≤ k ≤ 4$, 0 otherwise}.
+\end{align*}
+$$
+
+(3) Here we have:
+$$
+\meeq{
+(\sin θ)^4= \left({\exp({\rm i} θ) - \exp(-{\rm i} θ) \over 2 {\rm i}}\right)^4
+= \left({\exp(2{\rm i} θ) -2 + \exp(-2{\rm i} θ) \over -4}\right)^2 \ccr
+= {\exp(4{\rm i} θ) -4\exp(2{\rm i} θ) +6 -4 \exp(-2{\rm i} θ)+\exp(-4{\rm i} θ) \over 16}
+}
+$$
+that is $\hat f_{-4} = \hat f_4 = 1/16$, $\hat f_{-2} = \hat f_2 = -1/4$, $f_0 = 3/8$, $\hat f_k = 0$ otherwise.
+Therefore for $p∈ ℤ$ we have
+$$
+\begin{align*}
+\hat f_p^1 &=\hat f_{-4} + \hat f_{-2} + \hat f_0 + \hat f_2 +  \hat f_4 = 0 \\
+\hat f_k^2 &= 0 \\
+\hat f_{3p}^3 &= \hat f_0 = 3/8, \hat f_{3p+1}^3 = \hat f_{-2} + \hat f_4 =-3/16,  \hat f_{3p-1}^3 = \hat f_{2} + \hat f_{-4} =-3/16 \\
+\hat f_{4p}^4 &= \hat f_0 + \hat f_{-4} + \hat f_4 = 1/2, \hat f_{4p±1}^4 = 0,  \hat f_{4p+2}^4 = \hat f_{2} + \hat f_{-2} =-1/2 \\
+\hat f_{5p}^5 &= \hat f_0 = 3/8, \hat f_{5p+1}^5 = \hat f_{-4} = 1/16, \hat f_{5p-1}^5 = \hat f_{4} = 1/16,  \hat f_{5p+2}^5 = \hat f_2 = -1/4, \hat f_{5p-2}^5 = \hat f_{-2} = -1/4  \\
+\hat f_{6p}^6 &= \hat f_0 = 3/8, \hat f_{6p±1}^6 = 0,  \hat f_{6p+2}^6 = \hat f_2 + \hat f_{-4} = -3/16,  \hat f_{6p-2}^6 = \hat f_{-2} + \hat f_{4} = -3/16, \hat f_{6p+3}^6 =0  \\
+\hat f_{7p}^7 &= \hat f_0 = 3/8, \hat f_{7p±1}^7 = 0,  \hat f_{7p±2}^7 = \hat f_{±2} = -1/4, \hat f_{7p±3}^7 = \hat f_{∓4} = 1/16 \\
+\hat f_{8p}^8 &= \hat f_0 = 3/8, \hat f_{8p±1}^8 = 0,  \hat f_{8p±2}^8 = \hat f_{±2} = -1/4, \hat f_{8p±3}^8 = 0, \hat f_{8p+4}^8 = \hat f_4 + \hat f_{-4} = 1/8 \\
+\hat f_{k+pn}^n &= \hat f_k \hbox{ for $-4 ≤ k ≤ 4$, 0 otherwise}.
+\end{align*}
+$$
+
+(4) Under the change of variables $z = {\rm e}^{{\rm i}θ}$ we can use Geoemtric series to determine
+$$
+{3 \over 3 - z} = {1 \over 1- z/3} = ∑_{k=0}^∞ {z^k \over 3^k}
+$$
+That is $\hat f_k = 1/3^k$ for $k ≥ 0$, and $\hat f_k = 0$ otherwise.
+We then have for $0 ≤ k ≤ n-1$
+$$
+\hat f_{k+pn}^n = ∑_{ℓ=0}^∞ {1 \over 3^{k+ℓn}} = {1 \over 3^k} {1 \over 1 - 1/3^n} = {3^n \over 3^{n+k} - 3^k}
+$$
+
+(5) Now make the change of variables $z = {\rm e}^{-{\rm i} θ}$ to get:
+$$
+{1 \over 1 - 2/z} = {1 \over -2/z} {1 \over 1 - z/2} = {1 \over -2/z} ∑_{k=0}^∞ {z^k \over 2^k}
+= - ∑_{k=1}^∞ {{\rm e}^{-{\rm i} k θ} \over 2^k}
+$$
+That is $\hat f_k = -1/2^{-k}$ for $k ≤ -1$ and 0 otherwise.
+We then have for $-n ≤ k ≤ -1$
+$$
+\hat f_{k+pn}^n =- ∑_{ℓ=0}^∞ {1 \over 2^{-k+ℓn}} = -{1 \over 2^{-k}} {1 \over 1 - 1/2^n} = -{2^{n+k} \over 2^n - 1}
+$$
+
+**END**
+
+
+**Problem 2** Prove that if the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$
+are 2π-periodic and $f^{(λ)}$ is uniformly bounded  that
+$$
+|\hat f_k| = O(|k|^{-λ})\qquad \hbox{as $|k| → ∞$}
+$$
+Use this to show for the Taylor case ($0 = \hat f_{-1} = \hat f_{-2} = ⋯$) that
+$$
+|f(θ) - ∑_{k=0}^{n-1} \hat f_k {\rm e}^{{\rm i}kθ}| = O(n^{1-λ})\qquad \hbox{as $n → ∞$}
+$$
+
+**SOLUTION**
+A straightforward application of integration by parts yields the result
+$$
+\hat f_k = \frac{1}{2π} \int^{2π}_{0} f(θ) {\rm e}^{-ikθ} dθ = \frac{(-i)^λ}{2π k^{λ}} \int^{2π}_{0} f^{(λ)}(θ) {\rm e}^{-ikθ} dθ
+$$
+given that $f^{(λ)}$ is uniformly bounded, the second part follows directly from this result
+$$
+|∑_{k=n}^{∞} \hat f_k {\rm e}^{{\rm i}kθ}| ≤ ∑_{k=n}^{∞} |\hat f_k | ≤ C ∑_{k=n}^{∞} k^{-λ}
+$$
+for some constant $C$. The result then follows by the dominant convergence test:
+$$
+∑_{k=n}^{∞} k^{-λ} ≤ \int_{n-1}^∞ k^{-λ} {\rm d}k = O(n^{1-λ}).
+$$
+
+**END**
+
+
+**Problem 3(a)**
+If $f$ is a trigonometric polynomial  ($\hat f_k = 0$ for $|k| > m$) show
+for $n ≥ 2m+1$ that we can exactly recover $f$:
+$$
+f(θ) = ∑_{k=-m}^m \hat f_k^n {\rm e}^{{\rm i} k θ}
+$$
+
+**SOLUTION**
+This follows from
+$$
+\hat f_k^n = ∑_{p=-∞}^∞ \hat f_{k+pn} = \hat f_k
+$$
+if $-m ≤ k ≤ m$ as if $p > 0$ we have $k + p n ≥ k + 2m+1 ≥ m+1$ hence
+$\hat f_{k+pn} = 0$ and if $k < 0$ we have $k - pn ≤ k -2m-1 ≤ -m-1$ hence
+$\hat f_{k+pn} = 0$.
+
+**END**
+
+**Problem 3(b)** For the general (non-Taylor) case and $n = 2m+1$, prove convergence for
+$$
+f_{-m:m}(θ) := ∑_{k=-m}^m \hat f_k^n {\rm e}^{{\rm i} k θ}
+$$
+to $f(θ)$ as $n → ∞$.
+What is the rate of convergence if we know that the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$
+are 2π-periodic and $f^{(λ)}$ is uniformly bounded?
+
+**SOLUTION**
+
+Observe that by aliasing (see corollary in lecture notes) and triangle inequality we have the following
+$$
+|\hat f_k^n - \hat f_k|  ≤ ∑_{p=1}^{∞} (|\hat f_{k+pn}|+|\hat f_{k-pn}|)
+$$
+Using the result from Problem 2 yields
+$$
+|\hat f_k^n - \hat f_k| ≤ \frac{C}{n^λ} ∑_{p=1}^{∞} \frac{1}{\left(p + \frac{k}{n}\right)^λ} + \frac{1}{\left(p - \frac{k}{n}\right)^λ}
+$$
+now we pick $|q| < \frac{1}{2}$ (such that the estimate below will hold for both summands above) and construct an integral with convex and monotonocally decreasing integrand such that
+$$
+\left( p + q \right)^{-λ} < \int_{p-\frac{1}{2}}^{p+\frac{1}{2}} (x + q)^{-λ} dx
+$$
+more over summing over the left-hand side from $1$ to $∞$ yields a bound by the integral:
+$$
+\int^{∞}_{\frac{1}{2}} (x + q)^{-λ} dx = \frac{1}{λ}(\frac{1}{2} + q)^{- λ + 1}
+$$
+Finally let $q = \pm \frac{k}{n}$ to achieve the rate of convergence
+$$
+|\hat f_k^n - \hat f_k| ≤ \frac{C_{λ}}{ n^{λ}} \left(  \left( \frac{1}{2} + k/n \right)^{ - λ + 1} + \left( \left( \frac{1}{2} - k/n \right) \right)^{- λ +1} \right)
+$$
+where $C_{λ}$ is a constant depending on $λ$. Note that it is indeed important to split the $n$ coefficients equally over the negative and positive coefficients as stated in the notes, due to the estatime we used above.
+
+Finally, we have:
+$$
+\begin{align*}
+|f(θ) - f_{-m:m}(θ)|
+&= |∑_{k=-m}^m {(\hat f_k - \hat f_k^n)z^k} + ∑_{k=m+1}^∞ {\hat f_k z^k}  + ∑_{k=-∞}^{-m-1} {\hat f_k z^k} | \\
+&\le ∑_{k=-m}^m | \hat f_k - \hat f_k^n | + ∑_{k=m+1}^∞ |\hat f_k| +  ∑_{k=-∞}^{-m-1} |\hat f_k| \\
+&\le ∑_{k=-m}^m {\frac{C_{λ}}{ n^{λ}} \left( \left( \frac{1}{2} + k/n \right)^{ - λ + 1} + \left( \left( \frac{1}{2} - k/n \right) \right)^{- λ +1} \right)} + ∑_{k=m+1}^∞ |\hat f_k| +  ∑_{k=-∞}^{-m-1} |\hat f_k| \\
+&= \frac{C_{λ}}{n^{λ}} 2^{λ} + ∑_{k=m+1}^∞ |\hat f_k| +  ∑_{k=-∞}^{-m-1} |\hat f_k|  \\
+&= O(n^{-λ}) + O(n^{1-λ} ) + O(n^{1-λ} ) \\
+&= O(n^{1-λ})
+\end{align*}
+$$
+
+**END**
+
+**Problem 3(c)** Show that $f_{-m:m}(θ)$ interpolates $f$ at $θ_j = 2πj/n$ for $n = 2m+1$.
+
+**SOLUTION**
+Note from the aliasing property we have
+$$
+\meeq{
+ \hat f_k^n {\rm e}^{{\rm i} k θ_j} =  \hat f_k^n {\rm e}^{2 π {\rm i} kj/n} = \hat f_{k+n}^n {\rm e}^{2 π {\rm i} (k+n) j/n} \ccr
+ = \hat f_{k+n}^n  {\rm e}^{{\rm i} (k+n) θ_j}
+}
+$$
+Thus we have
+$$
+\meeq{
+f_{-m:m}(θ_j) = ∑_{k=-m}^{-1} \hat f_k^n {\rm e}^{{\rm i} k θ_j} + ∑_{k=0}^m \hat f_k^n {\rm e}^{{\rm i} k θ_j} \ccr
+ = ∑_{k=-m}^{-1} \hat f_{k+n}^n {\rm e}^{{\rm i} (k+n) θ_j} + ∑_{k=0}^m \hat f_k^n {\rm e}^{{\rm i} k θ_j} \ccr
+ = ∑_{k=n-m}^{n-1} \hat f_{k}^n {\rm e}^{{\rm i} (k) θ_j} + ∑_{k=0}^m \hat f_k^n {\rm e}^{{\rm i} k θ_j} = f_n(θ_j) = f(θ_j)
+}
+$$
+**END**
+
+
+**Problem 4(a)** Show for $0 ≤ k,ℓ ≤ n-1$
+$$
+{1 \over n} ∑_{j=1}^n \cos k θ_j \cos ℓ θ_j = \begin{cases} 1 & k = ℓ = 0 \\
+                                                  1/2 & k = ℓ \\
+                                                  0 & \hbox{otherwise}
+                                                  \end{cases}
+$$
+for $θ_j = π(j-1/2)/n$. Hint: Be careful as the $θ_j$ differ from before,
+and only cover half the period, $[0,π]$. Using symmetry may help.
+You may also consider replacing $\cos$ with
+complex exponentials:
+$$
+\cos θ = {{\rm e}^{{\rm i}θ} + {\rm e}^{-{\rm i}θ} \over 2}.
+$$
+
+
+**SOLUTION**
+The case $k = l = 0$ is immediate. Otherwise, we have,
+$$
+\begin{align*}
+\frac{1}{n}∑_{j=1}^n \cos(kθ_j)\cos(lθ_j) &= {1 \over 4n}∑_{j=1}^n \br[e^{i(k+l)θ_j} + e^{-i(k+l)θ_j} + e^{i(k-l)θ_j} + e^{-i(k-l)θ_j}].
+\end{align*}
+$$
+For $ω = \exp(i π/n)$ and any $m$ not a multiple of $2n$ we have
+$$
+\meeq{
+∑_{j=1}^n e^{imθ_j} =  ∑_{j=0}^{n-1} e^{im π(j+1/2)/n} = e^{i m π/(2n)}  ∑_{j=0}^{n-1} e^{i m π j/n} = ω^{m/2} ∑_{j=0}^{n-1} ω^{m j} \ccr
+ =  ω^{m/2} {ω^{nm} - 1 \over ω^m - 1} =  ω^{m/2} {(-1)^m - 1 \over ω^m - 1}
+}
+$$
+and hence
+$$
+\meeq{
+∑_{j=1}^n [ e^{imθ_j} +  e^{-imθ_j}] = ω^{m/2} {(-1)^m - 1 \over ω^m - 1} + ω^{-m/2} {(-1)^m - 1 \over ω^{-m} - 1} \ccr
+= ω^{m/2} {(-1)^m - 1 \over ω^m - 1} + ω^{m/2} {(-1)^m - 1 \over 1 - ω^m}  = 0.
+}
+$$
+Since $0 < k+l ≤ 2n-2$ we know $k+l$ is not a multiple of $2n$ hence
+$$
+∑_{j=1}^n \br[e^{i(k+l)θ_j} + e^{-i(k+l)θ_j}] = 0.
+$$
+Now if $k = l$ we have
+$$
+∑_{j=1}^n e^{i(k-l)θ_j} = ∑_{j=1}^n e^{-i(k-l)θ_j} = n.
+$$
+Otherwise $k-l ≠ 0$ but also $1-n ≤ k-l ≤ n-1$ hence $k-l$ cannot be a multiple of $2n$. And thus
+$$
+∑_{j=1}^n \br[e^{i(k-l)θ_j} + e^{i(l-k)θ_j}] = 0.
+$$
+
+**END**
+
+
+**Problem 4(b)** Consider the Discrete Cosine Transform (DCT)
+$$
+C_n := \begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\
+ && ⋱ \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}
+\begin{bmatrix}
+    1 & ⋯ & 1\\
+    \cos θ_1 & ⋯ & \cos θ_n \\
+    ⋮ & ⋱ & ⋮ \\
+    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
+\end{bmatrix}
+$$
+for $θ_j = π(j-1/2)/n$. Prove that $C_n$ is orthogonal: $C_n^⊤ C_n = C_n C_n^⊤ = I$.
+
+**SOLUTION**
+
+The components of $C_n$ are
+$$
+𝐞_k^⊤ C_n  𝐞_j =  {1 \over \sqrt{n}} \begin{cases} 1 & k = 1 \\ \sqrt{2} & k ≠ 1 \end{cases} \cos((k-1)θ_j),
+$$
+where $θ_j = π(j-1/2)/n$. We find using the previous part:
+$$
+\meeq{
+𝐞_k^⊤ C_n C_n^⊤ 𝐞_ℓ  = \pr({\begin{cases} 1 & k = ℓ = 1 \\ \sqrt{2} & k,ℓ = 1, k ≠ ℓ \\
+                                                    2 & k,ℓ ≠ 1 \end{cases}})
+     {1 \over n} ∑_{j=1}^n \cos((k-1)θ_j) \cos((ℓ-1)θ_j) \ccr
+    = \pr({\begin{cases} 1 & k = ℓ = 1 \\ \sqrt{2} & k,ℓ = 1, k ≠ ℓ \\
+                                                    2 & k,ℓ ≠ 1 \end{cases}}) \pr({\begin{cases} 1 & k = ℓ = 1 \\
+                                                  1/2 & k = ℓ \\
+                                                  0 & \hbox{otherwise}
+                                                  \end{cases}})= δ_{k ℓ}.
+}
+$$
+
+
+**END**
+
+
+
+**Problem 5** What polynomial interpolates $\cos z$ at $1, \exp(2π\I/3)$ and $\exp(-2π\I/3)$?
+
+**SOLUTION**
+For $ω =  \exp(2π\I/3)$, we use the DFT:
+$$
+\meeq{
+\Vectt[\hat f_0^3, \hat f_1^3, \hat f_2^3, \hat f_2^3] =
+{1 \over 3} \begin{bmatrix}1 & 1 & 1  \\
+                            1 &\exp(-2π\I/3) & \exp(2π\I/3) \\
+                            1 & \exp(2π\I/3)  & \exp(-2π\I/3)
+                            \end{bmatrix}
+ \Vectt[\cos(1), \cos(\exp(2π\I/3)), \cos(\exp(-2π\I/3))] \ccr
+ = {1 \over 3} \Vectt[\cos(1)+ \cos(\exp(2π\I/3))+ \cos(\exp(-2π\I/3)) ,
+ \cos(1)+ \exp(-2π\I/3) \cos(\exp(2π\I/3))+ \exp(2π\I/3) \cos(\exp(-2π\I/3)) ,
+ \cos(1)+ \exp(2π\I/3) \cos(\exp(2π\I/3))+ \exp(-2π\I/3) \cos(\exp(-2π\I/3))
+ ]
+}
+$$
+That is, the polynomial is
+$$
+\begin{align*}
+&{\cos(1) + \cos(\exp(2π\I/3))+ \cos(\exp(-2π\I/3)) \over 3}  \cr
+&+ {\cos(1)+ \exp(-2π\I/3) \cos(\exp(2π\I/3))+ \exp(2π\I/3) \cos(\exp(-2π\I/3))\over 3} z \cr
+&+{\cos(1)+ \exp(2π\I/3) \cos(\exp(2π\I/3))+ \exp(-2π\I/3) \cos(\exp(-2π\I/3)) \over 3} z^2.
+\end{align*}
+$$
+**END**

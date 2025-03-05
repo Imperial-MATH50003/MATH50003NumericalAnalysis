@@ -111,3 +111,33 @@ Q1*A
 norm(x1)
 
 16 + 9
+
+### PS6 Q4
+
+A = [-1 2;
+     2 4;
+     2 3]
+
+y1 = [-4,2,2]
+w1 = 1/sqrt(6) * [-2,1,1]
+@test y1/norm(y1) ≈ w1
+
+Q1 = I - 2w1*w1'
+@test Q1*A ≈ [3 4; 0 3; 0 2]
+
+
+y2 = [3,2] + [sqrt(13),0]
+@test norm(y2) ≈ sqrt(26+6sqrt(13))
+w2 = y2/norm(y2)
+Q2 = I - 2w2*w2' 
+
+@test Q2 ≈ [1 0; 0 1] - 1/(13+3sqrt(13)) * [22+6sqrt(13) 6+2sqrt(13); 6+2sqrt(13) 4] ≈
+          [-9-3sqrt(13) -6-2sqrt(13); 
+           -6-2sqrt(13) 9+3sqrt(13)]/(13+3sqrt(13))
+
+Q = Q1 * [1 zeros(1,2); zeros(2) Q2]
+@test A ≈ Q * [3 4; 0 -sqrt(13); 0 0]
+
+@test Q ≈ 1/3 * [-1 (-30-10sqrt(13)) (6+2sqrt(13));
+                 2  (-12-4sqrt(13)) (-21-7sqrt(13));
+                 2 (-3-sqrt(13)) (24+8sqrt(13))] * Diagonal([1,1/(13+3sqrt(13)),1/(13+3sqrt(13))])

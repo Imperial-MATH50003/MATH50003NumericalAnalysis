@@ -97,38 +97,7 @@ plot!(g, imag(fₙ.(g)); label="Im fₙ(θ)")
 
 m = 20 # n = 2m Fourier coefficients
 ## TODO: plot the truncated Fourier expansion with coefficients ranging from -m:m-1
-## SOLUTION
-f̂ = [fouriercoefficient(exp, k) for k = -m:m-1]
-F = θ -> [exp(im*k*θ) for k = -m:m-1] # Create the Fourier basis
-fₙ = θ -> transpose(F(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, exp.(g); label="f")
-plot!(g, real(fₙ.(g)); label="Re fₙ(θ)")
-plot!(g, imag(fₙ.(g)); label="Im fₙ(θ)")
-## The imaginary part is not zero
-#
-f = θ -> exp(cos(θ))
-f̂ = [fouriercoefficient(f, k) for k = -m:m-1]
-F = θ -> [exp(im*k*θ) for k = -m:m-1] # Create the Fourier basis
-fₙ = θ -> transpose(F(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, f.(g); label="f")
-plot!(g, real(fₙ.(g)); label="Re fₙ(θ)")
-plot!(g, imag(fₙ.(g)); label="Im fₙ(θ)")
-## The imaginary part is now numerically zero and the approximation is indistinguishable.
 
-#
-f = θ -> exp(exp(im*θ))
-f̂ = [fouriercoefficient(f, k) for k = -m:m-1]
-F = θ -> [exp(im*k*θ) for k = -m:m-1] # Create the Fourier basis
-fₙ = θ -> transpose(F(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, real.(f.(g)); label="Re f")
-plot!(g, imag.(f.(g)); label="Im f")
-plot!(g, real(fₙ.(g)); label="Re fₙ") 
-plot!(g, imag(fₙ.(g)); label="Im fₙ")
-## The real and imaginary parts match to high accuracy
-## END
 
 # **Problem 1(b)**  Plot the finite Fourier-Taylor expansion 
 # $$
@@ -140,35 +109,7 @@ plot!(g, imag(fₙ.(g)); label="Im fₙ")
 
 n = 20
 ## TODO: plot the truncated Fourier-Taylor expansion with coefficients ranging from 0:n-1
-## SOLUTION
-f̂ = [fouriercoefficient(exp, k) for k = 0:n-1]
-T = θ -> [exp(im*k*θ) for k = 0:n-1] # Create the Fourier basis
-fₙ = θ -> transpose(T(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, exp.(g); label="f")
-plot!(g, real(fₙ.(g)); label="Re fₙ(θ)")
-plot!(g, imag(fₙ.(g)); label="Im fₙ(θ)")
-## The approximation fails
-#
-f = θ -> exp(cos(θ))
-f̂ = [fouriercoefficient(f, k) for k = 0:n-1]
-fₙ = θ -> transpose(T(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, f.(g); label="f")
-plot!(g, real(fₙ.(g)); label="Re fₙ(θ)")
-plot!(g, imag(fₙ.(g)); label="Im fₙ(θ)")
-## Fails to converge
-#
-f = θ -> exp(exp(im*θ))
-f̂ = [fouriercoefficient(f, k) for k = 0:n-1]
-fₙ = θ -> transpose(T(θ))*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, real.(f.(g)); label="Re f")
-plot!(g, imag.(f.(g)); label="Im f")
-plot!(g, real(fₙ.(g)); label="Re fₙ") 
-plot!(g, imag(fₙ.(g)); label="Im fₙ")
-## The real and imaginary parts match to high accuracy
-## END
+
 
 # **Problem 1(c)** A cosine expansion is a special case of Fourier series of the form
 # $$
@@ -185,42 +126,13 @@ plot!(g, imag(fₙ.(g)); label="Im fₙ")
 n = 20
 function cosinecoefficient(f, k)
     ## TODO: use quadgk to approximate f̌_k
-    ## SOLUTION
-    ## We can either recall the integral formula or use the following to relate to the Fourier coefficient.
-    ## We have
-    ## f̂ₖ \exp(ikθ) = f̂ₖ \cos(kθ) + i f̂ₖ \sin(kθ) 
-    ## f̂₋ₖ \exp(-ikθ) = f̂₋ₖ \cos(kθ) - i f̂₋ₖ \sin(kθ) 
-    ## thus ignoring the sin terms we get f̌_k = f̂ₖ + f̂₋ₖ.
-    ## apart from the `k = 0` case.
-    ## Note in the case where f is even this simplifies as f̂ₖ = f̂₋ₖ.
-    ## So your solution might be different if you used this property.
-    if k ≠ 0
-        real(fouriercoefficient(f, k) + fouriercoefficient(f, -k))
-    else
-        real(fouriercoefficient(f, 0))
-    end
-    ## END
+    
 end
 @test cosinecoefficient(θ -> exp(cos(θ)), 5) isa Float64
 @test cosinecoefficient(θ -> exp(cos(θ)), 5) ≈ 0.0005429263119137845
 
 ## TODO: plot the truncated cosine expansion with coefficients ranging from 0:n-1
-## SOLUTION
-f̂ = [cosinecoefficient(exp, k) for k = 0:n-1]
-C = θ -> [cos(k*θ) for k = 0:n-1] # Create the Cosine basis
-fₙ = θ -> C(θ)'f̂ # finite Cosine expansion, we can use ' as C(θ) is real now.
-g = range(0, 2π, 1000) # plotting grid
-plot(g, exp.(g); label="f")
-plot!(g, fₙ.(g); label="fₙ(θ)") ## The approximation fails
-#
-f = θ -> exp(cos(θ))
-f̂ = [cosinecoefficient(f, k) for k = 0:n-1]
-fₙ = θ -> C(θ)'*f̂ # finite Fourier series
-g = range(0, 2π, 1000) # plotting grid
-plot(g, f.(g); label="f")
-plot!(g, fₙ.(g); label="fₙ(θ)")
-## Matches to high accuracy
-## END
+
 
 
 # ### V.1.1 Convergence of Fourier series
@@ -237,34 +149,14 @@ plot!(g, fₙ.(g); label="fₙ(θ)")
 # experimentally the rate of decay.
 
 ## TODO: plot the coefficients for the three functions with different smoothness properties and deduce the rate of decay.
-## SOLUTION
-plot(1:100, [abs.(fouriercoefficient(θ -> θ, k)) for k = 1:100]; yscale=:log10, xscale=:log10)
-plot!(1:100, [abs.(fouriercoefficient(θ -> θ * (2π-θ), k)) for k = 1:100]; yscale=:log10, xscale=:log10)
-plot!(1:100, [abs.(fouriercoefficient(θ -> θ^2 * (2π-θ)^2, k)) for k = 1:100]; yscale=:log10, xscale=:log10)
 
-plot!(1:100, (1:100) .^ (-1); linestyle=:dash)
-plot!(1:100, (1:100) .^ (-2); linestyle=:dash)
-plot!(1:100, 10(1:100) .^ (-4); linestyle=:dash)
-
-## It appears to be O(1/k),  O(1/k^2) and O(1/k^4)
-
-## END
 
 # **Problem 2(b)** Repeat the above for $1/(\cos^2 θ + 1)$ and $1/(25 \cos^2 θ + 1)$, $\exp(\cos θ)$, now only scaling the $y$-axis logarithmically. Is the
 # convergence algebraic, exponential, or super-exponential? 
 
 ## TODO: plot the coefficients for the three functions with different smoothness properties and deduce the rate of decay.
 
-## SOLUTION
-plot(1:100, [abs.(fouriercoefficient(θ -> 1/(cos(θ)^2+1), k)) for k = 1:100]; yscale=:log10)
-plot!(1:100, [abs.(fouriercoefficient(θ -> 1/(25cos(θ)^2+1), k)) for k = 1:100]; yscale=:log10)
-plot!(1:100, [abs.(fouriercoefficient(θ -> exp(cos(θ)), k)) for k = 1:100]; yscale=:log10)
 
-## First two examples are exponential:
-plot!(1:100, 2.5 .^ (-(1:100)); linestyle=:dash) # first example is roughly O(2.5^(-k))
-plot!(1:100, 1.2 .^ (-(1:100)); linestyle=:dash) # second example is roughly O(1.2^(-k))
-## Third example is super-exponential
-## END
 
 # ----
 
@@ -321,18 +213,7 @@ n = 4
 
 function discretecosinecoefficient(f, k, n)
     ## TODO: implement the above approximation to the coefficient in the cosine expansion
-    ## SOLUTION
-    ret = 0.0
-    for j = 1:n
-        θⱼ = π*(j-1/2)/n
-        ret = ret + f(θⱼ)*cos(k*θⱼ)
-    end
-    if k == 0
-        ret/n
-    else
-        2ret/n
-    end
-    ## END
+    
 end
 
 n = 5
@@ -374,10 +255,7 @@ Q = discretefouriertransform(n)
 
 function specialsum(n)
     ## TODO: implement a numerical algorithm using fft to compute [S_n(0),…,S_n(n-1)], fast enough that the test passes
-    ## SOLUTION
-    θ = range(0,2π,n+1)[1:end-1] # == [2π*j/n for j=0:n-1]
-    fft(exp.(exp.(im .* θ)))/n
-    ## END
+    
 end
 
 
@@ -425,37 +303,7 @@ scatter!(θ, real.(f.(θ)); label=nothing) # we still interpolate exactly at the
 # and verify that it interpolates $f(θ) = \exp(θ)$ at the specified grid for $m=5,10,20$. Does the approximation appear to converge?
 
 ## TODO: Compare $\exp(θ)$ to its approximate Fourier expansion and describe the observed convergence
-## SOLUTION
 
-g = range(0,2π,1000)
-plot(g, exp.(g); label="exp")
-m = 5
-𝐟ₖ = [discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
-fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
-plot!(g, real.(fₙ.(g)); label="m = $m")
-θ = [2π/(2m+1)*j for j=0:2m]
-scatter!(θ, exp.(θ)) # we interpolate
-#
-m = 10
-plot(g, exp.(g); label="exp")
-𝐟ₖ = [discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
-fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
-plot!(g, real.(fₙ.(g)); label="m = $m")
-θ = [2π/(2m+1)*j for j=0:2m]
-scatter!(θ, exp.(θ)) # we interpolate
-#
-m = 20
-plot(g, exp.(g); label="exp")
-𝐟ₖ = [discretefouriercoefficient(exp, k, 2m+1) for k =-m:m]
-fₙ = θ -> transpose([exp(im*k*θ) for k=-m:m])𝐟ₖ
-plot!(g, real.(fₙ.(g)); label="m = $m")
-θ = [2π/(2m+1)*j for j=0:2m]
-scatter!(θ, exp.(θ)) # we interpolate
-
-## it appears to converge away from 0 and 2π.
-
-
-## END
 
 
 
@@ -469,59 +317,4 @@ scatter!(θ, exp.(θ)) # we interpolate
 
 ## TODO: by plotting the cosine expansion make some observations on the interpolation and convergence
 
-## SOLUTION
-g = range(0,π,1000)
-plot(g, exp.(g); label="exp")
-n = 5
-𝐜ₖ = [discretecosinecoefficient(exp, k, n) for k =0:n-1]
-fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
-plot!(g, fₙ.(g); label="n = $n")
-θ = [π*(j-1/2)/n for j=1:n]
-scatter!(θ, exp.(θ)) # we interpolate
-#
-plot(g, exp.(g); label="exp")
-n = 20
-𝐜ₖ = [discretecosinecoefficient(exp, k, n) for k =0:n-1]
-fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
-plot!(g, fₙ.(g); label="n = $n")
-θ = [π*(j-1/2)/n for j=1:n]
-scatter!(θ, exp.(θ)) # we interpolate, but this time we converge!!
-#
-g = range(0,π,1000)
-f = θ -> exp(cos(θ))
-plot(g, f.(g); label="exp(cos(θ))")
-n = 5
-𝐜ₖ = [discretecosinecoefficient(f, k, n) for k =0:n-1]
-fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
-plot!(g, fₙ.(g); label="n = $n")
-θ = [π*(j-1/2)/n for j=1:n]
-scatter!(θ, f.(θ)) # we interpolate, but even with just 5 points it matches the function exactly to the eye
-#
-plot(g, f.(g); label="exp(cos(θ))")
-n = 20
-𝐜ₖ = [discretecosinecoefficient(f, k, n) for k =0:n-1]
-fₙ = θ -> [cos(k*θ) for k=0:n-1]'𝐜ₖ
-plot!(g, fₙ.(g); label="n = $n")
-θ = [π*(j-1/2)/n for j=1:n]
-scatter!(θ, f.(θ)) # still matches exactly
 
-## The explanation is probably not immediately obvious but results since a cosine expansion approximates a "reflection" of
-## the input function that makes it even, that is in the case of exp(θ) we are actually approximating
-
-
-g = range(-2π,2π,1000)
-f_even = θ -> if 0 ≤ θ ≤ π
-    exp(θ)
-elseif π ≤ θ ≤ 2π
-    exp(2π-θ)
-elseif -π ≤ θ ≤ π
-    exp(-θ)
-elseif -2π ≤ θ ≤ -π
-    exp(2π+θ)
-end
-
-plot(g, f_even.(g))
-## This extension matches $\exp(θ)$ exactly on $[0,π]$ but is periodic and continuous, hence has better convergence properties
-## than our original Fourier example.
-
-## END
