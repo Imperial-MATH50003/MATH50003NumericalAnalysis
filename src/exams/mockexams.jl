@@ -1,14 +1,13 @@
 # # MATH50003 Numerical Analysis (2024–2025) Mock Computer-based Exam
 
-# Instructions for uploading and downloading:
+# Instructions:
 
-# 1. Rename the file to include your CID.
-# 2. You have 15 mins to download the exam beginning at 16:00 on 7 March. **DO NOT** write or type anything during this time.
-# 2. You have 1 hour to complete the exam beginning at 16:15 on 7 March. You **MUST STOP** typing at 17:15.
-# 3. Deadline is 17:30 on 7 March to upload the completed Jupyter notebook (`.ipynb`) to Blackboard. 
-# 5. Once uploaded, re-download the file before the final submission time to confirm it is correct.
-# You are allowed to upload additional submissions but only the last valid upload before 17:30 will be used.
-# 6. If uploading via Blackboard fails you may e-mail the UG Office: maths.exams@imperial.ac.uk
+# 1. You have 15 mins to read the exam beginning when the invigilators instruct. **DO NOT** write or type anything during this time.
+# 2. You have 1 hour to complete the exam beginning when the invigilators instruct. You **MUST STOP** typing when the time is complete.
+# 3. When finished, save your work and close Visual Studio Code.
+# 4. Re-access WISEflow in SchoolYear and click on ‘Upload Paper’ à From Computer.
+# 6. You can now complete submission by clicking the green button "Click here to submit".
+# 6. If uploading fails please contact an invigilator.
 
 # Instructions for the exam:
 
@@ -17,13 +16,13 @@
 # 2. Problems are marked A/B/C to indicate difficulty ("A" being most difficult).
 # 3. All questions are worth 10 marks. Partial credit will be awarded for reasonable attempts or comments outlining a solution even if the tests
 # are not passed.
-# 3. If you have technical queries please email s.olver@imperial.ac.uk. Any other queries
-# should be sent to the UG Office: maths.exams@imperial.ac.uk
-# 4. You may use the provided notes, labs and problem sheets.
-# 5. You **MUST NOT** use external resources, ask for help online or
+# 3. If you have technical queries please contact an invigilator.
+# 4. You may use existing code from the module Github page
+# 5. You **MUST NOT** ask for help online or
 # communicate with others within or outside the module.
-# Failure to follow these rules will be considered misconduct.
+# Failure to follow these rules will be considered academic misconduct.
 # 6. **NO USAGE of AI tools** such as ChatGPT or GitHub Co-Pilot.
+
 
 
 # You should use the following packages:
