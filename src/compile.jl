@@ -66,7 +66,7 @@ compilelabsolution(3)
 compilelabsolution(4)
 compilelabsolution(5)
 compilelabsolution(6)
-# compilelabsolution(7)
+compilelabsolution(7)
 # compilelabsolution(8)
 
 

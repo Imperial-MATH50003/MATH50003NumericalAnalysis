@@ -1,0 +1,486 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 7}
+
+\textbf{Problem 1} Use Lagrange interpolation to interpolate the function $\cos x$ by a polynomial at the points $[0,2,3,4]$ and evaluate at $x = 1$.
+
+\textbf{SOLUTION}
+
+\begin{itemize}
+\item \[
+\ensuremath{\ell}_1(x)=\frac{(x-2)(x-3)(x-4)}{(0-2)(0-3)(0-4)}=-\frac{1}{24}(x-2)(x-3)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_2(x)=\frac{(x-0)(x-3)(x-4)}{(2-0)(2-3)(2-4)}=\frac{1}{4}x(x-3)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_3(x)=\frac{(x-0)(x-2)(x-4)}{(3-0)(3-2)(3-4)}=-\frac{1}{3}x(x-2)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_4(x)=\frac{(x-0)(x-2)(x-3)}{(4-0)(4-2)(4-3)}=\frac{1}{8}x(x-2)(x-3)
+\]
+\end{itemize}
+So that $p(x)=\cos(0)\ensuremath{\ell}_1(x)+\cos(2)\ensuremath{\ell}_2(x)+\cos(3)\ensuremath{\ell}_3(x)+\cos(4)\ensuremath{\ell}_4(x)$. Note that $\ensuremath{\ell}_0(1)=1/4$, $\ensuremath{\ell}_2(1)=3/2$, $\ensuremath{\ell}_3(1)=-1$, $\ensuremath{\ell}_4(1)=1/4$, so $p(1)=1/4\cos(0)+3/2\cos(2)-\cos(3)+1/4\cos(4)$.
+
+\textbf{END}
+
+\textbf{Problem 2} Compute the LU factorisation of the following transposed Vandermonde matrices:
+\[
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix}
+\]
+Can you spot a pattern? Test your conjecture with a $5 \ensuremath{\times} 5$ Vandermonde matrix.
+
+\textbf{SOLUTION} (1)
+\[
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 \\
+ & y-x
+\end{bmatrix}
+\]
+(2)
+\[
+V := \begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ & y^2-x^2 & z^2 - x^2
+\end{bmatrix}
+\]
+We then have
+\[
+\begin{bmatrix}
+ y-x & z-x \\
+ y^2-x^2 & z^2 - x^2
+\end{bmatrix} = \begin{bmatrix}
+ 1 &  \\
+ y+x & 1
+\end{bmatrix} \begin{bmatrix}
+y-x & z-x \\
+& (z-y)(z-x)
+\end{bmatrix}
+\]
+since $z^2 - x^2 - (z-x) (y+x) = z^2 + xy  - zy = (z-y)(z-x)$. Thus we have
+\[
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y& 1
+\end{bmatrix}  \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ &  &  (z-y)(z-x)
+\end{bmatrix}
+\]
+(3)
+\[
+V := \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix} =
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1 \\
+x^3 &&& 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ & y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+ & y^3-x^3 & z^3 - x^3 & t^3 - x^3
+\end{bmatrix}
+\]
+We then have
+\meeq{
+\begin{bmatrix}
+y-x & z-x & t-x \\
+y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+y^3-x^3 & z^3 - x^3 & t^3 - x^3
+\end{bmatrix} = \begin{bmatrix}
+1 &  &  \\
+y + x & 1 &  \\
+y^2 + xy + x^2 &  & 1
+\end{bmatrix} \\
+& \qquad \ensuremath{\times} \begin{bmatrix}
+y-x & z-x & t-x \\
+ & (z-y)(z-x) & (t-y)(t-x) \\
+ & (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix}
+}
+since
+\[
+z^3 - x^3 - (z-x) (y^2 + x y + x^2) = z^3 - z y^2 - x y z  - z x^2 + x y^2  + x^2 y
+= (x-z)(y-z) (x+y+z).
+\]
+Finally we have
+\begin{align*}
+&\begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
+ (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix}\\
+&\qquad = \begin{bmatrix}
+ 1 & \\
+ x+y+z & 1
+\end{bmatrix}
+ \begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
+  & (t-x)(t-y) (t-z)
+\end{bmatrix}
+\end{align*}
+since
+\[
+(t-x)(t-y) (x+y+t) - (x+y+z) (t-y)(t-x) = (t-y)(t-x)(t-z).
+\]
+Putting everything together we have
+\[
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ &  & (z-y)(z-x) & (t-y)(t-x) \\
+ &  &  & (t-y)(t-x)(t-z)
+\end{bmatrix}
+\]
+We conjecture that $L[k,j]$ for $k > j$ contains a sum of all monomials of degree $k$ of $x_1,\ensuremath{\ldots},x_j$, and
+\[
+U[k,j] = \ensuremath{\prod}_{s = 1}^{k-1} (x_j-x_s)
+\]
+for $1 < k \ensuremath{\leq} j$. We can confirm that
+\begin{align*}
+&\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+x & y & z & t & s\\
+x^2 & y^2 & z^2 & t^2 & s^2 \\
+x^3 & y^3 & z^3 & t^3 & s^3 \\
+x^4 & y^4 & z^4 & t^4 & s^4
+\end{bmatrix} \\
+&\qquad =
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1 \\
+x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + t & 1
+\end{bmatrix} \\
+&\qquad \ensuremath{\times}
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x & s-x  \\
+ &  & (z-y)(z-x) & (t-y)(t-x) & (s-x) (s-y) \\
+ &  &  & (t-y)(t-x)(t-z) &   (s-y)(s-x)(s-z)  \\
+ &  &  &  &   (s-y)(s-x)(s-z)(s-t)
+\end{bmatrix}
+\end{align*}
+Multiplying it out we confirm that our conjecture is correct in this case.
+
+\textbf{END}
+
+\textbf{Problem 3} Compute the interpolatory quadrature rule
+\[
+\ensuremath{\int}_{-1}^1 f(x) w(x) \dx \ensuremath{\approx} \ensuremath{\sum}_{j=1}^n w_j f(x_j)
+\]
+for the points $[x_1,x_2,x_3] = [-1,1/2,1]$, for the weights $w(x) = 1$ and $w(x) = \sqrt{1-x^2}$.
+
+\textbf{SOLUTION}
+
+\ensuremath{\bullet} $w(x) = 1$
+
+\ensuremath{\bullet} $w(x) = \sqrt{1-x^2}$
+
+For the points $\ensuremath{\bm{\x}} = \{-1, 1/2, 1\}$ we have the Lagrange polynomials:
+\[
+\ensuremath{\ell}_1(x) = \left(\frac{x - 1/2}{-1 - 1/2}\right)\cdot\left(\frac{x - 1}{-1 - 1}\right) = \frac{1}{3}\left(x^2 - \frac{3}{2}x + \frac{1}{2}\right),
+\]
+and
+\[
+\ensuremath{\ell}_2(x) = -\frac{4}{3}x^2 + \frac{4}{3}, \ensuremath{\ell}_3(x) =x^2 + \frac{1}{2}x - \frac{1}{2},
+\]
+similarly. We can then compute the weights,
+\[
+w_j = \int_{-1}^1 \ensuremath{\ell}_j(x)w(x)dx,
+\]
+using,
+\[
+\int_{-1}^1 x^k \sqrt{1-x^2}dx = \begin{cases}
+ \frac{\ensuremath{\pi}}{2} &	k=0 \\
+ 0 & k=1 \\
+\frac{\ensuremath{\pi}}{8} & k=2
+ \end{cases}
+\]
+to find,
+\[
+w_j = \begin{cases}
+ 	\frac{\ensuremath{\pi}}{8} & j = 1 \\
+ 	\frac{\ensuremath{\pi}}{2} & j = 2 \\
+ 	-\frac{\ensuremath{\pi}}{8} & j = 3,
+ \end{cases}
+\]
+so that the interpolatory quadrature rule is:
+\[
+\ensuremath{\Sigma}_3^{w,\ensuremath{\bm{\x}}}(f) = \frac{\ensuremath{\pi}}{2}\left(\frac{1}{4}f(-1) + f(1/2) -\frac{1}{4}f(1) \right)
+\]
+\textbf{END}
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 4} Derive  Backward Euler: use the left-sided divided difference approximation
+\[
+u'(x) \ensuremath{\approx} {u(x) - u(x-h)  \over h}
+\]
+to reduce the first order ODE
+\meeq{
+u(a) =  c, \qquad u'(x) + \ensuremath{\omega}(x) u(x) = f(x)
+}
+to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the gridpoints $x_1,\ensuremath{\ldots},x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
+
+\textbf{SOLUTION}
+
+We go through all 4 steps (this is to help you understand what to do. In an exam I will still give full credit if you get the right result, even if you don't write down all 4 steps):
+
+(Step 1) Since we need to avoid going off the left in step 2 we start the ODE discretisation at $x_1$:
+\[
+\Vectt[u(x_0), u'(x_1) +  \ensuremath{\omega}(x_1)u(x_1), \ensuremath{\vdots}, u'(x_n) +  \ensuremath{\omega}(x_n)u(x_n)] = \underbrace{\Vectt[c, f(x_1),\ensuremath{\vdots},f(x_n)]}_{\ensuremath{\bm{\b}}}
+\]
+(Step 2) Replace with divided differences:
+\[
+\Vectt[u(x_0), (u(x_1)-u(x_0))/h +  \ensuremath{\omega}(x_1)u(x_1), \ensuremath{\vdots}, (u(x_n)-u(x_{n-1}))/h +  \ensuremath{\omega}(x_n)u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
+\]
+(Step 3) Replace with discrete system with equality:
+\[
+\Vectt[u_0, (u_1-u_0)/h +  \ensuremath{\omega}(x_1)u_1, \ensuremath{\vdots}, (u_n-u_{n-1}))/h +  \ensuremath{\omega}(x_n)u_n] = \ensuremath{\bm{\b}}
+\]
+(Step 4) Write as linear system:
+\[
+\begin{bmatrix}
+1 \\
+-1/h & 1/h + \ensuremath{\omega}(x_1) \\
+& \ensuremath{\ddots} & \ensuremath{\ddots} \\
+&& -1/h & 1/h + \ensuremath{\omega}(x_n)
+\end{bmatrix} \Vectt[u_0,\ensuremath{\vdots},u_n] = \ensuremath{\bm{\b}}
+\]
+\textbf{END}
+
+\textbf{Problem 5} Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
+\meeq{
+u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
+}
+\textbf{SOLUTION}
+
+(Step 1) 
+\[
+\Vectt[u(x_0), u''(x_1) + V(x_1) u(x_1), \ensuremath{\vdots}, u'(x_{n-1}) + V(x_{n-1}) u(x_{n-1}), u(x_n)] = \underbrace{\Vectt[c, f(x_1),\ensuremath{\vdots},f(x_{n-1}), d]}_{\ensuremath{\bm{\b}}}
+\]
+(Step 2) Replace with divided differences:
+\[
+\Vectt[u(x_0), (u(x_0)-2u(x_1)+u(x_2))/h^2 + V(x_1)u(x_1), \ensuremath{\vdots}, (u(x_{n-2} - 2u(x_{n-1})+u(x_n))/h^2 + V(x_{n-1})u(x_{n-1}), u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
+\]
+(Step 3) Replace with discrete system with equality:
+\[
+\Vectt[u_0, (u_0-2u_1+u_2)/h^2 + V(x_1)u_1, \ensuremath{\vdots}, (u_{n-2}-2u_{n-1}+u_n))/h^2+ V(x_{n-1})u_{n-1},u_n] = \ensuremath{\bm{\b}}
+\]
+(Step 4) Write as a tridiagonal linear system:
+\[
+\begin{bmatrix}
+1 \\
+1/h^2 & V(x_1)-2/h^2 & 1/h^2 \\
+& \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+&&1/h^2 & V(x_{n-1})-2/h^2 & 1/h^2 \\
+&& &&1
+\end{bmatrix} \Vectt[u_0,\ensuremath{\vdots},u_n] = \ensuremath{\bm{\b}}
+\]
+\textbf{END}
+
+
+
+\end{document}
