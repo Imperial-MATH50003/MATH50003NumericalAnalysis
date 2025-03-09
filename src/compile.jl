@@ -26,9 +26,9 @@ compilenotes("IV.2.DifferentialEquations")
 compilenotes("V.1.Fourier")
 compilenotes("V.2.DFT")
 
-# compilenotes("VI.3.OrthogonalPolynomials")
-# compilenotes("VI.4.ClassicalOPs")
-# compilenotes("VI.5.GaussianQuadrature")
+compilenotes("VI.1.OrthogonalPolynomials")
+compilenotes("VI.2.ClassicalOPs")
+# compilenotes("VI.3.GaussianQuadrature")
 
 
 compilenotes("A.Asymptotics")
@@ -40,12 +40,12 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:8
+for k = 1:9
     compilesheet(k)
 end
 
 
-for k = 1:6
+for k = 1:7
     compilesheetsolution(k)
 end
 
@@ -67,9 +67,10 @@ compilelabsolution(4)
 compilelabsolution(5)
 compilelabsolution(6)
 compilelabsolution(7)
-# compilelabsolution(8)
+compilelabsolution(8)
 
 
+compilelabsolution('r')
 
 #####
 # extras
