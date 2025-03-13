@@ -220,7 +220,7 @@ xP_0(x) &= P_1(x) \\
 $$
 
 **Proof**
-The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from the problem sheet).
+The $n = 0$ case is immediate (since $w(x) = w(-x)$ we know $a_n = 0$, from the problem sheet).
 For the other cases we match terms:
 $$
 \begin{align*}
