@@ -106,18 +106,7 @@ function opgramschmidt(w, n, α, β)
     R = UpperTriangular(zeros(n,n)) # Connection matrix with monomials
     nrms = zeros(n) # vector of inner products
     ## TODO: Modify the above code to support general weights and not recompute ||π_k||^2
-    ## SOLUTION
-    for j = 1:n
-        R[j,j] = 1 # k_j = 1
-        for k = 1:j-1
-            πₖ = x -> dot(R[1:k,k],[x^ℓ for ℓ=0:k-1]) # the previously computed OP
-            ip = quadgk(x -> x^(j-1) * πₖ(x) * w(x), α, β)[1] # ⟨x^n,π_k⟩ 
-            R[1:k,j] -= ip/nrms[k] * R[1:k,k] # R[1:k,k] gives us the monomial expansion of πₖ
-        end
-        πⱼ = x -> dot(R[1:j,j],[x^ℓ for ℓ=0:j-1]) # the previously computed OP
-        nrms[j] =  quadgk(x -> πⱼ(x)^2 * w(x), α, β)[1]
-    end
-    ## END
+    
     R,nrms
 end
 
@@ -131,12 +120,7 @@ R,nrms = opgramschmidt(x -> 1, 3, 0, 1)
 # Do these match the computation from the problem sheet?
 
 ## TODO: employ the new opgramschmidt to the two examples from the problem sheet. 
-## SOLUTION
-opgramschmidt(x -> sqrt(1-x^2), 5, -1, 1)[1]
-## Yes it matches 1, x, x^2 - 1/4, x^3 - x/2
-opgramschmidt(x -> 1-x, 5, -1, 1)[1]
-## Yes it matches 1, x+1/3, x^2 + 2x/5 - 1/5, x^3 + 3x^2/7 - 3x/7 - 3/35
-## END
+
 
 # **Problem 1(c)** By calling `opgramschmidt` implement `orthonormalgramschmidt`
 # to return an upper triangular matrix containing the coefficents for
@@ -145,10 +129,7 @@ opgramschmidt(x -> 1-x, 5, -1, 1)[1]
 
 function orthonormalgramschmidt(w, n, α, β)
     ## TODO: Use opgramschmidt to construct the R for orthonormal polynomials
-    ## SOLUTION
-    R,nrms = opgramschmidt(w, n, α, β)
-    R * Diagonal(nrms .^ (-1/2))
-    ## END
+    
 end
 
 R = orthonormalgramschmidt(x -> 1, 4, 0, 1)
@@ -242,60 +223,7 @@ function orthonormalstieltjes(w, n, α, β)
     R[1,1] = 1/sqrt(quadgk(w, α, β)[1])
 
     ## TODO: complete the implementation populating R, a, b and c.
-    ## SOLUTION
-    ## xq_0 = a_0q_0 + b_0q_1
-    ## first build p_1 via
-    ## xq_0 = a_0q_0 + p_1
-    ## then divide by ||p_1||.
-    a[1] = quadgk(x -> x*w(x)*R[1,1]^2, α, β)[1]
-
-    R[2,2] = R[1,1] # coefficients of x*q_0
-    R[1,2] = -a[1]*R[1,1] # coefficients of -a_0*q_0
-    p₁ = x -> R[1,2] + R[2,2]*x
-    b[1] = sqrt(quadgk(x -> w(x)*p₁(x)^2, α, β)[1])
-    R[:,2] /= b[1] # divide by ||p₁||
-
-    for j = 2:n-1
-        R[2:j+1,j+1] = R[1:j,j] # coefficients of x*qⱼ
-        qⱼ = x -> R[1:j,j]'*[x^ℓ for ℓ=0:j-1] # qⱼ(x)
-        qⱼ₋₁ = x -> R[1:j-1,j-1]'*[x^ℓ for ℓ=0:j-2] # qⱼ₋₁(x)
-
-        ## xq_j = b_{j-1}q_{j-1} + a_j*q_j + p_{j+1}
-        R[1:j-1,j+1] -= b[j-1]*R[1:j-1,j-1] # coefficients of -b_{j-1}*q_{j-1}
-        a[j] = quadgk(x -> x*qⱼ(x)^2*w(x), α, β)[1]
-        R[1:j,j+1] -= a[j]*R[1:j,j] # coefficients of -a_j*p_j
-        pⱼ₊₁ = x -> R[1:j+1,j+1]'*[x^ℓ for ℓ=0:j] # pⱼ₊₁(x)
-        b[j] = sqrt(quadgk(x -> w(x)*pⱼ₊₁(x)^2, α, β)[1]) # ||pⱼ₊₁||
-        R[:,j+1] /= b[j]  # divide by ||pⱼ₊₁||
-    end
-    ## END
-    R, a, b
-end
-
-R, a, b = orthonormalstieltjes(x -> 1, 5, 0, 1)
-@test R ≈ orthonormalgramschmidt(x -> 1, 5, 0, 1)
-@test a ≈ fill(0.5,4)
-@test b[1:3] ≈ [1/(2sqrt(3)), 1/sqrt(15), 3/(2*sqrt(35))]
-
-
-# **Problem 2(b)** Implement `forward` for supporting general 3-term recurrences.
-
-function forward(n, a, b, c, x, p₀)
-    if n == 0
-        return p₀
-    end
-
-    ## TODO: implement forward recurrence to compute pₙ, given the recurrence coefficients a,b,c, x and
-    ## initial polynomial p₀ as a constant
-    ## SOLUTION
-    pₖ₋₁ = p₀
-    pₖ = (x-a[1])*p₀/b[1]
-
-    for k = 2:n
-        pₖ,pₖ₋₁ = ((x-a[k])*pₖ - c[k-1]*pₖ₋₁)/b[k],pₖ # a little tuple trick to reuse variables! The RHS is evaluated first and then the variables are updated
-    end
-    pₖ
-    ## END
+    
 end
 
 @test forward(3, a, b, b, 0.1, R[1,1]) ≈ sqrt(7) * (20x^3 - 30x^2 + 12x - 1)
@@ -343,15 +271,7 @@ function symmetrise(X::Tridiagonal)
     end
 
     ## TODO: return a SymTridiagonal with the Jacobi matrix of the corresponding orthonormal polynomials.
-    ## SOLUTION
-    ## We implement the procedure from Example 24
-    k = zeros(n)
-    k[1] = 1 # The normalisation for q_0(x) doesn't impact the Jacobi matrix
-    for j = 1:n-1
-        k[j+1] = k[j]/sqrt(X[j,j+1])
-    end
-    SymTridiagonal(X.d,  k[1:n-1] ./ k[2:n])
-    ## END
+    
 end
 
 J = symmetrise(X)
@@ -423,9 +343,7 @@ end
 
 function discretechebyshevcoefficient(f, k, n)
     ## TODO: Use discretecosinecoefficient to approximate the Chebyshev coefficients of f
-    ## SOLUTION
-    discretecosinecoefficient(θ -> f(cos(θ)), k, n)
-    ## END
+    
 end
 
 n = 15
@@ -440,11 +358,7 @@ T = chebyshevt.(0:n-1,x)' # Chebyshev T
 function chebyshevdifferentiation(f, n, x)
     ## TODO: Use discretechebyshevcoefficient and the derivative relationship to approximate the derivative of f,
     ## using a Chebyshev expansion of f up to degree n-1
-    ## SOLUTION
-    c = [discretechebyshevcoefficient(f, k, n) for k=0:n-1]
-    U = [sin(k*acos(x))/sin(acos(x)) for k=1:n-1]' # U_k(x) for k=0…n-2
-    U * ((1:n-1) .* c[2:end])
-    ## END
+    
 end
 
 @test chebyshevdifferentiation(cos, 15, 0.1) ≈ -sin(0.1)
@@ -472,17 +386,7 @@ end
 
 function legendrep(n, x)
     ## TODO: Implement Legendre P_n(x) using the 3-term recurrence
-    ## SOLUTION
-    Pₖ₋₁ = 1.0
-    if n == 0
-        return Pₖ₋₁
-    end
-    Pₖ = x
-    for k = 1:n-1
-        Pₖ,Pₖ₋₁ = (2k+1)/(k+1) * x*Pₖ - k/(k+1)*Pₖ₋₁, Pₖ
-    end
-    Pₖ
-    ## END
+    
 end
 
 g = range(-1,1,100)
