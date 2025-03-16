@@ -28,7 +28,7 @@ compilenotes("V.2.DFT")
 
 compilenotes("VI.1.OrthogonalPolynomials")
 compilenotes("VI.2.ClassicalOPs")
-# compilenotes("VI.3.GaussianQuadrature")
+compilenotes("VI.3.GaussianQuadrature")
 
 
 compilenotes("A.Asymptotics")

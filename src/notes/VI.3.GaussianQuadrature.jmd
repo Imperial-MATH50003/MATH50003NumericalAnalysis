@@ -1,16 +1,19 @@
 # Gaussian Quadrature
 
 
-Quadrature is another name for numerical integration, and we have already seen examples such as the Rectangular and Trapezium Rules.
-In this section we see that a special quadrature rule can be constructed by using the roots of orthogonal
+We have already seen examples of quadrature including the Rectangular, Trapezium and Interpolatory Quadrature Rules.
+In this section we see that a special type of interpolatory quadrature can be constructed by using the roots of orthogonal
 polynomials, leading to a method that is exact for polynomials of twice the expected degree.
 Importantly, we can use quadrature to compute expansions in orthogonal polynomials that
 interpolate,  mirroring the link between the Trapezium rule, Fourier series, and interpolation but
 now for orthogonal polynomials.
 
+We begin with a simple example demonstrating the power of using roots of orthogonal polynomials in
+an interpolatory quadrature rule:
 
 
-**Example (Chebyshev roots)** We now find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the
+
+**Example (Chebyshev roots)** We  find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the
 roots of $T_3(x)$.
  This is a special case of Gaussian quadrature which we will approach in another way below. We use:
 $$
@@ -48,7 +51,7 @@ We shall explain this miracle in the rest of this section.
 
 ## Roots of orthogonal polynomials and truncated Jacobi matrices
 
-We now consider roots (zeros) of orthogonal polynomials $p_n(x)$ which will be essential
+Consider roots (zeros) of orthogonal polynomials $p_n(x)$ which will be essential
 to constructing Gaussian quadrature, via interpolation at these points. For interpolation to be well-defined we
 first need to guarantee that the roots are distinct.
 
@@ -76,7 +79,7 @@ it follows each root must be first order and hence distinct.
 
 ∎
 
-We will now relate these roots to truncations of Jacobi matrices.
+We ca relate these roots to eigenvalues of truncations of Jacobi matrices:
 
 **Definition (truncated Jacobi matrix)** Given a Jacobi matrix $J$
 associated with a family of orthonormal polynomials,
@@ -192,10 +195,10 @@ $$
 We now introduce Gaussian quadrature, which
 we shall see is exact for polynomials up to degree $2n-1$, i.e., double
 the degree of other interpolatory quadrature rules from other grids.
-We will also prove that it is in fact an interpolatory quadrature rule corresponding
-to the grid $x_j$ defined as the roots of the orthonormal polynomial $q_n(x)$.
 
-
+Rather than defining Gaussian quadrature as an interpolatory quadrature rule, we build an analogy with
+the discrete Fourier transform (DFT) by defining a quadrature rule for which our orthogonal polynomials
+satisfy a discrete orthogonality property.
 
 
 **Definition (Gaussian quadrature)** Given a weight $w(x)$, the Gauss quadrature rule is:
