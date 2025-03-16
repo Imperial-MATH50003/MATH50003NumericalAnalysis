@@ -190,7 +190,7 @@ $$
 $$
 ∎
 
-## Gaussian quadrature
+## Properties of Gaussian quadrature
 
 We now introduce Gaussian quadrature, which
 we shall see is exact for polynomials up to degree $2n-1$, i.e., double
