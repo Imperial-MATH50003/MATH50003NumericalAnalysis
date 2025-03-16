@@ -289,7 +289,7 @@ which has solutions $\lambda = 0, ± \sqrt{\frac{3}{5}}$
 
 
 
-**Problem 4** Compute the 2-point
+**Problem 3** Compute the 2-point
 interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$,
 and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
@@ -363,7 +363,7 @@ $$
 
 
 
-**Problem 5(a)** For the matrix
+**Problem 4(a)** For the matrix
 $$
 J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\
                 1/\sqrt{2} & 0 & 1/2 \\
@@ -472,7 +472,7 @@ $$
 **END**
 
 
-**Problem 5(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+**Problem 4(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
 $$
 Q_n^w[f] = {π \over n} \sum_{j=1}^n f(x_j)
 $$
@@ -486,7 +486,7 @@ $$
 
 **END**
 
-**Problem 5(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above, in terms of Chebyshev polynomials
+**Problem 4(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above, in terms of Chebyshev polynomials
 with the coefficients defined in terms of a sum involving only exponentials, cosines and $θ_j = (n-j+1/2)π/n$.
 
 **SOLUTION**
