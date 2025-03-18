@@ -107,11 +107,15 @@ function gaussquadrature(J::SymTridiagonal)
     x, Q[1,:].^2
 end
 
-n = 15
-J = SymTridiagonal(zeros(n), [1/sqrt(2); fill(1/2, n-2)])
-x,w = gaussquadrature(J)
-μ = π # = ∫ dx/sqrt(1-x^2)
-@test μ*w'exp.(x) ≈ 3.977463260506422 # = ∫exp(x)*dx/sqrt(1-x^2)
+
+function gausschebyshevt(n)
+    J = SymTridiagonal(zeros(n), [1/sqrt(2); fill(1/2, n-2)]) # symmetric Jacobi matrix
+    x,w = gaussquadrature(J)
+    x, π*w # ∫dx/sqrt(1-x^2)= π
+end
+
+x,w = gausschebyshevt(15)
+@test w'exp.(x) ≈ 3.977463260506422 # = ∫exp(x)*dx/sqrt(1-x^2)
 
 # We can use gauss quadrature to compute expansion coefficients via:
 
@@ -141,4 +145,19 @@ scatter!(x, f.(x); label=nothing)
 # Taking a few more points and the approximation will have converged to high accuracy.
 
 # ---
-# **Problem 2(a)**
+# **Problem 2** Compute the Gauss–Chebyshev U quadrature rule for $w(x) = \sqrt{1-x^2}$ on $[-1,1]$.
+
+function gausschebyshevu(n)
+    ## TODO: implement Gauss–Chebyshev U quadrature
+    ## SOLUTION
+    J = SymTridiagonal(zeros(n), fill(1/2, n-1)) # symmetric Jacobi matrix
+    x,w = gaussquadrature(J)
+    x, π*w/2 # ∫sqrt(1-x^2)dx= π/2
+    ## END
+end
+
+
+# **Problem 3(a)** Compute the Gauss–Legendre quadrature rule, for $w(x) = 1$ on $[-1,1]$.
+
+# **Problem 3(b)** Implement the Legendre transform. 
+
