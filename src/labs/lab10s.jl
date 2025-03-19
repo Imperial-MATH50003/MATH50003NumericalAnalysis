@@ -5,6 +5,9 @@
 #
 # Mathematical knowledge:
 
+# 1. Roots of orthogonal polynomials and truncated Jacobi matrices.
+# 2. Gaussian quadrature via eigenvalues of a truncated Jacobi matrix.
+# 3. Transforms via Gaussian quadrature.
 
 # Coding knowledge:
 
@@ -159,5 +162,21 @@ end
 
 # **Problem 3(a)** Compute the Gauss–Legendre quadrature rule, for $w(x) = 1$ on $[-1,1]$.
 
-# **Problem 3(b)** Implement the Legendre transform. 
+function gausslegendre(n)
+    ## TODO: Compute the Gauss–Legendre quadrature rule for a uniform weight.
+    ## SOLUTION
+    ## We reuse the functions abobve
+    X = Tridiagonal((1:(n-1)) ./ (1:2:(2n-3)), zeros(n), (1:(n-1)) ./ (3:2:(2n-1)))
+    x,w = gaussquadrature(symmetrise(X))
+    x,2w
+    ## END
+end
+x,w = gausslegendre(3)
+@test x ≈ [-sqrt(3/5), 0, sqrt(3/5)]
+@test w ≈ [5/9,8/9,5/9]
 
+x,w = gausslegendre(5)
+@test w'exp.(x) ≈ exp(1)-exp(-1) # even just 5 points converges
+
+# **Problem 3(b)** Implement the Legendre transform from values of a function on Gauss–Legendre points to coefficients in
+# a Legendre expansion.
