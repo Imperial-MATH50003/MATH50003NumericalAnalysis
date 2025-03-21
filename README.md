@@ -12,35 +12,35 @@ Office hour: Thursdays, 16:00–17:00, Huxley 6M40
 Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.uk">GTAs</a> for informal marking/comments.
 
 1. I.1 Rectangular Rule and I.2 Divided Differences
-   - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1s.ipynb))
-   - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1s.pdf))
+ - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1s.ipynb))
+ - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1s.pdf))
 2. I.3 Dual Numbers and I.4 Newton's method
-   - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2s.ipynb))
-   - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2s.pdf))
+ - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2s.ipynb))
+ - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2s.pdf))
 3. II.1 Reals and I.2 Floating Point Arithmetic
-   - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3s.ipynb))
-   - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3s.pdf))
+ - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3s.ipynb))
+ - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3s.pdf))
 4. II.3 Interval Arithmetic and III.1 Structured Matrices
-   - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4s.ipynb))
-   - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4s.pdf))
+ - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4s.ipynb))
+ - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4s.pdf))
 5. III.2 LU and PLU Factorisations and III.3 Cholesky Factorisation
-   - [Lab 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5s.ipynb))
-   - [Sheet 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5s.pdf))
+ - [Lab 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5s.ipynb))
+ - [Sheet 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5s.pdf))
 6. III.4 Orthogonal and Unitary Matrices and III.5 QR Factorisation
-   - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6s.ipynb))
-   - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6s.pdf))
+ - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6s.ipynb))
+ - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6s.pdf))
 7. IV.1 Polynomial Interpolation and Regression and IV.2 Differential Equations via Finite Differences
-   - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7s.ipynb))
-   - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7s.pdf))
+ - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7s.ipynb))
+ - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7s.pdf))
 8. V.1 Fourier Expansions and V.2 Discrete Fourier Transform
-   - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
-   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
+ - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
+ - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
 9. VI.1 General Orthogonal Polynomials and VI.2 Classical Orthogonal Polynomials
-   - [Lab 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9.ipynb)
-   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)   
+ - [Lab 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9.ipynb)
+ - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)
 10. VI.3 Gaussian Quadrature
-   - [Lab 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab10.ipynb)
-   - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10.pdf)   
+ - [Lab 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab10.ipynb)
+ - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10.pdf)
 
 
 ## Revision
