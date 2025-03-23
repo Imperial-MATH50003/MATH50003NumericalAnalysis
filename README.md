@@ -36,8 +36,8 @@ Submit labs/problem sheets to <a href="mailto:venkata.melanathuru19@imperial.ac.
    - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
    - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
 9. VI.1 General Orthogonal Polynomials and VI.2 Classical Orthogonal Polynomials
-   - [Lab 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9.ipynb)
-   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)   
+   - [Lab 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9s.ipynb))
+   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9s.pdf))
 10. VI.3 Gaussian Quadrature
     - [Lab 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab10.ipynb)
     - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10.pdf)   
