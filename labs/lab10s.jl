@@ -200,6 +200,10 @@ function gausschebyshevu(n)
     ## END
 end
 
+x,w = gausschebyshevu(3)
+@test x ≈ [-1/sqrt(2),0,1/sqrt(2)]
+@test w ≈ [0.3926990816987255, 0.7853981633974466, 0.3926990816987243]
+
 
 # **Problem 3(a)** Compute the Gauss–Legendre quadrature rule, for $w(x) = 1$ on $[-1,1]$.
 
