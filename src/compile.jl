@@ -49,6 +49,9 @@ for k = 1:7
     compilesheetsolution(k)
 end
 
+compilesheet('r')
+compilesheetsolution('r')
+
 ####
 # Labs
 ####

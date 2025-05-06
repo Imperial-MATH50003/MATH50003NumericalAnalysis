@@ -138,7 +138,7 @@ with analytic expressions for $x_j$ and $w_j$.
 
 
 
-**Problem 9** Solve Problem 4(b) from PS8 using **Lemma 12 (discrete orthogonality)** with
+**Problem 9** Solve Problem 4(b) from PS8 using **Lemma 13 (discrete orthogonality)** with
 $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
 show that the Discrete Cosine Transform
 $$
