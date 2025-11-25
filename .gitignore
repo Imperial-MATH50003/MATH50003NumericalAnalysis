@@ -23,3 +23,8 @@ docs/site/
 # environment.
 Manifest.toml
 .DS_Store
+notes/notes.aux
+notes/notes.log
+notes/notes.out
+notes/notes.synctex.gz
+notes/notes.toc

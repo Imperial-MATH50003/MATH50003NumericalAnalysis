@@ -1,0 +1,426 @@
+\documentclass[12pt,a4paper]{book}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{appendix}
+\usepackage[usename®s,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\let\QED=\blacksquare
+\def\bbD{{\mathbb D}}
+\def\bbZ{{\mathbb Z}}
+\def\bbN{{\mathbb N}}
+\def\bbF{{\mathbb F}}
+\def\bbR{{\mathbb R}}
+\def\bbT{{\mathbb T}}
+\def\bbC{{\mathbb C}}
+\def\emdash{\hbox{---}}
+\def\endash{\hbox{--}}
+\def\nsubset{\not\subset}
+\def\ldq{``}
+\def\x{{\vc x}}
+\def\a{{\vc a}}
+\def\b{{\vc b}}
+\def\q{{\vc q}}
+\def\c{{\vc c}}
+\def\e{{\vc e}}
+\def\f{{\vc f}}
+\def\u{{\vc u}}
+\def\w{{\vc w}}
+\def\v{{\vc v}}
+\def\y{{\vc y}}
+\def\z{{\vc z}}
+\def\k{{\vc k}}
+\def\vchatf{{\vc {\hat f}}}
+\def\zero{{\vc 0}}
+\def\Lt{{\tilde L}}
+\def\Pt{{\tilde P}}
+\def\pt{{\tilde p}}
+\def\Ut{{\tilde U}}
+\def\baralpha{\bar\alpha}
+\def\At{\tilde A}
+\def\Rt{\tilde R}
+\def\red#1{{\color{red} #1}}
+\def\blue#1{{\color{blue} #1}}
+\def\green#1{{\color{ForestGreen} #1}}
+\def\euler{\E}
+\def\ocaret{\wedge\mkern-19mu \bigcirc\,}
+
+\def\fldown{{\rm fl}^{\rm down}}
+\def\flup{{\rm fl}^{\rm up}}
+
+\hypersetup
+       {   pdfauthor = { {{Sheehan Olver}} },
+           pdftitle={ {{MATH50003 Numerical Analysis}} },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+\title{ MATH50003 Numerical Analysis }
+
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\author{ Sheehan Olver }
+\renewcommand{\thechapter}{\Roman{chapter}}
+
+\input{somacros}
+
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr}
+\def\dots{\vdots}
+	\begin{bmatrix}
+		\map[#1]
+	\end{bmatrix}
+}}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Calculus on a Computer}
+
+In this first chapter we explore the basics of mathematical computing and numerical analysis.
+In particular we investigate the following mathematical problems which can not in general be solved exactly:
+
+\begin{enumerate}
+\item Integration. General integrals have no closed form expressions. Can we use a computer to approximate the values of definite integrals?
+\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network.
+\item Root finding. There is no general formula for finding roots (zeros) of arbitrary functions, or even polynomials that are of degree 5 (quintics) or higher. Can we compute roots of general functions using a computer?
+\end{enumerate}
+
+In this chapter we discuss:
+
+\begin{enumerate}
+\item I.1 Rectangular rule: we review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule.
+\item I.2 Divided differences: we investigate approximating derivatives by a divided difference and again deduce the convergence rates. In the lab/problem sheet we extend the approach to the central differences formula and computing second derivatives. We also observe a mystery: the approximations may have significant errors in practice, and there is a limit to the accuracy.
+\item I.3 Dual numbers: we introduce the algebraic notion of a {\it dual number} which allows the implementation of {\it forward-mode automatic differentiation}, a high accuracy alternative to divided differences for computing derivatives.
+\item I.4 Newton's method: Newton's method is a basic approach for computing roots/zeros of a function. We use dual numbers to implement this algorithm.
+\end{enumerate}
+
+
+
+\input{I.1.RectangularRule.tex}
+\input{I.2.DividedDifferences.tex}
+% \input{I.3.DualNumbers.tex}
+% \input{I.4.NewtonMethod.tex}
+
+% \chapter{Representing Numbers}
+
+% In this chapter we aim to answer the question: when can we rely on computations done on a computer?  Why are some computations (differentiation via divided differences), extremely inaccurate whilst others (integration via rectangular rule) accurate up to about 16 digits?  In order to address these questions we need to dig deeper and understand at a basic level what a computer is actually doing when manipulating numbers.
+
+% Before we begin it is important to have a basic model of how a computer works. Our simplified model of a computer will consist of a \href{https://en.wikipedia.org/wiki/Central_processing_unit}{Central Processing Unit (CPU)}\ensuremath{\emdash}the  brains of the computer\ensuremath{\emdash}and \href{https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage}{Memory}\ensuremath{\emdash}where  data is stored. Inside the CPU there are \href{https://en.wikipedia.org/wiki/Processor_register}{registers}, where data is temporarily stored after being loaded from memory, manipulated by the CPU, then stored back to memory.  Memory is a sequence of bits: \texttt{1}s and \texttt{0}s, essentially ``on/off" switches, and memory is {\it finite}.  Finally, if one has a $p$-bit CPU (eg a 32-bit or 64-bit CPU), each register consists of exactly $p$-bits. Most likely $p = 64$ on your machine.
+
+
+% Thus representing numbers on a computer must overcome three fundamental limitations:
+% \begin{enumerate}
+% \item CPUs can only manipulate data $p$-bits at a time.
+% \item Memory is finite (in particular at most $2^p$ bytes).
+% \item There is no such thing as an ``error'': if anything goes wrong in the computation we must use some of the $p$-bits to indicate this.
+% \end{enumerate}
+
+% This is clearly problematic: there are an infinite number of integers and an uncountable number of reals! Each of which we need to store in precisely $p$-bits. Moreover, some operations are simply undefined, like division by 0.  This chapter discusses the solution used to this problem, alongside the mathematical analysis that is needed to understand the implications, in particular, that computations have {\it error}.
+
+% In particular we discuss:
+
+% \begin{enumerate}
+% \item II.1 Reals:  real numbers are approximated by floating point numbers, which are a computers version of scientific notation.
+% \item II.2 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds.
+% \item II.3 Interval Arithmetic: rounding can be controlled in order to implement {\it interval arithmetic}, a way to compute rigorous bounds for computations. In the lab, we use this to compute up to 15 digits of ${\rm e} \equiv \exp 1$ rigorously with precise bounds on the error.
+% \end{enumerate}
+
+
+% \input{II.1.Reals}
+% \input{II.2.Arithmetic}
+% \input{II.3.Intervals}
+
+
+% \chapter{Numerical Linear Algebra}
+
+% Many problems in mathematics are linear: for example, polynomial regression and
+% differential equations. Numerical methods for such applications invariably result
+% in (finite-dimensional) linear systems that must be solved numerically on a computer:
+% the dimensions of the problems are often in the 1000s, millions, or even billions.
+% One would certainly not want to tackle that with Gaussian elimination by hand!
+% In this chapter we discuss algorithms, and in particular matrix factorisations, that are
+% computed using floating point operations. We also introduce some basic applications.
+
+
+
+% In particular we discuss:
+
+% \begin{enumerate}
+%     \item III.1 Structured Matrices: we discuss special structured matrices such as triangular and tridiagonal.
+%     \item III.2 LU and PLU Factorisations: we see that Gaussian elimination can be recast as computing a factorisation of a square matrix as a product of a lower and upper triangular matrix, potentially with a permutation matrix
+%     corresponding to the case where row pivoting is required.
+%     \item III.3 Cholesky Factorisation: In the special case where the matrix is symmetric positive
+%     definite the LU factorisation has a special form. Hidden in this is an algorithm to prove positive definiteness.
+% \item III.4 Orthogonal Matrices: we discuss different types of orthogonal matrices, which will be used to simplify rectangular least squares problems.
+% \item III.5 QR Factorisation: we introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby solving least squares problems.
+% \end{enumerate}
+
+% Here we are constructing underlying computational tools that are important in applications, such as solving differential equations and data regression, which we discuss later.
+
+% \input{III.1.StructuredMatrices}
+% \input{III.2.LU}
+% \input{III.3.Cholesky}
+% \input{III.4.OrthogonalMatrices}
+% \input{III.5.QR}
+
+
+
+% \chapter{Linear Algebra Applications}
+
+% Numerical linear algebra underlies many numerical methods in applications, from simulating fluids, to understanding data
+% and  neural networks. Here we briefly investigate some applications, allowing us to go beyond our preliminary numerical algorithms from Chapter I,
+% giving methods for approximating functions, a more powerful numerical method for computing integrals, and the ability to solve ordinary differential equations.
+
+% \begin{enumerate}
+% \item IV.1 Polynomial Interpolation and Regression: Often in data science one needs to approximate data by a polynomial.
+% We discuss polynomial interpolation and see how it can be used to compute integrals. We also discuss regression, where more data is used than the degree of the polynomial,
+% leading to a robust approach  produced by solving a rectangular least squares problem.
+% \item IV.2 Differential Equations: Divided differences can can be used to {\it discretise} differential equations. That is, we can recast differential equation
+% as (approximate) solutions to linear systems.  We investigate using this approach on some simple linear initial and boundary value problems. 
+% \end{enumerate}
+
+% \input{IV.1.Regression}
+% \input{IV.2.DifferentialEquations}
+
+
+
+
+%  \chapter{Numerical Fourier series}
+
+%  So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
+%  differential equations, primarily based on representing functions by their values at a grid of points.
+%  But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
+%  numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
+%  and orthogonal polynomials for non-periodic functions that are smooth within an interval.
+%  Here we introduce these fundamental tools and explore applications to quadrature (computing integrals) where they
+%  produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
+
+%  \begin{enumerate}
+%      \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
+%      \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+% \end{enumerate}
+
+% \input{V.1.Fourier}
+% \input{V.2.DFT}
+
+% \chapter{Orthogonal Polynomials}
+
+% Fourier series are very powerful for approximating periodic functions.
+% If periodicity is lost, however, the Fourier coefficients are no longer in $\ell^1$ and uniform convergence is lost.
+% In this chapter
+% we introduce {\it Orthogonal Polynomials (OPs)} which are more effective for computing with
+% non-periodic (but still continuous/differentiable) functions. That is we consider expansions of the form
+% $$
+% f(x) = \sum_{k=0}^\infty c_k p_k(x)
+% $$
+% where $p_k(x)$ are special families of polynomials and $c_k$ are expansion coefficients.
+% The approximation of the coefficients $c_k \approx c_k^n$ using quadrature will be explored later.
+
+% Why not use monomials as in Taylor series? Hidden in the discussion on Fourier series was that we could effectively
+% compute Taylor coefficients by evaluating on the unit circle in the complex plane, only if the radius of convergence
+% was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.:
+% $$
+% {1 \over 25x^2 + 1}
+% $$
+% While orthogonal polynomials span the same space as monomials, orthogonal polynomials are much more stable and can effectively and accurately
+% approximate such functions. In particular, where we saw that interpolation
+% by monomials at evenly spaced points performed horribly in practice we can use orthogonal polynomials
+% with specially chosen points to get reliable interpolation of functions. 
+
+
+
+
+
+
+% \begin{enumerate}
+%     \item VI.1 General Orthogonal Polynomials: For non-periodic functions we consider the definition of orthogonal polynomials, and discuss their basic properties.
+%     \item VI.2 Classical Orthogonal Polynomials: For certain weights, orthogonal polynomials are classical and have addition structure that are useful for computations.
+%     \item VI.3 Gaussian Quadrature: Finally, we revisit the  problem of computing integrals, and see that using orthogonal polynomials we can derive much more accurate methods.
+%     \end{enumerate}
+
+% We stop at integration, but Fourier and orthogonal polynomial expansions also lead to very effective scheme for solving differential equations
+% and many other applications. In addition to numerics, OPs play a very important role in many mathematical areas
+% including functional analysis, integrable systems, singular integral equations,
+% complex analysis, and random matrix theory.
+
+
+% \input{VI.1.OrthogonalPolynomials}
+% \input{VI.2.ClassicalOPs}
+% \input{VI.3.GaussianQuadrature}
+
+
+% \chapter{Future Directions}
+
+% In these notes we explored some basic numerical algorithms for integration, differentiation, root-finding, solving differential equations, and
+% polynomial regression.
+% We further saw that rigorous computations and analysis could be deduced by understanding floating point arithmetic, and its usage in
+% constructing interval arithmetic.
+% We also saw the relationship between these problems and numerical linear algebra, exploring some fundamental algorithms for solving linear
+% systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials.
+% Gaussian quadrature was a final example where more sophisticated mathematics can lead to more powerful numerical algorithms,
+% achieving exponential convergence for smooth functions.
+
+% This sets the ground work for many areas of computational, applied and even pure mathematics:
+
+% \begin{enumerate}
+% \item Machine Learning (ML): Dual numbers (forward-mode automatic differentiation), Newton's method, and polynomial regression
+%  are baby versions of how ML trains neural networks.  As an example, consider a neural network trained to recognise whether a picture
+%  is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog" (or in practice, a 2-dimensional vector space where $e_1$ corresponds to cat and $e_2$ corresponds to dog to turn it into a continuous problem).
+%  The process of training is essentially regression: find the right parameters so that our function equals (or approximately equals) the
+%  training data at the given ``samples". Since this problem is nonlinear its not as simple as least squares, instead, it relies on more sophisticated
+%  optimisation techniques, that require automatic differentiation to compute gradients for the parameters.
+% \item \href{https://sciml.ai}{Scientific Machine Learning (SciML)}: A particular exciting field is the combination of ML and traditional numerical algorithms for differential equations.
+% For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to
+% fit real-world data. This is an area where Julia has excelled as it allows high-level, differentiable, code that is compiled and hence efficient.
+%  \item Computer-assisted proofs: By combining interval arithmetic with methods for solving differential equations important theorems in dynamical
+%  systems and elsewhere have been proven. The synthesis of numerical analysis and pure mathematics is really just at the beginning and will likely
+%  become increasingly important as we run into the limits of what theorems humans can prove without computer assistance.
+% \item Finite Element Methods (FEM): going beyond finite differences, finite elements are powerful techniques for solving partial differential
+% equations using specially designed bases built from piecewise polynomials. Gaussian quadrature is a basic tool used to set up the
+% sparse linear systems that result from this approach. \href{https://www.firedrakeproject.org}{Firedrake} is a software package for
+% PDEs based on FEM that is developed at Imperial.
+% \item Spectral methods: orthogonal polynomials in higher dimensions and spherical harmonics (which can be viewed as Fourier series on the sphere)
+% underly spectral methods, which are powerful high-accuracy techniques for solving PDEs, used a lot in fluid simulations which
+% need more accuracy than conventional FEM allows. \href{https://dedalus-project.org}{Dedalus} is a software package for
+% solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package
+% \href{https://github.com/JuliaApproximation/ApproxFun.jl}{ApproxFun.jl} give a user friendly way of computing with functions built
+% on orthogonal polynomials.
+% \end{enumerate}
+
+
+
+
+\appendix
+
+% \chapter{Asymptotics and Computational Cost}
+% \input{A.Asymptotics}
+
+% \chapter{Integers}
+% \input{A.Integers}
+
+% \chapter{Permutation Matrices}
+% \input{A.Permutations}
+
+
+
+\end{document}
