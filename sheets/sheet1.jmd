@@ -1,0 +1,76 @@
+**Numerical Analysis MATH50003 (2025–26) Problem Sheet 1**
+
+
+
+------
+
+**Problem 1** Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
+$$
+∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
+$$
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+
+
+
+
+
+
+**Problem 2(a)**  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
+$$
+∫_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  δ
+$$
+where $|δ| ≤ M (b-a)^3$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
+
+_Hint_: Recall from the notes
+$$
+∫_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+$$
+and you may need to use Taylor's theorem. Note that the bound is not sharp and so you may arrive at something sharper like $|δ| ≤ 3(b-a)^3 M/4$.
+The sharpest bound is $|δ| ≤ (b-a)^3 M/12$ but that would be a significantly harder challenge to show!
+
+
+
+
+**Problem 2(b)** Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
+$$
+∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
+$$
+where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
+
+
+
+
+-----
+
+**Problem 3** Assuming $f$ is twice-differentiable in $[x-h,x]$,
+for the left difference approximation
+$$
+f'(x) = {f(x) - f(x - h) \over h} + δ,
+$$
+show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
+
+
+
+
+
+
+**Problem 4** Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
+for the central differences approximation
+$$
+f'(x) = {f(x + h) - f(x - h) \over 2h} + δ,
+$$
+show that $|δ| ≤ Mh^2/6$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
+
+
+
+
+
+
+**Problem 5**  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
+for the second-order derivative approximation
+$$
+{f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + δ
+$$
+show that $|δ| ≤ Mh/3$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
+
