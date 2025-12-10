@@ -67,3 +67,12 @@ In the lab we investigate the convergence rate of these approximations (in parti
 central differences is more accurate than standard divided differences) and observe that they too
 suffer from unexplained (for now) loss of accuracy as $h → 0$. In the problem sheet we prove the theoretical
 convergence rate, which is never realised because of these errors.
+
+
+## Lab and problem sheet
+
+In the lab, we explore the practical implementation of the right-sided divided differences and extensions to 
+ central differences and second-order divided differences. 
+ We  see  _experimentally_ that the central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small. However, we observe a serious issue: if $h$ becomes too small, the eror mysteriously starts growing extremely large, and hence these rules do not actually converge at all to the true value of the derivatives! 
+ 
+ The problem sheet explores the _analysis_ of these different rules, proving the precise theoretical convergence rates observed for moderately small $h$. This presents a bit of a contradiction: why does the theory say the method converges but in practice it diverges, and spectacularly so! This is a mystery that we will return to later.

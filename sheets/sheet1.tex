@@ -159,12 +159,18 @@
 
 \textbf{Numerical Analysis MATH50003 (2025\ensuremath{\endash}26) Problem Sheet 1}
 
+In the lectures/notes we saw some basic \emph{analysis} of the errors of simple integration and differentiation rules: the right-sided rectangular rule for integration and divided difference for differentiation.  This problem sheets explores the analysis of some other simple rules that may have \emph{better} convergence rates: they can calculate integrals/derivatives more accurately with the same amount of data as the rules discussed in lectures. In the lab the practical implementation of these methods is explored.
+
 \rule{\textwidth}{1pt}
+The first example is the left-sided rectangular rule, which has the same linear ($O(h)$) convergence rate as the right-sided rectangular rule:
+
 \textbf{Problem 1} Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j) +  \ensuremath{\delta}
 \]
 where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+We now turn our attention to the Trapezium rule, which will have a faster quadratic convergence rate using the same number of samples.  That is to say: we can get much more accurate results with the exact same amoount of work! We begin with a simple one-panel error result showing cubic ($O(h^3)$) error:
 
 \textbf{Problem 2(a)}  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
 \[
@@ -178,6 +184,8 @@ where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^3$ for $M = \sup_{a \ensu
 \]
 and you may need to use Taylor's theorem. Note that the bound is not sharp and so you may arrive at something sharper like $|\ensuremath{\delta}| \ensuremath{\leq} 3(b-a)^3 M/4$. The sharpest bound is $|\ensuremath{\delta}| \ensuremath{\leq} (b-a)^3 M/12$ but that would be a significantly harder challenge to show!
 
+We can use the previous problem to deduce the \emph{global} error, summing up over all panels.  This shows quadratic ($O(h^2)$) error.
+
 \textbf{Problem 2(b)} Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \ensuremath{\delta}
@@ -185,11 +193,15 @@ and you may need to use Taylor's theorem. Note that the bound is not sharp and s
 where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
 
 \rule{\textwidth}{1pt}
+We now turn our attention to differentiation, with the first example being a left-sided divided difference, which has a linear ($O(h)$) error just like the right-sided divided difference in lectures:
+
 \textbf{Problem 3} Assuming $f$ is twice-differentiable in $[x-h,x]$, for the left difference approximation
 \[
 f'(x) = {f(x) - f(x - h) \over h} + \ensuremath{\delta},
 \]
 show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/2$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x}\abs{f''(t)}$.
+
+The next example shows that with a more careful choice of sample points, we can obtain a quadratic ($O(h^2)$) error:
 
 \textbf{Problem 4} Assuming $f$ is thrice-differentiable in $[x-h,x+h]$, for the central differences approximation
 \[
@@ -197,11 +209,15 @@ f'(x) = {f(x + h) - f(x - h) \over 2h} + \ensuremath{\delta},
 \]
 show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh^2/6$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
 
+By applying a central difference discretisation twice we can obtain an approximation to the second derivative. The following problem asks to prove that the approximation converges with a linear ($O(h)$) error:
+
 \textbf{Problem 5}  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$, for the second-order derivative approximation
 \[
 {f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + \ensuremath{\delta}
 \]
 show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/3$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
+
+Note in these problems the computational complexity is independent of $h$. However, if $h$ is too small the practical implementation has large errors.
 
 
 

@@ -1,8 +1,14 @@
 **Numerical Analysis MATH50003 (2025–26) Problem Sheet 1**
 
+In the lectures/notes we saw some basic _analysis_ of the errors of simple integration and differentiation rules:
+the right-sided rectangular rule for integration and divided difference for differentiation. 
+This problem sheets explores the analysis of some other simple rules that may have _better_ convergence rates: they can calculate integrals/derivatives
+more accurately with the same amount of data as the rules discussed in lectures. In the lab the practical implementation of these methods is explored.
 
 
 ------
+
+The first example is the left-sided rectangular rule, which has the same linear ($O(h)$) convergence rate as the right-sided rectangular rule:
 
 **Problem 1** Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
 $$
@@ -44,6 +50,9 @@ $$
 
 
 
+We now turn our attention to the Trapezium rule, which will have a faster quadratic convergence rate using the same number of samples. 
+That is to say: we can get much more accurate results with the exact same amoount of work!
+We begin with a simple one-panel error result showing cubic ($O(h^3)$) error:
 
 
 **Problem 2(a)**  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
@@ -91,6 +100,10 @@ For the sharper $1/12$ constant check out the [Euler–Maclaurin formula](https:
 **END**
 
 
+We can use the previous problem to deduce the _global_ error, summing up over all panels. 
+This shows quadratic ($O(h^2)$) error.
+
+
 **Problem 2(b)** Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
 $$
 ∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
@@ -121,6 +134,10 @@ $$
 
 -----
 
+We now turn our attention to differentiation, with the first example being a left-sided divided difference,
+which has a linear ($O(h)$) error just like the right-sided divided difference in lectures:
+
+
 **Problem 3** Assuming $f$ is twice-differentiable in $[x-h,x]$,
 for the left difference approximation
 $$
@@ -146,6 +163,9 @@ $$
 
 **END**
 
+
+The next example shows that with a more careful choice of sample points, we can obtain
+a quadratic ($O(h^2)$) error:
 
 
 **Problem 4** Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
@@ -180,6 +200,9 @@ $$\left|δ\right| ≤ {M \over 6} h^2.$$
 **END**
 
 
+By applying a central difference discretisation twice we can obtain an approximation
+to the second derivative. The following problem asks to prove that the approximation converges with
+a linear ($O(h)$) error:
 
 
 **Problem 5**  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
@@ -210,3 +233,7 @@ $$
 
 
 **END**
+
+
+
+Note in these problems the computational complexity is independent of $h$. However, if $h$ is too small the practical implementation has large errors.
