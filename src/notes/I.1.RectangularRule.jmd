@@ -13,13 +13,12 @@ for approximating an integral: choose $n$ large so that
 $$
   ∫_a^b f(x) {\rm d}x ≈ h ∑_{j=1}^n f(x_j).
 $$
-In the lab we explore practical implementation of this approximation, and observe that
+We will show that
 the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using
 “Big-O" notation:
 $$
 ∫_a^b f(x) {\rm d}x = h ∑_{j=1}^n f(x_j) + O(1/n).
 $$
-
 In these notes we consider the “Analysis" part of “Numerical Analysis": we want to _prove_ the
 convergence rate of the approximation, including finding an explicit expression for the constant $C$.
 
@@ -110,7 +109,6 @@ rectangular rule.
 ## Lab and problem sheet
 
 In the lab, we explore the practical implementation of the right-sided rectangular rule and extensions to other rules like
-the left-sided rectangular rule and trapezium rule. We also see how the error rate can be deduced _experimentally_: by applying a rule to specific integrals with known formula
+the left-sided rectangular rule and trapezium rule. We also see how linear convergence ($O(h) = O(1/n)$) can be deduced _experimentally_: by applying an implementation of the rule to specific integrals with known formula
 we can see the error rate visually by plotting it. In particular, we deduce that the Trapezium rule converges much faster to the true value of the integral than the other rules.  We also observe that in practice there are some subtleties: the error can bounce around at an extremely small, but not zero, level  on the order of $10^{-15}$.  In the problem sheet we explore the _analysis_ of these other rules, proving that the Trapezium rule converges to the
-true integral at a faster quadratic ($O(h^2)$) error rate. This is a guarantee that the integral can be computed much more accurately for the same amount of work by taking into account the analysis of the
-method.
+true integral at a faster quadratic ($O(h^2)$) error rate. This is a guarantee that the integral can be computed much more accurately for the same amount of work by taking into account the analysis, highlighting the important contribution of analysis in the construction of algorithms.

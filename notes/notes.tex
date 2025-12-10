@@ -200,22 +200,22 @@ In this first chapter we explore the basics of mathematical computing and numeri
 In particular we investigate the following mathematical problems which can not in general be solved exactly:
 
 \begin{enumerate}
-\item Integration. General integrals have no closed form expressions. Can we use a computer to approximate the values of definite integrals?
-\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network.
+\item Integration. General integrals have no closed form expressions. Can we instead use a computer to approximate the values of definite integrals? Numerical integration underpins much of modern scientific computing and simulations of physical systems modelled by partial differential equations. 
+\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients in training neural networks.
 \item Root finding. There is no general formula for finding roots (zeros) of arbitrary functions, or even polynomials that are of degree 5 (quintics) or higher. Can we compute roots of general functions using a computer?
 \end{enumerate}
 
-In this chapter we discuss:
+Each chapter is divided into sections that roughly correspond to individual lectures. In this chapter we investigate solving the above computational problems:
 
 \begin{enumerate}
-\item I.1 Rectangular rule: we review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule.
+\item I.1 Rectangular rule: we review the rectangular rule for integration and deduce the {\it convergence rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule.
 \item I.2 Divided differences: we investigate approximating derivatives by a divided difference and again deduce the convergence rates. In the lab/problem sheet we extend the approach to the central differences formula and computing second derivatives. We also observe a mystery: the approximations may have significant errors in practice, and there is a limit to the accuracy.
 \item I.3 Dual numbers: we introduce the algebraic notion of a {\it dual number} which allows the implementation of {\it forward-mode automatic differentiation}, a high accuracy alternative to divided differences for computing derivatives.
 \item I.4 Newton's method: Newton's method is a basic approach for computing roots/zeros of a function. We use dual numbers to implement this algorithm.
 \end{enumerate}
 
 
-Each section has labs and problem sheets that further explore the mathematical material introduced in these notes. The labs generally explore practical implementation and the impact of implementing methods in computer arithmetic. The problem sheets dig deeper into analysis of other methods and phenomena observed in the labs. The material introduced in the labs and problem sheets is also examinable so its important to study these as well.
+Each week there are labs and problem sheets that further explore the mathematical material introduced in each section. The labs generally explore practical implementation and the impact of implementing methods in computer arithmetic. The problem sheets dig deeper into analysis of other methods and phenomena observed in the labs. The material introduced in the labs and problem sheets is also examinable so its important to study these as well.
 
 \input{I.1.RectangularRule.tex}
 \input{I.2.DividedDifferences.tex}

@@ -43,12 +43,19 @@ Here we are assuming that the computational cost of evaluating $f$ is independen
 of evaluation. Later we will investigate the details of how computers work with numbers via
 floating point,  and confirm that this is a sensible assumption.
 
-So why not just set $h$ ridiculously small? In the lab we explore this question and observe that
-there are significant errors introduced in the numerical realisation of this algorithm.
-We will return to the question of understanding these errors after learning floating point numbers. 
 
 
-There are alternative versions of divided differences. Left-side divided differences evaluates to the left
+
+
+In the lab we investigate the convergence rate of these approximations (in particular, that 
+central differences is more accurate than standard divided differences) and observe that they too
+suffer from unexplained (for now) loss of accuracy as $h → 0$. In the problem sheet we prove the theoretical
+convergence rate, which is never realised because of these errors.
+
+
+## Lab and problem sheet
+
+In the labs and problem sheets we explore alternative versions of divided differences. Left-side divided differences evaluates to the left
 of the point where we wish to know the derivative:
 $$
 f'(x) ≈ {f(x) - f(x-h) \over h}
@@ -63,16 +70,16 @@ $$
 f''(x) ≈ {f'(x+h) - f'(x) \over h} ≈ {{f(x+h) - f(x) \over h} - {f(x) - f(x-h) \over h} \over h}
 = {f(x+h) - 2f(x)  + f(x-h) \over h^2}
 $$
-In the lab we investigate the convergence rate of these approximations (in particular, that 
-central differences is more accurate than standard divided differences) and observe that they too
-suffer from unexplained (for now) loss of accuracy as $h → 0$. In the problem sheet we prove the theoretical
-convergence rate, which is never realised because of these errors.
 
-
-## Lab and problem sheet
-
-In the lab, we explore the practical implementation of the right-sided divided differences and extensions to 
+The lab explores  the practical implementation of the right-sided divided differences and extensions to 
  central differences and second-order divided differences. 
- We  see  _experimentally_ that the central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small. However, we observe a serious issue: if $h$ becomes too small, the eror mysteriously starts growing extremely large, and hence these rules do not actually converge at all to the true value of the derivatives! 
+ We  see  _experimentally_ that the central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small. 
+ 
+ 
+ An important distinction between the convergence rates of rectangular rules and  question might be: why not just set $h$ ridiculously small so that the approximation is very accurate? However, we observe a serious issue: if $h$ becomes too small, the eror mysteriously starts growing extremely large, and hence these rules do not actually converge at all to the true value of the derivatives! 
+
+  In the lab we explore this question and observe that
+there are significant errors introduced in the numerical realisation of this algorithm.
+We will return to the question of understanding these errors after learning floating point numbers. 
  
  The problem sheet explores the _analysis_ of these different rules, proving the precise theoretical convergence rates observed for moderately small $h$. This presents a bit of a contradiction: why does the theory say the method converges but in practice it diverges, and spectacularly so! This is a mystery that we will return to later.
