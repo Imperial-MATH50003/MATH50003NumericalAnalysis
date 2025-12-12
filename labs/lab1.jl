@@ -14,7 +14,7 @@
 #
 # An important component to numerical analysis is studying the _convergence  rate_:
 # how fast do these approximations tend to the true value? We explore this question
-# here experimentally, leaving rigorous analysis to the notes.
+# here experimentally, leaving rigorous analysis to the problem sheet.
 #
 # However, things do not go quite according to plan: our numerical implementation
 # does not quite follow the convergence results in analysis.
@@ -52,7 +52,7 @@
 # 1. Turning a sum into a for-loop.
 # 2. Making a function 3 ways: (1) a named function beginning `function f(x)`, an
 # (2) an anonymous function of the form `x -> ...` and (3) a named function but one one line via `f(x) = ...`
-# 3. Ploting errors of a numerical approximation with log-scaled axes.
+# 3. Plotting errors of a numerical approximation with log-scaled axes.
 # 4. Interpreting a log-log plot to estimate the algebraic convergence rate of an approximation.
 
 
@@ -151,6 +151,9 @@ rightrectangularrule(x -> cos(x^2), 10_000) # No nice formula! But we expect fro
 # $$
 #   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} ∑_{j=0}^{n-1} f(j/n).
 # $$
+# Hint: the easiest approach is to copy-and-paste the implementation of `rightrectangularrule`
+# and modify appropriately. You will have access to the labs during the computer-based exam, 
+# and modifying code from the labs in the exam is completely acceptable.
 
 using Test # Loads @test again in case you didn't run the line above.
 
@@ -191,7 +194,7 @@ end
 # integrals. We can ask the question: which method is the most accurate? A natural way to address this
 # question is to investigate the _convergence rate_: find $α > 0$ such that there exists $C > 0$ so that
 #   $$
-#   |\hbox{Error}| ≤ C n^{-α}
+#   |\hbox{Error}| ≤ C n^{-α}.
 #   $$
 #  It is possible to prove convergence rates
 # (something we will come back to throughout the module) but it is often easier and more informative

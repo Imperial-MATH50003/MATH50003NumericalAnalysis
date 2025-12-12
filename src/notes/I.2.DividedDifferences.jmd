@@ -6,7 +6,7 @@ $$
 f'(x) ≈ {f(x+h) - f(x) \over h}
 $$
 Note by the definition of the derivative we know that this approximation will converge
-to the true derivative as $h → 0$. But in numerical approimxations we also
+to the true derivative as $h → 0$. But in numerical approximations we also
 need to consider the rate of convergence. 
 
 Now in the previous section I mentioned there are three basic tools in analysis: 
