@@ -60,26 +60,20 @@ of the point where we wish to know the derivative:
 $$
 f'(x) ≈ {f(x) - f(x-h) \over h}
 $$
-and central differences:
+and central differences evaluates both left and right:
 $$
-f'(x) ≈ {f(x + h) - f(x - h) \over 2h}
+f'(x) ≈ {f(x + h) - f(x - h) \over 2h}.
 $$
-We can further arrive at an approximation to the second derivative by composing a left- and right-sided
-finite difference:
+We can further arrive at an approximation to the second derivative by composing a left- and right-sided finite difference:
 $$
 f''(x) ≈ {f'(x+h) - f'(x) \over h} ≈ {{f(x+h) - f(x) \over h} - {f(x) - f(x-h) \over h} \over h}
-= {f(x+h) - 2f(x)  + f(x-h) \over h^2}
+= {f(x+h) - 2f(x)  + f(x-h) \over h^2}.
 $$
+The lab explores these approximations  _experimentally_, and we will observe that  central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small.  
+ 
+ 
+ An important distinction between  rectangular rules and  divided difference is that the computational cost of divided differences is independent of $h$: we can choose $h$ arbitrarily and the approximation will take the same amount of time. 
+This raises a question: why not just set $h$ ridiculously small so that the approximation is extremely accurate? Unfortunately, we will observe in the lab a serious issue: if $h$ becomes too small, the error mysteriously starts to grow, and hence these rules do not actually converge to the true value of the derivatives!  Thus there is a limitation to how accurate one can approximate a derivative using divided differences, an issue we will overcome in the next section by re-thinking derivatives in an algebraic way.
 
-The lab explores  the practical implementation of the right-sided divided differences and extensions to 
- central differences and second-order divided differences. 
- We  see  _experimentally_ that the central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small. 
- 
- 
- An important distinction between the convergence rates of rectangular rules and  question might be: why not just set $h$ ridiculously small so that the approximation is very accurate? However, we observe a serious issue: if $h$ becomes too small, the eror mysteriously starts growing extremely large, and hence these rules do not actually converge at all to the true value of the derivatives! 
 
-  In the lab we explore this question and observe that
-there are significant errors introduced in the numerical realisation of this algorithm.
-We will return to the question of understanding these errors after learning floating point numbers. 
- 
- The problem sheet explores the _analysis_ of these different rules, proving the precise theoretical convergence rates observed for moderately small $h$. This presents a bit of a contradiction: why does the theory say the method converges but in practice it diverges, and spectacularly so! This is a mystery that we will return to later.
+ The problem sheet explores the _analysis_ of divided difference rules, proving the precise theoretical convergence rates observed for moderately small $h$. This presents a bit of a conundrum: why does the theory say the method converges but in practice it diverges, and spectacularly so! This is a mystery that we will return to later, by understanding how computer arithmetic with real numbers works.

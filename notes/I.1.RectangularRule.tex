@@ -8,7 +8,7 @@ where $x_j = a+jh$ are evenly spaced points dividing up the interval $[a,b]$, th
 \[
   \ensuremath{\int}_a^b f(x) {\rm d}x \ensuremath{\approx} h \ensuremath{\sum}_{j=1}^n f(x_j).
 \]
-In the lab we explore practical implementation of this approximation, and observe that the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using \ensuremath{\ldq}Big-O" notation:
+We will show that the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using \ensuremath{\ldq}Big-O" notation:
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x = h \ensuremath{\sum}_{j=1}^n f(x_j) + O(1/n).
 \]
@@ -82,7 +82,7 @@ Subdividing an interval $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ and appl
 We shall see both experimentally and provably that this approximation converges faster than the rectangular rule.
 
 \subsection{Lab and problem sheet}
-In the lab, we explore the practical implementation of the right-sided rectangular rule and extensions to other rules like the left-sided rectangular rule and trapezium rule. We also see how the error rate can be deduced \emph{experimentally}: by applying a rule to specific integrals with known formula we can see the error rate visually by plotting it. We also observe that in practice there are some subtleties: the error can bounce around at an extremely small, but not zero, level  on the order of $10^{-15}$.  In the problem sheet we explore the \emph{analysis} of these other rules, proving that the Trapezium rule converges to the true integral at a faster quadratic ($O(h^2)$) error rate. This is a guarantee that the integral can be computed much more accurately for the same amount of work by taking into account the analysis of the method.
+In the lab, we explore the practical implementation of the right-sided rectangular rule and extensions to other rules like the left-sided rectangular rule and trapezium rule. We also see how linear convergence ($O(h) = O(1/n)$) can be deduced \emph{experimentally}: by comparing an implementation of the rule to specific integrals with known formul\ensuremath{\ae} we can compute the error, and determine its rate of decay visually by plotting it. In particular, we deduce that the Trapezium rule converges much faster to the true value of the integral than the other rules.  In the problem sheet we explore the \emph{analysis} of these other rules, proving that the Trapezium rule converges to the true integral at a faster quadratic ($O(h^2)$) error rate. This is a guarantee that the integral can be computed much more accurately for the same amount of work by taking into account the analysis, highlighting the important contribution of analysis in the construction of algorithms.
 
 
 
