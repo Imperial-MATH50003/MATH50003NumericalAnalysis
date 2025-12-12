@@ -1,0 +1,14 @@
+name = "MATH50003NumericalAnalysis"
+uuid = "5386fd04-56dd-4f23-a623-529daa2d20c5"
+version = "0.1.0"
+authors = ["Sheehan Olver <solver@mac.com>"]
+
+[deps]
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
+Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
+
+[compat]
+IJulia = "1.33.0"
+Literate = "2.21.0"
+Weave = "0.10.12"

@@ -22,4 +22,11 @@ docs/site/
 # committed for packages, but should be committed for applications that require a static
 # environment.
 Manifest.toml
-.DS_Store
+*.DS_Store
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.ipynb_checkpoints
+.vscode/settings.json

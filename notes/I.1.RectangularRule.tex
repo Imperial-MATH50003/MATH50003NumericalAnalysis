@@ -1,0 +1,88 @@
+
+\section{Rectangular rule}
+One possible definition for an integral is the limit of a Riemann sum, for example:
+\[
+  \ensuremath{\int}_a^b f(x) {\rm d}x = \lim_{n \ensuremath{\rightarrow} \ensuremath{\infty}} h \ensuremath{\sum}_{j=1}^n f(x_j)
+\]
+where $x_j = a+jh$ are evenly spaced points dividing up the interval $[a,b]$, that is  with the \emph{step size} $h = (b-a)/n$. This suggests an algorithm known as the \emph{(right-sided) rectangular rule} for approximating an integral: choose $n$ large so that
+\[
+  \ensuremath{\int}_a^b f(x) {\rm d}x \ensuremath{\approx} h \ensuremath{\sum}_{j=1}^n f(x_j).
+\]
+We will show that the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using \ensuremath{\ldq}Big-O" notation:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = h \ensuremath{\sum}_{j=1}^n f(x_j) + O(1/n).
+\]
+In these notes we consider the \ensuremath{\ldq}Analysis" part of \ensuremath{\ldq}Numerical Analysis": we want to \emph{prove} the convergence rate of the approximation, including finding an explicit expression for the constant $C$.
+
+To tackle this question we consider the error incurred on a single panel $(x_{j-1},x_j)$, then sum up the errors on rectangles.
+
+Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series or (3) Taylor series. In this case we use (1):
+
+\begin{lemma}[(Right-sided) Rectangular Rule error on one panel] Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) f(b) + \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$.
+
+\end{lemma}
+\textbf{Proof} We write
+\meeq{
+\ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\int}_a^b (x-a)' f(x)  {\rm d}x = [(x-a) f(x)]_a^b - \ensuremath{\int}_a^b (x-a) f'(x) {\rm d} x \ccr
+= (b-a) f(b) + \underbrace{\left(-\ensuremath{\int}_a^b (x-a) f'(x) {\rm d} x \right)}_\ensuremath{\delta}.
+}
+Recall that we can bound the absolute value of an integral by the supremum of the integrand times the width of the integration interval:
+\[
+\abs{\ensuremath{\int}_a^b g(x) {\rm d} x} \ensuremath{\leq} (b-a) \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|g(x)|.
+\]
+The lemma thus follows since
+\begin{align*}
+\abs{\ensuremath{\int}_a^b (x-a) f'(x) {\rm d} x} &\ensuremath{\leq} (b-a) \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|(x-a) f'(x)|  \\
+&\ensuremath{\leq} (b-a) \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|x-a| \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|\\
+&\ensuremath{\leq} M (b-a)^2.
+\end{align*}
+\ensuremath{\QED}
+
+Now summing up the errors in each panel gives us the error of using the Rectangular rule:
+
+\begin{theorem}[Rectangular Rule error] Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable we have
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=1}^n f(x_j) +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+\end{theorem}
+\textbf{Proof} We split the integral into a sum of smaller integrals:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\sum}_{j=1}^n  \ensuremath{\int}_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+\ensuremath{\sum}_{j=1}^n  \br[(x_j - x_{j-1}) f(x_j) + \ensuremath{\delta}_j] =  h \ensuremath{\sum}_{j=1}^n f(x_j) +  \underbrace{\ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j}_\ensuremath{\delta}
+\]
+where $\ensuremath{\delta}_j$, the error on each panel as in the preceding lemma, satisfies
+\[
+|\ensuremath{\delta}_j| \ensuremath{\leq} (x_j-x_{j-1})^2 \sup_{x_{j-1} \ensuremath{\leq} x \ensuremath{\leq} x_j}|f'(x)| \ensuremath{\leq} M h^2.
+\]
+Thus using the triangular inequality we have
+\[
+|\ensuremath{\delta}| = \abs{ \ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j} \ensuremath{\leq} \ensuremath{\sum}_{j=1}^n |\ensuremath{\delta}_j| \ensuremath{\leq} M n h^2 = M(b-a)h.
+\]
+\ensuremath{\QED}
+
+Note a consequence of this lemma is that the approximation converges as $n \ensuremath{\rightarrow} \ensuremath{\infty}$ (i.e. $h \ensuremath{\rightarrow} 0$). In the labs and problem sheets we will consider the left-sided rule:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x \ensuremath{\approx}  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j).
+\]
+We also consider the \emph{Trapezium rule}. Here we approximate an integral  by an affine function:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d} x \ensuremath{\approx} \ensuremath{\int}_a^b {(b-x)f(a) + (x-a)f(b) \over b-a} \dx
+= {b-a \over 2} \br[f(a) + f(b)].
+\]
+Subdividing an interval $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ and applying this approximation separately on each subinterval $[x_{j-1},x_j]$, where $h = (b-a)/n$ and $x_j = a + jh$, leads to the approximation
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x \ensuremath{\approx}  {h \over 2} f(a) + h \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {h \over 2} f(b)
+\]
+We shall see both experimentally and provably that this approximation converges faster than the rectangular rule.
+
+\subsection{Lab and problem sheet}
+In the lab, we explore the practical implementation of the right-sided rectangular rule and extensions to other rules like the left-sided rectangular rule and trapezium rule. We also see how linear convergence ($O(h) = O(1/n)$) can be deduced \emph{experimentally}: by comparing an implementation of the rule to specific integrals with known formul\ensuremath{\ae} we can compute the error, and determine its rate of decay visually by plotting it. In particular, we deduce that the Trapezium rule converges much faster to the true value of the integral than the other rules.  In the problem sheet we explore the \emph{analysis} of these other rules, proving that the Trapezium rule converges to the true integral at a faster quadratic ($O(h^2)$) error rate. This is a guarantee that the integral can be computed much more accurately for the same amount of work by taking into account the analysis, highlighting the important contribution of analysis in the construction of algorithms.
+
+
+

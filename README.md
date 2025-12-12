@@ -12,9 +12,14 @@ Office hour: Thursdays, 16:00–17:00, Huxley 6M40
 Submit labs/problem sheets to <a href="mailto:">GTAs</a> for informal marking/comments.
 
 
+1. I.1 Rectangular Rule and I.2 Divided Differences
+   - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb) 
+   - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf)
+
 ## Revision
 
-
+1. Revision Lab
+2. Revision Sheet
 
 ## Assessment
 
@@ -43,7 +48,7 @@ Broadly speaking, numerical analysis is the study of approximating
 solutions to _continuous problems_ in mathematics, for example, integration, differentiation,
 and solving differential equations. There are three key topics in numerical analysis:
 
-1. Design of algorithms: discuss the construction of algorithms and their implmentation in
+1. Design of algorithms: discuss the construction of algorithms and their implementation in
 software.
 2. Convergence of algorithms: proving under which conditions algorithms converge to the
 true solution, and the rate of convergence.
@@ -90,7 +95,7 @@ example, the proof the [Four Colour Theorem](https://en.wikipedia.org/wiki/Four_
 
 In this course we will use the programming language [Julia](https://julialang.org). This is a modern, compiled, high-level,
 open-source language developed at MIT. It is becoming increasingly important in high-performance computing and
-AI, including by Astrazeneca, Moderna and Pfizer in drug development and clinical trial accelleration, IBM for medical diagnosis, MIT for robot
+AI, including by Astrazeneca, Moderna and Pfizer in drug development and clinical trial acceleration, IBM for medical diagnosis, MIT for robot
 locomotion, and elsewhere.
 
 It is ideal for a course on numerical analysis because it both allows

@@ -1,0 +1,234 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2025\ensuremath{\endash}26) Problem Sheet 1}
+
+In the lectures/notes we saw some basic \emph{analysis} of the errors of simple integration and differentiation rules: the right-sided rectangular rule for integration and divided difference for differentiation.  This problem sheets explores the analysis of some other simple rules that may have \emph{better} convergence rates: they can calculate integrals/derivatives more accurately with the same amount of data as the rules discussed in lectures. In the lab the practical implementation of these methods is explored.
+
+The first example is the left-sided rectangular rule, which has the same linear ($O(h)$) convergence rate as the right-sided rectangular rule:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 1} Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j) +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+\rule{\textwidth}{1pt}
+We now turn our attention to the Trapezium rule, which will have a faster quadratic ($O(h^2)$) convergence rate using the same number of samples.  That is to say: we can get much more accurate results with the exact same amount of work! We begin with a simple one-panel error result showing cubic ($O(h^3)$) error:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 2(a)}  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^3$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
+
+\emph{Hint}: Recall from the notes
+\[
+\ensuremath{\int}_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+\]
+and you may need to use Taylor's theorem. Note that the bound is not sharp and so you may arrive at something sharper like $|\ensuremath{\delta}| \ensuremath{\leq} 3(b-a)^3 M/4$. The sharpest bound is $|\ensuremath{\delta}| \ensuremath{\leq} (b-a)^3 M/12$ but that would be a significantly harder challenge to show!
+
+\rule{\textwidth}{1pt}
+We can use the previous problem to deduce the \emph{global} error, summing up over all panels.  This shows quadratic ($O(h^2)$) error.
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 2(b)} Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
+
+\rule{\textwidth}{1pt}
+We now turn our attention to differentiation, with the first example being a left-sided divided difference, which has a linear ($O(h)$) error just like the right-sided divided difference in lectures:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 3} Assuming $f$ is twice-differentiable in $[x-h,x]$, for the left difference approximation
+\[
+f'(x) = {f(x) - f(x - h) \over h} + \ensuremath{\delta},
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/2$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x}\abs{f''(t)}$.
+
+\rule{\textwidth}{1pt}
+The next example shows that with a more careful choice of sample points, we can obtain a quadratic ($O(h^2)$) error:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 4} Assuming $f$ is thrice-differentiable in $[x-h,x+h]$, for the central differences approximation
+\[
+f'(x) = {f(x + h) - f(x - h) \over 2h} + \ensuremath{\delta},
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh^2/6$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
+
+\rule{\textwidth}{1pt}
+By applying a central difference discretisation twice we can obtain an approximation to the second derivative. The following problem asks to prove that the approximation converges with a linear ($O(h)$) error:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 5}  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$, for the second-order derivative approximation
+\[
+{f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + \ensuremath{\delta}
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/3$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
+
+\rule{\textwidth}{1pt}
+Note in these problems the computational complexity is independent of $h$. However, if $h$ is too small the practical implementation has large errors. This phenomena is explored in the lab.
+
+
+
+\end{document}

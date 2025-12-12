@@ -1,0 +1,246 @@
+**Numerical Analysis MATH50003 (2025–26) Problem Sheet 1**
+
+In the lectures/notes we saw some basic _analysis_ of the errors of simple integration and differentiation rules:
+the right-sided rectangular rule for integration and divided difference for differentiation. 
+This problem sheets explores the analysis of some other simple rules that may have _better_ convergence rates: they can calculate integrals/derivatives
+more accurately with the same amount of data as the rules discussed in lectures. In the lab the practical implementation of these methods is explored.
+
+
+
+
+The first example is the left-sided rectangular rule, which has the same linear ($O(h)$) convergence rate as the right-sided rectangular rule:
+
+------
+
+**Problem 1** Assuming $f$ is differentiable on $[a,b]$ and its derivative is integrable, prove the left-point Rectangular rule error formula
+$$
+∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
+$$
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+**SOLUTION**
+
+This proof is very similar to the right-point rule, the only
+difference is we use a different constant in the indefinite integration in
+the integration-by-parts. First we need to adapt **Lemma 1 (Rect. rule error on one panel)**:
+$$
+\meeq{
+∫_a^b f(x) {\rm d}x = ∫_a^b (x-b)' f(x)  {\rm d}x = [(x-b) f(x)]_a^b - ∫_a^b (x-b) f'(x) {\rm d} x \ccr
+= (b-a) f(a) + \underbrace{\left(-∫_a^b (x-b) f'(x) {\rm d} x \right)}_ε.
+}
+$$
+where
+$$
+\abs{ε} ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-b) f'(x)| ≤ M (b-a)^2
+$$
+Applying this result on $[x_{j-1},x_j]$ we get
+$$
+∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h f(x_{j-1}) + δ_j
+$$
+where $|δ_j| ≤ M h^2$.
+Splitting the integral into a sum of smaller integrals:
+$$
+∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h ∑_{j=1}^n f(x_{j-1}) +  \underbrace{∑_{j=1}^n δ_j}_δ
+$$
+where using the triangular inequality we have
+$$
+|δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^2 = M(b-a)h.
+$$
+
+**END**
+
+------
+
+We now turn our attention to the Trapezium rule, which will have a faster quadratic ($O(h^2)$) convergence rate using the same number of samples. 
+That is to say: we can get much more accurate results with the exact same amount of work!
+We begin with a simple one-panel error result showing cubic ($O(h^3)$) error:
+
+------
+
+**Problem 2(a)**  Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a one-panel Trapezium rule error bound:
+$$
+∫_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  δ
+$$
+where $|δ| ≤ M (b-a)^3$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
+
+_Hint_: Recall from the notes
+$$
+∫_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+$$
+and you may need to use Taylor's theorem. Note that the bound is not sharp and so you may arrive at something sharper like $|δ| ≤ 3(b-a)^3 M/4$.
+The sharpest bound is $|δ| ≤ (b-a)^3 M/12$ but that would be a significantly harder challenge to show!
+
+**SOLUTION**
+
+
+Recall from the notes:
+$$
+∫_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+$$
+Thus we can find by integration by parts twice (noting that the integrand vanishes at $a$ and $b$):
+$$
+\meeq{
+δ = ∫_a^b \br[f(x) - {(b-x) f(a) + (x-a) f(b) \over b-a}] {\rm d}x \ccr
+ = -∫_a^b (x-b) \br[f'(x) - {f(b)-f(a) \over b-a}] {\rm d}x \ccr
+ = {(b-a)^2 \over 2} \br[f'(a) - {f(b)-f(a) \over b-a}] + ∫_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x
+}
+$$
+Applying **Proposition 1** we know
+$$
+\abs{f'(a) - {f(b)-f(a) \over b-a}} ≤ M (b-a)/2
+$$
+Further we have
+$$
+\abs{∫_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x } ≤ {(b-a)^3 \over 2} M
+$$
+Thus we have the bound
+$$
+|δ| ≤ {(b-a)^2 \over 2} M (b-a)/2 + {(b-a)^3 \over 2} M ≤ {3 (b-a)^3 \over 4} M ≤ (b-a)^3 M.
+$$
+For the sharper $1/12$ constant check out the [Euler–Maclaurin formula](https://en.wikipedia.org/wiki/Euler–Maclaurin_formula).
+
+**END**
+
+------
+
+We can use the previous problem to deduce the _global_ error, summing up over all panels. 
+This shows quadratic ($O(h^2)$) error.
+
+------
+**Problem 2(b)** Assuming $f$ is twice-differentiable on $[a,b]$ and its second derivative is integrable, prove a bound for the Trapezium rule error:
+$$
+∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
+$$
+where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
+
+**SOLUTION**
+
+This is very similar to the rectangular rules: applying the preceding result on $[x_{j-1},x_j]$ we get
+$$
+∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h {f(x_{j-1}) + f(x_j) \over 2} + δ_j
+$$
+where $|δ_j| ≤ M h^3$.
+Splitting the integral into a sum of smaller integrals:
+$$
+∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \underbrace{∑_{j=1}^n δ_j}_δ
+$$
+where using the triangular inequality we have
+$$
+|δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^3 = M(b-a) h^2.
+$$
+
+
+
+**END**
+------
+
+
+We now turn our attention to differentiation, with the first example being a left-sided divided difference,
+which has a linear ($O(h)$) error just like the right-sided divided difference in lectures:
+
+------
+
+**Problem 3** Assuming $f$ is twice-differentiable in $[x-h,x]$,
+for the left difference approximation
+$$
+f'(x) = {f(x) - f(x - h) \over h} + δ,
+$$
+show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
+
+
+**SOLUTION**
+
+Almost identical to the right-difference. Use Taylor series to write:
+$$
+f(x-h) = f(x) + f'(x) (-h) + {f''(t) \over 2} h^2
+$$
+where $t ∈ [x-h,x]$, so that
+$$
+f'(x) = {f(x) - f(x-h) \over h} + \underbrace{f''(t)/2 h}_δ
+$$
+The bound follows immediately:
+$$
+|δ| ≤ |f''(t)/2 h| ≤ Mh/2.
+$$
+
+**END**
+
+------
+
+The next example shows that with a more careful choice of sample points, we can obtain
+a quadratic ($O(h^2)$) error:
+
+------
+
+**Problem 4** Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
+for the central differences approximation
+$$
+f'(x) = {f(x + h) - f(x - h) \over 2h} + δ,
+$$
+show that $|δ| ≤ Mh^2/6$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
+
+**SOLUTION**
+
+
+By Taylor's theorem, the approximation around $x+h$ is
+$$
+f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,
+$$
+for some $t_1 ∈ (x, x+h)$ and similarly
+$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$$
+for some $t_2 ∈ (x-h, x)$.
+
+Subtracting the second expression from the first we obtain
+$$f(x+h)-f(x-h) = f'(x)(2h) + \frac{f'''(t_1)+f'''(t_2)}{6}h^3.$$
+Hence,
+
+$$
+\frac{f(x+h)-f(x-h)}{2h} = f'(x)  + \underbrace{\frac{f'''(t_1)+f'''(t_2)}{12}h^2}_{δ}.
+$$
+
+Thus, the error can be bounded by
+$$\left|δ\right| ≤ {M \over 6} h^2.$$
+
+**END**
+------
+
+By applying a central difference discretisation twice we can obtain an approximation
+to the second derivative. The following problem asks to prove that the approximation converges with
+a linear ($O(h)$) error:
+
+------
+**Problem 5**  Assuming $f$ is thrice-differentiable in $[x-h,x+h]$,
+for the second-order derivative approximation
+$$
+{f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + δ
+$$
+show that $|δ| ≤ Mh/3$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
+
+**SOLUTION**
+Using the same two formulas as in the previous problem we have
+$$f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,$$
+for some $t_1 ∈ (x, x+h)$
+and
+$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$$
+for some $t_2 ∈ (x-h, x)$.
+
+Summing the two we obtain
+$$f(x+h) + f(x-h) = 2f(x) + f''(x)h^2 + \frac{f'''(t_1)}{6}h^3 - \frac{f'''(t_2)}{6}h^3.$$
+
+Thus,
+$$f''(x) = \frac{f(x+h) - 2f(x) + f(x-h)}{h^2} + \frac{f'''(t_2) - f'''(t_1)}{6}h.$$
+
+Hence, the error is
+$$
+|δ| = \left|f''(x) - {f(x+h) - 2f(x) + f(x-h) \over h^2} \right| = \left|\frac{f'''(t_2) - f'''(t_1)}{6}h\right|≤ {Mh \over 3}.
+$$
+
+
+**END**
+
+------
+
+Note in these problems the computational complexity is independent of $h$. However, if $h$ is too small the practical implementation has large errors.
+This phenomena is explored in the lab.

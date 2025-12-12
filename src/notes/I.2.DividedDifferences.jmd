@@ -1,0 +1,79 @@
+# Divided Differences
+
+Given a function, how can we approximate its derivative at a
+point? We consider an intuitive approach to this problem using _(Right-sided) Divided Differences_: 
+$$
+f'(x) ≈ {f(x+h) - f(x) \over h}
+$$
+Note by the definition of the derivative we know that this approximation will converge
+to the true derivative as $h → 0$. But in numerical approximations we also
+need to consider the rate of convergence. 
+
+Now in the previous section I mentioned there are three basic tools in analysis: 
+(1) integration-by-parts, (2) geometric series
+or (3) Taylor series. In this case we use (3):
+
+**Proposition (divided differences error)**
+Suppose that $f$ is twice-differentiable on the interval $[x,x+h]$.
+The error in approximating the derivative using divided differences is
+$$
+f'(x) = {f(x+h) - f(x) \over h} + δ
+$$
+where $|δ| ≤ Mh/2$ for  $M = \sup_{x ≤ t ≤ x+h} |f''(t)|$.
+
+**Proof**
+Follows immediately from Taylor's theorem: recall that
+$$
+f(x+h) = f(x) + f'(x) h + {f''(t) \over 2} h^2
+$$
+for some $t ∈ [x,x+h]$. Rearranging we get
+$$
+f'(x) = {f(x+h) - f(x) \over 2} + \underbrace{\left(-{f''(t)\over 2 h^2} \right)}_δ.
+$$
+We then bound:
+$$
+|δ| ≤ \abs{{f''(t) \over 2} h} ≤ {M  h \over 2}.
+$$
+
+∎
+
+Unlike the rectangular rule, the computational cost of computing the divided difference is
+independent of $h$! We only need to evaluate a function $f$ twice and do a single division.
+Here we are assuming that the computational cost of evaluating $f$ is independent of the point
+of evaluation. Later we will investigate the details of how computers work with numbers via
+floating point,  and confirm that this is a sensible assumption.
+
+
+
+
+
+In the lab we investigate the convergence rate of these approximations (in particular, that 
+central differences is more accurate than standard divided differences) and observe that they too
+suffer from unexplained (for now) loss of accuracy as $h → 0$. In the problem sheet we prove the theoretical
+convergence rate, which is never realised because of these errors.
+
+
+## Lab and problem sheet
+
+In the labs and problem sheets we explore alternative versions of divided differences. Left-side divided differences evaluates to the left
+of the point where we wish to know the derivative:
+$$
+f'(x) ≈ {f(x) - f(x-h) \over h}
+$$
+and central differences evaluates both left and right:
+$$
+f'(x) ≈ {f(x + h) - f(x - h) \over 2h}.
+$$
+We can further arrive at an approximation to the second derivative by composing a left- and right-sided finite difference:
+$$
+f''(x) ≈ {f'(x+h) - f'(x) \over h} ≈ {{f(x+h) - f(x) \over h} - {f(x) - f(x-h) \over h} \over h}
+= {f(x+h) - 2f(x)  + f(x-h) \over h^2}.
+$$
+The lab explores these approximations  _experimentally_, and we will observe that  central differences converges much faster  to the true value of the derivative as $h$ becomes moderately small.  
+ 
+ 
+ An important distinction between  rectangular rules and  divided difference is that the computational cost of divided differences is independent of $h$: we can choose $h$ arbitrarily and the approximation will take the same amount of time. 
+This raises a question: why not just set $h$ ridiculously small so that the approximation is extremely accurate? Unfortunately, we will observe in the lab a serious issue: if $h$ becomes too small, the error mysteriously starts to grow, and hence these rules do not actually converge to the true value of the derivatives!  Thus there is a limitation to how accurate one can approximate a derivative using divided differences, an issue we will overcome in the next section by re-thinking derivatives in an algebraic way.
+
+
+ The problem sheet explores the _analysis_ of divided difference rules, proving the precise theoretical convergence rates observed for moderately small $h$. This presents a bit of a conundrum: why does the theory say the method converges but in practice it diverges, and spectacularly so! This is a mystery that we will return to later, by understanding how computer arithmetic with real numbers works.
