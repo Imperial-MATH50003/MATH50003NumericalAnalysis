@@ -3,7 +3,7 @@ Notes and course material for MATH50003 Numerical Analysis (2025–26)
 
 Lecturer: [Dr Sheehan Olver](https://www.ma.imperial.ac.uk/~solver/)
 
-Office hour: Thursdays, 16:00–17:00, Huxley 6M40
+Office hour: Mondays 4pm, Huxley 6M40
 
 ## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf)
 
@@ -105,7 +105,7 @@ really understand what the computer is doing. As a bonus, it is easy-to-read and
 
 To run Julia in a Jupyter notebook on your own machine:
 
-1. Download [Julia v1.11.2](https://julialang.org/downloads/)
+1. Download [Julia v1.12.2](https://julialang.org/downloads/)
 2. Open the Julia app which will launch a new window
 3. Install the needed packages by typing (`]` will change the prompt to a package manager):
 ```julia
@@ -124,6 +124,7 @@ notebook()
 
 ## Past exams
 
+1. [2024–25 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2425.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2425s.ipynb))
 1. [2023–24 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2324.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2324s.ipynb))
 1. [2022–23 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223s.ipynb))
 2. [2021–22 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122s.ipynb))
