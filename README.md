@@ -9,7 +9,7 @@ Office hour: Mondays 4pm, Huxley 6M40
 
 ## Weekly Material
 
-Submit labs/problem sheets to <a href="mailto:">GTAs</a> for informal marking/comments.
+Submit labs/problem sheets to <a href="mailto:maria.ricciuti18@imperial.ac.uk">GTAs</a> for informal marking/comments.
 
 
 1. I.1 Rectangular Rule and I.2 Divided Differences
