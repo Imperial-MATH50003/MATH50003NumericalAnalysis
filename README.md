@@ -105,7 +105,7 @@ really understand what the computer is doing. As a bonus, it is easy-to-read and
 
 To run Julia in a Jupyter notebook on your own machine:
 
-1. Download [Julia v1.12.2](https://julialang.org/downloads/)
+1. Download [Julia v1.12.4](https://julialang.org/downloads/)
 2. Open the Julia app which will launch a new window
 3. Install the needed packages by typing (`]` will change the prompt to a package manager):
 ```julia
