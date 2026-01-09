@@ -24,7 +24,7 @@ Submit labs/problem sheets to <a href="mailto:maria.ricciuti18@imperial.ac.uk">G
 ## Assessment
 
 2. Mock computer-based exam
-2. Computer-based exam
+2. Computer-based exam (1 hour, 13 March 2026, 11am)
 5. Final exam (pen-and-paper, 80% of term mark)
 
 
