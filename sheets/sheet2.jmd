@@ -18,28 +18,7 @@ $$
 2x^2 + 3x + 4, (x+1)(x+2)(x+3), (2x+1)x^3.
 $$
 
-**SOLUTION**
-(a)
-$$
-2(2+ϵ)^2 + 3(2+ϵ) + 4 = 2(4+4ϵ) + 6+3ϵ + 4 = 18 + 11ϵ
-$$
-so the derivative is 11.
 
-(b) 
-$$
-(3+ϵ)(4+ϵ)(5+ϵ) = (12+7ϵ)(5+ϵ) = 60+47ϵ
-$$
-so the derivative is 47.
-
-(c)
-$$
-(2(2+ϵ)+1)(2+ϵ)^3 = 
-(5+2ϵ)(4+4ϵ)(2+ϵ) = 
-(20 + 28ϵ)(2+ϵ) = 40 + 76ϵ
-$$
-so the derivative is 76.
-
-**END**
 
 ----
 
@@ -59,24 +38,7 @@ f(x) = x^{100} + 1, g(x) = 1/x, h(x) = \tan x.
 $$
 
 
-**SOLUTION**
 
-$$
-f(a+ bϵ) = f(a) + b f'(a) ϵ = a^{100} + 1 + 100ba^{99} ϵ
-$$
-valid everywhere.
-
-$$
-g(a+ bϵ) =  {1 \over a} - {b \over a^2} ϵ
-$$
-valid for $a ≠ 0$.
-
-$$
-h(a+bϵ) = \tan a + b \sec^2 a ϵ
-$$
-valid for $a ∉ \{ kπ+π/2 : k ∈ ℤ\}$.
-
-**END**
 
 
 
@@ -87,34 +49,12 @@ $$
 $$
 
 
-**SOLUTION**
 
-As with complex numbers, division is easiest to understand by first multiplying with the conjugate, that is:
-$$
-\frac{a+bϵ}{c+dϵ} = \frac{(a+bϵ)(c-dϵ)}{(c+dϵ)(c-dϵ)}.
-$$
-Expanding the products and dropping terms with $ϵ^2$ then leaves us with the definition of division for dual numbers (where the denominator must have non-zero real part):
-$$
-\frac{a}{c} + \frac{bc - ad}{c^2}ϵ.
-$$
-Thus we have $s = \frac{a}{c}$ and $t = \frac{bc - ad}{c^2}$.
-
-
-
-
-**END**
 
 **Problem 3(b)** A _field_ is a commutative ring such that $0 ≠ 1$ and all nonzero elements have a multiplicative inverse, i.e.,
 there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to define $a^{-1} := 1/a$ to make $𝔻$ a field? Why or why not?
 
-**SOLUTION**
 
-An example that doesn't work is $z = 0 + ϵ$ where the formula is undefined, i.e, it would give:
-$$
-z^{-1} = ∞ + ∞ϵ
-$$
-
-**END**
  
 
 -----
@@ -132,45 +72,7 @@ $$
 \exp(\exp x \cos x + \sin x), \prod_{k=1}^3 \left({x \over k}-1\right),\hbox{ and } f^{\rm s}_2(x) = {1 + {x - 1 \over 2 + {x-1 \over 2}}}
 $$
 
-**SOLUTION**
 
-
-We now compute the derivatives of the three functions by evaluating for $x = 0.1 + ϵ$. For the first function we have:
-$$
-\begin{align*}
-&\exp(\exp(0.1 + ϵ)\cos(0.1+ϵ) + \sin(0.1+ϵ)) \\
-&=\exp((\exp(0.1) + ϵ\exp(0.1))(\cos(0.1)-\sin(0.1)ϵ) + \sin(0.1)+\cos(0.1)ϵ) \\
-&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1) + (\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))ϵ) \\
-&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\\
-&\qquad + \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))ϵ 
-\end{align*}
-$$
-therefore the derivative is the dual part
-$$
-\exp(\exp(0.1)\cos(0.1)+ \sin(0.1))(\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))
-$$
-
-For the second function we have:
-$$
-\begin{align*}
- \left(0.1+ϵ-1\right) \left({0.1 + ϵ \over 2}-1\right)\left({0.1 + ϵ \over 3}-1\right)
- &=\left(-0.9+ϵ\right) \left(-0.95 + ϵ/2\right)\left(-29/30 + ϵ/3\right) \\
-&=\left(171/200 -1.4ϵ\right)\left(-29/30 + ϵ/3\right)  \\
-&= -1653/2000 + 983ϵ/600
-\end{align*}
-$$
-Thus the derivative is $983/600$.
-
-For the third function we have:
-$$
-\begin{align*}
-{1 + {0.1+ϵ - 1 \over 2 + {0.1+ϵ-1 \over 2}}} &=  {1 + {-0.9+ϵ \over 1.55 + ϵ/2}}\\
-&= 1 -18/31 + 2ϵ/1.55^2
-\end{align*}
-$$
-Thus the derivative is $2/1.55^2$.
-
-**END**
 
 
 ----
@@ -186,12 +88,7 @@ Dual numbers can be extended to higher dimensions via a 2D analogue of dual numb
 Derive the formula for writing the product of two 2D dual numbers $(a + a_x ϵ_x + a_y ϵ_y) (b + b_x ϵ_x + b_y ϵ_y)$
 where $a,a_x,a_y,b,b_x,b_y \in \mathbb R$ as a 2D dual number.
 
-**SOLUTION**
-$$
-(a+a_x ϵ_x +  a_y ϵ_y)  (b+b_x ϵ_x +  b_y ϵ_y)
-= ab +(ba_x + ab_x) ϵ_x +  (ba_y+ab_y) ϵ_y
-$$
-**END**
+
 
 **Problem 5(b)** Show  for all 2D polynomials
 $$
@@ -204,33 +101,11 @@ p(x + a ϵ_x, y + b ϵ_y) &= p(x,y) + a  {∂ p \over ∂ x} ϵ_x  +  b  {∂ p 
 \end{align*}
 $$
 
-**SOLUTION**
-By linearity it suffices to consider monomials $x^k y^j$. Assume it is true
-for all lower degree polynomials with the degree $0$ case holding trivially.
-If $j = 0$ we  have:
-$$
-(x + a ϵ_x)^k = (x + a ϵ_x)(x + a ϵ_x)^{k-1} = 
- (x + a ϵ_x)(x^{k-1} + a (k-1) x^{k-2} ϵ_x) = 
-  x^k  + a k x^{k-1} ϵ_x
-$$
- and similarly for $k = 0$. For $k,j \neq 0$ we can use the previous cases to get:
-$$
-(x + a ϵ_x)^k (y + b ϵ_y)^j = (x^k + k a x^{k-1} ϵ_x) (y^j + j b y^{j-1} ϵ_y)= 
-x^k y^j + k a x^{k-1} y^j ϵ_x + b j x^k y^{j-1}
-$$
-**END**
+
 
 **Problem 5(c)** Use 2D dual numbers to compute the gradient of $p(x,y) = (1 + x + 3xy)(1+y)$ at $x=1$ and $y=2$.
 
-**SOLUTION**
-$$
-\meeq{
-p(1+ϵ_x, 2+ϵ_y) = (2 + ϵ_x + 3(1+ϵ_x)(2+ϵ_y))(3+ϵ_y) = (2 + ϵ_x + 3(2+2ϵ_x+ϵ_y))(3+ϵ_y) \ccr
-= (8 + 7ϵ_x + 3ϵ_y)(3+ϵ_y) = 24 + 21ϵ_x + 17ϵ_y
-}
-$$
-hence the gradient is $[21,17]^⊤$.
-**END**
+
 
 ----
 
@@ -252,20 +127,6 @@ M̃ ={1 \over 2} \sup_{y \in B} |f''(y)|  \sup_{y \in B} {1 \over |f''(y)|}.
 $$
 
 
-**SOLUTION**
 
-We can apply Taylor's theorem to $f'$ around $x = r$ to get
-$$
-f'(x_k) = f'(r + ε_k) = f'(r) + f''(τ) ε_k = f''(τ) ε_k
-$$
-for some $τ$ between $x$ and $x_k$. 
-Thus we get
-$$
-ε_{k+1}  = -{f''(t) \over 2f'(x_k)} ε_k^2 = -{f''(t) \over 2f''(τ)} ε_k.
-$$
-Taking absolute values of each side gives the result.
-
-
-**END**
 
 ----
