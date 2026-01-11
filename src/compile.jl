@@ -7,8 +7,8 @@ using MATH50003NumericalAnalysis
 
 compilenotes("I.1.RectangularRule")
 compilenotes("I.2.DividedDifferences")
-# compilenotes("I.3.DualNumbers")
-# compilenotes("I.4.NewtonMethod")
+compilenotes("I.3.DualNumbers")
+compilenotes("I.4.NewtonMethod")
 
 # compilenotes("II.1.Reals")
 # compilenotes("II.2.Arithmetic")

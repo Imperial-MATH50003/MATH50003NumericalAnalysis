@@ -1,0 +1,63 @@
+
+\section{Newton's method}
+In school you may recall learning Newton's method: a way of approximating zeros/roots to a function by using a local approximation by an affine function. That is, approximate a function $f(x)$ locally around an initial guess $x_0$ by its first order Taylor series:
+\[
+f(x) \ensuremath{\approx} f(x_0) + f'(x_0) (x-x_0)
+\]
+and then find the root of the right-hand side which is
+\[
+ f(x_0) + f'(x_0) (x-x_0) = 0 \ensuremath{\Leftrightarrow} x = x_0 - {f(x_0) \over f'(x_0)}.
+\]
+We can then repeat using this root as the new initial guess. In other words we have a sequence of \emph{hopefully} more accurate approximations:
+\[
+x_{k+1} = x_k - {f(x_k) \over f'(x_k)}.
+\]
+Thus \emph{if} we can compute derivatives, we can (sometimes) compute roots. The lab will explore using dual numbers to accomplish this task. This is in some sense a baby version of how Machine Learning algorithms train neural networks; but where Newton uses derivatives (or in higher-dimensions, gradients) to find roots of functions Machine Learning uses gradients to roughly minimise functions that represent the error between a neural network and training data.
+
+In terms of analysis, we can guarantee convergence provided our initial guess is accurate enough. The first step is the bound the error of an iteration in terms of the previous error:
+
+\begin{theorem}[Newton error] Suppose $f$ is twice-differentiable in a neighbourhood $B$ of $r$  such that $f(r) = 0$, and $f'$ does not vanish in $B$. Denote the error of the $k$-th Newton iteration as $\ensuremath{\varepsilon}_k := r - x_k$. If $x_k \ensuremath{\in} B$ then
+\[
+|\ensuremath{\varepsilon}_{k+1}| \ensuremath{\leq} M |\ensuremath{\varepsilon}_k|^2
+\]
+where
+\[
+M := {1 \over 2} \sup_{x \ensuremath{\in} B}  | f''(x)|   \sup_{x \ensuremath{\in} B} \left| {1 \over f'(x)} \right|.
+\]
+\end{theorem}
+\textbf{Proof} Using Taylor's theorem we find that
+\[
+0 = f(r) = f(x_k + \ensuremath{\varepsilon}_k) = f(x_k) + f'(x_k) \ensuremath{\varepsilon}_k + {f''(t) \over 2} \ensuremath{\varepsilon}_k^2.
+\]
+for some $t \ensuremath{\in} B$ between $r$ and $x_k$.  Rearranging this we get an expression for $f(x_k)$ that tells us that
+\[
+\ensuremath{\varepsilon}_{k+1} = r - \underbrace{x_{k+1}}_{x_k - f(x_k)/f'(x_k)} = \ensuremath{\varepsilon}_k +  {f(x_k) \over f'(x_k)} = -{f''(t) \over 2f'(x_k)} \ensuremath{\varepsilon}_k^2.
+\]
+Taking absolute values of each side gives the result.
+
+\ensuremath{\QED}
+
+This result says that the error decays \emph{quadratically}, which in this case means that the number of  digits roughly doubles each iteration. That is, if the error and one step is about $10^{-3}$ then the error at the next step is about $10^{-6}$ and the step after about $10^{-12}$: this is a drastic improvement! Hidden in this result is a guarantee of convergence provided $x_0$ is sufficiently close to $r$.
+
+\begin{corollary}[Newton convergence] If $x_0 \ensuremath{\in} B$ is sufficiently close to $r$ then $x_k \ensuremath{\rightarrow} r$.
+
+\end{corollary}
+\textbf{Proof}
+
+Suppose $x_k \ensuremath{\in} B$ satisfies $|\ensuremath{\varepsilon}_k| = |r-x_k| \ensuremath{\leq} M^{-1}$. Then
+\[
+|\ensuremath{\varepsilon}_{k+1}| \ensuremath{\leq} M |\ensuremath{\varepsilon}_k|^2 \ensuremath{\leq} |\ensuremath{\varepsilon}_k|,
+\]
+hence $x_{k+1} \ensuremath{\in} B$. Thus from induction if $x_0$ satisfies the condition $|\ensuremath{\varepsilon}_0| < M^{-1}$ condition then $x_k \ensuremath{\in} B$ for all $k$ and satisfies $|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M^{-1}$.  Thus we find (for large enough $k$)
+\[
+|\ensuremath{\varepsilon}_k| \ensuremath{\leq} M |\ensuremath{\varepsilon}_{k-1}|^2 \ensuremath{\leq} M^3 |\ensuremath{\varepsilon}_{k-2}|^4 \ensuremath{\leq} M^7 |\ensuremath{\varepsilon}_{k-3}|^8 \ensuremath{\leq} \ensuremath{\ldots} \ensuremath{\leq} M^{2^k-1} |\ensuremath{\varepsilon}_0|^{2^k} = {1 \over M} (M|\ensuremath{\varepsilon}_0|)^{2^k}.
+\]
+Provided $x_0$  satisfies the strict inequality $|\ensuremath{\varepsilon}_0| < M^{-1}$ this will go to zero as $k \ensuremath{\rightarrow} \ensuremath{\infty}$.
+
+\ensuremath{\QED}
+
+\subsection{Lab and problem sheet}
+In the lab we explore using Newton's method for some simple root finding problems. We also see that automatic differentiation via dual numbers can be used effectively  to compute the derivatives. This type of iteration is very much related to the training of neural networks in machine learning, in fact, there are certain training algorithms built on a randomised version of Newton's method. In the problem sheet we see how the error bound for Newton iteration can be extended to the degenerate case where the second derivative also vanishes, but now we no longer achieve quadratic convergence, but it still decays exponentially with the number of iterations.
+
+
+

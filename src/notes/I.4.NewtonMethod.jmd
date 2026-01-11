@@ -55,6 +55,9 @@ Taking absolute values of each side gives the result.
 
 ∎
 
+This result says that the error decays _quadratically_, which in this case means that the number of 
+digits roughly doubles each iteration. That is, if the error and one step is about $10^{-3}$ then the error
+at the next step is about $10^{-6}$ and the step after about $10^{-12}$: this is a drastic improvement!
 Hidden in this result is a guarantee of convergence provided $x_0$ is sufficiently close to $r$.
 
 **Corollary (Newton convergence)** If $x_0 ∈ B$ is sufficiently close to $r$ then $x_k → r$.
@@ -74,3 +77,11 @@ Provided $x_0$  satisfies the strict inequality $|ε_0| < M^{-1}$ this will go t
 
 ∎
 
+## Lab and problem sheet
+
+In the lab we explore using Newton's method for some simple root finding problems. We also see that automatic differentiation via dual numbers can be used effectively 
+to compute the derivatives. This type of iteration is very much related to the training of neural networks in machine learning, in fact,
+there are certain training algorithms built on a randomised version of Newton's method.
+In the problem sheet we see how the error bound for Newton iteration can be extended to the degenerate case where the
+second derivative also vanishes, but now we no longer achieve quadratic convergence, but it still decays exponentially with the
+number of iterations.

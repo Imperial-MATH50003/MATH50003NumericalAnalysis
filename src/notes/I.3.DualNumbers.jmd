@@ -192,3 +192,22 @@ $$
 
 ∎
 
+## Lab and problem sheet
+
+In the lab we explore how one can turn this mathematical idea into a practical 
+implementation on a computer, giving a basic version of _forward-mode automatic differentiation_.
+This is a concept that underpins machine learning, which uses _reverse-mode automatic differentiation_
+to compute gradients when performing stochastic gradient descent.
+ In order to implement dual numbers, we will introduce the concept of a
+_type_: a data structure with fields.  For example, we will implement a type `Rat` for representing
+rationals $p/q$, where the type has two fields (`p` and `q`). Basic arithmetic operations like `+` and `*` can be implemented
+to correctly do rational arithmetic. 
+We will then create a new type that can
+ represent a dual number $a + b ϵ$, where the the type has two fields (`a` and `b`). By implementing basic arithmetic operations
+as well as more complicated functions like `exp` we can efficiently, and extremely accurately, compute derivatives of quite
+general functions.
+
+In the problem sheet, we explore how dual numbers can also be used for pen-and-paper calculations of derivatives. This gives an alternative
+to traditional differentiation rules like chain and product rule, that while it is mathematically equivalent feels very different in practice. (I prefer it because it is much more algorithmic!)
+Make sure when doing the problem sheet to only use dual numbers and not fall back to the more traditional rules. 
+We also see that one can extend the concept to a 2D-analogue of dual numbers, which allows for computation of gradients.
