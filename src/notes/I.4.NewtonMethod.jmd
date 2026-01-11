@@ -1,0 +1,76 @@
+# Newton's method
+
+In school you may recall learning Newton's method: a way of approximating zeros/roots to
+a function by using a local approximation by an affine function. That is, approximate a function
+$f(x)$ locally around an initial guess $x_0$ by its first order Taylor series:
+$$
+f(x) ≈ f(x_0) + f'(x_0) (x-x_0)
+$$
+and then find the root of the right-hand side which is
+$$
+ f(x_0) + f'(x_0) (x-x_0) = 0 ⇔ x = x_0 - {f(x_0) \over f'(x_0)}.
+$$
+We can then repeat using this root as the new initial guess. In other words
+we have a sequence of _hopefully_ more accurate approximations:
+$$
+x_{k+1} = x_k - {f(x_k) \over f'(x_k)}.
+$$
+
+Thus _if_ we can compute derivatives, we can (sometimes) compute roots. The lab
+will explore using dual numbers to accomplish this task. This is in some sense
+a baby version of how Machine Learning algorithms train neural networks; but where
+Newton uses derivatives (or in higher-dimensions, gradients) to find roots of functions
+Machine Learning uses gradients to roughly minimise functions that represent the error
+between a neural network and training data.
+
+In terms of analysis, we can guarantee convergence provided our initial guess is
+accurate enough. The first step is the bound the error of an iteration in terms
+of the previous error:
+
+
+**Theorem (Newton error)**
+Suppose $f$ is twice-differentiable in a neighbourhood $B$ of $r$  such that $f(r) = 0$,
+and $f'$ does not vanish in $B$. Denote the
+error of the $k$-th Newton iteration as $ε_k := r - x_k$. If $x_k ∈ B$ then
+$$
+|ε_{k+1}| ≤ M |ε_k|^2
+$$
+where
+$$
+M := {1 \over 2} \sup_{x ∈ B}  | f''(x)|   \sup_{x ∈ B} \left| {1 \over f'(x)} \right|.
+$$
+
+
+**Proof**
+Using Taylor's theorem we find that
+$$
+0 = f(r) = f(x_k + ε_k) = f(x_k) + f'(x_k) ε_k + {f''(t) \over 2} ε_k^2.
+$$
+for some $t ∈ B$ between $r$ and $x_k$. 
+Rearranging this we get an expression for $f(x_k)$ that tells us that
+$$
+ε_{k+1} = r - \underbrace{x_{k+1}}_{x_k - f(x_k)/f'(x_k)} = ε_k +  {f(x_k) \over f'(x_k)} = -{f''(t) \over 2f'(x_k)} ε_k^2.
+$$
+Taking absolute values of each side gives the result.
+
+∎
+
+Hidden in this result is a guarantee of convergence provided $x_0$ is sufficiently close to $r$.
+
+**Corollary (Newton convergence)** If $x_0 ∈ B$ is sufficiently close to $r$ then $x_k → r$.
+
+**Proof**
+
+Suppose $x_k ∈ B$ satisfies $|ε_k| = |r-x_k| ≤ M^{-1}$. Then
+$$
+|ε_{k+1}| ≤ M |ε_k|^2 ≤ |ε_k|,
+$$
+hence $x_{k+1} ∈ B$. Thus from induction if $x_0$ satisfies the condition $|ε_0| < M^{-1}$ condition then $x_k ∈ B$ for all $k$
+and satisfies $|ε_k| ≤ M^{-1}$.  Thus we find (for large enough $k$)
+$$
+|ε_k| ≤ M |ε_{k-1}|^2 ≤ M^3 |ε_{k-2}|^4 ≤ M^7 |ε_{k-3}|^8 ≤ … ≤ M^{2^k-1} |ε_0|^{2^k} = {1 \over M} (M|ε_0|)^{2^k}.
+$$
+Provided $x_0$  satisfies the strict inequality $|ε_0| < M^{-1}$ this will go to zero as $k → ∞$.
+
+∎
+
