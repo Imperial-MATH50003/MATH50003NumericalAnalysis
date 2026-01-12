@@ -1,4 +1,4 @@
-# # MATH50003 (2024–25)
+# # MATH50003 (2025–26)
 # # Lab 2: I.3 Dual Numbers and I.4 Newton's Method
 
 # In this lab we explore an alternative approach to computing derivatives:
