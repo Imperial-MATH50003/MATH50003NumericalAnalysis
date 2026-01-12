@@ -30,3 +30,5 @@ Manifest.toml
 *.toc
 *.ipynb_checkpoints
 .vscode/settings.json
+*.fdb_latexmk
+*.fls
