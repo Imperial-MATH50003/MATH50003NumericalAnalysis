@@ -16,12 +16,7 @@ $$
 x_{k+1} = x_k - {f(x_k) \over f'(x_k)}.
 $$
 
-Thus _if_ we can compute derivatives, we can (sometimes) compute roots. The lab
-will explore using dual numbers to accomplish this task. This is in some sense
-a baby version of how Machine Learning algorithms train neural networks; but where
-Newton uses derivatives (or in higher-dimensions, gradients) to find roots of functions
-Machine Learning uses gradients to roughly minimise functions that represent the error
-between a neural network and training data.
+Thus _if_ we can compute derivatives, we can (sometimes) compute roots. 
 
 In terms of analysis, we can guarantee convergence provided our initial guess is
 accurate enough. The first step is the bound the error of an iteration in terms
@@ -79,9 +74,20 @@ Provided $x_0$  satisfies the strict inequality $|ε_0| < M^{-1}$ this will go t
 
 ## Lab and problem sheet
 
+
+
+
 In the lab we explore using Newton's method for some simple root finding problems. We also see that automatic differentiation via dual numbers can be used effectively 
-to compute the derivatives. This type of iteration is very much related to the training of neural networks in machine learning, in fact,
-there are certain training algorithms built on a randomised version of Newton's method.
+to compute the derivatives.
+This is in some sense
+a baby version of how Machine Learning algorithms train neural networks; but whilst
+Newton uses derivatives (or in higher-dimensions, gradients) to find roots of functions
+Machine Learning uses gradients to (very roughly) minimise functions that represent the error
+between a neural network and training data.
+Minimisation problems are very closely related to root finding problems (essentially the minima are associated with
+roots of the gradient) and there are specialised training algorithms in ML built on a randomised version of Newton's method.
+
+
 In the problem sheet we see how the error bound for Newton iteration can be extended to the degenerate case where the
 second derivative also vanishes, but now we no longer achieve quadratic convergence, but it still decays exponentially with the
-number of iterations.
+number of iterations (which is called _linear convergence_).

@@ -53,7 +53,7 @@ typeof(5)
 ## END
 
 # On a 64-bit machine this will print `Int64`, where the `64` indicates it is using precisely 64 bits
-# to represent the number (a topic we will come back to in Part II). If we write something with
+# to represent the number (a topic we will come back to in Chapter II). If we write something with
 # a decimal point it represents a "real" number, whose storage is of type `Float64`:
 
 ## DEMO
@@ -207,8 +207,8 @@ struct Rat
 end
 ## END
 
-# A new instance of `Rat` is created via e.g. `Rat(1, 2)` represents `1/2`
-# where the first argument specifies `p` and the second argument `q`.
+# A new instance of `Rat` is created via `Rat(p,q)`, e.g., `Rat(1, 2)` represents `1/2`
+# where the first argument specifies the numerator is `p = 1` and the second argument specifies the denominator is `q = 2`.
 # The fields are accessed by `.`:
 
 ## DEMO
@@ -217,7 +217,7 @@ x = Rat(1, 2) # Rat(1, 2) creates an instance with fields equal to the input
 @test x.q == 2
 ## END
 
-# Unfortunately we can't actually do anything with this type, yet:
+# Unfortunately we can't actually do anything with this type yet, so for example if we try to add two dual `Rat`s it will throw an error:
 
 ## DEMO
 x + x
@@ -394,6 +394,7 @@ function ^(x::Dual, n::Int)
     if n == 1
         x # Just return the input
     else
+        # we build up x^n using x^n = x^(n-1) * x alongside x^1 = x.
         ret = x
         for k = 1:n-1
             ret = ret*x
@@ -534,7 +535,7 @@ contdual.b
 # $$
 # We can then solve the root finding problem for $p(x)$ exactly:
 # $$
-# p(x) = 0 ⇔ x = x_0 - {f(x_0) \over f'(x_0)}
+# p(x) = 0 ⇔ x = x_0 - {f(x_0) \over f'(x_0)}.
 # $$
 # We take this root of $p(x)$ as the new initial guess and repeat. In other words, we have a simple sequence
 # defined by
@@ -542,7 +543,7 @@ contdual.b
 # x_{k+1} = x_k - {f(x_k) \over f'(x_k)}
 # $$
 # If the initial guess is "close enough" to a root $r$ of $f$ (ie $f(r) = 0$)
-# then we have proven that $x_k → r$. Thus for large $N$ we have $x_N ≈ r$. 
+# then we have proven in the notes that $x_k → r$. Thus for large $N$ we have $x_N ≈ r$. 
 
 # Dual numbers as implemented by `Dual` gives us a powerful tool to compute derivatives and get a simple implementation
 # of Newton's method working:
