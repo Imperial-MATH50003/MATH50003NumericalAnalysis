@@ -32,3 +32,4 @@ Manifest.toml
 .vscode/settings.json
 *.fdb_latexmk
 *.fls
+Project.toml
