@@ -1,0 +1,95 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 3**
+
+
+**Problem 1** What is $π$ to 5 binary places? Hint: recall that $π ≈ 3.14$.
+
+
+
+**Problem 2** What are the single precision $F_{32} = F_{127,8,23}$ floating point representations for the following: 
+$$
+2, \quad 31, \quad 32, \quad 23/4, \quad (23/4)\times 2^{100}
+$$
+
+
+
+
+**Problem 3** Let $m(y) = \min\{x \in F_{32} : x > y \}$ be the smallest single precision number
+greater than $y$. What is $m(2) - 2$ and $m(1024) - 1024$? 
+
+
+
+
+**Problem 4** Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$).
+What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$?
+What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x ⊕ 2$ and $x \ominus 2$?
+
+
+
+
+
+**Problem 5** Show that $1/5 = 2^{-3} (1.1001100110011…)_2$.
+What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
+using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
+
+
+
+----
+
+**Problem 6** Prove the following bounds on the _absolute error_ of a floating point calculation
+in idealised floating-point arithmetic $F_{∞,S}$ (i.e., you may assume all operations involve normal floating point numbers):
+$$
+\begin{align*}
+({\rm fl}(1.1) ⊗ {\rm fl}(1.2)) &⊕ {\rm fl}(1.3) = 2.62 + ε_1 \\
+({\rm fl}(1.1) ⊖ 1) & ⊘ {\rm fl}(0.1) = 1 + ε_2
+\end{align*}
+$$
+such that $|ε_1| ≤ 11 ϵ_{\rm m}$ and $|ε_2| ≤ 40 ϵ_{\rm m}$, where $ϵ_{\rm m}$ is
+machine epsilon.
+
+
+
+
+
+
+
+
+
+
+**Problem 7**
+Assume that $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfies $f^{\rm FP}(x) = f(x) + δ_x$ where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x ∈ F_{∞,S}$.
+Show that
+$$
+{f^{\rm FP}(x+h) ⊖ f^{\rm FP}(x-h) \over  2h} = f'(x) + ε
+$$
+where the (absolute) error is bounded by
+$$
+|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h}.
+$$
+
+
+
+-----
+**Problem 8(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that $∏_{k=1}^n (1+ϵ_k) = 1+θ_n$
+for some constant $θ_n$ satisfying
+$$
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}.
+$$
+
+
+
+**Problem 8(b)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
+$$
+where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
+
+
+
+
+**Problem 8(c)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
+
+

@@ -10,8 +10,8 @@ compilenotes("I.2.DividedDifferences")
 compilenotes("I.3.DualNumbers")
 compilenotes("I.4.NewtonMethod")
 
-# compilenotes("II.1.Reals")
-# compilenotes("II.2.Arithmetic")
+compilenotes("II.1.Reals")
+compilenotes("II.2.Arithmetic")
 # compilenotes("II.3.Intervals")
 
 # compilenotes("III.1.StructuredMatrices")
@@ -31,8 +31,8 @@ compilenotes("I.4.NewtonMethod")
 # compilenotes("VI.3.GaussianQuadrature")
 
 
-# compilenotes("A.Asymptotics")
-# compilenotes("A.Integers")
+compilenotes("A.Asymptotics")
+compilenotes("A.Integers")
 # compilenotes("A.Permutations")
 
 
@@ -40,7 +40,7 @@ compilenotes("I.4.NewtonMethod")
 # Sheets
 ####
 
-for k = 1:1
+for k = 1:3
     compilesheet(k)
 end
 
