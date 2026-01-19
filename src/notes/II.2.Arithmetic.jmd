@@ -1,0 +1,385 @@
+# Floating Point Arithmetic
+
+
+We now turn our attention to how arithmetic operations (`+`, `*`, `-`, `/`, etc.) work with
+floating point arithmetic, in particular, how they cope with the fact that some calculations
+involving floating point numbers result in numbers that are not floating point (like `1/3`). 
+The answer is that arithmetic operations on floating-point numbers are rounded, and are
+guaranteed to be  _exact up to rounding_.
+There are three basic rounding strategies: round up/down/nearest.
+Mathematically we introduce a function to capture the notion of rounding:
+
+**Definition (rounding)** 
+
+The function ${\rm fl}^{\rm up}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ rounds a real number up to the nearest floating-point number that is greater than or equal:
+$$
+{\rm fl}^{\rm up}_{σ,Q,S}(x) := \min\{y ∈ F_{σ,Q,S} : y ≥ x\}.
+$$
+The function ${\rm fl}^{\rm down}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ 
+ rounds a real number down to the nearest floating-point number that is less than or equal:
+$$
+{\rm fl}^{\rm down}_{σ,Q,S}(x) := \max\{y ∈ F_{σ,Q,S} : y ≤ x\}.
+$$
+The function ${\rm fl}^{\rm nearest}_{σ,Q,S} : \mathbb R \rightarrow F_{σ,Q,S}$ denotes
+the function that rounds a real number to the nearest floating-point number. In case of a tie,
+it returns the floating-point number whose least significant bit is equal to zero.
+We use the notation ${\rm fl}$ when $σ,Q,S$ and the rounding mode are implied by context,
+with ${\rm fl}^{\rm nearest}$ being the default rounding mode.
+∎
+
+In more detail on the behaviour of nearest mode, if a positive number $x$ is between two normal floats $x_- ≤ x ≤ x_+$ we can write its expansion as
+$$
+x = 2^{\green{q}-σ} (1.\blue{b_1b_2…b_S}\red{b_{S+1}…})_2
+$$
+where
+$$
+\begin{align*}
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-σ} (1.\blue{b_1b_2…b_S})_2 \\
+x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{\green{q}-σ-S}
+\end{align*}
+$$
+Write the half-way point as:
+$$
+x_{\rm h} := {x_+ + x_- \over 2} = x_- + 2^{\green{q}-σ-S-1} = 2^{\green{q}-σ} (1.\blue{b_1b_2…b_S}\red{1})_2
+$$
+If $x_- ≤ x < x_{\rm h}$ then ${\rm fl}(x) = x_-$ and if $x_{\rm h} < x ≤ x_+$ then ${\rm fl}(x) = x_+$.
+If $x = x_{\rm h}$ then it is exactly half-way between $x_-$ and $x_+$. The rule is if $b_S = 0$
+then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
+
+
+
+
+
+In IEEE arithmetic, the arithmetic operations `+`, `-`, `*`, `/` are defined by the property
+that they are exact up to rounding.  Mathematically we denote these operations as
+$⊕, ⊖, ⊗, ⊘ : F_{σ,Q,S} × F_{σ,Q,S} → F_{σ,Q,S}$ as follows:
+$$
+\begin{align*}
+x ⊕ y &:= {\rm fl}(x+y) \\
+x ⊖ y &:= {\rm fl}(x - y) \\
+x ⊗ y &:= {\rm fl}(x * y) \\
+x ⊘ y &:= {\rm fl}(x / y)
+\end{align*}
+$$
+Note also that  `^` and `sqrt` are similarly exact up to rounding.
+Also, note that when we convert a Julia command with constants specified by decimal expansions
+we first round the constants to floats, e.g., `1.1 + 0.1` is actually reduced to
+$$
+{\rm fl}(1.1) ⊕ {\rm fl}(0.1)
+$$
+This includes the case where the constants are integers (which are normally exactly floats
+but may be rounded if extremely large).
+
+**Example (decimal is not exact)** On a computer `1.1+0.1` is close to but not exactly
+the same thing as `1.2`.
+This is because ${\rm fl}(1.1) ≠ 1+1/10$ and ${\rm fl}(0.1) ≠ 1/10$ since their
+expansion in _binary_ is not finite. For $F_{16}$ we have:
+$$
+\begin{align*}
+{\rm fl}(1.1) &= {\rm fl}((1.0001100110\red{011…})_2) =  (1.0001100110)_2 \\
+{\rm fl}(0.1) &= {\rm fl}(2^{-4}(1.1001100110\red{011…})_2) =  2^{-4} * (1.1001100110)_2 = (0.00011001100110)_2
+\end{align*}
+$$
+Thus when we add them we get
+$$
+{\rm fl}(1.1) + {\rm fl}(0.1) = (1.0011001100\red{011})_2
+$$
+where the red digits indicate those beyond the 10 significant digits representable in $F_{16}$.
+In this case we round down and
+get
+$$
+{\rm fl}(1.1) ⊕ {\rm fl}(0.1) = (1.0011001100)_2
+$$
+On the other hand,
+$$
+{\rm fl}(1.2) = {\rm fl}((1.0011001100\red{11001100…})_2) = (1.0011001101)_2
+$$
+which differs by 1 bit.
+∎
+
+**WARNING (non-associative)** These operations are not associative! E.g. $(x ⊕ y) ⊕ z$ is not necessarily equal to $x ⊕ (y ⊕ z)$.
+Commutativity is preserved, at least.
+
+
+
+## Bounding errors in floating point arithmetic
+
+We will now see that the error introduced by rounding can be bounded, giving a means to
+guarantee that some algorithms yield accurate results despite the errors introduced.
+When dealing with normal numbers there are some important constants that we will use
+to bound errors.
+
+**Definition (machine epsilon/smallest positive normal number/largest normal number)**
+_Machine epsilon_ is denoted
+$$
+ϵ_{{\rm m},S} := 2^{-S}.
+$$
+When $S$ is implied by context we use the notation $ϵ_{\rm m}$.
+The _smallest positive normal number_ is $q = 1$ and $b_k$ all zero:
+$$
+\min |F_{σ,Q,S}^{\rm normal}| = 2^{1-σ}
+$$
+where $|A| := \{|x| : x \in A \}$.
+The _largest (positive) normal number_ is
+$$
+\max F_{σ,Q,S}^{\rm normal} = 2^{2^Q-2-σ} (1.11…)_2 = 2^{2^Q-2-σ} (2-ϵ_{\rm m})
+$$
+∎
+
+
+
+We can bound the error of basic arithmetic operations in terms of machine epsilon, provided
+a real number is close to a normal number:
+
+**Definition (normalised range)** The _normalised range_ ${\cal N}_{σ,Q,S} ⊂ ℝ$
+is the subset of real numbers that lies
+between the smallest and largest normal floating-point number:
+$$
+{\cal N}_{σ,Q,S} := \{x : \min |F_{σ,Q,S}^{\rm normal}| ≤ |x| ≤ \max F_{σ,Q,S}^{\rm normal} \}
+$$
+When $σ,Q,S$ are implied by context we use the notation ${\cal N}$.
+∎
+
+We can use machine epsilon to determine bounds on rounding:
+
+**Proposition (round bound)**
+If $x \in {\cal N}$ then
+$$
+{\rm fl}^{\rm mode}(x) = x (1 + δ_x^{\rm mode})
+$$
+where the _relative error_ is bounded by:
+$$
+\begin{align*}
+|δ_x^{\rm nearest}| &≤ {ϵ_{\rm m} \over 2} \\
+|δ_x^{\rm up/down}| &< {ϵ_{\rm m}}.
+\end{align*}
+$$
+
+**Proof**
+
+We will show this result for the nearest rounding mode. Note first that
+$$
+{\rm fl}(-x) = -{\rm fl}(x)
+$$
+and hence it suffices to prove the result for positive $x$. Write
+$$
+x = 2^{\green{q}-σ} (1.b_1b_2…b_S\red{b_{S+1}…})_2.
+$$
+Define
+$$
+\begin{align*}
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-σ} (1.b_1b_2…b_S)_2 \\
+x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{\green{q}-σ-S} \\
+x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{\green{q}-σ-S-1} = 2^{\green{q}-σ} (1.b_1b_2…b_S\red{1})_2
+\end{align*}
+$$
+so that $x_- ≤ x ≤ x_+$. We consider two cases separately.
+
+(**Round Down**) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$.
+Since $2^{\green{q}-σ} ≤ x_- ≤ x ≤ x_{\rm h}$ we have
+$$
+|δ_x| = {x - x_- \over x} ≤ {x_{\rm h} - x_- \over x_-} ≤ {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+$$
+
+(**Round Up**) If ${\rm fl}(x) = x_+$ then $2^{\green{q}-σ} ≤ x_- < x_{\rm h} ≤ x ≤ x_+$ and hence
+$$
+|δ_x| = {x_+ - x \over x} ≤ {x_+ - x_{\rm h} \over x_-} ≤ {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+$$
+
+∎
+
+
+This immediately implies relative error bounds on all IEEE arithmetic operations, e.g.,
+if $x+y \in {\cal N}$ then
+we have
+$$
+x ⊕ y = (x+y) (1 + δ_1)
+$$
+where (assuming the default nearest rounding) $|δ_1| ≤ {ϵ_{\rm m} \over 2}.$
+
+## Idealised floating point
+
+With a complicated formula it is mathematically inelegant to work with normalised ranges: one
+cannot guarantee apriori that a computation always results in a normal float. Extending the
+bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this
+issue we will work with an alternative mathematical model:
+
+**Definition (idealised floating point)**
+An idealised mathematical model of floating point numbers for which the only subnormal number is zero can be defined as:
+$$
+F_{∞,S} := \{± 2^q × (1.b_1b_2b_3…b_S)_2 :  q ∈ ℤ \} ∪ \{0\}
+$$
+∎
+
+Note that $F^{\rm normal}_{σ,Q,S} ⊂ F_{∞,S}$ for all $σ,Q ∈ ℕ$.
+The definition of rounding ${\rm fl}_{∞,S}^{mode} : ℝ → F_{∞,S}$ naturally extend to $F_{∞,S}$
+and hence we can consider bounds for floating point operations such as $⊕$, $⊖$, etc. And
+in this model the round bound is valid for all real numbers (including $x = 0$).
+
+
+
+
+
+
+**Example (bounding a simple computation)** We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$
+and we may assume idealised floating-point arithmetic $F_{∞,S}$. First note that `1.1` on a computer is in
+fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise
+stated. Thus this computation becomes
+$$
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3)
+$$
+We will show the _absolute error_ is given by
+$$
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3) = 2.99 + δ
+$$
+where $|δ| ≤  23 ϵ_{\rm m}.$
+First we find
+$$
+\meeq{
+{\rm fl}(1.1) ⊕ {\rm fl}(1.2) = (1.1(1 + δ_1) + 1.2 (1+δ_2))(1 + δ_3) \ccr
+ = 2.3 + \underbrace{1.1 δ_1 + 1.2 δ_2 + 2.3 δ_3 + 1.1 δ_1 δ_3 + 1.2 δ_2 δ_3}_{ε_1}.
+}
+$$
+While $δ_1 δ_3$ and $δ_2 δ_3$ are absolutely tiny in practice
+we will bound them rather naïvely by eg.
+$$
+|δ_1 δ_3| ≤ ϵ_{\rm m}^2/4 ≤ ϵ_{\rm m}/4.
+$$
+Further we round up constants to integers
+in the bounds for simplicity (we won't be concerned here with deriving the sharpest error bounds). We thus have the bound
+$$
+|ε_1| ≤ (2+2+3+1+1) {ϵ_{\rm m} \over 2} ≤ 5ϵ_{\rm m}.
+$$
+Writing ${\rm fl}(1.3) = 1.3 (1+δ_4)$ and also incorporating an error from the rounding
+in $⊗$ we arrive at
+$$
+\meeq{
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3) =
+                (2.3 + ε_1) 1.3 (1 + δ_4) (1 + δ_5) \ccr
+                 = 2.99 + \underbrace{1.3( ε_1 + 2.3δ_4 + 2.3δ_5 + ε_1 δ_4 + ε_1 δ_5 + 2.3 δ_4 δ_5 + ε_1δ_4δ_5)}_δ
+}
+$$
+We use the bounds
+$$
+\begin{align*}
+|ε_1 δ_4|, |ε_1 δ_5| &≤ 5 ϵ_{\rm m}^2/2 ≤ 5 ϵ_{\rm m}/2,  \cr
+|δ_4 δ_5| &≤  ϵ_{\rm m}^2/4  ≤ ϵ_{\rm m}/4, \cr
+|ε_1δ_4δ_5| &≤ 5ϵ_{\rm m}^3/4 ≤ 5ϵ_{\rm m}/4.
+\end{align*}
+$$
+Thus the _absolute error_ is bounded (bounding 1.3 by $3/2$) by
+$$
+|δ| ≤ (3/2) (5 +  3/2 + 3/2 + 5/2 + 5/2 + 3/4 + 5/4) ϵ_{\rm m} ≤ 23 ϵ_{\rm m}.
+$$
+∎
+
+
+## Divided differences floating point error bound
+
+We saw experimentally that divided differences resulted in a large error which was not consistent 
+with the error bound derived assuming exact real arithmetic. Here we see how we can derive a bound 
+incorporating the behaviour of floating point arithmetic, which reflects the large growth in error when $h$
+became small. 
+
+We assume that the function we are attempting to differentiate is computed using floating point arithmetic
+in a way that has a small absolute error.
+
+
+**Theorem (divided difference error bound)** Assume we are working in idealised floating-point arithmetic $F_{∞,S}$.
+Let $f$ be twice-differentiable in a neighbourhood of $x ∈ F_{∞,S}$
+and assume that
+$$
+ f(x) = f^{\rm FP}(x) + δ_x^f
+$$
+where $f^{\rm FP} : F_{S,∞} → F_{S,∞}$
+has uniform absolute accuracy in that neighbourhood, that is:
+$$
+|δ_x^f| ≤ c ϵ_{\rm m}
+$$
+for a fixed constant $c ≥ 0$.
+The divided difference approximation partially implemented with floating point satisfies
+$$
+{f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x) \over h} = f'(x) + δ_{x,h}^{\rm FD}
+$$
+where
+$$
+|δ_{x,h}^{\rm FD}| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + M h +  {4c ϵ_{\rm m} \over h}
+$$
+for $M = \sup_{x ≤ t ≤ x+h} |f''(t)|$.
+
+**Proof**
+
+
+
+We have
+$$
+\begin{align*}
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) / h &= {f(x + h) -  δ^f_{x+h} - f(x) + δ^f_x \over h} (1 + δ_1) \\
+&= {f(x+h) - f(x) \over h} (1 + δ_1) + { δ^f_x - δ^f_{x+h} \over h} (1 + δ_1)
+\end{align*}
+$$
+where $|δ_1| ≤ {ϵ_{\rm m} / 2}$. Applying Taylor's theorem we get
+$$
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) / h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_x  - δ^f_{x+h}\over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
+$$
+The bound then follows, using the very pessimistic bound $|1 + δ_1| ≤ 2$.
+
+∎
+
+The previous theorem neglected some errors due to rounding, which was done for simplicity.
+This is justified under fairly general restrictions:
+
+**Corollary (divided differences in practice)** We have
+$$
+(f^{\rm FP}(x ⊕ h) ⊖ f^{\rm FP}(x)) ⊘ h = {f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x) \over h}
+$$
+whenever  $h = 2^{j-n}$ for $0 ≤ n ≤ S$ and the last binary place of $x ∈ F_{∞,S}$ is zero,
+that is $x = ±2^j (1.b_1…b_{S-1}0)_2$.
+
+**Proof**
+
+We first confirm $x ⊕ h = x + h$. If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the
+digits $b_1,…,b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
+
+Now write $y := (f^{\rm FP}(x ⊕ h) ⊖ f^{\rm FP}(x)) = ±2^ν (1.c_1…c_S)_2 ∈ F_{∞,S}$. We have
+$$
+y/h = ±2^{ν+n-j} (1.c_1…c_S)_2 ∈ F_{∞,S} ⇒ y/h = y ⊘ h.
+$$
+
+∎
+
+
+The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero
+as $h \rightarrow 0$, while the last term grows like $ϵ_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence
+while the second term dominates, until the last term takes over.
+Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of
+what happens _in general_ and suffices to choose $h$ so that these errors are balanced (and thus minimised).
+Since in general we do not have access to the constants $c$ and $M$
+we employ the following heuristic to balance the two sources of errors:
+
+
+**Heuristic (divided difference with floating-point step)** Choose $h$ proportional to $\sqrt{ϵ_{\rm m}}$
+in divided differences  so that $M h$ and ${4c ϵ_{\rm m} \over h}$ are (roughly) the same magnitude.
+
+In the case of double precision $\sqrt{ϵ_{\rm m}} ≈ 1.5× 10^{-8}$, which is close to when the observed error begins to increase
+in the examples we saw before.
+
+
+
+**Remark** While divided differences is of debatable utility for computing derivatives, it is extremely effective
+in building methods for solving differential equations, as we shall see later. It is also very useful as a “sanity check"
+if one wants something to compare with other numerical methods for differentiation.
+
+**Remark** It is also possible to deduce an error bound for the rectangular rule showing that the error
+caused by round-off is on the order of $n ϵ_{\rm m}$, that is it does in fact grow but the error without
+round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$.
+
+## Lab and problem sheet
+
+In the lab we see how we can set the rounding mode of floating point calculations. This will set the ground-work for
+the next section where we implement interval arithmetic, which automatically computes rigorous error bounds. We also see that
+the `BigFloat` type allows for high-precision computations. In the problem sheet we bound the errors in some simple floating point
+expressions by-hand, and deduce an error bound for central differences capturing the impact of rounding. Finally, we see how addition
+and multiplication of many floating point numbers can also be bounded, which will lay the ground-work for understanding errors in
+linear algebra with floating point numbers. 
+

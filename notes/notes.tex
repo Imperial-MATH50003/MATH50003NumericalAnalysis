@@ -222,33 +222,33 @@ Each week there are labs and problem sheets that further explore the mathematica
 \input{I.3.DualNumbers.tex}
 \input{I.4.NewtonMethod.tex}
 
-% \chapter{Representing Numbers}
+\chapter{Representing Numbers}
 
-% In this chapter we aim to answer the question: when can we rely on computations done on a computer?  Why are some computations (differentiation via divided differences), extremely inaccurate whilst others (integration via rectangular rule) accurate up to about 16 digits?  In order to address these questions we need to dig deeper and understand at a basic level what a computer is actually doing when manipulating numbers.
+In this chapter we aim to answer the question: when can we rely on computations done on a computer?  Why are some computations (differentiation via divided differences), extremely inaccurate whilst others (integration via rectangular rule) accurate up to about 16 digits?  In order to address these questions we need to dig deeper and understand at a basic level what a computer is actually doing when manipulating numbers.
 
-% Before we begin it is important to have a basic model of how a computer works. Our simplified model of a computer will consist of a \href{https://en.wikipedia.org/wiki/Central_processing_unit}{Central Processing Unit (CPU)}\ensuremath{\emdash}the  brains of the computer\ensuremath{\emdash}and \href{https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage}{Memory}\ensuremath{\emdash}where  data is stored. Inside the CPU there are \href{https://en.wikipedia.org/wiki/Processor_register}{registers}, where data is temporarily stored after being loaded from memory, manipulated by the CPU, then stored back to memory.  Memory is a sequence of bits: \texttt{1}s and \texttt{0}s, essentially ``on/off" switches, and memory is {\it finite}.  Finally, if one has a $p$-bit CPU (eg a 32-bit or 64-bit CPU), each register consists of exactly $p$-bits. Most likely $p = 64$ on your machine.
-
-
-% Thus representing numbers on a computer must overcome three fundamental limitations:
-% \begin{enumerate}
-% \item CPUs can only manipulate data $p$-bits at a time.
-% \item Memory is finite (in particular at most $2^p$ bytes).
-% \item There is no such thing as an ``error'': if anything goes wrong in the computation we must use some of the $p$-bits to indicate this.
-% \end{enumerate}
-
-% This is clearly problematic: there are an infinite number of integers and an uncountable number of reals! Each of which we need to store in precisely $p$-bits. Moreover, some operations are simply undefined, like division by 0.  This chapter discusses the solution used to this problem, alongside the mathematical analysis that is needed to understand the implications, in particular, that computations have {\it error}.
-
-% In particular we discuss:
-
-% \begin{enumerate}
-% \item II.1 Reals:  real numbers are approximated by floating point numbers, which are a computers version of scientific notation.
-% \item II.2 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds.
-% \item II.3 Interval Arithmetic: rounding can be controlled in order to implement {\it interval arithmetic}, a way to compute rigorous bounds for computations. In the lab, we use this to compute up to 15 digits of ${\rm e} \equiv \exp 1$ rigorously with precise bounds on the error.
-% \end{enumerate}
+Before we begin it is important to have a basic model of how a computer works. Our simplified model of a computer will consist of a \href{https://en.wikipedia.org/wiki/Central_processing_unit}{Central Processing Unit (CPU)}\ensuremath{\emdash}the  brains of the computer\ensuremath{\emdash}and \href{https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage}{Memory}\ensuremath{\emdash}where  data is stored. Inside the CPU there are \href{https://en.wikipedia.org/wiki/Processor_register}{registers}, where data is temporarily stored after being loaded from memory, manipulated by the CPU, then stored back to memory.  Memory is a sequence of bits: \texttt{1}s and \texttt{0}s, essentially ``on/off" switches, and memory is {\it finite}.  Finally, if one has a $p$-bit CPU (eg a 32-bit or 64-bit CPU), each register consists of exactly $p$-bits. Most likely $p = 64$ on your machine.
 
 
-% \input{II.1.Reals}
-% \input{II.2.Arithmetic}
+Thus representing numbers on a computer must overcome three fundamental limitations:
+\begin{enumerate}
+\item CPUs can only manipulate data $p$-bits at a time.
+\item Memory is finite (in particular at most $2^p$ bytes).
+\item There is no such thing as an ``error'': if anything goes wrong in the computation we must use some of the $p$-bits to indicate this.
+\end{enumerate}
+
+This is clearly problematic: there are an infinite number of integers and an uncountable number of reals! Each of which we need to store in precisely $p$-bits. Moreover, some operations are simply undefined, like division by 0.  This chapter discusses the solution used to this problem, alongside the mathematical analysis that is needed to understand the implications, in particular, that computations have {\it error}.
+
+In particular we discuss:
+
+\begin{enumerate}
+\item II.1 Reals:  real numbers are approximated by floating point numbers, which are a computers version of scientific notation.
+\item II.2 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds.
+\item II.3 Interval Arithmetic: rounding can be controlled in order to implement {\it interval arithmetic}, a way to compute rigorous bounds for computations. In the lab, we use this to compute up to 15 digits of ${\rm e} \equiv \exp 1$ rigorously with precise bounds on the error.
+\end{enumerate}
+
+
+\input{II.1.Reals}
+\input{II.2.Arithmetic}
 % \input{II.3.Intervals}
 
 
@@ -413,11 +413,11 @@ Each week there are labs and problem sheets that further explore the mathematica
 
 \appendix
 
-% \chapter{Asymptotics and Computational Cost}
-% \input{A.Asymptotics}
+\chapter{Asymptotics and Computational Cost}
+\input{A.Asymptotics}
 
-% \chapter{Integers}
-% \input{A.Integers}
+\chapter{Integers}
+\input{A.Integers}
 
 % \chapter{Permutation Matrices}
 % \input{A.Permutations}
