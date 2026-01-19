@@ -4,7 +4,9 @@
 # In this lab, we will explore how a computer represents integers (both signed and unsigned) and reals.
 # In particular, its usage of modular and floating point arithmetic.
 # We also investigate the rounding behaviour of floating point numbers
-# and see how we can manually set the rounding. 
+# and see how we can manually set the rounding.  On the practical side, we see how the bits of floating point numbers can
+# be constructed via string manipulations or via reinterpreting an integer, and discuss the hexadecimal format which is 
+# used for displaying unsigned integers.
 
 
 
@@ -42,8 +44,8 @@ using ColorBitstring, SetRounding, Test
 # which is identical to other compiled languages like C, Swift, Rust, etc.
 # and exposes how a computer actually computes with Integers.
 # (Python is an interpreted language and its integers are more akin to
-# `BigInt` discussed later, though in NumPy it uses the same
-# types as Julia.)
+# `BigInt` discussed later. NumPy  uses the same
+# types as Julia so its behaviour will match what we discuss.)
 # The basic integer type, which is constructed when we write say `5` is
 # the signed integer type `Int`:
 

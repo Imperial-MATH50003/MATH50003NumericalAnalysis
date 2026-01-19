@@ -1,14 +1,14 @@
 
 \section{Floating Point Arithmetic}
-Arithmetic operations on floating-point numbers are  \emph{exact up to rounding}. There are three basic rounding strategies: round up/down/nearest. Mathematically we introduce a function to capture the notion of rounding:
+We now turn our attention to how arithmetic operations (\texttt{+}, \texttt{*}, \texttt{-}, \texttt{/}, etc.) work with floating point arithmetic, in particular, how they cope with the fact that some calculations involving floating point numbers result in numbers that are not floating point (like \texttt{1/3}).  The answer is that arithmetic operations on floating-point numbers are rounded, and are guaranteed to be  \emph{exact up to rounding}. There are three basic rounding strategies: round up/down/nearest. Mathematically we introduce a function to capture the notion of rounding:
 
 \begin{definition}[rounding] 
 
-The function ${\rm fl}^{\rm up}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$ rounds a real number up to the nearest floating-point number that is greater or equal:
+The function ${\rm fl}^{\rm up}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$ rounds a real number up to the nearest floating-point number that is greater than or equal:
 \[
 {\rm fl}^{\rm up}_{\ensuremath{\sigma},Q,S}(x) := \min\{y \ensuremath{\in} F_{\ensuremath{\sigma},Q,S} : y \ensuremath{\geq} x\}.
 \]
-The function ${\rm fl}^{\rm down}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$   rounds a real number down to the nearest floating-point number that is less or equal:
+The function ${\rm fl}^{\rm down}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$   rounds a real number down to the nearest floating-point number that is less than or equal:
 \[
 {\rm fl}^{\rm down}_{\ensuremath{\sigma},Q,S}(x) := \max\{y \ensuremath{\in} F_{\ensuremath{\sigma},Q,S} : y \ensuremath{\leq} x\}.
 \]
@@ -64,7 +64,7 @@ which differs by 1 bit. \end{example}
 \textbf{WARNING (non-associative)} These operations are not associative! E.g. $(x \ensuremath{\oplus} y) \ensuremath{\oplus} z$ is not necessarily equal to $x \ensuremath{\oplus} (y \ensuremath{\oplus} z)$. Commutativity is preserved, at least.
 
 \subsection{Bounding errors in floating point arithmetic}
-When dealing with normal numbers there are some important constants that we will use to bound errors.
+We will now see that the error introduced by rounding can be bounded, giving a means to guarantee that some algorithms yield accurate results despite the errors introduced. When dealing with normal numbers there are some important constants that we will use to bound errors.
 
 \begin{definition}[machine epsilon/smallest positive normal number/largest normal number] \emph{Machine epsilon} is denoted
 \[
@@ -162,7 +162,7 @@ While $\ensuremath{\delta}_1 \ensuremath{\delta}_3$ and $\ensuremath{\delta}_2 \
 \[
 |\ensuremath{\delta}_1 \ensuremath{\delta}_3| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}^2/4 \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/4.
 \]
-Further we round up constants to integers in the bounds for simplicity. We thus have the bound
+Further we round up constants to integers in the bounds for simplicity (we won't be concerned here with deriving the sharpest error bounds). We thus have the bound
 \[
 |\ensuremath{\varepsilon}_1| \ensuremath{\leq} (2+2+3+1+1) {\ensuremath{\epsilon}_{\rm m} \over 2} \ensuremath{\leq} 5\ensuremath{\epsilon}_{\rm m}.
 \]
@@ -185,7 +185,9 @@ Thus the \emph{absolute error} is bounded (bounding 1.3 by $3/2$) by
 \end{example}
 
 \subsection{Divided differences floating point error bound}
-We can use the bound on floating point arithmetic to deduce a bound on divided differences that captures the phenomena we observed where the error of divided differences became large as $h \ensuremath{\rightarrow} 0$. We assume that the function we are attempting to differentiate is computed using floating point arithmetic in a way that has a small absolute error.
+We saw experimentally that divided differences resulted in a large error which was not consistent  with the error bound derived assuming exact real arithmetic. Here we see how we can derive a bound  incorporating the behaviour of floating point arithmetic, which reflects the large growth in error when $h$ became small. 
+
+We assume that the function we are attempting to differentiate is computed using floating point arithmetic in a way that has a small absolute error.
 
 \begin{theorem}[divided difference error bound] Assume we are working in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. Let $f$ be twice-differentiable in a neighbourhood of $x \ensuremath{\in} F_{\ensuremath{\infty},S}$ and assume that
 \[
@@ -249,6 +251,9 @@ In the case of double precision $\sqrt{\ensuremath{\epsilon}_{\rm m}} \ensuremat
 \textbf{Remark} While divided differences is of debatable utility for computing derivatives, it is extremely effective in building methods for solving differential equations, as we shall see later. It is also very useful as a \ensuremath{\ldq}sanity check" if one wants something to compare with other numerical methods for differentiation.
 
 \textbf{Remark} It is also possible to deduce an error bound for the rectangular rule showing that the error caused by round-off is on the order of $n \ensuremath{\epsilon}_{\rm m}$, that is it does in fact grow but the error without round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$.
+
+\subsection{Lab and problem sheet}
+In the lab we see how we can set the rounding mode of floating point calculations. This will set the ground-work for the next section where we implement interval arithmetic, which automatically computes rigorous error bounds. We also see that the \texttt{BigFloat} type allows for high-precision computations. In the problem sheet we bound the errors in some simple floating point expressions by-hand, and deduce an error bound for central differences capturing the impact of rounding. Finally, we see how addition and multiplication of many floating point numbers can also be bounded, which will lay the ground-work for understanding errors in linear algebra with floating point numbers. 
 
 
 

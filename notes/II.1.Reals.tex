@@ -17,13 +17,15 @@ Before the 1980s each processor had potentially a different representation for  
 This chapter may seem very low level for a mathematics course but there are two important reasons to understand the behaviour of floating-point numbers in details:
 
 \begin{itemize}
-\item[1. ] Floating-point arithmetic is very precisely defined, and can even be used in rigorous computations as we shall see in the labs. But it is not exact and its important to understand how errors in computations can accumulate.
+\item[1. ] Floating-point arithmetic is precisely defined, and can even be used in rigorous computations as we shall see in the labs. But it is not exact and its important to understand how errors in computations can accumulate.
 
 
 \item[2. ] Failure to understand floating-point arithmetic can cause catastrophic issues in practice, with the extreme example being the  \href{https://youtu.be/N6PWATvLQCY?t=86}{explosion of the Ariane 5 rocket}.
 
 \end{itemize}
 \subsection{Real numbers in binary}
+We begin by describing how both integers and real numbers can be written in binary, that is, base-2. In this case the digits are either 0 or 1, which matches how a computer stores data. 
+
 Integers can be written in binary as follows:
 
 \begin{definition}[binary format] For $B_0,\ldots,B_p \in \{0,1\}$ denote an integer in \emph{binary format} by:
@@ -61,7 +63,7 @@ A similar argument with $z = 1/10$ shows the decimal case. \end{example}
 \subsection{Floating-point numbers}
 Floating-point numbers are a subset of real numbers that are representable using a fixed number of bits.
 
-\begin{definition}[floating-point numbers] Given integers $\ensuremath{\sigma}$ (the \emph{exponential shift}), $Q$ (the number of \emph{exponent bits}) and  $S$ (the \emph{precision}), define the set of \emph{Floating-point numbers} by dividing into \emph{normal}, \emph{sub-normal}, and \emph{special number} subsets:
+\begin{definition}[floating-point numbers] Given integers $\ensuremath{\sigma}$ (the \emph{exponent shift}), $Q$ (the number of \emph{exponent bits}) and  $S$ (the \emph{precision}), define the set of \emph{Floating-point numbers} by as the union of \emph{normal}, \emph{sub-normal}, and \emph{special} floating point numbers:
 \[
 F_{\ensuremath{\sigma},Q,S} := F^{\rm normal}_{\ensuremath{\sigma},Q,S} \cup F^{\rm sub}_{\ensuremath{\sigma},Q,S} \cup F^{\rm special}.
 \]
@@ -99,6 +101,8 @@ x = \red{\ensuremath{\pm}} 2^{\green{1}-\ensuremath{\sigma}} \ensuremath{\times}
 \]
 If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number. If all sigificand bits are $0$ then it represents $\ensuremath{\pm}\ensuremath{\infty}$. Otherwise if any significand bit is $1$ then it represents ${\tt NaN}$.
 
+\textbf{Remark} A common point of confusion is the difference between a \emph{number} whose digits are 0 and 1 but may have a sign (\ensuremath{\pm}) and a decimal point and a \emph{sequence of bits}, which is how a number is stored in memory in a computer.
+
 \subsection{IEEE floating-point numbers}
 \begin{definition}[IEEE floating-point numbers]  IEEE has 3 standard floating-point formats: 16-bit (half precision), 32-bit (single precision) and 64-bit (double precision) defined by (you \emph{do not} need to memorise these):
 \begin{align*}
@@ -107,6 +111,8 @@ F_{32} &:= F_{127,8,23} \\
 F_{64} &:= F_{1023,11,52}
 \end{align*}
 \end{definition}
+
+We now see a simple example of relating the bits of a floating point number with the number it represents:
 
 \begin{example}[interpreting 16-bits as a float] Consider the number with bits
 \[
@@ -147,7 +153,7 @@ For sub-normal numbers, the simplest example is zero, which has $q=0$ and all si
 \[
 \red{1}\ \green{00000}\ \blue{1100000000}
 \]
-assuming it is a half-prevision float ($F_{16}$).  Since all exponent bits are zero it is sub-normal. Since the sign bit is \texttt{1} it is negative.  Hence this number is:
+assuming it is a half-precision float ($F_{16}$).  Since all exponent bits are zero it is sub-normal. Since the sign bit is \texttt{1} it is negative.  Hence this number is:
 \[
 -2^{1-\ensuremath{\sigma}} (0.1100000000)_2 = -2^{-14} (2^{-1} + 2^{-2}) = -3 \ensuremath{\times} 2^{-16}
 \]
@@ -164,6 +170,9 @@ has all exponent bits equal to $1$, and significand bits $0$ and sign bit $1$, h
 \red{1}\ \green{11111}\ \blue{0000000001}
 \]
 has all exponent bits equal to $1$ but does not have all significand bits equal to $0$, hence is one of many representations for  ${\rm NaN}$. \end{example}
+
+\subsection{Lab and problem sheet}
+In the lab we explore how integers and floating point numbers are stored in a computer via different \emph{type}s.  We begin with a description both signed and unsigned integers, whose mathematical behaviour are detailed in the (non-examinable) appendix. We see how different sequences of bits can be reinterpreted as different numbers, and explore using string manipulation to construct different types of numbers. We also see how integers can sometimes be output in hexadecimal (base-16) format, which aligns better with the underlying binary storage. We then explore floating point numbers including construction  by specifying the bits directly. We finally investigate some of the degenerate behaviour such as arithmetic with special numbers. In the problem sheet we investigate some simple examples of representing numbers in floating point format.
 
 
 

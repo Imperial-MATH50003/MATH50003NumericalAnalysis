@@ -55,7 +55,7 @@ end
 ####
 # Labs
 ####
-for k = 1:1
+for k = 1:3
     compilelab(k)
     compilelabdemo(k)
 end

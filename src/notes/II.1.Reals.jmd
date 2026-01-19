@@ -17,11 +17,14 @@ processors so that algorithms would produce consistent and reliable results.
 
 This chapter may seem very low level for a mathematics course but there are
 two important reasons to understand the behaviour of floating-point numbers in details:
-1. Floating-point arithmetic is very precisely defined, and can even be used in rigorous computations as we shall see in the labs. But it is not exact and its important to understand how errors in computations can accumulate.
+1. Floating-point arithmetic is precisely defined, and can even be used in rigorous computations as we shall see in the labs. But it is not exact and its important to understand how errors in computations can accumulate.
 2. Failure to understand floating-point arithmetic can cause catastrophic issues in practice, with the extreme example being the  [explosion of the Ariane 5 rocket](https://youtu.be/N6PWATvLQCY?t=86).
 
 
 ## Real numbers in binary
+
+We begin by describing how both integers and real numbers can be written in binary, that is, base-2.
+In this case the digits are either 0 or 1, which matches how a computer stores data. 
 
 Integers can be written in binary as follows:
 
@@ -69,9 +72,10 @@ Floating-point numbers are a subset of real numbers that are representable using
 a fixed number of bits.
 
 **Definition (floating-point numbers)**
-Given integers $σ$ (the _exponential shift_), $Q$ (the number of _exponent bits_) and 
+Given integers $σ$ (the _exponent shift_), $Q$ (the number of _exponent bits_) and 
 $S$ (the _precision_), define the set of
-_Floating-point numbers_ by dividing into _normal_, _sub-normal_, and _special number_ subsets:
+_Floating-point numbers_ by as the union of _normal_, _sub-normal_, and _special_ floating
+point numbers:
 $$
 F_{σ,Q,S} := F^{\rm normal}_{σ,Q,S} \cup F^{\rm sub}_{σ,Q,S} \cup F^{\rm special}.
 $$
@@ -117,6 +121,10 @@ If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number.
 If all sigificand bits are $0$ then it represents $±∞$. Otherwise if any significand bit is
 $1$ then it represents ${\tt NaN}$.
 
+**Remark** A common point of confusion is the difference between a _number_ whose digits are 0 and 1
+but may have a sign (±) and a decimal point and a _sequence of bits_, which is how a number is stored in memory in a computer.
+
+
 
 ## IEEE floating-point numbers
 
@@ -131,6 +139,9 @@ F_{64} &:= F_{1023,11,52}
 \end{align*}
 $$
 ∎
+
+We now see a simple example of relating the bits of a floating point number with the number
+it represents:
 
 **Example (interpreting 16-bits as a float)** Consider the number with bits
 $$
@@ -183,7 +194,7 @@ This is treated as identical to positive `0` (except for degenerate operations a
 $$
 \red{1}\ \green{00000}\ \blue{1100000000}
 $$
-assuming it is a half-prevision float ($F_{16}$). 
+assuming it is a half-precision float ($F_{16}$). 
 Since all exponent bits are zero it is sub-normal. Since the sign bit is `1` it is negative. 
 Hence this number is:
 $$
@@ -208,3 +219,13 @@ $$
 has all exponent bits equal to $1$ but does not have all significand bits equal to $0$, hence is one of many representations
 for  ${\rm NaN}$.
 ∎
+
+## Lab and problem sheet
+
+In the lab we explore how integers and floating point numbers are stored in a computer
+via different _type_s.  We begin with a description both signed and unsigned integers, whose mathematical behaviour are detailed in the
+(non-examinable) appendix. We see how different sequences of bits can be reinterpreted as different numbers, and
+explore using string manipulation to construct different types of numbers. We also see how integers can sometimes be output in hexadecimal (base-16) format,
+which aligns better with the underlying binary storage. We then explore floating point numbers including construction 
+by specifying the bits directly. We finally investigate some of the degenerate behaviour such as arithmetic with special numbers.
+In the problem sheet we investigate some simple examples of representing numbers in floating point format.
