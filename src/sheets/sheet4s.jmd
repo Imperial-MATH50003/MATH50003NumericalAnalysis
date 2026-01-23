@@ -1,0 +1,161 @@
+**Numerical Analysis MATH50003 (2025–26) Problem Sheet 4**
+
+
+**Problem 1** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+$0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+$$
+\meeq{
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
+}
+$$
+Generalise (without proof) these formulæ to the case $n < 0$ and to where there are no restrictions
+on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
+
+**SOLUTION**
+
+For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x/n ∈ [a/n,b/n]$. Similarly,
+if $z ∈ [a/n,b/n]$ then $a ≤ nz ≤ b$ hence $nz ∈ X$ and therefore $z ∈ X/n$.
+
+For $XY$: if $x ∈ X$ and $y ∈ Y$ then $ac ≤ xy ≤ bd$ means $xy ∈ [ac,bd]$.
+Note $ac,bd ∈ XY$. To employ convexity we take logarithms. In particular
+if $z ∈ [ac,bd]$ then $\log a + \log c ≤ \log z ≤ \log b + \log d$. Hence write
+$$
+\log z = (1-t) (\log a + \log c) + t (\log b + \log d) =
+        \underbrace{(1-t)\log a + t \log b}_{\log x} + \underbrace{(1-t)\log c + t \log d}_{\log y}
+$$
+i.e. we have $z = xy$ where
+$$
+\meeq{
+x = \exp((1-t)\log a + t \log b) = a^{1-t} b^t ∈ X \ccr
+y = \exp((1-t)\log c + t \log d) = c^{1-t} d^t ∈ Y.
+}
+$$
+
+The generalisation to negative cases proceeds by being a bit careful
+with the signs. Eg if $n < 0$ we need to swap the order hence we get:
+$$
+A/n =  \begin{cases}
+[a/n,b/n] & n > 0  \\
+[b/n,a/n] & n < 0
+\end{cases}
+$$
+
+For multiplication we just use $\min$ and $\max$ in a naive fashion:
+$$
+AB = [\min(ac,ad,bc,bd), \max(ac,ad,bc,bd)].
+$$
+
+**END**
+
+
+**Problem 2(a)** Compute the following floating point interval arithmetic
+expression assuming half-precision $F_{16}$ arithmetic:
+$$
+[1,1] ⊖ ([1,1] ⊘ 6)
+$$
+Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction.
+
+**SOLUTION**
+Note that
+$$
+{1 \over 6} = {1 \over 2} {1\over 3} = 2^{-3} (1.010101…)_2
+$$
+Thus
+$$
+[1,1] ⊘ 6 = 2^{-3} [(1.0101010101)_2, (1.0101010110)_2]
+$$
+And hence
+$$
+\meeq{
+[1,1] ⊖ ([1,1] ⊘ 6) = [1,1] ⊖ [(0.0010101010101)_2, (0.0010101010110)_2] \ccr
+= [{\rm fl}^{\rm down}(0.11010101010\magenta{011111…})_2, {\rm fl}^{\rm up}(0.11010101010\magenta{10111111…})_2] \ccr
+= 2^{-1}[(1.1010101010)_2, (1.1010101011)_2] = [0.8330078125,0.83349609375]
+}
+$$
+
+**END**
+
+
+**Problem 2(b)** Writing
+$$
+\sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + δ_{x,2n+1}
+$$
+Prove the bound $|δ_{x,2n+1}| ≤ 1/(2n+3)!$, assuming $x ∈ [0,1]$.
+
+**SOLUTION**
+
+We have from Taylor's theorem up to order $x^{2n+2}$:
+$$
+\sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \underbrace{{\sin^{2n+3}(t) x^{2n+3} \over (2n+3)!}}_{δ_{x,2n+1}}.
+$$
+The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| ≤ 1$.
+
+**END**
+
+
+**Problem 2(c)** Combine the previous parts to prove that:
+$$
+\sin 1 ∈ [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+$$
+You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$.
+
+**SOLUTION**
+Using $n = 1$ we have
+$$
+∑_{k=0}^1 {(-1)^k x^{2k+1} \over (2k+1)!} = x - {x^2 \over 3!} ∈ x ⊖ ((x ⊗ x) ⊘ 6).
+$$
+Noting that in floating point $1 ⊗ 1 = 1$ (ie it is exact) we compute
+$$
+\begin{align*}
+\sin 1 &∈ [1,1] ⊖ [1,1] ⊘ 6 ⊕ [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr
+ = [(0.11010101010)_2, (0.11010101011)_2] ⊕ [-(0.00000010001000101)_2, (0.00000010001000101)_2] \ccr
+  =
+[{\rm fl}^{\rm down}(0.11010011000\magenta{11101011…})_2,
+ {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr
+ = [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+\end{align*}
+$$
+
+**END**
+
+-----
+
+**Problem 3** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
+in approximating matrix multiplication with idealised floating point: for
+$$
+A 𝐱 =  \begin{pmatrix}
+⨁_{j=1}^n A_{1,j} ⊗ x_j\\
+⋮ \\
+⨁_{j=1}^n A_{1,j} ⊗ x_j
+\end{pmatrix} + δ
+$$
+use Problem 8 on PS3 to show that
+$$
+\| δ \|_∞ ≤ 2 \|A\|_∞ \| 𝐱 \|_∞ E_{n,ϵ_{\rm m}/2}
+$$
+for $E_{n,ϵ} := {n ϵ \over 1-nϵ}$,
+where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$.
+
+
+
+**SOLUTION**
+We have for the $k$=th row
+$$
+⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
+∑_{j=1}^n A_{k,j} x_j (1+δ_j) + σ_{k,n}
+$$
+where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where from 1(b) we have
+$$
+M_k = Σ_{j=1}^n |A_{k,j}x_j (1+δ_j)| = Σ_{j=1}^n |A_{k,j}| |x_j| (1+|δ_j|)  ≤ 2 \max |x_j| Σ_{j=1}^n |A_{k,j}|
+≤ 2 \|𝐱\|_∞ \|A \|_∞
+$$
+Similarly, we also have 
+$$
+|∑_{j=1}^n A_{k,j} x_j δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
+$$
+and so the result follows from
+$$
+ϵ_{\rm m}/2 + 2E_{n-1,ϵ_{\rm m}/2} ≤ {ϵ_{\rm m}/2 + ϵ_{\rm m} (n-1) \over 1-(n-1)ϵ_{\rm m}/2} ≤ {ϵ_{\rm m} n \over 1-nϵ_{\rm m}/2} = 2E_{n,ϵ_{\rm m}/2}.
+$$
+**END**
