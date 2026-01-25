@@ -1,10 +1,13 @@
 # Interval Arithmetic
 
 
-It is possible to use rounding modes (up/down)
- to do rigorous computation
-to compute bounds on the error in, for example, the digits of $\E$. To do this we will use set/interval
-arithmetic. For sets $X,Y ⊆ ℝ$, the set arithmetic operations are defined as
+We will now see how the details of floating point arithmetic give us a means of performing _computer-assisted proofs_,
+essentially turning the computer into a rigorous mathematician who can do millions (or even billions) of inequalities in
+seconds.  To do this we will  use the ability to set the rounding mode of floating point arithmetic
+ to establish bounds. As an example we consider computing  the digits of $\E$ with rigorous error bounds. 
+ 
+ 
+ We first review set arithmetic. For sets $X,Y ⊆ ℝ$, the set arithmetic operations are defined as
 $$
 \begin{align*}
 X + Y &:= \{x + y : x ∈ X, y ∈ Y\}, \\
@@ -25,7 +28,8 @@ a subset of the output.
 
 
 When our sets are intervals we can deduce simple formulæ for basic arithmetic operations.
-For simplicity we only consider the case where all values are positive.
+For simplicity we only consider the case where all values are positive, leaving the generalisation to the
+problem sheet.
 
 **Proposition (interval bounds)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a ≤ b$ and $0 < c ≤ d$, and $n > 0$, we have:
@@ -52,7 +56,9 @@ The remaining two proofs are left for the problem sheet.
 ∎
 
 We want to  implement floating point variants of these operations that are guaranteed to contain
-the true set arithmetic operations. We do so as follows:
+the true set arithmetic operations.  We note that if we round the bottom 
+of an interval down and the top of an interval up, then the actual interval is guaranteed to lie inside the resulting interval with rounded endpoints.  We can implement this idea
+using rounded floating point arithmetic:
 
 
 **Definition (floating point interval arithmetic)**
@@ -67,6 +73,8 @@ $$
 \end{align*}
 $$
 ∎
+
+We now explore this idea in pen-and-paper computations, in particular, to compute the exponential:
 
 **Example (small sum)** consider evaluating the first few terms in the Taylor series of the exponential
 at $x = 1$ using interval arithmetic with half-precision $F_{16}$ arithmetic. 
@@ -97,7 +105,7 @@ from the Taylor series approximation:
 $$
 \exp(x) = \sum_{k=0}^n {x^k \over k!} + \underbrace{\exp(t){x^{n+1} \over (n+1)!}}_{δ_{x,n}}
 $$
-where we can bound the error by (using the fact that $ℯ = 2.718… ≤ 3$)
+where we can bound the error by (using the fact that $ℯ = 2.718… ≤ 3$, an inequality whose proof we leave as an exercise)
 $$
 |δ_{x,n}| ≤ {\exp(1) \over (n+1)!} ≤ {3 \over (n+1)!}.
 $$
@@ -118,3 +126,15 @@ $$
 
 
 ## Lab and Problem Sheet
+
+In the lab we see how interval arithmetic with floating point numbers can be easily implemented by carefully setting the
+rounding mode. We also see how special functions like $\exp x$ can be implemented with rigorous
+bounds by combining computation with intervals with bounds on the Taylor series, turning the pen-and-paper example in these notes into an actual algorithm.  As a fun example we compute
+$\exp 1 ≡ ℯ$ with rigorous bounds with as many as 1000 digits. This is a baby example of computer-assisted proofs,
+a concept that is increasingly important in pure mathematics and has been used for many important problems, including
+the proof of [Kepler's conjecture](https://en.wikipedia.org/wiki/Kepler_conjecture), which was unsolved with non-computer-based techniques for
+400 years.
+
+In the problem sheet we complete the proofs of airthmetic with intervals and explore
+the rigorous computation of special functions like $\sin 1$ using interval arithmetic by-hand. This
+helps to build understanding on what the computer is doing in the labs.

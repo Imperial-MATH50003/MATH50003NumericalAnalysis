@@ -1,4 +1,4 @@
-# # MATH50003 (2024–25)
+# # MATH50003 (2025–26)
 # # Lab 4: II.3 Interval Arithmetic and III.1 Structured Matrices
 
 # This lab explores the usage of rounding modes for floating point arithmetic and how they
@@ -110,7 +110,6 @@ function +(X::Interval, Y::Interval)
         b + d
     end
     Interval(α, β)
-
     
 end
 
@@ -262,8 +261,8 @@ function exp_bound(X::Interval, n)
         error("Interval must be a subset of [0, 1]")
     end
     ret = exp_t(X, n) # the code for Taylor series should work on Interval unmodified
-    ## avoid overflow in computing factorial by using `big`.
-    ## Convert to type `T` to support rounding.
+    ## avoid overflow in computing factorial by using big.
+    ## Convert to type T to support rounding.
     f = T(factorial(big(n + 1)),RoundDown)
 
     δ = setrounding(T, RoundUp) do
@@ -345,8 +344,21 @@ S = sin_bound(Interval(1.0), 20)
 
 # ## III.1 Structured Matrices
 
-# Before discussing structured matrices we give an overview of creating arrays  (vectors and matrices)
-# in Julia.
+# We now turn to numerical linear algebra. Linear equations are everywhere in applied mathematics, physics and enginnering:
+# many important ordinary and partial differentials equations (ODEs and PDEs) are linear, including Schrödinger's equation which underlies
+# quantum mechanics. Even nonlinear equations depend on solving linear equations: a nonlinear PDE is typically solved using Newton's method, where each step involves
+# solving a linearised PDE. These problems are in general infinite-dimensional, however, as we shall see, one can use numerical techniques to
+# _discretise_ them as finite-dimensional linear algebra. Because differential equations are _local_ (derivatives only depend on what happens close to a point)
+#  discretisations often result in structured, sparse linear systems.
+
+# Numerical linear algebra also underlies neural networks and training: most layers are expressed in terms of matrix-vector products or other linear algebra concepts.
+# While the resulting neural network is nonlinear, stochastic gradient descent in many ways tackles training by linearising the neural network,
+# similar to Newton's method.
+
+# Mathematically, it is often beneficial to think of linear algebra in abstract terms. However, on a computer
+# we ultimately need to work with floating point numbers: _matrices_ are the natural object, rather than _linear operators_.
+# Here we introduce how dense arrays (vectors and matrices) are represented on a computer, before discussing
+# how structure like sparsity can be represented.
 
 # ### III.1.1 Dense matrices
 
@@ -587,7 +599,7 @@ end
 
 
 
-# Both implementations match _exactly_ for integer inputs:
+# Both implementations match _exactly_:
 
 mul_rows(A, x), mul_cols(A, x) # also matches `A*x`
 
@@ -664,6 +676,12 @@ L.data
 # Similarly we can create an upper triangular matrix by ignoring the entries below the diagonal:
 
 U = UpperTriangular(A)
+
+
+# This might feel wasteful as it uses twice as much memory as if only the nonzero entries were storied.
+# There are a couple reasons why this is the convention:
+# 1. The formula for deducing where in memory an entry is stored is much simpler (and faster)
+# 2. Triangular matrices often result from modifying an originally dense matrix
 
 
 # If we know a matrix is triangular we can do matrix-vector multiplication in roughly half

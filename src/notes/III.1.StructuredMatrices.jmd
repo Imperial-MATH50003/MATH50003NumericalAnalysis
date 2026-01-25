@@ -161,3 +161,21 @@ a_{21} & a_{22} & a_{23} \\
 \end{bmatrix}
 $$
 is tridiagonal. Matrix multiplication is clearly $O(n)$ operations: each row has $O(1)$ non-zeros and there are $n$ rows. But so is solving linear systems, which we shall see later.
+
+
+## Lab and Problem Sheet
+
+In the lab we see how matrices and vectors can be constructed in Julia in multiple ways.
+We also see that there are different types to represent different structured matrices, including
+dense, diagonal, tridiagonal and bidiagonal, as well as a "lazy" transposes and range vectors (which
+can't be modified). 
+ We simple algorithms like
+computing matrix-vector multiplications are easily implemented, though there are some surprises: the order we
+access memory has a significant impact on the performance! Finally, we see how we can create our own types for representing
+structured matrices, in particular, we implement a type to represent an upper-tridiagonal matrix, including
+optimal complexity matrix-vector multiplication and linear solves.
+
+
+The content of this section is largely explored in the lab. In the problem sheet, we look at understanding the effect of rounding error
+when using floating point arithmetic. This results in a very nice formula for the error of matrix-vector multiplication with floating point
+numbers in terms of a matrix norm. This is important as it allows us to understand the impact of floating point errors in terms of fundamental mathematical concepts (like norms).
