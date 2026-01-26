@@ -10,7 +10,7 @@ In particular, we will discuss some basic types of structure in matrices:
 \item[1. ] \emph{Dense}: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix-vector multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
 
 
-\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward- or back-substitution.
+\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can solve linear systems involving triangular matrices using forward- or back-substitution.
 
 
 \item[3. ] \emph{Banded}: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and matrix-vector multiplication has a lower \emph{complexity}: the number of operations scales linearly with the dimension (instead of quadratically). We discuss three cases: diagonal, tridiagonal and bidiagonal matrices.
@@ -38,13 +38,13 @@ A\ensuremath{\bm{\x}} \ensuremath{\approx} \begin{bmatrix} \ensuremath{\bigoplus
 \]
 This actually encodes an algorithm for computing the entries.
 
-This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitly taken to be when $m$ or $n$ tends to $\ensuremath{\infty}$): each of the $m$ entries consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitly taken to be when $m$ or $n$ tends to $\ensuremath{\infty}$): each of the $m$ entries consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which grows quadratically with $n$. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
 
 Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiply by columns:
 \[
 A \ensuremath{\bm{\x}} = x_1 \ensuremath{\bm{\a}}_1  + \ensuremath{\cdots} + x_n \ensuremath{\bm{\a}}_n.
 \]
-The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed. Suprisingly, this latter version is significantly faster.
+The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed. Suprisingly, this latter version is significantly faster, which is explored in the lab.
 
 \textbf{Remark} Floating point operations are sometimes called FLOPs, which are a standard measurement  of speed of CPUs. However, FLOP sometimes uses an alternative definitions that combines an addition and multiplication as a single FLOP. In the lab we give an example showing that counting the precise number of operations is somewhat of a fools errand: algorithms such as the two approaches for matrix multiplication with the exact same number of operations can have wildly different speeds. We will therefore only be concerned with \emph{complexity}; the asymptotic growth (Big-O) of operations as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, in which case the difference between FLOPs and operations is immaterial.
 
@@ -83,8 +83,8 @@ A square banded matrix has the sparsity pattern:
 A = \begin{bmatrix}
 a_{11} & \ensuremath{\cdots} & a_{1,u+1} \\
 \ensuremath{\vdots} & a_{22} & \ensuremath{\ddots} &  a_{2,u+2} \\
-a_{1+l,1} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
-& a_{2+l,2} & \ensuremath{\ddots} & \ensuremath{\ddots} &  \ensuremath{\ddots} & a_{n-u,n} \\
+a_{l+1,1} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+& a_{l+2,2} & \ensuremath{\ddots} & \ensuremath{\ddots} &  \ensuremath{\ddots} & a_{n-u,n} \\
 && \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
 &&& a_{n,n-l} & \ensuremath{\cdots} & a_{nn}
 \end{bmatrix}
@@ -124,9 +124,9 @@ a_{21} & a_{22} & a_{23} \\
 is tridiagonal. Matrix multiplication is clearly $O(n)$ operations: each row has $O(1)$ non-zeros and there are $n$ rows. But so is solving linear systems, which we shall see later.
 
 \subsection{Lab and Problem Sheet}
-In the lab we see how matrices and vectors can be constructed in Julia in multiple ways. We also see that there are different types to represent different structured matrices, including dense, diagonal, tridiagonal and bidiagonal, as well as a "lazy" transposes and range vectors (which can't be modified).   We simple algorithms like computing matrix-vector multiplications are easily implemented, though there are some surprises: the order we access memory has a significant impact on the performance! Finally, we see how we can create our own types for representing structured matrices, in particular, we implement a type to represent an upper-tridiagonal matrix, including optimal complexity matrix-vector multiplication and linear solves.
+In the lab we see how matrices and vectors can be constructed in Julia in multiple ways. We also see that there are different types to represent different structured matrices, including dense, diagonal, tridiagonal and bidiagonal, as well as a ``lazy" transposes and range vectors (which can't be modified).   Simple algorithms like computing matrix-vector multiplications are easily implemented, though there are some surprises: the order we access memory has a significant impact on the performance! Finally, we see how we can create our own types for representing structured matrices, in particular, we implement a type to represent an upper-tridiagonal matrix, including optimal complexity matrix-vector multiplication and linear solves.
 
-The content of this section is largely explored in the lab. In the problem sheet, we look at understanding the effect of rounding error when using floating point arithmetic. This results in a very nice formula for the error of matrix-vector multiplication with floating point numbers in terms of a matrix norm. This is important as it allows us to understand the impact of floating point errors in terms of fundamental mathematical concepts (like norms).
+The content of this section is largely explored in the lab. In the problem sheet, we look at a single problem investigating the effect of rounding error when using floating point arithmetic in matrix-vector multiplication. This results in a very nice formula for the error  in terms of a matrix norm. This is important as it allows us to understand the impact of floating point errors in terms of fundamental mathematical concepts (like norms).
 
 
 

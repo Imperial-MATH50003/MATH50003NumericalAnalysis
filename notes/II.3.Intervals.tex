@@ -6,23 +6,23 @@ We first review set arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath
 \begin{align*}
 X + Y &:= \{x + y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
 XY &:= \{xy : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
-X/Y &:= \{x/y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}
+X/Y &:= \{x/y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}.
 \end{align*}
 We will use floating point arithmetic to construct approximate set operations $\ensuremath{\oplus}$, $\ensuremath{\otimes}$ so that
 \begin{align*}
   X + Y &\ensuremath{\subseteq} X \ensuremath{\oplus} Y, \\
    XY &\ensuremath{\subseteq} X \ensuremath{\otimes} Y,\\
-    X/Y &\ensuremath{\subseteq} X \ensuremath{\oslash} Y
+    X/Y &\ensuremath{\subseteq} X \ensuremath{\oslash} Y.
     \end{align*}
-thereby a complicated algorithm can be run on sets and the true result is guaranteed to be a subset of the output.
+Thereby a complicated algorithm can be run on sets and the true result is guaranteed to be a subset of the output.
 
 When our sets are intervals we can deduce simple formul\ensuremath{\ae} for basic arithmetic operations. For simplicity we only consider the case where all values are positive, leaving the generalisation to the problem sheet.
 
 \begin{proposition}[interval bounds] For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a \ensuremath{\leq} b$ and $0 < c \ensuremath{\leq} d$, and $n > 0$, we have:
 \meeq{
-X + Y = [a+c, b+d] \ccr
-X/n = [a/n,b/n] \ccr
-XY = [ac, bd]
+X + Y = [a+c, b+d], \ccr
+X/n = [a/n,b/n], \ccr
+XY = [ac, bd].
 }
 \end{proposition}
 \textbf{Proof} We first show $X+Y \ensuremath{\subseteq} [a+c,b+d]$. If $z \ensuremath{\in} X + Y$ then $z = x+y$ such that $a \ensuremath{\leq} x \ensuremath{\leq} b$ and $c \ensuremath{\leq} y \ensuremath{\leq} d$ and therefore $a + c \ensuremath{\leq} z \ensuremath{\leq} c + d$ and $z \ensuremath{\in} [a+c,b+d]$. Equality follows from convexity. First note that $a+c, b+d \ensuremath{\in} X+Y$. Any point $z \ensuremath{\in}  [a+b,c+d]$ can be written  as a convex combination of the two endpoints: there exists $0 \ensuremath{\leq} t \ensuremath{\leq} 1$ such that
@@ -46,7 +46,7 @@ We want to  implement floating point variants of these operations that are guara
 \end{align*}
 \end{definition}
 
-We now explore this idea in pen-and-paper computations, in particular, to compute the exponential:
+We now explore this idea in pen-and-paper computations, in particular, to compute the exponential, in order to build understanding of how it works on a computer.
 
 \begin{example}[small sum] consider evaluating the first few terms in the Taylor series of the exponential at $x = 1$ using interval arithmetic with half-precision $F_{16}$ arithmetic.  The first three terms are exact since all numbers involved are exactly floats, in particular if we evaluate $1 + x + x^2/2$ with $x = 1$ we get
 \[
@@ -80,15 +80,16 @@ Put another way: $\ensuremath{\delta}_{x,n} \ensuremath{\in} \left[-{3 \over (n+
 \]
 For example, with $n = 3$ we have $|\ensuremath{\delta}_{1,2}| \ensuremath{\leq} 3/4! = 1/2^3$. Thus we can prove that:
 \meeq{
-\ensuremath{\euler} = 1 + 1 + 1/2 + 1/6 + \ensuremath{\delta}_x \ensuremath{\in} [2(1.0101010101)_2, 2(1.0101010110)_2] \ensuremath{\oplus} [-1/2^3, 1/2^3] \ccr
+\ensuremath{\euler} = 1 + 1 + 1/2 + 1/6 + \ensuremath{\delta}_x \\
+&\ensuremath{\in} [2(1.0101010101)_2, 2(1.0101010110)_2] \ensuremath{\oplus} [-1/2^3, 1/2^3] \ccr
 = [2(1.0100010101)_2, 2(1.0110010110)_2] = [2.541015625,2.79296875]
 }
 \end{example}
 
 \subsection{Lab and Problem Sheet}
-In the lab we see how interval arithmetic with floating point numbers can be easily implemented by carefully setting the rounding mode. We also see how special functions like $\exp x$ can be implemented with rigorous bounds by combining computation with intervals with bounds on the Taylor series, turning the pen-and-paper example in these notes into an actual algorithm.  As a fun example we compute $\exp 1 \ensuremath{\equiv} \ensuremath{\euler}$ with rigorous bounds with as many as 1000 digits. This is a baby example of computer-assisted proofs, a concept that is increasingly important in pure mathematics and has been used for many important problems, including the proof of \href{https://en.wikipedia.org/wiki/Kepler_conjecture}{Kepler's conjecture}, which was unsolved with non-computer-based techniques for 400 years.
+In the lab we see how interval arithmetic with floating point numbers can be easily implemented by carefully setting the rounding mode. We also see how special functions like $\exp x$ can be implemented with rigorous bounds by combining computation with intervals with bounds on the Taylor series, turning the pen-and-paper example in these notes into an actual algorithm.  As a fun example we compute $\exp 1 \ensuremath{\equiv} \ensuremath{\euler}$ with rigorous bounds with as many as 1000 digits. This is a baby example of computer-assisted proofs, a concept that is increasingly important in pure mathematics and has been used for many important problems, including the proof of \href{https://en.wikipedia.org/wiki/Kepler_conjecture}{Kepler's conjecture}, which was unsolved with non-computer-based techniques for almost 400 years.
 
-In the problem sheet we complete the proofs of airthmetic with intervals and explore the rigorous computation of special functions like $\sin 1$ using interval arithmetic by-hand. This helps to build understanding on what the computer is doing in the labs.
+In the problem sheet we complete the proofs of arithmetic with intervals and explore the rigorous computation of special functions like $\sin 1$ using interval arithmetic by-hand. This helps to build understanding on what the computer is doing in the labs.
 
 
 

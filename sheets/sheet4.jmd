@@ -2,9 +2,9 @@
 
 
 We investigate how interval arithmetic can be used for computing rigorous bounds
-of calculations. This includes both simple arithmetic expressions as well as more complicated
+on calculations. This includes both simple arithmetic expressions as well as more complicated
 mathematical expressions like computing functions from their Taylor series.  In particular, 
-we show that one can compute fairly sharp bounds of $\sin 1$. The lab takes this further and 
+we show that one can compute fairly sharp bounds on $\sin 1$. The lab takes this further and 
 implements these computations on a computer, allowing for much higher accuracy rigrouous computations.
 
 In the lectures/notes we also began discussing numerical linear algebra, beginning with a study of
@@ -14,7 +14,7 @@ content on floating point arithmetic.
 
 
 
-We complete the proofs of interval multiplication and
+We begin by completing the proofs of interval multiplication and
 division that were omitted in the notes, and ask for the generalisation
 to cases not considered in the notes:
 
@@ -36,8 +36,7 @@ on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 -----
 
-The next problem computes rigorous bounds on $\sin 1$ using interval arithmetic. We begin with
-a very simple arithmetic computation with floating point intervals, corresponding to the first two terms of the Taylor series
+The next problem computes rigorous bounds on $\sin 1$ using interval arithmetic. First consider a simple arithmetic computation with floating point intervals, corresponding to the first two terms of the Taylor series
 of $\sin x$:
 
 ----
@@ -90,7 +89,7 @@ You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$.
 -----
 
 Our last problem considers the implementation of matrix multiplication in (idealised) floating point.
-In the previous PS we saw we could bound errors in multiplication and addition. Here we apply this result to
+In the previous PS we saw we could bound errors in multiplication and addition. Here we apply these results to
 relate the error of matrix multiplication to a matrix norm. This demonstrates how one can move away from the technical
 details of floating point arithmetic and instead understand errors in terms of more mathematical notions like norms that
 do not depend on the particulars of floating point:

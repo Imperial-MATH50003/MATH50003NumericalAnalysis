@@ -12,7 +12,7 @@ $$
 \begin{align*}
 X + Y &:= \{x + y : x ∈ X, y ∈ Y\}, \\
 XY &:= \{xy : x ∈ X, y ∈ Y\}, \\
-X/Y &:= \{x/y : x ∈ X, y ∈ Y\}
+X/Y &:= \{x/y : x ∈ X, y ∈ Y\}.
 \end{align*}
 $$
 We will use floating point arithmetic to construct approximate set operations $⊕$, $⊗$ so that
@@ -20,10 +20,10 @@ $$
 \begin{align*}
   X + Y &⊆ X ⊕ Y, \\
    XY &⊆ X ⊗ Y,\\
-    X/Y &⊆ X ⊘ Y
+    X/Y &⊆ X ⊘ Y.
     \end{align*}
 $$
-thereby a complicated algorithm can be run on sets and the true result is guaranteed to be
+Thereby a complicated algorithm can be run on sets and the true result is guaranteed to be
 a subset of the output.
 
 
@@ -35,9 +35,9 @@ problem sheet.
 $0 < a ≤ b$ and $0 < c ≤ d$, and $n > 0$, we have:
 $$
 \meeq{
-X + Y = [a+c, b+d] \ccr
-X/n = [a/n,b/n] \ccr
-XY = [ac, bd]
+X + Y = [a+c, b+d], \ccr
+X/n = [a/n,b/n], \ccr
+XY = [ac, bd].
 }
 $$
 
@@ -74,7 +74,7 @@ $$
 $$
 ∎
 
-We now explore this idea in pen-and-paper computations, in particular, to compute the exponential:
+We now explore this idea in pen-and-paper computations, in particular, to compute the exponential, in order to build understanding of how it works on a computer.
 
 **Example (small sum)** consider evaluating the first few terms in the Taylor series of the exponential
 at $x = 1$ using interval arithmetic with half-precision $F_{16}$ arithmetic. 
@@ -118,7 +118,8 @@ $$
 For example, with $n = 3$ we have $|δ_{1,2}| ≤ 3/4! = 1/2^3$. Thus we can prove that:
 $$
 \meeq{
-ℯ = 1 + 1 + 1/2 + 1/6 + δ_x ∈ [2(1.0101010101)_2, 2(1.0101010110)_2] ⊕ [-1/2^3, 1/2^3] \ccr
+ℯ = 1 + 1 + 1/2 + 1/6 + δ_x \\
+&∈ [2(1.0101010101)_2, 2(1.0101010110)_2] ⊕ [-1/2^3, 1/2^3] \ccr
 = [2(1.0100010101)_2, 2(1.0110010110)_2] = [2.541015625,2.79296875]
 }
 $$
@@ -132,9 +133,9 @@ rounding mode. We also see how special functions like $\exp x$ can be implemente
 bounds by combining computation with intervals with bounds on the Taylor series, turning the pen-and-paper example in these notes into an actual algorithm.  As a fun example we compute
 $\exp 1 ≡ ℯ$ with rigorous bounds with as many as 1000 digits. This is a baby example of computer-assisted proofs,
 a concept that is increasingly important in pure mathematics and has been used for many important problems, including
-the proof of [Kepler's conjecture](https://en.wikipedia.org/wiki/Kepler_conjecture), which was unsolved with non-computer-based techniques for
+the proof of [Kepler's conjecture](https://en.wikipedia.org/wiki/Kepler_conjecture), which was unsolved with non-computer-based techniques for almost
 400 years.
 
-In the problem sheet we complete the proofs of airthmetic with intervals and explore
+In the problem sheet we complete the proofs of arithmetic with intervals and explore
 the rigorous computation of special functions like $\sin 1$ using interval arithmetic by-hand. This
 helps to build understanding on what the computer is doing in the labs.

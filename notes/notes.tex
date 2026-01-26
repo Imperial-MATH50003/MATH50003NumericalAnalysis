@@ -263,20 +263,21 @@ in (finite-dimensional) linear systems that must be solved numerically on a comp
 the dimensions of the problems are often in the 1000s, millions, or even billions.
 One would certainly not want to tackle that with Gaussian elimination by hand!
 In this chapter we discuss algorithms, and in particular matrix factorisations, that are
-computed using floating point operations. We also introduce some basic applications.
+computed using floating point operations. 
 
 
 
 In particular we discuss:
 
 \begin{enumerate}
-    \item III.1 Structured Matrices: we discuss special structured matrices such as triangular and tridiagonal.
-    \item III.2 LU and PLU Factorisations: we see that Gaussian elimination can be recast as computing a factorisation of a square matrix as a product of a lower and upper triangular matrix, potentially with a permutation matrix
+    \item III.1 Structured Matrices: We discuss special structured matrices such as triangular and tridiagonal matrices, and how this structure can be used for better complexity matrix-vector multiplication and triangular solves.
+    \item III.2 LU and PLU Factorisations: We see that Gaussian elimination can be recast as computing a factorisation of a square matrix as a product of a lower and upper triangular matrix, potentially with a permutation matrix
     corresponding to the case where row pivoting is required.
     \item III.3 Cholesky Factorisation: In the special case where the matrix is symmetric positive
     definite the LU factorisation has a special form. Hidden in this is an algorithm to prove positive definiteness.
-\item III.4 Orthogonal Matrices: we discuss different types of orthogonal matrices, which will be used to simplify rectangular least squares problems.
-\item III.5 QR Factorisation: we introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby solving least squares problems.
+\item III.4 Orthogonal Matrices: For rectangular problems (as in polynomial regression) we need an alternative to LU factorisation, built on orthogonal matrices.
+We discuss different types of orthogonal matrices, which will be used to simplify rectangular least squares problems.
+\item III.5 QR Factorisation: We introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby giving an algorirthm for solving least squares problems.
 \end{enumerate}
 
 Here we are constructing underlying computational tools that are important in applications, such as solving differential equations and data regression, which we discuss later.

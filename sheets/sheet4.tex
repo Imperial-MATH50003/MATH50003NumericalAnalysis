@@ -159,11 +159,11 @@
 
 \textbf{Numerical Analysis MATH50003 (2025\ensuremath{\endash}26) Problem Sheet 4}
 
-We investigate how interval arithmetic can be used for computing rigorous bounds of calculations. This includes both simple arithmetic expressions as well as more complicated mathematical expressions like computing functions from their Taylor series.  In particular,  we show that one can compute fairly sharp bounds of $\sin 1$. The lab takes this further and  implements these computations on a computer, allowing for much higher accuracy rigrouous computations.
+We investigate how interval arithmetic can be used for computing rigorous bounds on calculations. This includes both simple arithmetic expressions as well as more complicated mathematical expressions like computing functions from their Taylor series.  In particular,  we show that one can compute fairly sharp bounds on $\sin 1$. The lab takes this further and  implements these computations on a computer, allowing for much higher accuracy rigrouous computations.
 
 In the lectures/notes we also began discussing numerical linear algebra, beginning with a study of structured matrices. This material is primarily studied in the lab, which investigates the practical implementation. In this problem sheet we investigate bounding errors in matrix multiplication, tying in with last weeks content on floating point arithmetic.
 
-We complete the proofs of interval multiplication and division that were omitted in the notes, and ask for the generalisation to cases not considered in the notes:
+We begin by completing the proofs of interval multiplication and division that were omitted in the notes, and ask for the generalisation to cases not considered in the notes:
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 1} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
@@ -174,7 +174,7 @@ XY = [ac, bd]
 Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and to where there are no restrictions on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 \rule{\textwidth}{1pt}
-The next problem computes rigorous bounds on $\sin 1$ using interval arithmetic. We begin with a very simple arithmetic computation with floating point intervals, corresponding to the first two terms of the Taylor series of $\sin x$:
+The next problem computes rigorous bounds on $\sin 1$ using interval arithmetic. First consider a simple arithmetic computation with floating point intervals, corresponding to the first two terms of the Taylor series of $\sin x$:
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 2(a)} Compute the following floating point interval arithmetic expression assuming half-precision $F_{16}$ arithmetic:
@@ -204,7 +204,7 @@ We can finally combine the two sources of error to get a rigorous bound on $\sin
 You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$.
 
 \rule{\textwidth}{1pt}
-Our last problem considers the implementation of matrix multiplication in (idealised) floating point. In the previous PS we saw we could bound errors in multiplication and addition. Here we apply this result to relate the error of matrix multiplication to a matrix norm. This demonstrates how one can move away from the technical details of floating point arithmetic and instead understand errors in terms of more mathematical notions like norms that do not depend on the particulars of floating point:
+Our last problem considers the implementation of matrix multiplication in (idealised) floating point. In the previous PS we saw we could bound errors in multiplication and addition. Here we apply these results to relate the error of matrix multiplication to a matrix norm. This demonstrates how one can move away from the technical details of floating point arithmetic and instead understand errors in terms of more mathematical notions like norms that do not depend on the particulars of floating point:
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 3} For $A \ensuremath{\in} F_{\ensuremath{\infty},S}^{n \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$ consider the error in approximating matrix multiplication with idealised floating point: for
