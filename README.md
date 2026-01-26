@@ -19,7 +19,9 @@ Submit labs/problem sheets to <a href="mailto:maria.ricciuti18@imperial.ac.uk">G
    ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1s.pdf))
 2. I.3 Dual Numbers and I.4 Newton's method
    - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2.ipynb)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2s.ipynb))
    - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2.pdf)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2s.pdf))
 3. II.1 Reals and II.2 Floating Point Arithmetic
    - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3.ipynb)
    - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf)
