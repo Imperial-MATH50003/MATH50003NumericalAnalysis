@@ -24,7 +24,9 @@ Submit labs/problem sheets to <a href="mailto:maria.ricciuti18@imperial.ac.uk">G
    ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2s.pdf))
 3. II.1 Reals and II.2 Floating Point Arithmetic
    - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3.ipynb)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3s.ipynb))
    - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3s.pdf))
 4. II.3 Interval Arithmetic and III.1 Structured Matrices
    - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb)
    - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4.pdf)
