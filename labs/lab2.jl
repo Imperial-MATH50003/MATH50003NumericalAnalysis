@@ -356,7 +356,7 @@ function ^(x::Dual, n::Int)
     if n == 1
         x # Just return the input
     else
-        # we build up x^n using x^n = x^(n-1) * x alongside x^1 = x.
+        ## we build up x^n using x^n = x^(n-1) * x alongside x^1 = x.
         ret = x
         for k = 1:n-1
             ret = ret*x

@@ -254,14 +254,19 @@ $$
 
 **SOLUTION**
 
-We can apply Taylor's theorem to $f'$ around $x = r$ to get
+AS in the standard case we can apply Taylor's theorem:
 $$
-f'(x_k) = f'(r + ε_k) = f'(r) + f''(τ) ε_k = f''(τ) ε_k
+0 = f(r) = f(x_k+ε_k) = f(x_k) + f'(x_k) ε_k + {f''(t) \over 2} ε_k^2
 $$
-for some $τ$ between $x$ and $x_k$. 
-Thus we get
+for some $t$ between $x_k$.
+We also know  that
 $$
-ε_{k+1}  = -{f''(t) \over 2f'(x_k)} ε_k^2 = -{f''(t) \over 2f''(τ)} ε_k.
+f'(x_k) = f'(r-ε_k) = f'(r) - f''(τ) ε_k = - f''(τ) ε_k
+$$
+for some $τ$ between $x$ and $x_k$.
+Thus we get (note that $f'(x_k) ≠ 0$ as the conditions on $f''$ ensure that $f'$ is monotonic and has only one root):
+$$
+ε_{k+1}  = r - x_{k+1} = ε_k + {f(x_k)\over f'(x_k)} =  -{f''(t) \over 2f'(x_k)} ε_k^2 = {f''(t) \over 2f''(τ)} ε_k.
 $$
 Taking absolute values of each side gives the result.
 
