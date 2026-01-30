@@ -1,0 +1,271 @@
+
+\section{LU and PLU factorisations}
+One of the most fundamental problems in linear algebra is solving linear systems. For a field $\ensuremath{\bbF}$ (for us either $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$), given invertible matrix $A\ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ and vector $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbF}^n$, find $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^n$ such that
+\[
+A \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}.
+\]
+This can of course be done via Gaussian elimination, uing row swaps (or \emph{pivoting}) if a zero is encountered on the diagonal, which can be viewed as an algorithm that can be implemented on a computer. However, a basic observation makes the practical implementation more straightforward and easier to apply to multiple right-hand sides, and connects with fundamental aspects in matrix analysis.
+
+In particular, Gaussian elimination is equivalent to computing an \emph{LU factorisation}:
+\[
+A =L U
+\]
+where $L$ is lower triangular and $U$ is upper triangular. Thus if we compute $L$ and $U$ we can deduce
+\[
+\ensuremath{\bm{\x}} = A^{-1} \ensuremath{\bm{\b}}= U^{-1} L^{-1} \ensuremath{\bm{\b}}
+\]
+where  $\ensuremath{\bm{\c}} = L^{-1} \ensuremath{\bm{\b}}$ can be computed using forward-substitution and $U^{-1} \ensuremath{\bm{\c}}$ using back-substitution.
+
+On the other hand, Gaussian elemination with pivoting (row-swapping) is equivalent to a \emph{PLU factorisation}:
+\[
+A = P^\ensuremath{\top} LU
+\]
+where $P$ is a permutation matrix (see appendix). Thus if we can compute $P, L$ and $U$ we can deduce
+\[
+\ensuremath{\bm{\x}} = A^{-1} \ensuremath{\bm{\b}}= U^{-1} L^{-1} P \ensuremath{\bm{\b}}
+\]
+where multiplication by $P$ is a simple swap of entries of $\ensuremath{\bm{\b}}$ and $L$ and $U$ are again invertible via forward- and back-substitution.
+
+\subsection{Outer products}
+In what follows we will use outer products extensively:
+
+\begin{definition}[outer product] Given $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^m$ and $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbF}^n$ the \emph{outer product} is:
+\[
+\ensuremath{\bm{\x}} \ensuremath{\bm{\y}}^\ensuremath{\top} := [\ensuremath{\bm{\x}} y_1 | \ensuremath{\cdots} | \ensuremath{\bm{\x}} y_n] = \begin{bmatrix} x_1 y_1 & \ensuremath{\cdots} & x_1 y_n \\
+                        \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                        x_m y_1 & \ensuremath{\cdots} & x_m y_n \end{bmatrix} \ensuremath{\in} \ensuremath{\bbF}^{m \ensuremath{\times} n}.
+\]
+Note this is equivalent to matrix-matrix multiplication if we view $\ensuremath{\bm{\x}}$ as a $m \ensuremath{\times} 1$ matrix and $\ensuremath{\bm{\y}}^\ensuremath{\top}$ as a $1 \ensuremath{\times} n$ matrix. \end{definition}
+
+\begin{proposition}[rank-1] A matrix $A \ensuremath{\in} \ensuremath{\bbF}^{m\ensuremath{\times}n}$ has rank 1 if and only if there exists $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^m$ and $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbF}^n$ such that
+\[
+A = \ensuremath{\bm{\x}} \ensuremath{\bm{\y}}^\ensuremath{\top}.
+\]
+\end{proposition}
+\textbf{Proof} If $A = \ensuremath{\bm{\x}} \ensuremath{\bm{\y}}^\ensuremath{\top}$ then all columns are multiples of $\ensuremath{\bm{\x}}$, that is the column span has dimension 1.  On the other hand, if $A$ has rank-1 then its columns span a one-dimensional subspace: there exists $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^m$
+\[
+{\rm span}(\ensuremath{\bm{\a}}_1, \ensuremath{\ldots}, \ensuremath{\bm{\a}}_n) = \{ c \ensuremath{\bm{\x}} : c \ensuremath{\in} \ensuremath{\bbF} \}.
+\]
+Thus there exist $y_k \ensuremath{\in} \ensuremath{\bbF}$ such that $\ensuremath{\bm{\a}}_k = y_k \ensuremath{\bm{\x}}$ and we have
+\[
+A = \ensuremath{\bm{\x}} \underbrace{\begin{bmatrix} y_1 & \ensuremath{\cdots} & y_n \end{bmatrix}}_{\ensuremath{\bm{\y}}^\ensuremath{\top}}.
+\]
+\ensuremath{\QED}
+
+\subsection{LU factorisation}
+Gaussian elimination  can be interpreted as an LU factorisation. Write a matrix $A \ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ as follows:
+\[
+A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ \ensuremath{\bm{\v}} & K \end{bmatrix}
+\]
+where $\ensuremath{\alpha} = a_{11}$, $\ensuremath{\bm{\v}} = A[2:n, 1]$ and $\ensuremath{\bm{\w}} = A[1, 2:n]$ (that is, $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbF}^{n-1}$ is a vector whose entries are the 2nd through last row of the first column of $A$ whilst $\ensuremath{\bm{\w}} \ensuremath{\in} \ensuremath{\bbF}^{n-1}$ is a vector containing the 2nd through last column of the first row of $A$). Gaussian elimination consists of taking the first row, dividing by $\ensuremath{\alpha}$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
+\[
+\underbrace{\begin{bmatrix}
+1 \\
+-\ensuremath{\bm{\v}}/\ensuremath{\alpha} & I \end{bmatrix}}_{L_1^{-1}} A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & K -\ensuremath{\bm{\v}}\ensuremath{\bm{\w}}^\ensuremath{\top} /\ensuremath{\alpha} \end{bmatrix}
+\]
+where $A_2 := K -\ensuremath{\bm{\v}}\ensuremath{\bm{\w}}^\ensuremath{\top} /\ensuremath{\alpha}$  happens to be a rank-1 perturbation of $K$. We can write this another way:
+\[
+A = \underbrace{\begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}/\ensuremath{\alpha} & I \end{bmatrix}}_{L_1}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & A_2 \end{bmatrix}
+\]
+Now assume we continue this process and manage to deduce an LU factorisation $A_2 = \tilde{L} \tilde{U}$. Then
+\[
+A = L_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & \tilde{L} \tilde{U} \end{bmatrix}
+= \underbrace{L_1 \begin{bmatrix}
+1 \\
+ & \tilde{L} \end{bmatrix}}_L  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & \tilde{U} \end{bmatrix}}_U
+\]
+Note we can multiply through to find
+\[
+L = \begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}/\ensuremath{\alpha} & \tilde{L} \end{bmatrix}.
+\]
+Noting that if $A \ensuremath{\in} \ensuremath{\bbF}^{1 \ensuremath{\times} 1}$ then it has a trivial LU factorisation we can use the above construction to proceed recursively until we arrive at the trivial case. 
+
+Rather than a recursive definition, we can view the above as an inductive procedure:
+\meeq{
+A = L_1\begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & A_2 \end{bmatrix} =  L_1\begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & L_2 \begin{bmatrix} \ensuremath{\alpha}_2 & \ensuremath{\bm{\w}}_2^\ensuremath{\top} \\ & A_3 \end{bmatrix} \end{bmatrix} \ccr
+=  L_1 \begin{bmatrix} 1 \\ & L_2 \end{bmatrix} \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  &  \begin{bmatrix} \ensuremath{\alpha}_2 & \ensuremath{\bm{\w}}_2^\ensuremath{\top} \\ &  L_3 \begin{bmatrix} \ensuremath{\alpha}_3 & \ensuremath{\bm{\w}}_3^\ensuremath{\top} \\ & A_4 \end{bmatrix}  \end{bmatrix} \end{bmatrix} \ccr
+= \underbrace{\begin{bmatrix} 1 \\ 
+                \ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & \begin{bmatrix} 1 \\ \ensuremath{\bm{\v}}_2/\ensuremath{\alpha}_2 & \begin{bmatrix} 1 \\ \ensuremath{\bm{\v}}_3/\ensuremath{\alpha}_3 & \ensuremath{\ddots} \end{bmatrix} \end{bmatrix} \end{bmatrix}}_L  \underbrace{\begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  &  \begin{bmatrix} \ensuremath{\alpha}_2 & \ensuremath{\bm{\w}}_2^\ensuremath{\top} \\ &   \begin{bmatrix} \ensuremath{\alpha}_3 & \ensuremath{\bm{\w}}_3^\ensuremath{\top} \\ & \ensuremath{\ddots} \end{bmatrix} \end{bmatrix} \end{bmatrix}}_U.
+}
+We can see this procedure clearer in the following example.
+
+\begin{example}[LU by-hand] Consider the matrix
+\[
+A = \begin{bmatrix} 1 & 1 & 1 \\
+                    2 & 4 & 8 \\
+                    1 & 4 & 9
+                    \end{bmatrix} = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 &  & 1
+                    \end{bmatrix}}_{L_1} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 3 & 8
+                    \end{bmatrix}
+\]
+In more detail, for $\ensuremath{\alpha}_1 := a_{11} = 1$, $\ensuremath{\bm{\v}}_1 := A[2:3,1] = \vectt[2,1]$, $\ensuremath{\bm{\w}}_1 = A[1,2:3] = \vectt[1,1]$ and
+\[
+K_1 := A[2:3,2:3] = \begin{bmatrix} 4 & 8 \\ 4 & 9 \end{bmatrix}
+\]
+we have
+\[
+A_2 := K_1 -\ensuremath{\bm{\v}}_1\ensuremath{\bm{\w}}_1^\ensuremath{\top} /\ensuremath{\alpha}_1 = \begin{bmatrix} 4 & 8 \\ 4 & 9 \end{bmatrix} - \begin{bmatrix} 2 & 2 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 6 \\ 3 & 8 \end{bmatrix}.
+\]
+We then repeat the process and determine (with $\ensuremath{\alpha}_2 := A_2[1,1] = 2$, $\ensuremath{\bm{\v}}_2 := A_2[2:2,1] = [3]$, $\ensuremath{\bm{\w}}_2 := A_2[1,2:2] = [6]$ and $K_2 := A_2[2:2,2:2] = [8]$):
+\[
+A_2 =  \begin{bmatrix}2 & 6 \\ 3 & 8 \end{bmatrix} =
+\underbrace{\begin{bmatrix}
+1 \\
+3/2 & 1
+\end{bmatrix}}_{L_2} \begin{bmatrix} 2 & 6 \\
+            & -1 \end{bmatrix}
+\]
+The last \ensuremath{\ldq}matrix" is 1 x 1 so we get the trivial decomposition:
+\[
+A_3 := K_2 - \ensuremath{\bm{\v}}_2 \ensuremath{\bm{\w}}_2^\ensuremath{\top} /\ensuremath{\alpha}_2 =  [-1] = \underbrace{[1]}_{L_3} [-1]
+\]
+Putting everything together and placing the $j$-th column of $L_j$ inside the $j$-th column of $L$ we have
+\[
+A = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 & 3/2 & 1
+                    \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 1 & 1 & 1 \\
+                     & 2 & 6 \\
+                     &  & -1
+                    \end{bmatrix}}_U
+\]
+\end{example}
+
+\subsection{PLU factorisation}
+We learned in first year linear algebra that if a diagonal entry is zero when doing Gaussian elimination one has to \emph{row pivot}. For stability, in implementation one may wish to pivot even if the diagonal entry is nonzero: swap the largest in magnitude entry for the entry on the diagonal turns out to be significantly more stable than standard LU.
+
+This is equivalent to a PLU decomposition. Here we use a \emph{permutation matrix}, whose action on a vector permutes its entries, as discussed in the appendix. That is, consider a permutation which we identify with a vector ${\mathbf \ensuremath{\sigma}} = [\ensuremath{\sigma}_1,\ensuremath{\ldots},\ensuremath{\sigma}_n]$ containing the integers $1,\ensuremath{\ldots},n$ exactly once. The permutation operator represents the action of permuting the entries in a vector:
+\[
+P_\ensuremath{\sigma}(\ensuremath{\bm{\v}}) := \ensuremath{\bm{\v}}[{\mathbf \ensuremath{\sigma}}] = \Vectt[v_{\ensuremath{\sigma}_1},\ensuremath{\vdots},v_{\ensuremath{\sigma}_n}]
+\]
+This is a linear operator, and hence we can identify it with a \emph{permutation matrix} $P_\ensuremath{\sigma} \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ (more precisely the entries  of $P_\ensuremath{\sigma}$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogonal, that is, $P_\ensuremath{\sigma}^{-1} = P_\ensuremath{\sigma}^\top$.
+
+\begin{theorem}[PLU] A matrix $A \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}$ is invertible if and only if it has a PLU decomposition:
+\[
+A = P^\ensuremath{\top} L U
+\]
+where the diagonal of $L$ are all equal to 1 and the diagonal of $U$ are all non-zero, and $P$ is a permutation matrix.
+
+\end{theorem}
+\textbf{Proof}
+
+If we have a PLU decomposition of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. Hence we consider the orther direction.
+
+If $A \ensuremath{\in} \ensuremath{\bbC}^{1 \ensuremath{\times} 1}$ we trivially have an LU decomposition $A = [1] * [a_{11}]$ as all $1 \ensuremath{\times} 1$ matrices are triangular. We now proceed by induction: assume all invertible matrices of lower dimension have a PLU factorisation. As $A$ is invertible not all entries in the first column are zero. Therefore there exists a permutation $P_1$ so that $\ensuremath{\alpha} := (P_1 A)[1,1] \ensuremath{\neq} 0$. Hence we write
+\[
+P_1 A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\
+                        \ensuremath{\bm{\v}} & K
+                        \end{bmatrix} = \underbrace{\begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}/\ensuremath{\alpha} & I \end{bmatrix}}_{L_1}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & K - \ensuremath{\bm{\v}} \ensuremath{\bm{\w}}^\ensuremath{\top}/\ensuremath{\alpha} \end{bmatrix}
+\]
+We deduce that $A_2 := K - \ensuremath{\bm{\v}} \ensuremath{\bm{\w}}^\ensuremath{\top}/\ensuremath{\alpha}$ is invertible because $A$ and $L_1$ are invertible (Exercise).
+
+By assumption we can write $A_2 = \tilde{P}^\ensuremath{\top} \tilde{L} \tilde{U}$. Thus we have:
+\begin{align*}
+\underbrace{\begin{bmatrix} 1 \\
+            & \tilde{P} \end{bmatrix} P_1}_P A &= \begin{bmatrix} 1 \\
+            & \tilde{P} \end{bmatrix} L_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\
+                         & A_2
+                        \end{bmatrix}  =
+            \begin{bmatrix} 1 \\ & \tilde{P} \end{bmatrix} L_1  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & \tilde{P}^\ensuremath{\top} \tilde{L}  \tilde{U} \end{bmatrix} \\
+            &= \begin{bmatrix}
+1 \\
+\tilde{P} \ensuremath{\bm{\v}}/\ensuremath{\alpha} & \tilde{P} \end{bmatrix} \begin{bmatrix} 1 &  \\  &  \tilde{P}^\ensuremath{\top} \tilde{L}  \end{bmatrix}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  &  \tilde{U} \end{bmatrix} \\
+&= \underbrace{\begin{bmatrix}
+1 \\
+\tilde{P} \ensuremath{\bm{\v}}/\ensuremath{\alpha} & \tilde{L}  \end{bmatrix}}_L \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  &  \tilde{U} \end{bmatrix}}_U. \\
+\end{align*}
+\ensuremath{\QED}
+
+For stability one uses the permutation that always puts the largest in magnitude entry in the top row, eg., by a simple swap with the row corresponding to the diagonal.  One could try to justify this by considering floating point rounding, but actually there is no guaranteed this will produce accurate results and indeed in the lab we given an example of a \ensuremath{\lq}bad matrix\ensuremath{\rq} where large errors are still produced. However, it is observed in practice that the probability of encountering a \ensuremath{\lq}bad matrix\ensuremath{\rq} is extremely small. The biggest open problem in numerical linear algebra is proving this observation rigorously.
+
+Again, the above recursive proof encodes an inductive procedure, which we see in the following example.
+
+\begin{example}[PLU by-hand] Consider the matrix
+\[
+A = \begin{bmatrix}
+0 & 2 & 1 \\
+2 & 6 & 2 \\
+1 & -1 & 5
+\end{bmatrix}
+\]
+The largest entry in the first column is \texttt{2} in the second row, hence we swap these rows then factor:
+\[
+\underbrace{\begin{bmatrix} 0 & 1 \\ 
+1 & 0 \\
+&& 1 \end{bmatrix}}_{P_1} A =  \begin{bmatrix}
+2 & 6 & 2 \\
+0 & 2 & 1 \\
+1 & -1 & 5
+\end{bmatrix} =  \underbrace{\begin{bmatrix}
+1 &  &  \\
+0 & 1 &  \\
+1/2 & 0 & 1
+\end{bmatrix}}_{L_1} \begin{bmatrix}
+2 & 6 & 2 \\
+0 & 2 & 1 \\
+0 & -4 & 4
+\end{bmatrix}
+\]
+Even though
+\[
+A_2 := \begin{bmatrix}
+ 2 & 1 \\
+ -4 & 4
+\end{bmatrix}
+\]
+is non-singular, we still permute the largest entry to the diagonal (this is helpful on a computer for stability). So we permute again to get:
+\[
+\underbrace{\begin{bmatrix} 0 & 1 \\ 
+1 & 0  \end{bmatrix}}_{P_2} A_2 =  \begin{bmatrix}
+ -4 & 4\\
+ 2 & 1 
+\end{bmatrix}
+ =  \underbrace{\begin{bmatrix}
+ 1 & \\
+ -1/2 & 1 
+\end{bmatrix}}_{L_2}  =  \underbrace{\begin{bmatrix}
+ -4 & 4\\
+  & 3
+\end{bmatrix}}_{U_2}
+\]
+Putting it together we have
+\meeq{
+A = P_1^\ensuremath{\top} L_1 \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\
+                & A_2 \end{bmatrix}
+                =  P_1^\ensuremath{\top} L_1 \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\
+                & P_2^\ensuremath{\top} L_2 U_2 \end{bmatrix} \ccr
+    =  P_1^\ensuremath{\top} \begin{bmatrix}
+                1 \\
+                \ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & I \end{bmatrix} \begin{bmatrix} 1 & \\
+                & P_2^\ensuremath{\top} L_2 \end{bmatrix}  \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\
+                &  U_2 \end{bmatrix} =  P_1^\ensuremath{\top} \begin{bmatrix} 1 \\ & P_2^\ensuremath{\top} \end{bmatrix} \begin{bmatrix}
+                1 \\
+                P_2 \ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & L_2 \end{bmatrix}  \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\
+                &  U_2 \end{bmatrix} \ccr
+    = \underbrace{\begin{bmatrix}
+                0 & 0 & 1 \\
+                1 & 0 & 0 \\
+                0 & 1 & 0 \end{bmatrix}}_{P^\ensuremath{\top}}
+                \underbrace{\begin{bmatrix}
+                1 \\
+                1/2 & 1 \\
+                0 & -1/2 & 1 \end{bmatrix}}_L \underbrace{\begin{bmatrix} 
+                2 & 6 & 2 \\
+                 & -4 & 4\\
+  && 3
+\end{bmatrix}}_U.
+}
+\end{example}
+
+
+
