@@ -1,0 +1,134 @@
+
+\section{Cholesky factorisation}
+In the special case where $A$ is  a real square \emph{symmetric positive definite} (SPD, that is $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$) matrix the LU factorisation has a special form called the \emph{Cholesky factorisation}:
+\[
+A = L L^\ensuremath{\top},
+\]
+i.e., $U = L^\ensuremath{\top}$, but now $L$ does not necessarily have 1s on the diagonal. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
+
+\begin{definition}[positive definite] A square matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is \emph{positive definite} if for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, x \ensuremath{\neq} 0$ we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0
+\]
+\end{definition}
+
+First we establish some basic properties of positive definite matrices:
+
+\begin{proposition}[conjugating positive definite] If  $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $V \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is non-singular then
+\[
+V^\ensuremath{\top} A V
+\]
+is positive definite. \end{proposition}
+\textbf{Proof}
+
+For all  $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, \ensuremath{\bm{\x}} \ensuremath{\neq} 0$, define $\ensuremath{\bm{\y}} = V \ensuremath{\bm{\x}} \ensuremath{\neq} 0$ (since $V$ is non-singular). Thus we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} V^\ensuremath{\top} A V \ensuremath{\bm{\x}} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
+\]
+\ensuremath{\QED}
+
+\begin{proposition}[diag positivity] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite then its diagonal entries are positive: $a_{kk} > 0$. \end{proposition}
+\textbf{Proof}
+\[
+a_{kk} = \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_k > 0.
+\]
+\ensuremath{\QED}
+
+\begin{lemma}[subslice positive definite] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite then $A[2:n,2:n] \ensuremath{\in} \ensuremath{\bbR}^{(n-1) \ensuremath{\times} (n-1)}$ is also positive definite. \end{lemma}
+\textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^{n-1}$, define $\ensuremath{\bm{\y}} := [0,\ensuremath{\bm{\x}}]$. Then we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} A[2:n,2:n] \ensuremath{\bm{\x}} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
+\]
+\ensuremath{\QED}
+
+Here is the key result:
+
+\begin{theorem}[Cholesky and SPD] A matrix $A$ is symmetric positive definite if and only if it has a Cholesky factorisation
+\[
+A = L L^\ensuremath{\top}
+\]
+where $L$ is lower triangular with positive diagonal entries.
+
+\end{theorem}
+\textbf{Proof} If $A$ has a Cholesky factorisation it is symmetric ($A^\ensuremath{\top} = (L L^\ensuremath{\top})^\ensuremath{\top} = A$) and for $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$ we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} = (L^\ensuremath{\top}\ensuremath{\bm{\x}})^\ensuremath{\top} L^\ensuremath{\top} \ensuremath{\bm{\x}} = \|L^\ensuremath{\top}\ensuremath{\bm{\x}}\|^2 > 0
+\]
+where we use the fact that $L$ is non-singular.
+
+For the other direction we will prove it by induction, with the $1 \ensuremath{\times} 1$ case being trivial. Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions. Modifying the LU factorisation slightly we write
+\[
+A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\v}}^\ensuremath{\top} \\
+                    \ensuremath{\bm{\v}}   & K
+                    \end{bmatrix} = \underbrace{\begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\
+                                    {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & I \end{bmatrix}}_{L_1}
+                                    \begin{bmatrix} 1  \\ & K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}} \end{bmatrix}
+                                    \underbrace{\begin{bmatrix} \sqrt{\ensuremath{\alpha}} & {\ensuremath{\bm{\v}}^\ensuremath{\top} \over \sqrt{\ensuremath{\alpha}}} \\
+                                     & I \end{bmatrix}}_{L_1^\ensuremath{\top}}.
+\]
+Note that $A_2 := K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}}$ is a subslice of $L_1^{-1} A L_1^{-\ensuremath{\top}}$, hence by combining the previous propositions is itself SPD. Thus we can write
+\[
+A_2 = K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}} = L_2 L_2^\ensuremath{\top}
+\]
+and hence $A = L L^\ensuremath{\top}$ for
+\[
+L= L_1 \begin{bmatrix}1 \\ & L_2 \end{bmatrix} = \begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\ {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & L_2 \end{bmatrix}.
+\]
+\ensuremath{\QED}
+
+\begin{example}[Cholesky by hand] Consider the matrix
+\[
+A = \begin{bmatrix}
+2 &1 &1 &1 \\
+1 & 2 & 1 & 1 \\
+1 & 1 & 2 & 1 \\
+1 & 1 & 1 & 2
+\end{bmatrix}
+\]
+Then $\ensuremath{\alpha}_1 = 2$, $\ensuremath{\bm{\v}}_1 = [1,1,1]$, and
+\[
+A_2 = \begin{bmatrix}
+2 &1 &1 \\
+1 & 2 & 1 \\
+1 & 1 & 2
+\end{bmatrix} - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 \end{bmatrix}
+={1 \over 2} \begin{bmatrix}
+3 & 1 & 1 \\
+1 & 3 & 1 \\
+1 & 1 & 3
+\end{bmatrix}.
+\]
+Continuing, we have $\ensuremath{\alpha}_2 = 3/2$, $\ensuremath{\bm{\v}}_2 = [1/2,1/2]$, and
+\[
+A_3 = {1 \over 2} \left( \begin{bmatrix}
+3 & 1 \\ 1 & 3
+\end{bmatrix} - {1 \over 3} \begin{bmatrix} 1 \\ 1  \end{bmatrix} \begin{bmatrix} 1 & 1  \end{bmatrix}
+\right)
+= {1 \over 3} \begin{bmatrix} 4 & 1 \\ 1 & 4 \end{bmatrix}
+\]
+Next, $\ensuremath{\alpha}_3 = 4/3$, $\ensuremath{\bm{\v}}_3 = [1/3]$, and
+\[
+A_4 = [4/3 - 3/4 * (1/3)^2] = [5/4]
+\]
+i.e. $\ensuremath{\alpha}_4 = 5/4$.
+
+Thus we get
+\[
+L= \begin{bmatrix}
+\sqrt{\ensuremath{\alpha}_1} \\
+{\ensuremath{\bm{\v}}_1[1] \over \sqrt{\ensuremath{\alpha}_1}} & \sqrt{\ensuremath{\alpha}_2} \\
+{\ensuremath{\bm{\v}}_1[2] \over \sqrt{\ensuremath{\alpha}_1}} & {\ensuremath{\bm{\v}}_2[1] \over \sqrt{\ensuremath{\alpha}_2}}  & \sqrt{\ensuremath{\alpha}_3} \\
+{\ensuremath{\bm{\v}}_1[3] \over \sqrt{\ensuremath{\alpha}_1}} & {\ensuremath{\bm{\v}}_2[2] \over \sqrt{\ensuremath{\alpha}_2}}  & {\ensuremath{\bm{\v}}_3[1] \over \sqrt{\ensuremath{\alpha}_3}}  & \sqrt{\ensuremath{\alpha}_4}
+\end{bmatrix}
+ = \begin{bmatrix} \sqrt{2} \\ {1 \over \sqrt{2}} & \sqrt{3 \over 2} \\
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {2 \over \sqrt{3}} \\
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {1 \over \sqrt{12}} & {\sqrt{5} \over 2}
+\end{bmatrix}
+\]
+\end{example}
+
+\subsection{Lab and Problem Sheet}
+In the problem sheet we see how the Cholesky factorisation can be used to prove positive definiteness of both specific examples of small matrices, but also special families of arbitrarily large matrices. We also see the \emph{reverse} Cholesky factorisation of the form $A = U U^\top$. In the  lab we investigate the implementation of the Cholesky factorisation, and see how bandedness can be incorporated into the implementation to achieve better complexity.
+
+
+
