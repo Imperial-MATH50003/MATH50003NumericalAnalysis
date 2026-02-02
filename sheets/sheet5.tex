@@ -157,8 +157,13 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 5}
+\textbf{Numerical Analysis MATH50003 (2025\ensuremath{\endash}26) Problem Sheet 5}
 
+In this problem sheet we investigate the LU, PLU and Cholesky factorisations by-hand. These are all mathematically equivalent to Gaussian elimination, but by writing it as a matrix factorisation we make it more amenable to implementation on a computer and reveal an underlying, intuitive structure. The PLU factorisation is how general linear systems are solved in practice on a computer, whilst the Choleksy factorisation  can be used in the special case of symmetric positive definite matrices for better performance. Mathematically, an important property of Cholesky factorisations is that they include an algorithm to  proof that matrix is positive definite.
+
+Our first problem investigates LU factorisation and PLU factorisation, corresponding to Gaussian elimination with or without pivoting:
+
+\rule{\textwidth}{1pt}
 \textbf{Problem 1} Compute the LU factorisation (if possible) and the PLU factorisation, where the entry of largest magnitude is always permuted to the diagonal, of the following matrices:
 \[
 \begin{bmatrix}
@@ -172,6 +177,9 @@
 0 & 0  & 3 & 1
 \end{bmatrix}
 \]
+\rule{\textwidth}{1pt}
+We now turn to Cholesky factorisations, which are a special way of computing LU factorisations when the matrix is symmetric-positive definite. In fact, we can use the factorisation to prove a symmetric matrix is positive definite:
+
 \rule{\textwidth}{1pt}
 \textbf{Problem 2} By computing the Cholesky factorisation, determine which of the following matrices are symmetric positive definite:
 \[
@@ -187,13 +195,11 @@
 1 & 2 & 2 & 4
 \end{bmatrix}
 \]
-\textbf{Problem 3} Show that a matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is symmetric positive definite if and only if it has a \emph{reverse} Cholesky factorisation of the form
-\[
-A = U U^\ensuremath{\top}
-\]
-where $U$ is upper triangular with positive entries on the diagonal.
+\rule{\textwidth}{1pt}
+We can take this idea further and use the Cholesky factorisation to prove certain families of matrices are symmetric positive definite, for example, the following tridiagonal matrix (which we will see later is related to solving ordinary differential equations numerically):
 
-\textbf{Problem 4(a)} Use the Cholesky factorisation to prove that the following $n \ensuremath{\times} n$ matrix is symmetric positive definite for any $n$:
+\rule{\textwidth}{1pt}
+\textbf{Problem 3(a)} Use the Cholesky factorisation to prove that the following $n \ensuremath{\times} n$ matrix is symmetric positive definite for any $n$:
 \[
 \ensuremath{\Delta}_n := \begin{bmatrix}
 2 & -1 \\
@@ -205,8 +211,19 @@ where $U$ is upper triangular with positive entries on the diagonal.
 \]
 Hint: consider a matrix $K_n^{(\ensuremath{\alpha})}$ that equals $\ensuremath{\Delta}_n$ apart from the top left entry which is $\ensuremath{\alpha} > 1$ and use a proof by induction.
 
-\textbf{Problem 4(b)} Deduce its Cholesky factorisations: $\ensuremath{\Delta}_n = L_n L_n^\ensuremath{\top}$ where $L_n$ is lower triangular.
+\textbf{Problem 3(b)} Deduce its Cholesky factorisations: $\ensuremath{\Delta}_n = L_n L_n^\ensuremath{\top}$ where $L_n$ is lower triangular.
 
+\rule{\textwidth}{1pt}
+An alternative to an LU factorisation is a UL factorisation, where one uses row-eliminations beginning with the bottom row. Here we investigate the Cholesky analogue, which we call a \emph{reverse} Cholesky factorisation:
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 3} Show that a matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is symmetric positive definite if and only if it has a \emph{reverse} Cholesky factorisation of the form
+\[
+A = U U^\ensuremath{\top}
+\]
+where $U$ is upper triangular with positive entries on the diagonal.
+
+\rule{\textwidth}{1pt}
 
 
 \end{document}

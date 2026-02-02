@@ -1,4 +1,12 @@
-**Numerical Analysis MATH50003 (2024–25) Problem Sheet 5**
+**Numerical Analysis MATH50003 (2025–26) Problem Sheet 5**
+
+In this problem sheet we investigate the LU, PLU and Cholesky factorisations by-hand. These are all mathematically equivalent to Gaussian elimination, but by writing it as a matrix factorisation we make it more amenable to implementation on a computer and reveal an underlying, intuitive structure. The PLU factorisation is how general linear systems are solved in practice on a computer, whilst the Choleksy factorisation  can be used in the special case of symmetric positive definite matrices for better performance. Mathematically, an important property of Cholesky factorisations is that they include an algorithm to  proof that matrix is positive definite.
+
+
+Our first problem investigates LU factorisation and PLU factorisation, corresponding to Gaussian elimination with or without pivoting:
+
+-----
+
 
 **Problem 1** Compute the LU factorisation (if possible) and the PLU factorisation,
 where the entry of largest magnitude is always permuted to the diagonal, of the following matrices:
@@ -215,6 +223,13 @@ $$
 
 ------
 
+
+We now turn to Cholesky factorisations, which are a special way of computing LU factorisations when the matrix is
+symmetric-positive definite. In fact, we can use the factorisation to prove a symmetric matrix is positive definite:
+
+
+-------
+
 **Problem 2** By computing the Cholesky factorisation, determine
 which of the following matrices are symmetric positive definite:
 $$
@@ -301,42 +316,15 @@ and finally $3A_3=9-\frac{3× 3}{8}>0$, so Matrix 4 is SPD.
 
 **END**
 
-**Problem 3** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
-factorisation of the form
-$$
-A = U U^⊤
-$$
-where $U$ is upper triangular with positive entries on the diagonal.
+-------
 
-**SOLUTION**
-
-Note $𝐱^⊤ U U^⊤ 𝐱 = \| U^⊤ 𝐱 \| > 0$ since $U$ is invertible.
-
-For the other direction, we replicate the proof by induction for standard Cholesky,
-beginning in the bottom right
-instead of the top left. Again the basis case is trivial. Since all diagonal entries are positive we can write
-$$
-A = \begin{bmatrix} K & 𝐯\\
-                    𝐯^⊤ & α \end{bmatrix} =
-                    \underbrace{\begin{bmatrix} I & {𝐯 \over \sqrt{α}} \\
-                                        & \sqrt{α}
-                                        \end{bmatrix}}_{U_1}
-                    \begin{bmatrix} K - {𝐯 𝐯^⊤ \over α}  & \\
-                     & 1 \end{bmatrix}
-                     \underbrace{\begin{bmatrix} I \\
-                      {𝐯^⊤ \over \sqrt{α}} & \sqrt{α}
-                                        \end{bmatrix}}_{U_1^⊤}
-$$
-By assumption $K - {𝐯 𝐯^⊤ \over α} = \Ut\Ut^⊤$ hence we have
-$$
-A = \underbrace{U_1 \begin{bmatrix} \Ut \\ & 1 \end{bmatrix}}_U  \underbrace{\begin{bmatrix} \Ut^\top \\ & 1 \end{bmatrix} U_1^\top}_{U^\top}
-$$
+We can take this idea further and use the Cholesky factorisation to prove certain families of matrices are symmetric positive definite, for example, the following tridiagonal matrix (which we will see later is related to solving ordinary differential equations numerically):
 
 
-**END**
+-----
 
 
-**Problem 4(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
+**Problem 3(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
 for any $n$:
 $$
 Δ_n := \begin{bmatrix}
@@ -390,7 +378,7 @@ we conclude that $Δ_n$ has a Cholesky factorisation and hence is symmetric posi
 
 **END**
 
-**Problem 4(b)**
+**Problem 3(b)**
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
 $L_n$ is lower triangular.
 
@@ -427,3 +415,50 @@ $$
 
 
 **END**
+
+
+----
+
+
+An alternative to an LU factorisation is a UL factorisation, where one uses row-eliminations beginning with the bottom row.
+Here we investigate the Cholesky analogue, which we call a _reverse_ Cholesky factorisation:
+
+-------
+
+**Problem 3** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
+factorisation of the form
+$$
+A = U U^⊤
+$$
+where $U$ is upper triangular with positive entries on the diagonal.
+
+**SOLUTION**
+
+Note $𝐱^⊤ U U^⊤ 𝐱 = \| U^⊤ 𝐱 \| > 0$ since $U$ is invertible.
+
+For the other direction, we replicate the proof by induction for standard Cholesky,
+beginning in the bottom right
+instead of the top left. Again the basis case is trivial. Since all diagonal entries are positive we can write
+$$
+A = \begin{bmatrix} K & 𝐯\\
+                    𝐯^⊤ & α \end{bmatrix} =
+                    \underbrace{\begin{bmatrix} I & {𝐯 \over \sqrt{α}} \\
+                                        & \sqrt{α}
+                                        \end{bmatrix}}_{U_1}
+                    \begin{bmatrix} K - {𝐯 𝐯^⊤ \over α}  & \\
+                     & 1 \end{bmatrix}
+                     \underbrace{\begin{bmatrix} I \\
+                      {𝐯^⊤ \over \sqrt{α}} & \sqrt{α}
+                                        \end{bmatrix}}_{U_1^⊤}
+$$
+By assumption $K - {𝐯 𝐯^⊤ \over α} = \Ut\Ut^⊤$ hence we have
+$$
+A = \underbrace{U_1 \begin{bmatrix} \Ut \\ & 1 \end{bmatrix}}_U  \underbrace{\begin{bmatrix} \Ut^\top \\ & 1 \end{bmatrix} U_1^\top}_{U^\top}
+$$
+
+
+**END**
+
+
+-----
+

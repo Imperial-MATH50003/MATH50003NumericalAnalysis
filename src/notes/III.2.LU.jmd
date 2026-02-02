@@ -141,7 +141,7 @@ A_2 =  \begin{bmatrix}2 & 6 \\ 3 & 8 \end{bmatrix} =
 \end{bmatrix}}_{L_2} \begin{bmatrix} 2 & 6 \\
             & -1 \end{bmatrix}
 $$
-The last “matrix" is 1 x 1 so we get the trivial decomposition:
+The last “matrix" is 1 x 1 so we get the trivial factorisation:
 $$
 A_3 := K_2 - 𝐯_2 𝐰_2^⊤ /α_2 =  [-1] = \underbrace{[1]}_{L_3} [-1]
 $$
@@ -162,18 +162,20 @@ $$
 ## PLU factorisation
 
 We learned in first year linear algebra that if a diagonal entry is zero
-when doing Gaussian elimination one has to _row pivot_. For stability,
+when doing Gaussian elimination one has to _row pivot_ (i.e., swap rows). For stability,
 in implementation one may wish to pivot even if the diagonal entry is nonzero: swap the largest in magnitude entry for the entry on the diagonal turns out to be significantly more stable than standard LU.
 
-This is equivalent to a PLU decomposition. Here we use a _permutation matrix_, whose action on a vector permutes its entries, as discussed in the appendix. That is, consider a
+This is equivalent to a PLU factorisation. Here we use a _permutation matrix_, whose action on a vector permutes its entries, as discussed in the appendix. That is, consider a
 permutation which we identify with a vector ${\mathbf σ} = [σ_1,…,σ_n]$ containing the integers $1,…,n$ exactly once. The permutation operator represents the action of permuting the entries in a vector:
 $$
 P_σ(𝐯) := 𝐯[{\mathbf σ}] = \Vectt[v_{σ_1},⋮,v_{σ_n}]
 $$
-This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$ (more precisely the entries  of $P_σ$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogonal, that is, $P_σ^{-1} = P_σ^\top$.
+This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$ (more precisely the entries  of $P_σ$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogonal, that is, $P_σ^\top P_σ = I$, or in other words $P_σ^{-1} = P_σ^\top$.
+
+Every invertible matrix has a PLU factorisation:
 
 
-**Theorem (PLU)** A matrix $A ∈ ℂ^{n × n}$ is invertible if and only if it has a PLU decomposition:
+**Theorem (PLU)** A matrix $A ∈ ℂ^{n × n}$ is invertible if and only if it has a PLU factorisation:
 $$
 A = P^⊤ L U
 $$
@@ -181,10 +183,10 @@ where the diagonal of $L$ are all equal to 1 and the diagonal of $U$ are all non
 
 **Proof**
 
-If we have a PLU decomposition of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. Hence we consider the orther direction.
+If we have a PLU factorisation of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. Hence we consider the orther direction.
 
 
-If $A ∈ ℂ^{1 × 1}$ we trivially have an LU decomposition $A = [1] * [a_{11}]$ as all $1 × 1$ matrices are triangular.
+If $A ∈ ℂ^{1 × 1}$ we trivially have an LU factorisation $A = [1] * [a_{11}]$ as all $1 × 1$ matrices are triangular.
 We now proceed by induction: assume all invertible matrices of lower dimension have a PLU factorisation.
 As $A$ is invertible not all entries in the first column are zero. Therefore there exists a permutation
 $P_1$ so that $α := (P_1 A)[1,1] ≠ 0$. Hence we write
@@ -221,10 +223,10 @@ $$
 
 For stability one uses the permutation that always puts the largest in
 magnitude entry in the top row, eg., by a simple swap with the row corresponding to the diagonal. 
-One could try to justify this by considering floating point rounding,
+ One could try to justify this by considering floating point rounding,
 but actually there is no guaranteed this will produce accurate results and indeed in the lab we given an example of
-a ‘bad matrix’ where large errors are still produced. However, it is observed in practice that the probability of encountering
-a ‘bad matrix’ is extremely small. The biggest open problem in numerical linear algebra is proving this observation rigorously.
+a ``bad matrix'' where large errors are still produced.
+
 
 Again, the above recursive proof encodes an inductive procedure, which we see in the following example.
 
@@ -309,3 +311,11 @@ A = P_1^⊤ L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\
 }
 $$
 ∎
+
+
+## Lab and Problem Sheet
+
+In the problem sheet we see some pen-and-paper examples of LU and PLU factorisations, to emphasise the relationship
+with Gaussian elimination with or without pivoting. In the lab we focus on the practical usage of LU and PLU factorisations
+using the inbuilt commands, observing that the PLU factorisation is what is used in practice.  We also investigate a special  ``bad matrix" where PLU factorisation surprisingly fails. This might raise the question why we use PLU factorisation despite the chance of faiulure, but as we  see in he lab the probability of encountering such
+a matrix is extremely small. The biggest open problem in numerical linear algebra is proving this observation rigorously.

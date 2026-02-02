@@ -9,7 +9,7 @@ matrix the LU factorisation has a special form called the _Cholesky factorisatio
 $$
 A = L L^⊤,
 $$
-i.e., $U = L^⊤$, but now $L$ does not necessarily have 1 on the diagonal.
+i.e., $U = L^⊤$, but now $L$ does not necessarily have 1s on the diagonal.
 This provides an algorithmic way to _prove_ that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
 
 **Definition (positive definite)** A square matrix $A ∈ ℝ^{n × n}$ is _positive definite_ if
@@ -147,3 +147,8 @@ L= \begin{bmatrix}
 \end{bmatrix}
 $$
 ∎
+
+
+## Lab and Problem Sheet
+
+In the problem sheet we see how the Cholesky factorisation can be used to prove positive definiteness of both specific examples of small matrices, but also special families of arbitrarily large matrices. We also see the _reverse_ Cholesky factorisation of the form $A = U U^\top$. In the  lab we investigate the implementation of the Cholesky factorisation, and see how bandedness can be incorporated into the implementation to achieve better complexity.

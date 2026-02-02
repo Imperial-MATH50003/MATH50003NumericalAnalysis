@@ -1,4 +1,4 @@
-# # MATH50003 (2024–25)
+# # MATH50003 (2025–26)
 # # Lab 5: III.2 LU Factorisation and III.3 Cholesky Factorisation
 
 # In this lab we explore using LU, PLU and Cholesky factorisations, and
@@ -221,7 +221,7 @@ L = mycholesky(A)
 
 
 
-# With exact arithmetic algorithm succeeds if and only if $A$ is symmetric positive definite.
+# With exact arithmetic, this algorithm would succeed if and only if $A$ is symmetric positive definite.
 # With floating point errors this is not necessarily the case. (One could run it with interval arithmetic
 # but that would only prove a matrix is SPD if the algorithm succeeded, failure could be caused by
 # rounding.)

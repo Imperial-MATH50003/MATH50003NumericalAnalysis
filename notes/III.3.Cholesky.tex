@@ -4,7 +4,7 @@ In the special case where $A$ is  a real square \emph{symmetric positive definit
 \[
 A = L L^\ensuremath{\top},
 \]
-i.e., $U = L^\ensuremath{\top}$, but now $L$ does not necessarily have 1 on the diagonal. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
+i.e., $U = L^\ensuremath{\top}$, but now $L$ does not necessarily have 1s on the diagonal. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite, and is roughly twice as fast as the LU factorisation to compute.
 
 \begin{definition}[positive definite] A square matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is \emph{positive definite} if for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, x \ensuremath{\neq} 0$ we have
 \[
@@ -126,6 +126,9 @@ L= \begin{bmatrix}
 \end{bmatrix}
 \]
 \end{example}
+
+\subsection{Lab and Problem Sheet}
+In the problem sheet we see how the Cholesky factorisation can be used to prove positive definiteness of both specific examples of small matrices, but also special families of arbitrarily large matrices. We also see the \emph{reverse} Cholesky factorisation of the form $A = U U^\top$. In the  lab we investigate the implementation of the Cholesky factorisation, and see how bandedness can be incorporated into the implementation to achieve better complexity.
 
 
 
