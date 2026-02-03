@@ -20,7 +20,7 @@ $$
 $$
 where  $𝐜 = L^{-1} 𝐛$ can be computed using forward-substitution and $U^{-1} 𝐜$ using back-substitution.
 
-On the other hand, Gaussian elemination with pivoting (row-swapping) is equivalent to a _PLU factorisation_:
+On the other hand, Gaussian elimination with pivoting (row-swapping) is equivalent to a _PLU factorisation_:
 $$
 A = P^⊤ LU
 $$
