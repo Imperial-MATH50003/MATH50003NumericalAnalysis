@@ -1,0 +1,251 @@
+
+\section{QR Factorisation}
+Let $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ be a rectangular or square matrix such that $m \ensuremath{\geq} n$ (i.e. more rows then columns). In this section we consider two closely related factorisations:
+
+\begin{definition}[QR factorisation] The \emph{QR factorisation} is
+\[
+A = Q R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix}}_{Q \ensuremath{\in} U(m)} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times} \\ &&0 \\ &&\ensuremath{\vdots} \\ && 0 \end{bmatrix}}_{R \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}}
+\]
+where $Q$ is unitary (i.e., $Q \ensuremath{\in} U(m)$, satisfying $Q^\ensuremath{\star}Q = I$, with columns $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $R$ is \emph{right triangular}, which means it  is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$). \end{definition}
+
+\begin{definition}[Reduced QR factorisation] The \emph{reduced QR factorisation}
+\[
+A = \hat Q \hat R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}}_{ \hat Q \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times}  \end{bmatrix}}_{\hat R \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}}
+\]
+where $\hat Q$ has orthonormal columns ($\hat Q^\ensuremath{\star} \hat Q = I$, $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $\hat R$ is upper triangular. \end{definition}
+
+Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is \emph{upper triangular}. The importance of these factorisation for square matrices is that their component pieces are easy to invert:
+\[
+A = QR \qquad \ensuremath{\Rightarrow} \qquad A^{-1}\ensuremath{\bm{\b}} = R^{-1} Q^\ensuremath{\top} \ensuremath{\bm{\b}}
+\]
+and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $\ensuremath{\bm{\b}}$.
+
+For rectangular matrices we will see that the QR factorisation leads to efficient solutions to the \emph{least squares problem}: find $\ensuremath{\bm{\x}}$ that minimizes the 2-norm $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.$ Note in the rectangular case the QR factorisation contains within it the reduced QR factorisation:
+\[
+A = QR = \begin{bmatrix} \hat Q | \ensuremath{\bm{\q}}_{n+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix} \begin{bmatrix} \hat R \\  \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} = \hat Q \hat R.
+\]
+In this section we discuss the following:
+
+\begin{itemize}
+\item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR factorisation using Gram\ensuremath{\endash}Schmidt.
+
+
+\item[2. ] Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach for computing QR factorisations.
+
+
+\item[3. ] QR and least squares: We discuss the QR factorisation and its usage in solving least squares problems.
+
+\end{itemize}
+\subsection{Reduced QR and Gram\ensuremath{\endash}Schmidt}
+How do we compute the QR factorisation? We begin with a method you may have seen before in another guise. Write
+\[
+A = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n \end{bmatrix}
+\]
+where $\ensuremath{\bm{\a}}_k \ensuremath{\in}  \ensuremath{\bbC}^m$ and assume they are linearly independent ($A$ has full column rank).
+
+\begin{proposition}[Column spaces match] Suppose $A = \hat Q  \hat R$ where $\hat Q = [\ensuremath{\bm{\q}}_1|\ensuremath{\ldots}|\ensuremath{\bm{\q}}_n]$ has orthonormal columns and $\hat R$ is upper-triangular, and $A$ has full rank. Then the first $j$ columns of $\hat Q$ span the same space as the first $j$ columns of $A$:
+\[
+\hbox{span}(\ensuremath{\bm{\a}}_1,\ensuremath{\ldots},\ensuremath{\bm{\a}}_j) = \hbox{span}(\ensuremath{\bm{\q}}_1,\ensuremath{\ldots},\ensuremath{\bm{\q}}_j).
+\]
+\end{proposition}
+\textbf{Proof}
+
+Because $A$ has full rank we know $\hat R$ is invertible, i.e. its diagonal entries do not vanish: $r_{jj} \ensuremath{\neq} 0$. If $\ensuremath{\bm{\v}} \ensuremath{\in} \hbox{span}(\ensuremath{\bm{\a}}_1,\ensuremath{\ldots},\ensuremath{\bm{\a}}_j)$ we have for $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^j$
+\[
+\ensuremath{\bm{\v}} = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_j \end{bmatrix} \ensuremath{\bm{\c}} = 
+\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_j \end{bmatrix}  \hat R[1:j,1:j] \ensuremath{\bm{\c}} \ensuremath{\in} \hbox{span}(\ensuremath{\bm{\q}}_1,\ensuremath{\ldots},\ensuremath{\bm{\q}}_j)
+\]
+while if $\ensuremath{\bm{\w}} \ensuremath{\in} \hbox{span}(\ensuremath{\bm{\q}}_1,\ensuremath{\ldots},\ensuremath{\bm{\q}}_j)$ we have for $\vc d \ensuremath{\in} \ensuremath{\bbR}^j$
+\[
+\ensuremath{\bm{\w}} = \begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_j \end{bmatrix} \vc d  =  \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_j \end{bmatrix} \hat R[1:j,1:j]^{-1} \vc d \ensuremath{\in}  \hbox{span}(\ensuremath{\bm{\a}}_1,\ensuremath{\ldots},\ensuremath{\bm{\a}}_j).
+\]
+\ensuremath{\QED}
+
+It is possible to find $\hat Q$ and $\hat R$   using the \emph{Gram\ensuremath{\endash}Schmidt algorithm}. We construct it column-by-column. For $j = 1, 2, \ensuremath{\ldots}, n$ define
+\begin{align*}
+\ensuremath{\bm{\v}}_j &:= \ensuremath{\bm{\a}}_j - \ensuremath{\sum}_{k=1}^{j-1} \underbrace{\ensuremath{\bm{\q}}_k^\ensuremath{\star} \ensuremath{\bm{\a}}_j}_{r_{kj}} \ensuremath{\bm{\q}}_k, \\
+r_{jj} &:= {\|\ensuremath{\bm{\v}}_j\|}, \\
+\ensuremath{\bm{\q}}_j &:= {\ensuremath{\bm{\v}}_j \over r_{jj}}.
+\end{align*}
+\textbf{Theorem (Gram\ensuremath{\endash}Schmidt and reduced QR)} Define $\ensuremath{\bm{\q}}_j$ and $r_{kj}$ as above (with $r_{kj} = 0$ if $k > j$). Then a reduced QR factorisation is given by:
+\[
+A = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}}_{ \hat Q \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}} \underbrace{\begin{bmatrix} r_{11} & \ensuremath{\cdots} & r_{1n} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && r_{nn}  \end{bmatrix}}_{\hat R \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}}
+\]
+\textbf{Proof}
+
+We first show that $\hat Q$ has orthonormal columns. Assume that $\ensuremath{\bm{\q}}_\ensuremath{\ell}^\ensuremath{\star} \ensuremath{\bm{\q}}_k = \ensuremath{\delta}_{\ensuremath{\ell}k}$ for $k,\ensuremath{\ell} < j$.  For $\ensuremath{\ell} < j$ we then have
+\[
+\ensuremath{\bm{\q}}_\ensuremath{\ell}^\ensuremath{\star} \ensuremath{\bm{\v}}_j = \ensuremath{\bm{\q}}_\ensuremath{\ell}^\ensuremath{\star} \ensuremath{\bm{\a}}_j - \ensuremath{\sum}_{k=1}^{j-1}  \ensuremath{\bm{\q}}_\ensuremath{\ell}^\ensuremath{\star}\ensuremath{\bm{\q}}_k \ensuremath{\bm{\q}}_k^\ensuremath{\star} \ensuremath{\bm{\a}}_j = 0
+\]
+hence $\ensuremath{\bm{\q}}_\ensuremath{\ell}^\ensuremath{\star} \ensuremath{\bm{\q}}_j = 0$ and indeed $\hat Q$ has orthonormal columns. Further: from the definition of $\ensuremath{\bm{\v}}_j$ we find
+\[
+\ensuremath{\bm{\a}}_j = \ensuremath{\bm{\v}}_j + \ensuremath{\sum}_{k=1}^{j-1} r_{kj} \ensuremath{\bm{\q}}_k = \ensuremath{\sum}_{k=1}^j r_{kj} \ensuremath{\bm{\q}}_k  = \hat Q \hat R \ensuremath{\bm{\e}}_j
+\]
+\ensuremath{\QED}
+
+\subsection{Householder reflections and QR}
+As an alternative, we will consider using Householder reflections to introduce zeros below the diagonal. Thus, if Gram\ensuremath{\endash}Schmidt is a process of \emph{triangular orthogonalisation} (using triangular matrices to orthogonalise), Householder reflections is a process of \emph{orthogonal triangularisation}  (using orthogonal matrices to triangularise).
+
+Consider multiplication by the Householder reflection corresponding to the first column, that is, for
+\[
+Q_1 := Q_{\ensuremath{\bm{\a}}_1}^{\rm H},
+\]
+consider
+\[
+Q_1 A = \begin{bmatrix} \ensuremath{\times} & \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\
+& \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\
+                    & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                    & \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \end{bmatrix} = 
+\begin{bmatrix}  \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\ 
+& A_2   \end{bmatrix}
+\]
+where 
+\[
+\ensuremath{\alpha}_1 := -{\rm csign}(a_{11})  \|\ensuremath{\bm{\a}}_1\|, \ensuremath{\bm{\w}}_1 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
+\]
+where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. That is, we have made the first column triangular. In terms of an algorithm, we then introduce zeros into the first column of $A_2$, leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple proof by induction, reminisicent of our proofs for the PLU and Cholesky factorisations:
+
+\begin{theorem}[QR]  Every matrix $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has a QR factorisation:
+\[
+A = QR
+\]
+where $Q \ensuremath{\in} U(m)$ and $R \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ is right triangular.
+
+\end{theorem}
+\textbf{Proof}
+
+First assume $m \ensuremath{\geq} n$. If $A = [\ensuremath{\bm{\a}}_1] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} 1}$ then we have for the Householder reflection $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$
+\[
+Q_1 A = \ensuremath{\alpha} \ensuremath{\bm{\e}}_1
+\]
+which is right triangular, where $\ensuremath{\alpha} = -{\rm csign}(a_{11}) \|\ensuremath{\bm{\a}}_1\|$.  In other words 
+\[
+A = \underbrace{Q_1}_Q \underbrace{\ensuremath{\alpha} \ensuremath{\bm{\e}}_1}_R.
+\]
+For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation. For $A = [\ensuremath{\bm{\a}}_1|\ensuremath{\ldots}|\ensuremath{\bm{\a}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$, let $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$ so that
+\[
+Q_1 A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & A_2 \end{bmatrix}.
+\]
+By assumption $A_2 = Q_2 R_2$. Thus we have (recalling that $Q_1^{-1} = Q_1^\ensuremath{\star} = Q_1$):
+\begin{align*}
+A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & Q_2 R_2 \end{bmatrix} \\
+=\underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  R_2 \end{bmatrix}}_R.
+\end{align*}
+If $m < n$, i.e., $A$ has more columns then rows, write 
+\[
+A = \begin{bmatrix} \At & B \end{bmatrix}
+\]
+where $\At \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} m}$. From above we know we can write $\At = Q \Rt$. We thus have
+\[
+A = Q \underbrace{\begin{bmatrix} \Rt & Q^\ensuremath{\star} B \end{bmatrix}}_R
+\]
+where $R$ is right triangular.
+
+\ensuremath{\QED}
+
+\begin{example}[QR by hand] We will now do an example by hand. Consider finding the QR factorisation where the diagonal of $R$ is positive for the $4 \ensuremath{\times} 3$ matrix
+\[
+A = \begin{bmatrix} 
+1 & 1 & 1 \\ 
+-1 & 0 & 1 \\
+-1 & -1 & 0 \\
+-1 & 0 & 0
+\end{bmatrix}
+\]
+For the first column, since the entry $a_{11} > 0$ on a computer  we would want to choose the Householder reflection that makes this negative, but in this case we want $R$ to have a positive diagonal (partly because the numbers involved become very complicated otherwise!). So instead we choose the "wrong" sign and leave it positive. Since $\| \ensuremath{\bm{\a}}_1 \|$ = 2 we have
+\[
+\ensuremath{\bm{\y}}_1 = \Vectt[1,-1,-1,-1]  -\Vectt[2,0,0,0] = \Vectt[-1,-1,-1,-1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_1 = {\ensuremath{\bm{\y}}_1 \over \| \ensuremath{\bm{\y}}_1 \|} = {1 \over 2} \Vectt[-1,-1,-1,-1].
+\]
+Hence
+\[
+Q_1 :=  I - {1 \over 2} \begin{bmatrix} -1 \\ -1 \\ -1 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & -1 & -1 & -1 \end{bmatrix} =
+ {1 \over 2} \begin{bmatrix}
+1 & -1 & -1 & -1 \\
+-1 & 1 & -1 & -1 \\
+-1 & -1 & 1 & -1 \\
+-1 & -1 & -1 &  1
+\end{bmatrix}
+\]
+so that
+\[
+Q_1 A = \begin{bmatrix} 2 &  1 & 0 \\
+ & 0 & 0 \\
+  & -1 & -1 \\
+& 0 & -1
+\end{bmatrix}
+\]
+For the second column we have a zero entry so on a computer we can either send it to positive or negative sign,  but in this case we are told to make it positive. Thus we have
+\[
+\ensuremath{\bm{\y}}_2 :=   [0,-1,0] - \Vectt[1,0,0] = \Vectt[-1,-1,0]  \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_2 = {\ensuremath{\bm{\y}}_2 \over \| \ensuremath{\bm{\y}}_2 \|} = {1 \over \sqrt{2}} \Vectt[-1,-1,0]
+\]
+Thus we have
+\[
+Q_2 := I - 
+ \begin{bmatrix} -1 \\ -1 \\ 0
+\end{bmatrix} \begin{bmatrix} -1 & -1 & 0 \end{bmatrix}
+= \begin{bmatrix}
+0 & -1 & 0 \\
+-1& 0 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\]
+so that
+\[
+\tilde Q_2 Q_1 A = \begin{bmatrix} 2 & 1 & 0 \\
+ & 1 & 1 \\
+  &  & 0 \\
+&  & -1
+\end{bmatrix}
+\]
+The final vector is 
+\[
+\ensuremath{\bm{\y}}_3 := \Vectt[0,-1] - \Vectt[1,0] = \Vectt[-1,-1] \ensuremath{\Rightarrow} \ensuremath{\bm{\w}}_3 = -{1 \over \sqrt{2}} \Vectt[1,1].
+\]
+Hence
+\[
+Q_3 := I - \Vectt[1,1] \begin{bmatrix} 1 & 1 \end{bmatrix} = \sopmatrix{0 & - 1 \\ -1 & 0}
+\]
+so that 
+\[
+\tilde Q_3 \tilde Q_2 Q_1 A = \begin{bmatrix} 2 & 1 & 0 \\
+ & 1 & 1 \\
+  &  & 1 \\
+&  & 0
+\end{bmatrix} =: R
+\]
+and
+\[
+Q := Q_1 \tilde Q_2 \tilde Q_3 = {1 \over 2}  \begin{bmatrix}
+1 & 1 & 1 & -1 \\
+-1 & 1 & 1 & 1 \\
+-1 & -1 & 1 & -1 \\
+-1 & 1 & -1 & -1
+\end{bmatrix}.
+\]
+\subsection{QR and least squares}
+We consider rectangular matrices with more rows than columns. Given $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbC}^m$, a least squares problem consists of finding a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that minimises the 2-norm: $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|$. There is a lot of theory around least squares, however, we focus on a simple computational aspect: we can solve least squares problems using the QR factorisation.
+
+\begin{theorem}[least squares via QR] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ with $m \ensuremath{\geq} n$ has full rank and a QR factorisation $A = Q R$ (which includes within it a reduced QR factorisation $A = \hat Q \hat R$). The vector
+\[
+\ensuremath{\bm{\x}} = \hat R^{-1} \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}}
+\]
+minimises $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|$. 
+
+\end{theorem}
+\textbf{Proof}
+
+The norm-preserving property ($\|Q\ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}}\|$) of unitary matrices tells us
+\[
+\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \| = \| Q R \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \| = \| Q (R \ensuremath{\bm{\x}} - Q^\ensuremath{\star} \ensuremath{\bm{\b}}) \| = \| R \ensuremath{\bm{\x}} - Q^\ensuremath{\star} \ensuremath{\bm{\b}} \| = \left \| 
+\begin{bmatrix} \hat R \\ \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} \ensuremath{\bm{\x}} - \begin{bmatrix} \hat Q^\ensuremath{\star} \\ \ensuremath{\bm{\q}}_{n+1}^\ensuremath{\star} \\ \ensuremath{\vdots} \\ \ensuremath{\bm{\q}}_m^\ensuremath{\star} \end{bmatrix}     \ensuremath{\bm{\b}} \right \|
+\]
+Now note that the rows $k > n$ are independent of $\ensuremath{\bm{\x}}$ and are a fixed contribution. Thus to minimise this norm it suffices to drop them and minimise:
+\[
+\| \hat R \ensuremath{\bm{\x}} - \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}} \|
+\]
+This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible.
+
+\end{example}
+
+
+
