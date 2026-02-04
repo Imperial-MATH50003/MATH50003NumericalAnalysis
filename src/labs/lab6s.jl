@@ -1,4 +1,4 @@
-# # MATH50003 (2024–25)
+# # MATH50003 (2025–26)
 # # Lab 6: III.4 Orthogonal Matrices and III.5 QR Factorisation
 
 # This lab explores orthogonal matrices, including rotations and reflections.
