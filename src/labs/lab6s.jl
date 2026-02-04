@@ -240,7 +240,7 @@ size(Q::Reflection) = (length(Q.v),length(Q.v))
 ## getindex(Q, k, j) is synonym for Q[k,j]
 function getindex(Q::Reflection, k::Int, j::Int)
     ## TODO: implement Q[k,j] == (I - 2v*v')[k,j] but using O(1) operations.
-    ## Hint: the function `conj` gives the complex-conjugate
+    ## Hint: the function conj gives the complex-conjugate
     ## SOLUTION
     if k == j
         1 - 2Q.v[k]*conj(Q.v[j])
@@ -256,7 +256,7 @@ function *(Q::Reflection, x::AbstractVector)
     ## END
 end
 
-## If your code is correct, these "unit tests" will succeed
+## If your code is correct, these unit tests will succeed
 n = 10
 x = randn(n) + im*randn(n)
 v = x/norm(x)
@@ -294,11 +294,11 @@ end
 x = randn(5)
 Q = householderreflection(true, x)
 @test Q isa Reflection
-@test Q*x ≈ [norm(x);zeros(eltype(x),length(x)-1)]
+@test Q*x ≈ [norm(x); zeros(eltype(x),length(x)-1)]
 
 Q = householderreflection(false, x)
 @test Q isa Reflection
-@test Q*x ≈ [-norm(x);zeros(eltype(x),length(x)-1)]
+@test Q*x ≈ [-norm(x); zeros(eltype(x),length(x)-1)]
 
 
 
@@ -397,14 +397,32 @@ Q = Reflections(V)
 
 # ### III.5.2 Householder reflections and QR
 
-# In the notes we use Householder reflections to prove that a QR factorisation exists. That is, 
-# Then we compute a householder $Q_1$ reflection corresponding to the first row
-# and write
+# In the notes we use Householder reflections to prove that a QR factorisation exists. 
+# In particular, for $A = \begin{bmatrix} 𝐚_1 | \cdots | 𝐚_n \end{bmatrix}$
+# we can construct a Householder reflection $Q_1 = Q_{𝐚_1}^H$ so that
 # $$
-# Q_1A = \begin{bmatrix} α & 𝐰^⊤ \\
-#            & A_2 \end{bmatrix}
+# Q₁ A = \begin{bmatrix}
+# α & \bfw^\top \\
+#  & A₂ \end{bmatrix},
 # $$
-# The iterative proof actually encodes an algorithm, which we can implement as follows:
+# and then find $A₂ = Q₂ R₂$ so that
+# $$
+#   A = \underbrace{Q₁ \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q \underbrace{  \begin{bmatrix}
+# α & 𝐰^⊤ \\
+#  & R₂ \end{bmatrix}}_R
+# $$
+# We want to turn this inductive proof into an iterative algorithm. Note that the final $Q$ can be written
+# $$
+# Q = Q₁ \begin{bmatrix} 1 \\ & \tilde Q_2 \end{bmatrix} \begin{bmatrix} 1  \\ & 1 \\ && \tilde Q_3 \end{bmatrix} \cdots
+# $$
+# where each $\tilde Q_k$ is also a Householder reflection. 
+
+# In particular, we want to do the following:
+# 1. Calculate `Q₁`, the Householder reflection corresponding to the first row of `A`.
+# 2. Compute `Q₁*A`.
+# 3. Get out `α` and `𝐰^⊤` and put it in the corresponding entries in the returned matrix `R`.
+# 4. Build up `Q`.
+# 5. 
 
 
 function householderqr(A)
@@ -422,13 +440,13 @@ function householderqr(A)
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
         Q₁ = dense_householderreflection(𝐚₁)
         Q₁Aⱼ = Q₁*Aⱼ # multiply Aⱼ by the Householder reflection
-        α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end]
+        α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end] # get out 1,1 entry and the rest of the first row
 
-        ## populate returned data
+        ## populate returned R
         R[j,j] = α
         R[j,j+1:end] = 𝐰
 
-        ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
+        ## following is equivalent to Q = Q*[I 0 ; 0 Q̃ⱼ]
         Q[:,j:end] = Q[:,j:end]*Q₁
 
         Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction", we get out the bottom right block of Q₁*Aⱼ
