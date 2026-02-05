@@ -3,65 +3,34 @@
 
 
 
-**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
-
-**SOLUTION**
-$$
-\|Q 𝐱\|^2 = (Q 𝐱)^⋆ Q 𝐱 = 𝐱^⋆ Q^⋆ Q 𝐱 = 𝐱^⋆  𝐱 = \|𝐱\|^2
-$$
-**END**
-
-**Problem 1(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
-on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
-$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
-
-**SOLUTION**
-Let $𝐯$ be a unit eigenvector corresponding to $λ$: $Q 𝐯 = λ 𝐯$ with $\|𝐯\| = 1$. Then
-$$
-1 = \| 𝐯 \| = \|Q 𝐯 \| =  \| λ 𝐯 \| = |λ|.
-$$
-
-**END**
-
-**Problem 1(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
-Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
-Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
-$\det(AB) = \det A \det B$.
-
-**SOLUTION**
-
-$$
-(\det Q)^2 = (\det Q^⊤)(\det Q) = \det Q^⊤Q = \det I = 1.
-$$
-An example would be a 1 × 1 complex-valued matrix $\exp({\rm i})$.
-
-**END**
-
-**Problem 1(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
-
-**SOLUTION**
-$$
- QQ^⋆ = I = Q^⋆Q
-$$
-**END**
-
-**Problem 1(e)** 
-The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
-where $V ∈ U(n)$ and $Λ$ is diagonal.
-Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
-
-**SOLUTION**
-
-Note that $Q$ is normal and therefore by the spectral theorem for 
-normal matrices we have
-$$
-Q = V Λ V^⋆ = V V^⋆ = I
-$$
-since $V$ is unitary. 
-
-**END**
-
 -----
+
+**Problem 1** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
+$$
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+$$
+
+**SOLUTION**
+
+The rotation that takes $[x,y]$ to the x-axis is
+$$
+{1 \over \sqrt{x^2+y^2}} \begin{bmatrix}
+x & y \\
+-y & x
+\end{bmatrix}.
+$$
+Hence we get
+$$
+\begin{align*}
+Q_1 &= {1 \over \sqrt{5}} \begin{bmatrix} 1 & 2 \\ -2 & 1 \end{bmatrix} \\
+Q_2 &= {1 \over 3} \begin{bmatrix} \sqrt{5} & 2 \\ -2 & \sqrt{5} \end{bmatrix}
+\end{align*}
+$$
+
+
+**END**
+
+
 **Problem 2** Consider the vectors
 $$
 𝐚 = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  𝐛 = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
@@ -115,32 +84,70 @@ $$
 
 **END**
 
-**Problem 3** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
-$$
-Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
-$$
+
+
+----
+
+
+**Problem 3(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
 
 **SOLUTION**
+$$
+\|Q 𝐱\|^2 = (Q 𝐱)^⋆ Q 𝐱 = 𝐱^⋆ Q^⋆ Q 𝐱 = 𝐱^⋆  𝐱 = \|𝐱\|^2
+$$
+**END**
 
-The rotation that takes $[x,y]$ to the x-axis is
-$$
-{1 \over \sqrt{x^2+y^2}} \begin{bmatrix}
-x & y \\
--y & x
-\end{bmatrix}.
-$$
-Hence we get
-$$
-\begin{align*}
-Q_1 &= {1 \over \sqrt{5}} \begin{bmatrix} 1 & 2 \\ -2 & 1 \end{bmatrix} \\
-Q_2 &= {1 \over 3} \begin{bmatrix} \sqrt{5} & 2 \\ -2 & \sqrt{5} \end{bmatrix}
-\end{align*}
-$$
+**Problem 3(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
+on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
+$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
 
+**SOLUTION**
+Let $𝐯$ be a unit eigenvector corresponding to $λ$: $Q 𝐯 = λ 𝐯$ with $\|𝐯\| = 1$. Then
+$$
+1 = \| 𝐯 \| = \|Q 𝐯 \| =  \| λ 𝐯 \| = |λ|.
+$$
 
 **END**
 
-----
+**Problem 3(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
+Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
+Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
+$\det(AB) = \det A \det B$.
+
+**SOLUTION**
+
+$$
+(\det Q)^2 = (\det Q^⊤)(\det Q) = \det Q^⊤Q = \det I = 1.
+$$
+An example would be a 1 × 1 complex-valued matrix $\exp({\rm i})$.
+
+**END**
+
+**Problem 3(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
+
+**SOLUTION**
+$$
+ QQ^⋆ = I = Q^⋆Q
+$$
+**END**
+
+**Problem 3(e)** 
+The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
+where $V ∈ U(n)$ and $Λ$ is diagonal.
+Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+
+**SOLUTION**
+
+Note that $Q$ is normal and therefore by the spectral theorem for 
+normal matrices we have
+$$
+Q = V Λ V^⋆ = V V^⋆ = I
+$$
+since $V$ is unitary. 
+
+**END**
+
+
 
 **Problem 4** Use Householder reflections to compute QR and reduce QR factorisations of the matrix
 $$

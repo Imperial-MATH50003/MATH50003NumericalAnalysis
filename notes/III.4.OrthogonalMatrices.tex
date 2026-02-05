@@ -8,7 +8,7 @@ where $Q$ is an orthogonal/unitary matrix and $R$ is a \emph{right-triangular ma
 
 This factorisation is valid for rectangular matrices $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$, where now \emph{right-triangular} is a rectangular version of upper-triangular. For rectangular systems we can no longer solve linear systems of the form $A\ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ (unless $\ensuremath{\bm{\b}}$ lies in the column span of $A$) but instead we want to solve $A\ensuremath{\bm{\x}} \ensuremath{\approx} \ensuremath{\bm{\b}}$, where $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ and $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbC}^m$. More precisely, we can use a QR factorisation to solve \emph{least squares} problems, find $\ensuremath{\bm{\x}}$ that minimises the 2-norm:
 \[
-\|A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|
+\|A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.
 \]
 Before we discuss the computation of a QR factorisation and its role in solving least-squares problems, we introduce orthogonal and unitary matrices. In particular we will discuss reflections and rotations, which can be used to represent more general orthogonal matrices.
 
@@ -43,12 +43,14 @@ Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\
 \item[6. ] They are \emph{normal matrices}: they commute with their adjoint ($Q Q^\ensuremath{\star} = Q Q^\ensuremath{\star}$). 
 
 
-\item[7. ] Both $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
+\item[7. ] Both $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication. Though this is only approximately true
 
 \end{itemize}
-On a computer there are multiple ways of representing orthogonal/unitary matrices. The obvious way is to store entries  as a dense matrix, however, this is very inefficient. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
+when floating point arithmetic is used.
 
-More generally, we will use the group structure: represent general orthogonal/unitary matrices as products of simpler elements of the group. In partular we will use two building blocks:
+On a computer there are multiple ways of representing orthogonal/unitary matrices. The obvious way is to store entries  as a dense matrix, however, this is very inefficient. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we only store  the order the entries are permuted as a vector. 
+
+More generally, we will use the group structure: represent general orthogonal/unitary matrices as products of simpler elements of the group. In particular we will use two building blocks:
 
 \begin{itemize}
 \item[1. ] \emph{Rotations}: Rotations are equivalent to special orthogonal matrices $SO(2)$  and correspond to rotations in 2D.
@@ -64,11 +66,11 @@ U = [\ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_n] \ens
 where $m \ensuremath{\geq} n$ such that $U^\ensuremath{\star} U =  I_n$ (the $n \ensuremath{\times} n$ identity matrix). In the case where $m > n$ we must have $UU^\ensuremath{\star} \ensuremath{\neq} I_m$ as the rank of $U$ is $n < m$. 
 
 \subsection{Rotations}
-We begin with a general definition:
+We begin with the definition of a group of orthogonal matrices:
 
 \begin{definition}[Special Orthogonal and Rotations] \emph{Special Orthogonal Matrices} are
 \[
-SO(n) := \{Q \ensuremath{\in} O(n) | \det Q = 1 \}
+SO(n) := \{Q \ensuremath{\in} O(n) | \det Q = 1 \}.
 \]
 And (simple) \emph{rotations} are $SO(2)$. \end{definition}
 
@@ -78,7 +80,7 @@ In what follows we use the following for writing the angle of a vector:
 \[
 \sqrt{a^2 + b^2} \begin{bmatrix} \cos \ensuremath{\theta} \\ \sin \ensuremath{\theta} \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}.
 \]
-It can be defined in terms of the standard arctan as follows:
+It can be defined in terms of the standard arctan as follows (this definition is non-examinable):
 \[
 {\rm atan}(b,a) := \begin{cases} {\rm atan}{b \over a} & a > 0 \\
                             {\rm atan}{b \over a} + \ensuremath{\pi} & a < 0\hbox{ and }b >0 \\
@@ -107,7 +109,7 @@ Q_\ensuremath{\theta}^\ensuremath{\top}Q_\ensuremath{\theta} = \begin{pmatrix} c
 \]
 and $\det Q_\ensuremath{\theta} = c^2 + s^2 = 1$ hence $Q_\ensuremath{\theta} \ensuremath{\in} SO(2)$. 
 
-Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$ where we know its columns have norm 1, i.e. $\|\ensuremath{\bm{\q}}_k\| = 1$, and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
+Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$. $Q^\topQ = I$ tells us that its columns have norm 1, i.e. $\|\ensuremath{\bm{\q}}_k\| = 1$, and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
 
 \ensuremath{\QED}
 
@@ -162,7 +164,7 @@ Q_{-\ensuremath{\theta}} = \begin{bmatrix}
 More generally, we can consider rotations that operate on two entries of a vector at a time. This will be explored in the problem sheet/lab.
 
 \subsection{Reflections}
-In addition to rotations, another type of orthogonal/unitary matrix are reflections. These are specified by a single vector which is reflected, with everything orthogonal to the vector left fixed. 
+In addition to rotations, another type of orthogonal/unitary matrix are reflections. These are specified by a single vector which is reflected, with every vector orthogonal to the defining vector left fixed. 
 
 \begin{definition}[reflection matrix]  Given a unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\|\ensuremath{\bm{\v}}\|=1$), define the corresponding \emph{reflection matrix} as:
 \[
@@ -175,19 +177,19 @@ These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can 
 \begin{proposition}[Householder properties] $Q_{\ensuremath{\bm{\v}}}$ satisfies:
 
 \begin{itemize}
-\item[1. ] Symmetry: $Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star}$
+\item[1. ] Symmetry: $Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star}$.
 
 
-\item[2. ] Orthogonality: $Q_{\ensuremath{\bm{\v}}} \ensuremath{\in} U(n)$
+\item[2. ] Orthogonality: $Q_{\ensuremath{\bm{\v}}} \ensuremath{\in} U(n)$.
 
 
-\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\ensuremath{\bm{\v}}}$ with eigenvalue $-1$
+\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\ensuremath{\bm{\v}}}$ with eigenvalue $-1$.
 
 
 \item[4. ] For the dimension $n-1$ space $W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0 \}$, all vectors $\ensuremath{\bm{\w}} \ensuremath{\in} W$ satisfy $Q_{\ensuremath{\bm{\v}}}\ensuremath{\bm{\w}} = \ensuremath{\bm{\w}}$.
 
 
-\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$
+\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$ so $Q_{\bfv} \notin SO(n)$.
 
 \end{itemize}
 \end{proposition}
@@ -222,7 +224,7 @@ Indeed it is symmetric, and orthogonal. It sends $\ensuremath{\bm{\x}}$ to $-\en
 \[
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -\ensuremath{\bm{\x}}
 \]
-Any vector orthogonal to $\ensuremath{\bm{\x}}$, like $\ensuremath{\bm{\y}} = [-2,1]^\ensuremath{\top}$, is left fixed:
+Any vector orthogonal to $\ensuremath{\bm{\x}}$, like $\ensuremath{\bm{\y}} = [-2,1]^\ensuremath{\top}$, is unchanged:
 \[
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\y}} = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = \ensuremath{\bm{\y}}
 \]
@@ -287,6 +289,11 @@ Therefore:
 Q_{\ensuremath{\bm{\x}}}^{\rm H} \ensuremath{\bm{\x}}  =  (I - 2 \ensuremath{\bm{\w}} \ensuremath{\bm{\w}}^\ensuremath{\star}) \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 {\ensuremath{\bm{\y}}    \over \|\ensuremath{\bm{\y}}\|^2} (\|\ensuremath{\bm{\x}} \|^2 + |x_1| \|\ensuremath{\bm{\x}} \|) = \ensuremath{\bm{\x}} - \ensuremath{\bm{\y}} =  -\ensuremath{\alpha} \|\ensuremath{\bm{\x}}\| \ensuremath{\bm{\e}}_1.
 \]
 \ensuremath{\QED}
+
+\subsection{Lab and Problem Sheet}
+In the problem sheet we explore some simple examples of rotations and Householder reflections. We then prove basic properties of orthogonal matrices that we will use: (1) they preserve norm, (2) all eigenvalues are on the complex unit circle, (3) the determinant is $\ensuremath{\pm}1$, (4) that they are \emph{normal}, that is, they commute with their adjoint, and (5) using the spectral theorem  (normal matrices are diagonalisable with unitary eigenvectors) we show that $Q = I$ if and only if all eigenvalues are 1.
+
+In the lab we see how special types can be constructed to represent a rotation and products of rotations, as well as Householder reflections. Using special types is important to ensure that multiplication has optimal complexity: a Householder reflection can be applied in $O(n)$ operations, whereas using a standard dense matrix would take $O(n^2)$ operations.
 
 
 
