@@ -33,3 +33,4 @@ Manifest.toml
 *.fdb_latexmk
 *.fls
 Project.toml
+*.synctex(busy)
