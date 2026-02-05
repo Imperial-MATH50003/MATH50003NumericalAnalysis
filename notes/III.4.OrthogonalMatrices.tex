@@ -109,7 +109,7 @@ Q_\ensuremath{\theta}^\ensuremath{\top}Q_\ensuremath{\theta} = \begin{pmatrix} c
 \]
 and $\det Q_\ensuremath{\theta} = c^2 + s^2 = 1$ hence $Q_\ensuremath{\theta} \ensuremath{\in} SO(2)$. 
 
-Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$. $Q^\topQ = I$ tells us that its columns have norm 1, i.e. $\|\ensuremath{\bm{\q}}_k\| = 1$, and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
+Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$. $Q^\top Q = I$ tells us that its columns have norm 1, i.e. $\|\ensuremath{\bm{\q}}_k\| = 1$, and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
 
 \ensuremath{\QED}
 
@@ -189,7 +189,7 @@ These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can 
 \item[4. ] For the dimension $n-1$ space $W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0 \}$, all vectors $\ensuremath{\bm{\w}} \ensuremath{\in} W$ satisfy $Q_{\ensuremath{\bm{\v}}}\ensuremath{\bm{\w}} = \ensuremath{\bm{\w}}$.
 
 
-\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$ so $Q_{\bfv} \notin SO(n)$.
+\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$ so $Q_{\ensuremath{\bm{\v}}} \ensuremath{\notin} SO(n)$.
 
 \end{itemize}
 \end{proposition}
@@ -291,7 +291,7 @@ Q_{\ensuremath{\bm{\x}}}^{\rm H} \ensuremath{\bm{\x}}  =  (I - 2 \ensuremath{\bm
 \ensuremath{\QED}
 
 \subsection{Lab and Problem Sheet}
-In the problem sheet we explore some simple examples of rotations and Householder reflections. We then prove basic properties of orthogonal matrices that we will use: (1) they preserve norm, (2) all eigenvalues are on the complex unit circle, (3) the determinant is $\ensuremath{\pm}1$, (4) that they are \emph{normal}, that is, they commute with their adjoint, and (5) using the spectral theorem  (normal matrices are diagonalisable with unitary eigenvectors) we show that $Q = I$ if and only if all eigenvalues are 1.
+In the problem sheet we explore some examples of constructing simple rotations and Householder reflections. We then prove basic properties of orthogonal matrices that we will use: (1) they preserve norm, (2) all eigenvalues are on the complex unit circle, (3) the determinant is $\ensuremath{\pm}1$, (4)  they are \emph{normal}, that is, they commute with their adjoint, and (5) using the spectral theorem  (normal matrices are diagonalisable with unitary eigenvectors) we show that $Q = I$ if and only if all eigenvalues are 1.
 
 In the lab we see how special types can be constructed to represent a rotation and products of rotations, as well as Householder reflections. Using special types is important to ensure that multiplication has optimal complexity: a Householder reflection can be applied in $O(n)$ operations, whereas using a standard dense matrix would take $O(n^2)$ operations.
 

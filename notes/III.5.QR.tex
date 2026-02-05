@@ -1,12 +1,16 @@
 
 \section{QR Factorisation}
-Let $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ be a rectangular or square matrix such that $m \ensuremath{\geq} n$ (i.e. more rows then columns). In this section we consider two closely related factorisations:
+Let $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ be a rectangular or square matrix such that $m \ensuremath{\geq} n$ (i.e. more rows then columns). In this section we consider two closely related factorisations, which can be viewed in some sense as a competitor to the PLU factorisation, but one that extends to rectangular matrices and allows for the solution of least squares problems.
+
+The QR factorisation consists of writing $A$ as a product of a (square) \emph{orthogonal} and a (rectangular) \emph{right triangular} matrix:
 
 \begin{definition}[QR factorisation] The \emph{QR factorisation} is
 \[
 A = Q R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix}}_{Q \ensuremath{\in} U(m)} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times} \\ &&0 \\ &&\ensuremath{\vdots} \\ && 0 \end{bmatrix}}_{R \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}}
 \]
 where $Q$ is unitary (i.e., $Q \ensuremath{\in} U(m)$, satisfying $Q^\ensuremath{\star}Q = I$, with columns $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $R$ is \emph{right triangular}, which means it  is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$). \end{definition}
+
+It is often more convenient to work with an alternative version known as the reduced QR factorisation, which is a product of a (rectangular) matrix with orthonormal columns and a (square) upper triangular matrix:
 
 \begin{definition}[Reduced QR factorisation] The \emph{reduced QR factorisation}
 \[
@@ -18,19 +22,19 @@ Note for a square matrix the reduced QR factorisation is equivalent to the QR fa
 \[
 A = QR \qquad \ensuremath{\Rightarrow} \qquad A^{-1}\ensuremath{\bm{\b}} = R^{-1} Q^\ensuremath{\top} \ensuremath{\bm{\b}}
 \]
-and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $\ensuremath{\bm{\b}}$.
-
-For rectangular matrices we will see that the QR factorisation leads to efficient solutions to the \emph{least squares problem}: find $\ensuremath{\bm{\x}}$ that minimizes the 2-norm $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.$ Note in the rectangular case the QR factorisation contains within it the reduced QR factorisation:
+and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $\ensuremath{\bm{\b}}$. On the other hand, in the rectangular case the QR factorisation contains within it the reduced QR factorisation:
 \[
 A = QR = \begin{bmatrix} \hat Q | \ensuremath{\bm{\q}}_{n+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix} \begin{bmatrix} \hat R \\  \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} = \hat Q \hat R.
 \]
+For rectangular matrices we will see that the QR factorisation leads to efficient solutions to the \emph{least squares problem}: find $\ensuremath{\bm{\x}}$ that minimizes the 2-norm $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.$
+
 In this section we discuss the following:
 
 \begin{itemize}
-\item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR factorisation using Gram\ensuremath{\endash}Schmidt.
+\item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: The Reduced QR factorisation is equivalent to the Gram\ensuremath{\endash}Schmidt procedure, which you may have seen in 1st year or in the 1st half of the module.
 
 
-\item[2. ] Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach for computing QR factorisations.
+\item[2. ] Householder reflections and QR: Alternatively, the  QR factorisation can be computed using a sequence of Householder reflections. This process mimics that of the LU factorisation, but using orthogonal matrices in-place of lower triangular ones to introduces zeros in column-by-column.  This is a more accurate approach for computing QR factorisations than Gram\ensuremath{\endash}Schmidt as applying orthogonal matrices is stable.
 
 
 \item[3. ] QR and least squares: We discuss the QR factorisation and its usage in solving least squares problems.
@@ -126,10 +130,10 @@ For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisati
 \[
 Q_1 A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & A_2 \end{bmatrix}.
 \]
-By assumption $A_2 = Q_2 R_2$. Thus we have (recalling that $Q_1^{-1} = Q_1^\ensuremath{\star} = Q_1$):
+By assumption $A_2 = \tilde Q \tilde R$. Thus we have (recalling that $Q_1^{-1} = Q_1^\ensuremath{\star} = Q_1$):
 \begin{align*}
-A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & Q_2 R_2 \end{bmatrix} \\
-=\underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  R_2 \end{bmatrix}}_R.
+A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & \tilde Q \tilde R \end{bmatrix} \\
+=\underbrace{Q_1 \begin{bmatrix} 1 \\ & \tilde Q \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  \tilde R \end{bmatrix}}_R.
 \end{align*}
 If $m < n$, i.e., $A$ has more columns then rows, write 
 \[
@@ -241,11 +245,16 @@ The norm-preserving property ($\|Q\ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}
 \]
 Now note that the rows $k > n$ are independent of $\ensuremath{\bm{\x}}$ and are a fixed contribution. Thus to minimise this norm it suffices to drop them and minimise:
 \[
-\| \hat R \ensuremath{\bm{\x}} - \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}} \|
+\| \hat R \ensuremath{\bm{\x}} - \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}} \|.
 \]
 This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible.
 
 \end{example}
+
+\subsection{Lab and Problem Sheet}
+In the lab we see how Householder reflection can be implemented by an iterative algorithm. To achieve optimal complexity it is important to take advantage of the structure of the Householder reflections, which is explored in the problems. For Tridiagonal matrices it is possible to use rotations in-place of reflections to upper-triangularise a matrix, in which case the resulting matrix is upper-tridiagonal. We investigate implementing this, giving an $O(n)$ algorithm for computing the QR factorisation of a tridiagonal matrix. (This can also be done with sparse Householder reflections, and thereby extended to general banded matrices). Finally, we look at the relationship between least squares and the QR factorisation.
+
+In the problem sheet we see a simple example of a computing the QR factorisation using Householder reflections by-hand. (It's actually very hard to come up with examples where it's reasonable to do it by hand: it's more of a computer-based algorithm than one meant for pen-and-pencil calculations. Therefore this is not examinable but is there to help facilitate understanding.) We also explore some basic properties of QR factorisation such as uniqueness.
 
 
 

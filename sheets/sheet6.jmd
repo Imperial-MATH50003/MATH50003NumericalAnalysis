@@ -1,37 +1,31 @@
 **Numerical Analysis MATH50003 (2025–26) Problem Sheet 6**
 
 
+We explore simple rotations, reflections, and the properties of orthogonal/unitary matrices.
+We also see how reflections can be used to introduce zeros into a matrix. This leads to an algorithm for
+computing the QR factorisation of a matrix.
 
 
-**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
-
-
-
-**Problem 1(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
-on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
-$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
-
-
-
-**Problem 1(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
-Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
-Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
-$\det(AB) = \det A \det B$.
-
-
-
-**Problem 1(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
-
-
-
-**Problem 1(e)** 
-The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
-where $V ∈ U(n)$ and $Λ$ is diagonal.
-Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
-
+We begin with some simple examples of $2 × 2$ rotations:
 
 
 -----
+
+**Problem 1** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
+$$
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+$$
+
+
+
+----
+
+We now look for specific examples of Householder reflections. These have the important property that they introduce
+zeros below the top entry, a feature that will be used in the development of an algorithm for the QR factorisation:
+
+----
+
+
 **Problem 2** Consider the vectors
 $$
 𝐚 = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  𝐛 = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
@@ -44,14 +38,55 @@ $$
 
 
 
-**Problem 3** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
-$$
-Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
-$$
+------
 
+In the notes we discussed properties of orthogonal/unitary matrices.  Here we prove these properties, which will be used
+in subsequent proofs. These problems also introduce an important concept of a normal matrix:
+one which commutes with its adjoint. Both symmetric and orthogonal/unitary matrices are normal. Note that normal matrices are diagonalisable via unitary matrices (an example of _the spectral theorem_).
 
 
 ----
+
+
+**Problem 3(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
+
+
+
+**Problem 3(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
+on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
+$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
+
+
+
+**Problem 3(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
+Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
+Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
+$\det(AB) = \det A \det B$.
+
+
+
+**Problem 3(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
+
+
+
+**Problem 3(e)** 
+The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
+where $V ∈ U(n)$ and $Λ$ is diagonal.
+Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+
+
+
+
+-----
+
+
+We now turn to QR factorisation beginning with an example that can be done by hand. (This example was very delicately chosen; 
+so this problem is not examinable but does help to understand how the QR factorisation works and its relationship to the reduced QR factorisation.)
+
+
+-----
+
+
 
 **Problem 4** Use Householder reflections to compute QR and reduce QR factorisations of the matrix
 $$
@@ -60,6 +95,14 @@ A = \begin{bmatrix} -1 & 2 \\
 2 & 3 \end{bmatrix}.
 $$
 
+
+
+
+-----
+
+Our last two problems concern the uniqueness of the QR factorisation.
+
+----
 
 
 **Problem 5(a)** Show that every matrix $A ∈ ℝ^{m × n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative.
@@ -73,4 +116,4 @@ provided that the diagonal of $R$ is positive.
 
 
 
-
+-------

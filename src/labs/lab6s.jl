@@ -402,51 +402,62 @@ Q = Reflections(V)
 # we can construct a Householder reflection $Q_1 = Q_{𝐚_1}^H$ so that
 # $$
 # Q₁ A = \begin{bmatrix}
-# α & \bfw^\top \\
-#  & A₂ \end{bmatrix},
+# α₁ & 𝐰_1^\top \\
+#  & A₂ \end{bmatrix}.
 # $$
-# and then find $A₂ = Q₂ R₂$ so that
+# If we find $A₂ = Q̃ R̃$ then we know
 # $$
-#   A = \underbrace{Q₁ \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q \underbrace{  \begin{bmatrix}
-# α & 𝐰^⊤ \\
-#  & R₂ \end{bmatrix}}_R
+#   A = \underbrace{Q₁ \begin{bmatrix} 1 \\ & Q̃ \end{bmatrix}}_Q \underbrace{  \begin{bmatrix}
+# α₁ & 𝐰₁^⊤ \\
+#  & R̃ \end{bmatrix}}_R
 # $$
-# We want to turn this inductive proof into an iterative algorithm. Note that the final $Q$ can be written
-# $$
-# Q = Q₁ \begin{bmatrix} 1 \\ & \tilde Q_2 \end{bmatrix} \begin{bmatrix} 1  \\ & 1 \\ && \tilde Q_3 \end{bmatrix} \cdots
-# $$
-# where each $\tilde Q_k$ is also a Householder reflection. 
 
-# In particular, we want to do the following:
-# 1. Calculate `Q₁`, the Householder reflection corresponding to the first row of `A`.
-# 2. Compute `Q₁*A`.
-# 3. Get out `α` and `𝐰^⊤` and put it in the corresponding entries in the returned matrix `R`.
-# 4. Build up `Q`.
-# 5. 
+# We want to turn this inductive proof into an iterative algorithm. That is, we iteratively compute
+# $$
+# Qⱼ Aⱼ = \begin{bmatrix}
+# αⱼ & 𝐰_k^\top \\
+#  & A_{k+1} \end{bmatrix}.
+# $$
+# Then $αⱼ$ tells us $R[j,j]$ whilst $𝐰ⱼ$ tells us $R[j,j+1:n]$. 
+#  Furthermore, the final $Q$ can be written
+# $$
+# Q = Q₁ \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix} \begin{bmatrix} 1  \\ & 1 \\ && Q_3 \end{bmatrix} \cdots
+# $$
+# where each $Q_j$ is also a Householder reflection. Observe that, e.g., when we multiply
+# $Q₁$ by $\begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}$ we only modify the 2nd through $n$-th columns.
+
+# The stages of the algorithm are:
+# 1. Calculate `Qⱼ`, the Householder reflection corresponding to the first row of `Aⱼ`.
+# 2. Compute `Qⱼ*Aⱼ`.
+# 3. Get out `αⱼ` and `𝐰ⱼ` and put it in the corresponding entries in the returned matrix `R`.
+# 4. Build up `Q` step-by-step by modifying the $j$ through $n$-th column.
+# 5. Repeat with $A_{j+1}$ which is given by `(Qⱼ*Aⱼ)[2:end,2:end]`.
+
+# Putting this together we get:
 
 
 function householderqr(A)
-    T = eltype(A)
+    T = eltype(A) # type of entries of A (Float64 or ComplexF64 usually)
     m,n = size(A)
     if n > m
         error("More columns than rows is not supported")
     end
 
     R = zeros(T, m, n)
-    Q = Matrix(one(T)*I, m, m)
-    Aⱼ = copy(A) # initate the recurrence with the full matrix
+    Q = Matrix(one(T)*I, m, m) # Begin with Q being the identity matrix
+    Aⱼ = A # initate the recurrence with the full matrix
 
     for j = 1:n
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
-        Q₁ = dense_householderreflection(𝐚₁)
-        Q₁Aⱼ = Q₁*Aⱼ # multiply Aⱼ by the Householder reflection
-        α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end] # get out 1,1 entry and the rest of the first row
+        Qⱼ = dense_householderreflection(𝐚₁)
+        QⱼAⱼ = Qⱼ*Aⱼ # multiply Aⱼ by the Householder reflection
+        α,𝐰 = QⱼAⱼ[1,1],QⱼAⱼ[1,2:end] # get out 1,1 entry and the rest of the first row
 
         ## populate returned R
         R[j,j] = α
         R[j,j+1:end] = 𝐰
 
-        ## following is equivalent to Q = Q*[I 0 ; 0 Q̃ⱼ]
+        ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
         Q[:,j:end] = Q[:,j:end]*Q₁
 
         Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction", we get out the bottom right block of Q₁*Aⱼ
@@ -613,7 +624,7 @@ A = Tridiagonal([1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4])
 Q, R = bandedqr(A)
 @test Q*R ≈ A
 
-
+# ------
 
 # ### III.5.3 QR and least squares
 
