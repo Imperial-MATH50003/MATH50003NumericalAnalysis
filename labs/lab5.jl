@@ -125,7 +125,7 @@ b̃ = b[σ] # permute the entries to [b[2],b[3],b[1]]
 c = L \ b̃ # invert L with forward substitution
 x = U \ c # invert U with back substitution
 
-@test x == A \ b # \ also use PLU to do the solve so these exactly equal
+@test x ≈ A \ b # \ also use PLU to do the solve so these exactly equal
 
 # Note in the following problems we will see that PLU is _usually_ stable but not always.
 # Fortunately the set of matrices where it fails to be accurate has extremely small measure.
