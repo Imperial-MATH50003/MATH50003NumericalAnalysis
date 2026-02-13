@@ -536,7 +536,7 @@ Q,R = householderqr(A)
 
 # **Problem 4** This problem explores computing  a QR factorisation of a Tridiagonal matrix in $O(n)$ operations.
 # This will introduce entries in the second super-diagonal, hence we will use the `UpperTridiagonal` type
-# from Lab 6 (solution copied below). Complete the implementation of `bandedqr`, that only takes $O(n)$ operations,
+# from Lab 4 (solution copied below). Complete the implementation of `bandedqr`, that only takes $O(n)$ operations,
 # using an instance of `Reflections` to represent `Q` and `UpperTriangular` to represent `R`.
 
 import Base: *, size, getindex, setindex!
