@@ -1,0 +1,198 @@
+
+\section{Singular Value Decomposition and Matrix Compression}
+In this chapter we discuss the \emph{Singular Value Decomposition (SVD)}: a matrix factorisation that encodes how much a matrix "stretches" a random vector. This includes \emph{singular values},  the largest of which dictates the $2$-norm of the matirx.
+
+\begin{definition}[singular value decomposition] For $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ with rank $r > 0$,  the \emph{(reduced) singular value decomposition (SVD)} is
+\[
+A = U \ensuremath{\Sigma} V^\ensuremath{\star}
+\]
+where $U \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} r}$ and $V \ensuremath{\in}  \ensuremath{\bbC}^{n \ensuremath{\times} r}$ have orthonormal columns and $\ensuremath{\Sigma} \ensuremath{\in} \ensuremath{\bbR}^{r \ensuremath{\times} r}$ is  diagonal whose diagonal entries, which which we call \emph{singular values}, are all positive and non-increasing: $\ensuremath{\sigma}_1 \ensuremath{\geq} \ensuremath{\cdots} \ensuremath{\geq} \ensuremath{\sigma}_r > 0$. The \emph{full singular value decomposition (SVD)} is
+\[
+A = \tilde{U} \tilde{\Sigma} \tilde{V}^\ensuremath{\star}
+\]
+where $\tilde{U} \ensuremath{\in} U(m)$ and $\tilde{V} \ensuremath{\in}  U(n)$ are unitary matrices and $\tilde{\Sigma} \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ has only diagonal non-zero entries, i.e., if $m > n$,
+\[
+\tilde{\Sigma} = \begin{bmatrix} \ensuremath{\sigma}_1 \\ & \ensuremath{\ddots} \\ && \ensuremath{\sigma}_n \\ && 0 \\ && \ensuremath{\vdots} \\ && 0 \end{bmatrix}
+\]
+and if $m < n$,
+\[
+\tilde{\Sigma} = \begin{bmatrix} \ensuremath{\sigma}_1 \\ & \ensuremath{\ddots} \\ && \ensuremath{\sigma}_m & 0 & \ensuremath{\cdots} & 0\end{bmatrix}
+\]
+where $\ensuremath{\sigma}_k = 0$ if $k > r$. \end{definition}
+
+In particular, we discuss:
+
+\begin{itemize}
+\item[1. ] Existence of the SVD: we show that an SVD exists by relating it to the eigenvalue Decomposition of $A^\ensuremath{\star}A$ and $AA^\ensuremath{\star}$.
+
+
+\item[2. ] 2-norm and SVD: the 2-norm of a matrix is defined in terms of the largest singular value.
+
+
+\item[3. ] Best rank-$k$ approximation and compression: the best approximation of a matrix by a smaller rank matrix can be constructed
+
+\end{itemize}
+using the SVD, which gives an effective way to compress matrices. 
+
+\subsection{Existence}
+To show the SVD exists we first establish some properties of a \emph{Gram matrix} ($A^\ensuremath{\star} A$):
+
+\begin{proposition}[Gram matrix kernel] The kernel of $A$ is the also the kernel of $A^\ensuremath{\star} A$. 
+
+\end{proposition}
+\textbf{Proof} If $A^\ensuremath{\star} A \ensuremath{\bm{\x}} = 0$ then we have
+\[
+0 = \ensuremath{\bm{\x}}^\ensuremath{\star} A^\ensuremath{\star} A \ensuremath{\bm{\x}} = \| A \ensuremath{\bm{\x}} \|^2
+\]
+which means $A \ensuremath{\bm{\x}} = 0$ and $\ensuremath{\bm{\x}} \ensuremath{\in} \hbox{ker}(A)$. \ensuremath{\QED}
+
+\begin{proposition}[Gram matrix diagonalisation] The Gram-matrix satisfies
+\[
+A^\ensuremath{\star} A = Q \ensuremath{\Lambda} Q^\ensuremath{\star} \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}
+\]
+is a Hermitian matrix where $Q \ensuremath{\in} U(n)$ and the eigenvalues $\ensuremath{\lambda}_k$ are real and non-negative. If $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ then $Q \ensuremath{\in} O(n)$.
+
+\end{proposition}
+\textbf{Proof} $A^\ensuremath{\star} A$ is Hermitian so we appeal to the spectral theorem for the existence of the decomposition, and the fact that the eigenvalues are real. For the corresponding (orthonormal) eigenvector $\ensuremath{\bm{\q}}_k$,
+\[
+\ensuremath{\lambda}_k = \ensuremath{\lambda}_k \ensuremath{\bm{\q}}_k^\ensuremath{\star} \ensuremath{\bm{\q}}_k = \ensuremath{\bm{\q}}_k^\ensuremath{\star} A^\ensuremath{\star} A \ensuremath{\bm{\q}}_k = \| A \ensuremath{\bm{\q}}_k \|^2 \ensuremath{\geq} 0.
+\]
+\ensuremath{\QED}
+
+This connection allows us to prove existence:
+
+\begin{theorem}[SVD existence] Every $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has an SVD.
+
+\end{theorem}
+\textbf{Proof} Consider
+\[
+A^\ensuremath{\star} A = Q \ensuremath{\Lambda} Q^\ensuremath{\star}.
+\]
+Assume (as usual) that the eigenvalues are sorted in decreasing modulus, and so $\ensuremath{\lambda}_1,\ensuremath{\ldots},\ensuremath{\lambda}_r$ are an enumeration of the non-zero eigenvalues and
+\[
+V := \begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_r \end{bmatrix}
+\]
+the corresponding (orthonormal) eigenvectors, with
+\[
+K = \begin{bmatrix} \ensuremath{\bm{\q}}_{r+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}
+\]
+the corresponding kernel.  Define
+\[
+\ensuremath{\Sigma} :=  \begin{bmatrix} \sqrt{\ensuremath{\lambda}_1} \\ & \ensuremath{\ddots} \\ && \sqrt{\ensuremath{\lambda}_r} \end{bmatrix}
+\]
+Now define
+\[
+U := AV \ensuremath{\Sigma}^{-1}
+\]
+which is orthogonal since $A^\ensuremath{\star} A V = V \ensuremath{\Sigma}^2$:
+\[
+U^\ensuremath{\star} U = \ensuremath{\Sigma}^{-1} V^\ensuremath{\star} A^\ensuremath{\star} A V \ensuremath{\Sigma}^{-1} = I.
+\]
+Thus we have
+\[
+U \ensuremath{\Sigma} V^\ensuremath{\star} = A V V^\ensuremath{\star} = A \underbrace{\begin{bmatrix} V | K \end{bmatrix}}_Q\underbrace{\begin{bmatrix} V^\ensuremath{\star} \\ K^\ensuremath{\star} \end{bmatrix}}_{Q^\ensuremath{\star}}
+\]
+where we use the fact that $A K = 0$ so that concatenating $K$ does not change the value.
+
+\ensuremath{\QED}
+
+\subsection{2-norm and SVD}
+As reviewed in the appendix, vector norms induce matrix norms by taking the supremum over every entry. In the special case of the 2-norm this gives us the following: for $A \in \bbC^{m \times n}$ we define its norm as
+\[
+\|A \| := \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\| =1} \|A \ensuremath{\bm{\v}}\|,
+\]
+where we use the standard vector 2-norm: $\|\ensuremath{\bm{\v}}\| := \sqrt{\ensuremath{\bm{\v}}^\star \ensuremath{\bm{\v}}}$.
+
+Somewhat surprisingly, the 2-norm does not have a simple formula but instead, as we shall show, can be defined in terms of the SVD. We begin with two cases where we do have simple formul\ensuremath{\ae}:
+
+\begin{proposition}[diagonal/orthogonal 2-norms] If $\ensuremath{\Lambda}$ is diagonal with entries $\ensuremath{\lambda}_k$ then $\|\ensuremath{\Lambda}\|_2 = \max_k |\ensuremath{\lambda}_k|$. If $Q$ is orthogonal then $\|Q\| = 1$.
+
+\end{proposition}
+\textbf{Proof}
+
+The first property follows immediately. The second property follows since $Q$ preserves norm:
+\[
+\|Q \| = \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\| =1} \|Q \ensuremath{\bm{\v}}\| = \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\| =1} \|\ensuremath{\bm{\v}}\|  =1.
+\]
+\ensuremath{\QED}
+
+These two facts allow us to deduce the 2-norm from the SVD of a matrix:
+
+\begin{corollary}[singular values and norm]
+\[
+\|A \| = \ensuremath{\sigma}_1
+\]
+and if $A \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}$ is invertible, then
+\[
+\|A^{-1} \| = \ensuremath{\sigma}_n^{-1}
+\]
+\end{corollary}
+\textbf{Proof}
+
+First we establish the upper-bound:
+\[
+\|A \|_2 \ensuremath{\leq}  \|U \|_2 \| \ensuremath{\Sigma} \|_2 \| V^\ensuremath{\star}\|_2 = \| \ensuremath{\Sigma} \|_2  = \ensuremath{\sigma}_1
+\]
+This is attained using the first right singular vector:
+\[
+\|A \ensuremath{\bm{\v}}_1\|_2 = \|\ensuremath{\Sigma} V^\ensuremath{\star} \ensuremath{\bm{\v}}_1\|_2 = \|\ensuremath{\Sigma}  \ensuremath{\bm{\e}}_1\|_2 = \ensuremath{\sigma}_1
+\]
+The inverse result follows since the inverse has SVD
+\[
+A^{-1} = V \ensuremath{\Sigma}^{-1} U^\ensuremath{\star} = (V W) (W \ensuremath{\Sigma}^{-1} W) (W U)^\ensuremath{\star}
+\]
+is the SVD of $A^{-1}$, i.e. $VW \ensuremath{\in} U(n)$ are the left singular vectors and $W U$ are the right singular vectors, where
+\[
+W := P_\ensuremath{\sigma} = \begin{bmatrix} && 1 \\ & \ensuremath{\adots} \\ 1 \end{bmatrix}
+\]
+is the permutation that reverses the entries, that is, $\ensuremath{\sigma}$ has Cauchy notation
+\[
+\begin{pmatrix}
+1 & 2 & \ensuremath{\cdots} & n \\
+n & n-1 & \ensuremath{\cdots} & 1
+\end{pmatrix}.
+\]
+\ensuremath{\QED}
+
+We will not discuss in this module computation of singular value decompositions or eigenvalues: they involve iterative algorithms (actually built on a sequence of QR decompositions).
+
+\subsection{Best rank-$k$ approximation and compression}
+One of the main usages for SVDs is low-rank approximation:
+
+\begin{theorem}[best low rank approximation] The  matrix
+\[
+A_k := \begin{bmatrix} \ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_k \end{bmatrix} \begin{bmatrix}
+\ensuremath{\sigma}_1 \\
+& \ensuremath{\ddots} \\
+&& \ensuremath{\sigma}_k\end{bmatrix} \begin{bmatrix} \ensuremath{\bm{\v}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\v}}_k \end{bmatrix}^\ensuremath{\star}
+\]
+is the best 2-norm approximation of $A$ by a rank $k$ matrix, that is, for all rank-$k$ matrices $B$, we have  $\|A - A_k\|_2 \ensuremath{\leq} \|A -B \|_2.$
+
+\end{theorem}
+\textbf{Proof} We have
+\[
+A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& \ensuremath{\sigma}_{k+1} \cr &&&& \ddots \cr &&&&& \ensuremath{\sigma}_r\end{bmatrix} V^\ensuremath{\star}.
+\]
+Suppose a rank-$k$ matrix $B$ has 
+\[
+\|A-B\|_2  < \|A-A_k\|_2 = \ensuremath{\sigma}_{k+1}.
+\]
+For all $\ensuremath{\bm{\w}} \ensuremath{\in} \ker(B)$ we have 
+\[
+\|A \ensuremath{\bm{\w}}\|_2 = \|(A-B) \ensuremath{\bm{\w}}\|_2 \ensuremath{\leq} \|A-B\|\|\ensuremath{\bm{\w}}\|_2  < \ensuremath{\sigma}_{k+1} \|\ensuremath{\bm{\w}}\|_2
+\]
+But for all $\ensuremath{\bm{\u}} \ensuremath{\in} {\rm span}(\ensuremath{\bm{\v}}_1,\ensuremath{\ldots},\ensuremath{\bm{\v}}_{k+1})$, that is, $\ensuremath{\bm{\u}} = V[:,1:k+1]\ensuremath{\bm{\c}}$ for some $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^{k+1}$  we have 
+\[
+\|A \ensuremath{\bm{\u}}\|_2^2 = \|U \ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|_2^2 = \|\ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|_2^2 =
+\sum_{j=1}^{k+1} (\ensuremath{\sigma}_j c_j)^2 \ensuremath{\geq} \ensuremath{\sigma}_{k+1}^2 \| \ensuremath{\bm{\c}}  \|^2,
+\]
+i.e., $\|A \ensuremath{\bm{\u}}\|_2 \ensuremath{\geq} \ensuremath{\sigma}_{k+1} \|\ensuremath{\bm{\u}}\|$, where we use the fact that
+\[
+\|\ensuremath{\bm{\u}}\|^2 = \|V[:,1:k+1]\ensuremath{\bm{\c}}\|^2 = \ensuremath{\bm{\c}}^\ensuremath{\star} V[:,1:k+1]^\ensuremath{\star} V[:,1:k+1]\ensuremath{\bm{\c}} = \ensuremath{\bm{\c}}^\ensuremath{\star}\ensuremath{\bm{\c}} = \|\ensuremath{\bm{\c}}\|^2.
+\]
+Thus $\ensuremath{\bm{\w}}$ cannot be in this span.
+
+The dimension of the span of $\ker(B)$ is at least $n-k$, but the dimension of ${\rm span}(\ensuremath{\bm{\v}}_1,\ensuremath{\ldots},\ensuremath{\bm{\v}}_{k+1})$ is at least $k+1$. Since these two spaces cannot intersect (apart from at 0) we have a contradiction, since $(n-r) + (r+1) = n+1 > n$.  \ensuremath{\QED}
+
+
+

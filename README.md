@@ -46,6 +46,7 @@ Submit labs/problem sheets to <a href="mailto:maria.ricciuti18@imperial.ac.uk">G
    - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb)
    - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf)
    - Optional Problems: Sheet 1, 4. Lab 1, 4.
+7. IV.1 Polynomial Interpolation and Regression and IV.2 Singular Value Decomposition and Matrix Compression
 
 ## Revision
 

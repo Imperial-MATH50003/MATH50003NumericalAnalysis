@@ -1,0 +1,158 @@
+
+\section{Polynomial Interpolation and Regression}
+\emph{Polynomial interpolation} is the process of finding a polynomial that equals data at a precise set of points. In this section we see how an interpolant can be constructed by either solving a linear system involving the Vandermonde matrix, or directly in terms of the Lagrange basis for polynomials. We also investigate an application of polynomial interpolation to computing integrals, giving an alternative to the rectangular and triangular rules from the first chapter. In the lab we see that this leads to much more accurate computation. We also see in the lab that polynomial interpolation has issues, particular with an evenly spaced grid or with a monomial basis. Overcoming this will motivate orthogonal polynomials later in the module.
+
+A more robust scheme that overcomes some of the issues with naive polynomial interpolation is \emph{polynomial regression}, where we use more data than the degrees of freedom in the polynomial. We can determine such a polynomial by solving a \emph{least squares peroblem}: instead of insisting that the polynomial matches data exactly, we find the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. 
+
+\subsection{Polynomial interpolation}
+Our prelimary goal is given a set of points and data at those points, usually samples of a function $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
+
+\begin{definition}[interpolatory polynomial] Given \emph{distinct} points $\ensuremath{\bm{\x}} = \vectt[x_1,\ensuremath{\ldots},x_n] \ensuremath{\in} \ensuremath{\bbC} ^n$ and \emph{data} $\ensuremath{\bm{\f}} = \vectt[f_1,\ensuremath{\ldots},f_n] \ensuremath{\in} \ensuremath{\bbC}^n$, a degree $n-1$ \emph{interpolatory polynomial} $p(x)$ satisfies
+\[
+p(x_j) = f_j
+\]
+\end{definition}
+
+The easiest way to solve this problem is to invert the Vandermonde system:
+
+\begin{definition}[Vandermonde] The \emph{Vandermonde matrix} associated with $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^m$ is the matrix
+\[
+V_{\ensuremath{\bm{\x}},n} := \begin{bmatrix} 1 & x_1 & \ensuremath{\cdots} & x_1^{n-1} \\
+                    \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                    1 & x_m & \ensuremath{\cdots} & x_m^{n-1}
+                    \end{bmatrix} \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}.
+\]
+When it is clear from context we omit the subscripts $\ensuremath{\bm{\x}},n$. \end{definition}
+
+Writing the coefficients of a polynomial
+\[
+p(x) = \ensuremath{\sum}_{k=0}^{n-1} c_k x^k
+\]
+as a vector  $\ensuremath{\bm{\c}} = \vectt[c_0,\ensuremath{\ldots},c_{n-1}] \ensuremath{\in} \ensuremath{\bbC}^n$, we note that $V$ encodes the linear map from coefficients to values at a grid, that is,
+\[
+V\ensuremath{\bm{\c}} = \Vectt[c_0 + c_1 x_1 + \ensuremath{\cdots} + c_{n-1} x_1^{n-1}, \ensuremath{\vdots}, c_0 + c_1 x_m + \ensuremath{\cdots} + c_{n-1} x_m^{n-1}] = \Vectt[p(x_1),\ensuremath{\vdots},p(x_m)].
+\]
+In the square case (where $m=n$), the coefficients of an interpolatory polynomial are given by $\ensuremath{\bm{\c}} = V^{-1} \ensuremath{\bm{\f}}$, so that
+\[
+\Vectt[p(x_1),\ensuremath{\vdots},p(x_n)] = V \ensuremath{\bm{\c}} = V V^{-1} \ensuremath{\bm{\f}} = \Vectt[f_1,\ensuremath{\vdots},f_n].
+\]
+This inversion is justified by the following:
+
+\begin{proposition}[interpolatory polynomial uniqueness] Interpolatory polynomials are unique and therefore square Vandermonde matrices are invertible.
+
+\end{proposition}
+\textbf{Proof} Suppose $p$ and $\pt$ are both interpolatory polynomials of the same function. Then $p(x) - \pt(x)$ vanishes at $n$ distinct points $x_j$. By the fundamental theorem of algebra it must be zero, i.e., $p = \pt$.
+
+For the second part, if $V \ensuremath{\bm{\c}} = 0$ for $\ensuremath{\bm{\c}} = \vectt[c_0,\ensuremath{\ldots},c_{n-1}] \ensuremath{\in} \ensuremath{\bbC}^n$ then for $q(x) = c_0 + \ensuremath{\cdots} + c_{n-1} x^{n-1}$ we have
+\[
+q(x_j) = \ensuremath{\bm{\e}}_j^\ensuremath{\top} V \ensuremath{\bm{\c}} = 0
+\]
+hence $q$ vanishes at $n$ distinct points and is therefore 0, i.e., $\ensuremath{\bm{\c}} = 0$.
+
+\ensuremath{\QED}
+
+We can invert square Vandermonde matrix numerically in $O(n^3)$ operations using the PLU factorisation. But it turns out we can also construct the interpolatory polynomial directly, and evaluate the polynomial in only $O(n^2)$ operations. We will use the following polynomials which equal $1$ at one grid point and zero at the others:
+
+\begin{definition}[Lagrange basis polynomial] The \emph{Lagrange basis polynomial} is defined as
+\[
+\ensuremath{\ell}_k(x) := \ensuremath{\prod}_{j \ensuremath{\neq} k} {x-x_j \over x_k - x_j} =  {(x-x_1) \ensuremath{\cdots}(x-x_{k-1})(x-x_{k+1}) \ensuremath{\cdots} (x-x_n) \over (x_k - x_1) \ensuremath{\cdots} (x_k - x_{k-1}) (x_k - x_{k+1}) \ensuremath{\cdots} (x_k - x_n)}
+\]
+\end{definition}
+
+Plugging in the grid points verifies that $\ensuremath{\ell}_k(x_j) = \ensuremath{\delta}_{kj}$.
+
+We can use the Lagrange basis to directly construct the interpolatory polynomial:
+
+\begin{theorem}[Lagrange interpolation] The unique interpolation polynomial is:
+\[
+p(x) = f_1 \ensuremath{\ell}_1(x) + \ensuremath{\cdots} + f_n \ensuremath{\ell}_n(x)
+\]
+\end{theorem}
+\textbf{Proof} It follows from inspection:
+\[
+p(x_j) = \ensuremath{\sum}_{k=1}^n f_k \ensuremath{\ell}_k(x_j) = f_j.
+\]
+\ensuremath{\QED}
+
+\begin{example}[interpolating an exponential] We can interpolate $\exp(x)$ at the points $0,1,2$. That is, our data is $\ensuremath{\bm{\f}} = \vectt[1, {\rm e},{\rm e}^2]$ and the interpolatory polynomial is
+\begin{align*}
+p(x) &= \ensuremath{\ell}_1(x) + {\rm e} \ensuremath{\ell}_2(x) + {\rm e}^2 \ensuremath{\ell}_3(x) =
+{(x - 1) (x-2) \over (-1)(-2)} + {\rm e} {x (x-2) \over (-1)} +
+{\rm e}^2 {x (x-1) \over 2} \\
+&= (1/2 - {\rm e} +{\rm e}^2/2)x^2 + (-3/2 + 2 {\rm e}  - {\rm e}^2 /2) x + 1
+\end{align*}
+\end{example}
+
+\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea as it  is inherently ill-conditioned. The lab  explores this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation.  This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors).  Use alternative sets of points and bases entirely overcomes this issue.
+
+\subsection{Interpolatory quadrature rules}
+Interpolation leads naturally to quadrature rules where one integrates the interpolatory polynomial exactly. This can be viewed as an extension of one-panel Rectangular Rules (which are degree 0 interpolants at a single point) and Trapezium Rules (which are degree 1 interpolants at two points).  Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple weighted sum:
+
+\begin{definition}[interpolatory quadrature rule] Given a set of points $\ensuremath{\bm{\x}} = [x_1,\ensuremath{\ldots},x_n]^\ensuremath{\top}$ the interpolatory quadrature rule is:
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f] := \ensuremath{\sum}_{j=1}^n w_j f(x_j)
+\]
+where
+\[
+w_j := \ensuremath{\int}_a^b \ensuremath{\ell}_j(x) w(x) {\rm d} x.
+\]
+\end{definition}
+
+The convergence of such a scheme is explored in the lab. But an important feature is that it is exact for all low degree polynomials:
+
+\begin{proposition}[interpolatory quadrature is exact for polynomials]  Interpolatory quadrature is exact for all degree $n-1$ polynomials $p$:
+\[
+\ensuremath{\int}_a^b p(x) w(x) {\rm d}x = \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[p]
+\]
+\end{proposition}
+\textbf{Proof} The result follows since, by uniqueness of interpolatory polynomial, if $p$ is a polynomial then
+\[
+p(x) = \ensuremath{\sum}_{j=1}^n p(x_j) \ensuremath{\ell}_j(x)
+\]
+Hence
+\[
+\ensuremath{\int}_a^b p(x) w(x) {\rm d}x = \ensuremath{\sum}_{j=1}^n p(x_j) \int_a^b \ensuremath{\ell}_j(x) w(x) {\rm d}x = \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[p].
+\]
+\ensuremath{\QED}
+
+\begin{example}[3-point interpolatory quadrature] We find the interpolatory quadrature rule for $w(x) = 1$ on $[0,1]$ with  points $[x_1,x_2,x_3] = [0,1/4,1]$. We have:
+\begin{align*}
+w_1 = \int_0^1 w(x) \ensuremath{\ell}_1(x) {\rm d}x  = \int_0^1 {(x-1/4)(x-1) \over (-1/4)(-1)}{\rm d}x = -1/6 \\
+w_2 = \int_0^1 w(x) \ensuremath{\ell}_2(x) {\rm d}x  = \int_0^1 {x(x-1) \over (1/4)(-3/4)}{\rm d}x = 8/9 \\
+w_3 = \int_0^1 w(x) \ensuremath{\ell}_3(x) {\rm d}x  = \int_0^1 {x(x-1/4) \over 3/4}{\rm d}x = 5/18
+\end{align*}
+That is we have
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = -{f(0) \over 6} + {8f(1/4) \over 9} + {5 f(1) \over 18}.
+\]
+This is indeed exact for polynomials up to degree $2$ (and no more):
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[1] = 1, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x] = 1/2, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^2] = 1/3, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^3] = 7/24 \ensuremath{\neq} 1/4.
+\]
+\end{example}
+
+\subsection{Polynomial regression}
+In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the lab) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression}: use more sample points  than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.
+
+More precisely, for $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^m$ and for $n < m$ we want to find a degree $n-1$ polynomial
+\[
+p(x) = \ensuremath{\sum}_{k=0}^{n-1} c_k x^k
+\]
+such that
+\[
+\Vectt[p(x_1), \ensuremath{\vdots}, p(x_m)] \ensuremath{\approx} \underbrace{\Vectt[f_1,\ensuremath{\vdots},f_m]}_{\ensuremath{\bm{\f}}}.
+\]
+Mapping between coefficients $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^n$ to polynomial values on a grid can be accomplished  via rectangular Vandermonde matrices. In particular, our goal is to choose $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^n$ so that
+\[
+V \ensuremath{\bm{\c}}  = \Vectt[p(x_1), \ensuremath{\vdots}, p(x_m)] \ensuremath{\approx} \ensuremath{\bm{\f}}.
+\]
+We do so by solving the \emph{least squares} system: given $V \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\f}} \ensuremath{\in} \ensuremath{\bbC}^m$ we want to find $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^n$ such that
+\[
+\| V \ensuremath{\bm{\c}} - \ensuremath{\bm{\f}} \|
+\]
+is minimal. Note interpolation is a special case where this norm is precisely zero (which is indeed minimal), but in general this norm may be rather large.   We will discuss the numerical solution of least squares problems in the next few sections.
+
+\textbf{Remark} Using regression instead of interpolation can overcome the issues with evenly spaced grids. However, the monomial basis is still very problematic.
+
+
+

@@ -20,8 +20,9 @@ compilenotes("III.3.Cholesky")
 compilenotes("III.4.OrthogonalMatrices")
 compilenotes("III.5.QR")
 
-# compilenotes("IV.1.Regression")
-# compilenotes("IV.2.DifferentialEquations")
+compilenotes("IV.1.Regression")
+compilenotes("IV.2.SVD")
+# compilenotes("IV.3.DifferentialEquations")
 
 # compilenotes("V.1.Fourier")
 # compilenotes("V.2.DFT")
@@ -34,6 +35,7 @@ compilenotes("III.5.QR")
 compilenotes("A.Asymptotics")
 compilenotes("A.Integers")
 compilenotes("A.Permutations")
+compilenotes("A.Norms")
 
 
 ####
