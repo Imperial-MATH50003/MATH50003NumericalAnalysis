@@ -1,0 +1,74 @@
+**Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
+
+
+
+**Problem 1** Use Lagrange interpolation to
+interpolate the function $\cos x$ by a polynomial at the points
+$[0,2,3,4]$ and evaluate at $x = 1$.
+
+
+
+**Problem 2** Compute the LU factorisation of the following transposed Vandermonde matrices:
+$$
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix}
+$$
+Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix.
+
+
+
+**Problem 3** Compute the interpolatory quadrature rule
+$$
+∫_{-1}^1 f(x) w(x) \dx ≈ ∑_{j=1}^n w_j f(x_j)
+$$
+for the points $[x_1,x_2,x_3] = [-1,1/2,1]$, for the weights $w(x) = 1$ and $w(x) = \sqrt{1-x^2}$.
+
+
+
+This problem sheet concerns singular value decompositions, pseudo-inverses,
+and condition numbers.
+
+-----
+
+For the SVD $A = U Σ V^⊤ ∈ ℝ^{m × n}$, where $U ∈ ℝ^{m × r}$ and $V ∈ ℝ^{n × r}$ have orthonormal columns
+and $Σ$ is a diagonal matrix with non-increasing positive entries, define the _pseudo-inverse_:
+$$
+A^+ := V Σ^{-1} U^⊤.
+$$
+
+**Problem 4(a)**  Show that $A^+$ satisfies the _Moore-Penrose conditions_:
+1. $A A^+ A = A$
+2. $A^+ A A^+ = A^+$
+3. $(A A^+)^⊤  = A A^+$ and $(A^+ A)^⊤ = A^+ A$
+
+
+
+**Problem 4(b)** Show for $A ∈ ℝ^{m × n}$ with $m ≥ n$ and full rank
+that $𝐱 =  A^+ 𝐛$ is the least squares solution, i.e., minimises $\| A 𝐱 - 𝐛 \|_2$.
+Hint: extend $U$ in the SVD to be a square orthogonal matrix.
+
+
+
+**Problem 4(c)**
+If $A ∈ ℝ^{m × n}$ has a non-empty kernel there are multiple solutions to the least
+squares problem as 
+we can add any element of the kernel. Show that $𝐱 = A^+ 𝐛$ gives the least squares solution
+such that $\| 𝐱 \|_2$ is minimised.
+
+
+
+
+------
