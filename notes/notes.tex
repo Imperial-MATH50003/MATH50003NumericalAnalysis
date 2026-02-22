@@ -304,7 +304,9 @@ giving methods for approximating functions, a more powerful numerical method for
 We discuss polynomial interpolation and see how it can be used to compute integrals. We also discuss regression, where more data is used than the degree of the polynomial,
 leading to a robust approach  produced by solving a rectangular least squares problem.
 
-\item IV.2 Singular Value Decomposition and Compression:.
+\item IV.2 Singular Value Decomposition and Compression: The singular value decomposition is a means of finding the best low-rank approximation to a matrix, in the sense that
+the matrix 2-norm is minimised. Thus it enables a matrix version of least squares for compressing matrices: we can represent a matrix by a low-rank approximation using less data.
+
 
 \item IV.3 Differential Equations: Divided differences can can be used to {\it discretise} differential equations. That is, we can recast differential equation
 as (approximate) solutions to linear systems.  We investigate using this approach on some simple linear initial and boundary value problems. 

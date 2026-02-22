@@ -1,8 +1,17 @@
 **Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
 
+This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares.
+Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices.
+We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _Moore-Penrose pseudoinverse_:
+a way of making sense of an "inverse" for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
 
-**Problem 1** Use Lagrange interpolation to
+We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
+
+
+-----
+
+**Problem 1(a)** Use Lagrange interpolation to
 interpolate the function $\cos x$ by a polynomial at the points
 $[0,2,3,4]$ and evaluate at $x = 1$.
 
@@ -16,6 +25,38 @@ So that $p(x)=\cos(0)ℓ_1(x)+\cos(2)ℓ_2(x)+\cos(3)ℓ_3(x)+\cos(4)ℓ_4(x)$. 
 
 
 **END**
+
+**Problem 1(b)** Find a least squares fit to $\cos x$ by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
+Hint: Choose the (non-default) sign so that $R[1,1]$ is positive to arrive at simpler computations. Since we are doing arithmetic by-hand without
+rounding the benefits of the default sign no longer apply.
+
+**SOLUTION**
+
+The Vandermonde matrix is
+$$
+V = \begin{pmatrix}
+1 & 0 \\ 
+1 & 2 \\
+1 & 3 \\
+1 & 4
+\end{pmatrix}
+$$
+We construct the Householder reflection using
+$$
+𝐱 = \Vectt[1,1,1,1] ⇒ \| 𝐱 \| = 2 ⇒ 𝐲 := 𝐱 - \| 𝐱 \| 𝐞_1 = \Vectt[-1,1,1,1] ⇒ \|𝐲\| = 2 ⇒ 𝐰 := 𝐲/\|𝐲\| = {1 \over 2}\Vectt[-1,1,1,1].
+$$
+Thus we have
+$$
+Q_1 V = \begin{bmatrix} 2 & 9/2 \\ & -5/2 \\ & -3/2 \\ & -1/2 \end{bmatrix}.
+$$
+
+
+
+**END**
+
+-----
+
+
 
 **Problem 2** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
