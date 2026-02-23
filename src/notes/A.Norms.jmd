@@ -30,8 +30,9 @@ $$
 where $x_k$ is the $k$-th entry of $𝐱$. 
 For $p = ∞$ we define
 $$
-\|𝐱\|_∞ := \max_k |x_k|
+\|𝐱\|_∞ := \max_k |x_k|.
 $$
+The default norm is the 2-norm $\|𝐱\| := \|𝐱\|_2$.
 ∎
 
 **Theorem (p-norm)** $\| ⋅ \|_p$ is a norm for $1 ≤ p ≤ ∞$.
@@ -95,7 +96,7 @@ Also define
 $$
 \|A\|_X := \|A\|_{X → X}
 $$
-For  the induced $p$-norm we use the notation $\|A\|_p.$
+For  the induced $p$-norm we use the notation $\|A\|_p$ and the default norm is the 2-norm: $\|A \| := \|A \|_2$.
 ∎
 
 Note an equivalent definition of the induced norm:
@@ -156,5 +157,9 @@ $$
 that is, the maximum $1$-norm of the rows.
 
 
-An example that does not have a simple formula is $\|A \|_2$, which requires the singular value decomposition.
+An example that does not have a simple formula is 
+$$
+\|A \| := \|A\|_2
+$$
+which requires the singular value decomposition.
 

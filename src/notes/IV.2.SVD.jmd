@@ -1,8 +1,22 @@
 # Singular Value Decomposition and Matrix Compression
 
+In the previous section we saw an application of least squares, where the best 2-norm fit to a vector was found using the QR
+factorisation. But what if the data is a matrix, eg. corresponding to a 2D function? Here we consider finding the best
+approximation to a matrix in the 2-norm sense by by a matrix with a  lower rank.  This concept has numerous applications
+in compressing matrices, including  Principle Component Analysis (PCA) and Machine Learning (where one might want to compress the ``weight'' matrices to minimise
+degrees of freedom). 
 
-In this chapter we discuss the _Singular Value Decomposition (SVD)_: a matrix factorisation
-that encodes how much a matrix "stretches" a random vector. This includes _singular values_, 
+
+We will use induced matrix norms, in particular the 2-norm of a matrix $A ∈ ℂ^{m × n}$ is defined via
+$$
+\| A \| :=  \sup_{𝐯 ∈ ℂ^m : \|𝐯\|_X=1} \|A 𝐯\| =  \sup_{𝐯 ∈ ℂ^m} {\|A 𝐯\| \over \| 𝐯\|}/
+$$
+The matrix 1- and $∞$-norms have simple definitions in terms of column/row sums (see appendix). On the other hand,
+the 2-norm has no simple formula. 
+
+
+In order to define the 2-norm we will introduce the  _Singular Value Decomposition (SVD)_: a matrix factorisation
+that encodes how much a matrix ``stretches'' a random vector. This includes _singular values_, 
 the largest of which dictates the $2$-norm of the matirx.
 
 **Definition (singular value decomposition)** For $A ∈ ℂ^{m × n}$ with rank $r > 0$, 
@@ -35,23 +49,38 @@ In particular, we discuss:
 3. Best rank-$k$ approximation and compression: the best approximation of a matrix by a smaller rank matrix can be constructed
 using the SVD, which gives an effective way to compress matrices. 
 
-
+What we do not discuss is computation of the SVD. There are reliable and efficient iterative algorithms for computing the SVD, similar to computing
+eigen-decompositions, but this is beyond the scope of this module.
 
 
 ## Existence
 
 
-To show the SVD exists we first establish some properties of a _Gram matrix_ ($A^⋆ A$):
+To show the SVD exists we first establish some properties of a _Gram matrix_ ($A^⋆ A$), which
+has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns:
+if $A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_m \end{bmatrix}$ then the Gram matrix is the Hermitian matrix
+$$
+A^⋆ A = \begin{bmatrix} 𝐚_1^⋆ 𝐚_1 & ⋯ &𝐚_1^⋆ 𝐚_m \\
+                        ⋮ &  ⋱ & ⋮ \\
+                        𝐚_m^⋆ 𝐚_1 & ⋯ &𝐚_m^⋆ 𝐚_m \end{bmatrix} ∈ ℂ^{m × m}.
+$$
+
+We first establish that the kernels match:
 
 **Proposition (Gram matrix kernel)** The kernel of $A$ is the also the kernel of $A^⋆ A$. 
 
 **Proof**
-If $A^⋆ A 𝐱 = 0$ then we have
+If $𝐱 ∈ \hbox{ker}(A)$, i.e., $A 𝐱 = 0$, then clearly $A^⋆A 𝐱 = 0 = A^⋆ 0 = 0$.
+On the other hand, if $𝐱 ∈ \hbox{ker}(A^⋆A)$ so  that $A^⋆ A 𝐱 = 0$ then we have
 $$
 0 = 𝐱^⋆ A^⋆ A 𝐱 = \| A 𝐱 \|^2
 $$
 which means $A 𝐱 = 0$ and $𝐱 ∈ \hbox{ker}(A)$.
 ∎
+
+As mentioned in PS6, the spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = Q Λ Q^⋆$
+where $Q ∈ U(n)$ and $Λ$ is diagonal. In the special case where $A$ is symmetric/Hermitian you would have seen a proof of this in first year.
+We can use this to ensure that the Gram matrix is diagonalisable:
 
 **Proposition (Gram matrix diagonalisation)** The Gram-matrix
 satisfies
@@ -63,11 +92,13 @@ If $A ∈ ℝ^{m × n}$ then $Q ∈ O(n)$.
 
 **Proof**
 $A^⋆ A$ is Hermitian so we appeal to the spectral theorem for the
-existence of the decomposition, and the fact that the eigenvalues are real.
-For the corresponding (orthonormal) eigenvector $𝐪_k$,
+existence of the decomposition. 
+To see that the eigenvalues are real and positive  note for the corresponding (orthonormal) eigenvector $𝐪_k$ we have
 $$
 λ_k = λ_k 𝐪_k^⋆ 𝐪_k = 𝐪_k^⋆ A^⋆ A 𝐪_k = \| A 𝐪_k \|^2 ≥ 0.
 $$
+The fact that when $A$ is real implies that $Q$ is also real follows from direct calculation
+since we can choose the first entry of the eigenvector to be real.
 
 ∎
 
@@ -114,14 +145,6 @@ where we use the fact that $A K = 0$ so that concatenating $K$ does not change t
 ## 2-norm and SVD
 
 
-As reviewed in the appendix, vector norms induce matrix norms by taking
-the supremum over every entry. In the special case of the 2-norm this gives us the following:
-for $A \in \bbC^{m \times n}$ we define its norm as
-$$
-\|A \| := \sup_{𝐯 : \|𝐯\| =1} \|A 𝐯\|,
-$$
-where we use the standard vector 2-norm: $\|𝐯\| := \sqrt{𝐯^\star 𝐯}$.
-
 Somewhat surprisingly, the 2-norm does not have a simple formula but instead, as we shall show, can
 be defined in terms of the SVD. We begin with two cases where we do have simple formulæ:
 
@@ -152,13 +175,13 @@ $$
 
 **Proof**
 
-First we establish the upper-bound:
+First we establish the upper-bound using the fact for induced norms that $\|A B\| ≤ \|A\| \|B\|$:
 $$
-\|A \|_2 ≤  \|U \|_2 \| Σ \|_2 \| V^⋆\|_2 = \| Σ \|_2  = σ_1
+\|A \| ≤  \|U \| \| Σ \| \| V^⋆\| = \| Σ \|  = σ_1
 $$
 This is attained using the first right singular vector:
 $$
-\|A 𝐯_1\|_2 = \|Σ V^⋆ 𝐯_1\|_2 = \|Σ  𝐞_1\|_2 = σ_1
+\|A 𝐯_1\| = \|Σ V^⋆ 𝐯_1\| = \|Σ  𝐞_1\| = σ_1
 $$
 The inverse result follows since the inverse has SVD
 $$
@@ -179,8 +202,6 @@ $$
 
 ∎
 
-We will not discuss in this module computation of singular value decompositions or eigenvalues:
-they involve iterative algorithms (actually built on a sequence of QR decompositions).
 
 ## Best rank-$k$ approximation and compression
 
