@@ -13,8 +13,7 @@
 
 # 1. Vandermonde matrices and least squares.
 # 2. Constructing interpolatory quadrature rules.
-# 3. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
-# 4. 
+# 2. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
 
 
 
@@ -23,6 +22,24 @@
 
 ## LinearAlgebra contains routines for doing linear algebra
 using LinearAlgebra, Plots, Test
+
+
+# **Remark** One should normally not need to implement methods for solving differential equations
+# oneself as there are packages available, including the high-performance
+#  Julia package  [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl). Moreover Forward and Backward
+# Euler are only the first baby steps to a wide range of time-steppers, with Runge–Kutta being
+# one of the most successful.
+# For example, in practice we can solve
+# a simple differential equation like a pendulum $u'' = -\sin u$ can be solved
+# as follows (writing at a system $u' = v, v' = -\sin u$):
+
+using DifferentialEquations, LinearAlgebra, Plots
+
+u = solve(ODEProblem((u,_,x) -> [u[2], -sin(u[1])], [1,0], (0,10)))
+plot(u)
+
+# However, even in these automated packages one has a choice of different methods with
+# different behaviour, so it is important to understand on a mathematical level what is happening under the hood.
 
 
 
@@ -100,59 +117,7 @@ scatter!(𝐱, f.(𝐱); label="samples")
 ## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
 ## the plotting grid with 1000 points, for $n = 50$ and $400$.
 
-## SOLUTION
 
-n = 50
-𝐱 = range(-1, 1; length=n)
-𝐠 = range(-1, 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## We see large errors near ±1 for both examples. 
-
-
-n = 400
-𝐱 = range(-1, 1; length=n)
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-##  M = 4 appears to converge whilst M = 25 breaks down.
-
-## Now do big float
-n = 400
-𝐱 = range(big(-1), 1; length=n)
-𝐠 = range(big(-1), 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## With M = 4 it looks like it now is converging. This suggests the issue before was numerical error.
-## For M = 25 the solution is even less accurate, which suggests the issue is a lack of mathematical
-## convergence.
-
-## END
 # ------
 
 # ### IV.1.2 Interpolatory quadrature rules
@@ -174,17 +139,7 @@ function interpolatoryquadrature(f::AbstractVector, x::AbstractVector)
         error("lengths must match")
     end
     ## TODO: Compute the coefficients of the interpolatory polynomial and integrate it exactly.
-    ## SOLUTION
-        n = length(f)
-        V = x .^ (0:n-1)'
-        c = V \ f
-        ret = 0
-        ## There are simpler ways to write the following but for clearness lets just do a for-loop:
-        for k = 1:n
-            ret += c[k]/k # use the fact that ∫_0^1 x^k dx = 1/(k+1)
-        end
-        ret
-    ## END
+    
 end
 
 x = range(0, 1, 10)
@@ -199,16 +154,7 @@ x = range(0, 1, 10)
 
 nanabs(x) = x == 0 ? NaN : abs(x)
 ## TODO: plot the errors for 2,…,100 evenly spaced points for approximating the integral of exp(x) and 1/(25x^2+1)
-## SOLUTION
-using Plots
-ns = 2:100
-errs = [(x = range(0,1,n); nanabs(interpolatoryquadrature(exp.(x), x) - (exp(1)-1))) for n=ns]
-plot(ns, errs;yscale=:log10) # error appears exponential (actually it's faster than exponential!)
-errs = [(x = range(0,1,n); nanabs(interpolatoryquadrature(1 ./ (25x.^2 .+ 1), x) - atan(5)/5)) for n=ns]
-plot!(ns, errs;yscale=:log10) # error appears to decay exponentially but then gets stuck 😢 But does better than interpolation
-errs = [(x = range(0,big(1),n); nanabs(interpolatoryquadrature(1 ./ (25x.^2 .+ 1), x) - atan(big(5))/5)) for n=ns]
-plot!(ns, errs;yscale=:log10) # using BigFloat does better
-## END
+
 
 
 # **Problem 2(c)** Repeat the previous problem with the points $x_j = (\cos θ_j + 1)/2$ where $θ_j$ are $n$ evenly spaced points
@@ -216,17 +162,7 @@ plot!(ns, errs;yscale=:log10) # using BigFloat does better
 
 
 ## TODO: plot the errors for 2,…,100 points that are cosines of evenly spaced points, shifted/scaled to be between 0 and 1.
-## SOLUTION
-errs = [(x = (cos.(range(0,big(π),n)) .+ 1)/2; nanabs(interpolatoryquadrature(1 ./ (25x.^2 .+ 1), x) - atan(5)/5)) for n=ns]
-ns = 2:100
-errs = [(x = (cos.(range(0,π,n)) .+ 1)/2; nanabs(interpolatoryquadrature(exp.(x), x) - (exp(1)-1))) for n=ns]
-plot(ns, errs;yscale=:log10) # error still appears exponential at roughly the same rate as evenly spaced point
-errs = [(x =  (cos.(range(0,π,n)) .+ 1)/2; nanabs(interpolatoryquadrature(1 ./ (25x.^2 .+ 1), x) - atan(5)/5)) for n=ns]
-plot!(ns, errs;yscale=:log10) # errorstill  appears to decay exponentially but then gets stuck 😢
-errs = [(x =  (cos.(range(0,big(π),n)) .+ 1)/2; nanabs(interpolatoryquadrature(1 ./ (25x.^2 .+ 1), x) - atan(big(5))/5)) for n=ns]
-plot!(ns, errs;yscale=:log10) # using BigFloat does better. This choice of points converges much faster.
 
-## END
 
 # **Problem 3** Typically it's more convenient to compute the quadrature weights $w_j$ so that
 # $$
@@ -236,16 +172,7 @@ plot!(ns, errs;yscale=:log10) # using BigFloat does better. This choice of point
 
 function interpolatoryweights(x::AbstractVector)
     ## TODO: Construct the interpolatory quadrature weights as a vector by solving a linear system involving V'
-    ## SOLUTION
-    ## The Vandermonde matrix gives the map to coefficients. We just need to multiply by a row vector
-    ## corresponding to integrating the monomials exactly. That is, multiplying a vector by
-    ## [1 1/2 … 1/n] * inv(V)
-    ## gives the weights as a row vector. But we want a column vector here so we transpose this.
-    ## Here's a very brief version, but feel free to translate this to a comprehension or for-loop:
-    n = length(x)
-    V = x .^ (0:n-1)'
-    V' \ (1 ./ (1:n))
-    ## END
+    
 end
 
 ## We test on the example from the notes:
@@ -304,32 +231,13 @@ plot!(𝐠, p.(𝐠); label="quadratic")
 
 ## TODO: approximate 1/(10x^2 + 1) and 1/(25x^2 + 1) using a least squares system.
 
-## SOLUTION
-n = 50 # use basis [1,x,…,x^(49)]
-𝐱 = range(-1, 1; length=500) # least squares grid
-𝐠 = range(-1, 1; length=2000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-
-## Yes, now both approximations appear to be converging.
-## This is despite the radius of convergence of both functions being
-## smaller than the interval of interpolation.
-
-## END
 
 
-#-------
+
+#-----
 
 
-# ## IV.2 Singular Value Decomposition and Matrix Compression
+# # Lab 7: Function compression and the SVD
 
 # This lecture will explore using the SVD to compress 2D functions sampled at an 
 # evenly spaced grid. This is very much the same as image compression,
@@ -360,11 +268,7 @@ function fsample(f::Function, m::Int, n::Int)
     ## TODO: return `f` sampled at an evenly spaced grid on the square [-1, 1]^2
     ## with n points in the x direction and
     ## n points in the y direction, returning an m × n matrix
-    ## SOLUTION
-    x = range(-1, 1; length=n)
-    y = range(-1, 1; length=m)
-    f.(x', y)
-    ## END
+    
 end
 
 @test fsample(f, m, n) == F
@@ -391,56 +295,24 @@ end
 # $f(x,y) = \exp(-x^2 \sin(2y-1))$ sampled at a $100 × 150$ evenly spaced grid on $[-1,1]^2$. 
 # At what value does it appear to level off? 
 
-## SOLUTION
-F = fsample((x,y)->exp(-x^2*sin(2y-1)), 100, 150)
-plot(svdvals(F); yscale=:log10)
-## It levels off at around 1E-15, close to machine precision. Suprprisingly the last
-## few singular values decrease further.
-## END
+
 
 # **Problem 2.2** Repeat Problem 2.1, but plotting the first 20 singular values divided by `n`
 # for `n = m = 50`, `n = m = 100`, and `n = m = 200` on the same figure.  What do you notice?  
 # Hint: recall `plot!` adds a plot to an existing plot.
 
-## SOLUTION
-f = (x,y)->exp(-x^2*sin(2y-1))
-plot(svdvals(fsample(f, 50, 50))[1:20]/50; yscale=:log10)
-plot!(svdvals(fsample(f, 100, 100))[1:20]/100; yscale=:log10)
-plot!(svdvals(fsample(f, 200, 200))[1:20]/200; yscale=:log10)
 
-## we appear to be converging to a fixed distribution
-## END
 
 # **Problem 2.3** Plot the first 50 singular values for `n = m = 200` of
 #  $\cos(ωxy)$ and $\cos(ωx) \cos(ωy)$ for `ω` equal to 1,10 and 50, on the same figure. 
 # How do the singular values change as the functions become more oscillatory in both examples?
 
-## SOLUTION
-f = (x,y) -> cos(ω*x*y)
-g = (x,y) -> cos(ω*x)cos(ω*y)
-ω  = 1; plot(svdvals(fsample(f, 200, 200))[1:50]; yscale=:log10)
-ω  = 10; plot!(svdvals(fsample(f, 200, 200))[1:50]; yscale=:log10)
-ω  = 50; plot!(svdvals(fsample(f, 200, 200))[1:50]; yscale=:log10)
 
-## the singular values plateau for longer when the function becomes oscillatory.
-
-ω  = 1; plot(svdvals(fsample(g, 200, 200))[1:50]; yscale=:log10)
-ω  = 10; plot!(svdvals(fsample(g, 200, 200))[1:50]; yscale=:log10)
-ω  = 50; plot!(svdvals(fsample(g, 200, 200))[1:50]; yscale=:log10)
-
-## this is a rank-1 function so the singular values are independent of ω.
-
-## END
 
 # **Problem 2.4** Plot the singular values of ${\rm sign}(x-y)$ for `n=m=100` 
 # and `n=m=200`.  What do you notice?  
 
-## SOLUTION
-f = (x,y) -> sign(x-y)
-plot(svdvals(fsample(f, 100, 100)); yscale=:log10)
-plot!(svdvals(fsample(f, 200, 200)); yscale=:log10)
-## They don't decay. Loss of smoothness means we no longer have a rapid decrease in singular values.
-## END
+
 
 # -----
 # ## Matrix compression
@@ -450,25 +322,12 @@ plot!(svdvals(fsample(f, 200, 200)); yscale=:log10)
 # **Problem 3.1** Write a function `svdcompress(A::Matrix, k::Integer)` that returns the best rank-`k` approximation to `A`,
 # using the in-built `svd` command.
 
-## SOLUTION
-function svdcompress(A::Matrix, k::Integer)
-    U,σ,V = svd(A)
-    U[:,1:k] * Diagonal(σ[1:k]) * V[:,1:k]'
-end
-## END
+
 
 # **Problem 3.2** Compare a `heatmap` plot of `fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)` to its best rank-5 approximation.
 # What do you observe?
 
-## SOLUTION
-F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
-heatmap(F)
 
-F_c = svdcompress(F, 5)
-heatmap(F_c)
-
-## There is no obvious difference
-## END
 
 # **Problem 3.3** Write a function `svdcompress_rank(A::Matrix, ε::Real)` that returns the smallest integer `k` so that `opnorm(A - svdcompress(A, k)) ≤ ε`,
 # which we call the "numerical rank".   (Hint: use the singular values instead of guess-and-check.)
@@ -476,15 +335,7 @@ heatmap(F_c)
 
 function svdcompress_rank(A::Matrix, ε::Real)
     ## TODO: determine and return rank-k approximation
-    ## SOLUTION
-    σ = svdvals(A)
-    for k = 1:length(σ)
-        if σ[k] ≤ ε
-            return k-1
-        end
-    end
-    return length(σ)
-    ## END
+    
 end
 F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 @test svdcompress_rank(F, 1E-10) == 9
@@ -505,15 +356,5 @@ F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 # Hint: scaling just the x axis in a plot via `plot(...; xscale=:log10)` will reveal logarithmic
 # growth.
 
-## SOLUTION
 
-hilbertmatrix(n) = [1/(k + j - 1) for k=1:n, j=1:n]
-
-plot([svdcompress_rank(hilbertmatrix(n), 1E-10) for n=1:200], xscale=:log10)
-plot!(5log10.((1:200)))
-
-## We see it grows roughly like $5log(n)$.
-
-
-## END
 

@@ -20,6 +20,24 @@
 # These are the most basic type of numerical method and many powerful alternatives
 # exist, including Finite Element Methods and spectral methods.
 
+# **Remark** One should normally not need to implement methods for solving differential equations
+# oneself as there are packages available, including the high-performance
+#  Julia package  [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl). Moreover Forward and Backward
+# Euler are only the first baby steps to a wide range of time-steppers, with Runge–Kutta being
+# one of the most successful.
+# For example, in practice we can solve
+# a simple differential equation like a pendulum $u'' = -\sin u$ can be solved
+# as follows (writing at a system $u' = v, v' = -\sin u$):
+
+using DifferentialEquations, LinearAlgebra, Plots
+
+u = solve(ODEProblem((u,_,x) -> [u[2], -sin(u[1])], [1,0], (0,10)))
+plot(u)
+
+# However, even in these automated packages one has a choice of different methods with
+# different behaviour, so it is important to understand on a mathematical level what is happening under the hood.
+
+
 
 # ### IV.2.1 Indefinite integration
 
