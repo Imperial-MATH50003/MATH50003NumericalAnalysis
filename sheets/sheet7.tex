@@ -145,6 +145,7 @@
 \def\Rt{ {\tilde R} }
 \def\Xt{ {\tilde X} }
 \def\acos{ {\rm acos}\, }
+\def\sinc{ {\rm sinc}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -159,14 +160,20 @@
 
 \textbf{Numerical Analysis MATH50003 (2024\ensuremath{\endash}25) Problem Sheet 7}
 
-This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares. Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices. We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the \emph{(Moore\ensuremath{\endash}Penrose) pseudoinverse}: a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
+This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares. Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via  Vandermonde matrices. We also discuss the singular value decomposition, in particular, we explore how it can be used to construct the \emph{(Moore\ensuremath{\endash}Penrose) pseudoinverse}: a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
-We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
+We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linear regressions (using QR factorisations):
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 1(a)} Use Lagrange interpolation to interpolate the function $\cos x$ by a polynomial at the points $[0,2,3,4]$ and evaluate at $x = 1$.
 
-\textbf{Problem 1(b)} Find a least squares fit to $\cos x$ by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR. Hint: Choose the (non-default) sign so that $R[1,1]$ is positive to arrive at simpler computations. Since we are doing arithmetic by-hand without rounding the benefits of the default sign no longer apply.
+\textbf{Problem 1(b)} Find a least squares fit to 
+\[
+\sinc x := \begin{cases} 1 & x = 0 \\
+{\sin \ensuremath{\pi} x \over \ensuremath{\pi} x} & \hbox{otherwise}
+\end{cases}
+\]
+by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR. Hint: Choose the (non-default) positive sign in the Householder reflections to arrive at simpler computations.
 
 \rule{\textwidth}{1pt}
 The Vandermonde matrix used in interpolation is a fundamental mathematical object, in particular, its determinant comes up in differential equations, representation theory, and theoretical physics. The following problems investigate the relationship between the LU factorisation of a (transposed) Vandermonde matrix and its determinant.

@@ -7,11 +7,11 @@ in compressing matrices, including  Principle Component Analysis (PCA) and Machi
 degrees of freedom). 
 
 
-We will use induced matrix norms, in particular the 2-norm of a matrix $A ∈ ℂ^{m × n}$ is defined via
+We will use induced matrix norms (see appendix), in particular the 2-norm of a matrix $A ∈ ℂ^{m × n}$ is defined via
 $$
 \| A \| :=  \sup_{𝐯 ∈ ℂ^m : \|𝐯\|_X=1} \|A 𝐯\| =  \sup_{𝐱 ∈ ℂ^m} {\|A 𝐱\| \over \| 𝐱\|}
 $$
-The matrix 1- and $∞$-norms have simple definitions in terms of column/row sums (see appendix). On the other hand,
+The matrix 1- and $∞$-norms have simple definitions in terms of column/row sums. On the other hand,
 the 2-norm has no simple formula. 
 
 
@@ -80,7 +80,7 @@ As mentioned in PS6, the spectral theorem states that any normal matrix is unita
 where $Q ∈ U(n)$ and $Λ$ is diagonal. In the special case where $A$ is symmetric/Hermitian you would have seen a proof of this in first year.
 We can use this to ensure that the Gram matrix is diagonalisable:
 
-**Proposition (Gram matrix diagonalisation)** The Gram-matrix
+**Proposition (Gram matrix diagonalisation)** The Gram matrix
 satisfies
 $$
 A^⋆ A = Q Λ Q^⋆ ∈ ℂ^{n × n}
@@ -138,11 +138,11 @@ where we use the fact that $A K = 0$ so that concatenating $K$ does not change t
 
 ∎
 
-## 2-norm and SVD
+## The matrix 2-norm
 
 
-Somewhat surprisingly, the 2-norm does not have a simple formula but instead, as we shall show, can
-be defined in terms of the SVD. We begin with two cases where we do have simple formulæ:
+Somewhat surprisingly, the 2-norm for matrices does not have a simple formula but instead, as we shall show, can
+be defined in terms of the singular values. We begin with two cases where we do have simple formulæ:
 
 
 **Proposition (diagonal/orthogonal 2-norms)** If $Λ$ is diagonal with entries $λ_k$ then
@@ -194,7 +194,7 @@ $W U$ are the right singular vectors, where
 $$
 W := P_σ = \begin{bmatrix} && 1 \\ & ⋰ \\ 1 \end{bmatrix}
 $$
-is the permutation that reverses the entries, that is, $σ$ has Cauchy notation
+is the permutation that reverses the entries of a vector, that is, $σ$ has Cauchy notation
 $$
 \begin{pmatrix}
 1 & 2 & ⋯ & n \\

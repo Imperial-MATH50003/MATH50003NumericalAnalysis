@@ -1,12 +1,12 @@
 **Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
 
 This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares.
-Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices.
-We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _(Moore–Penrose) pseudoinverse_:
+Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via  Vandermonde matrices.
+We also discuss the singular value decomposition, in particular, we explore how it can be used to construct the _(Moore–Penrose) pseudoinverse_:
 a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
 
-We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
+We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linear regressions (using QR factorisations):
 
 
 -----
@@ -17,9 +17,14 @@ $[0,2,3,4]$ and evaluate at $x = 1$.
 
 
 
-**Problem 1(b)** Find a least squares fit to $\cos x$ by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
-Hint: Choose the (non-default) sign so that $R[1,1]$ is positive to arrive at simpler computations. Since we are doing arithmetic by-hand without
-rounding the benefits of the default sign no longer apply.
+**Problem 1(b)** Find a least squares fit to 
+$$
+\sinc x := \begin{cases} 1 & x = 0 \\
+{\sin π x \over π x} & \hbox{otherwise}
+\end{cases}
+$$
+by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
+Hint: Choose the (non-default) positive sign in the Householder reflections to arrive at simpler computations.
 
 
 

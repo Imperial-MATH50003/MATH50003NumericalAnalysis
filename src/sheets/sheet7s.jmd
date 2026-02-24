@@ -1,12 +1,12 @@
 **Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
 
 This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares.
-Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices.
-We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _(Moore–Penrose) pseudoinverse_:
+Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via  Vandermonde matrices.
+We also discuss the singular value decomposition, in particular, we explore how it can be used to construct the _(Moore–Penrose) pseudoinverse_:
 a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
 
-We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
+We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linear regressions (using QR factorisations):
 
 
 -----
@@ -26,9 +26,14 @@ So that $p(x)=\cos(0)ℓ_1(x)+\cos(2)ℓ_2(x)+\cos(3)ℓ_3(x)+\cos(4)ℓ_4(x)$. 
 
 **END**
 
-**Problem 1(b)** Find a least squares fit to $\cos x$ by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
-Hint: Choose the (non-default) sign so that $R[1,1]$ is positive to arrive at simpler computations. Since we are doing arithmetic by-hand without
-rounding the benefits of the default sign no longer apply.
+**Problem 1(b)** Find a least squares fit to 
+$$
+\sinc x := \begin{cases} 1 & x = 0 \\
+{\sin π x \over π x} & \hbox{otherwise}
+\end{cases}
+$$
+by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
+Hint: Choose the (non-default) positive sign in the Householder reflections to arrive at simpler computations.
 
 **SOLUTION**
 
@@ -43,12 +48,64 @@ V = \begin{pmatrix}
 $$
 We construct the Householder reflection using
 $$
-𝐱 = \Vectt[1,1,1,1] ⇒ \| 𝐱 \| = 2 ⇒ 𝐲 := 𝐱 - \| 𝐱 \| 𝐞_1 = \Vectt[-1,1,1,1] ⇒ \|𝐲\| = 2 ⇒ 𝐰 := 𝐲/\|𝐲\| = {1 \over 2}\Vectt[-1,1,1,1].
+𝐱_1 = \Vectt[1,1,1,1] ⇒ \| 𝐱_1 \| = 2 ⇒ 𝐲_1 := 𝐱_1 - \| 𝐱_1 \| 𝐞_1 = \Vectt[-1,1,1,1] ⇒ \|𝐲_1\| = 2 ⇒ 𝐰_1 := 𝐲_1/\|𝐲_1\| = {1 \over 2}\Vectt[-1,1,1,1].
 $$
-Thus we have
+Thus we have,for $Q_1 = I - 2 𝐰_1 𝐰_1^⊤$,
 $$
 Q_1 V = \begin{bmatrix} 2 & 9/2 \\ & -5/2 \\ & -3/2 \\ & -1/2 \end{bmatrix}.
 $$
+
+Let (we remove the $1/2$ since it doesn't actually change the Householder reflection)
+$$
+𝐱_2 = \Vectt[5,3,1] ⇒ \| 𝐱_2 \| = \sqrt{35} ⇒ 𝐲_2 :=  𝐱_2 - \| 𝐱_2 \| 𝐞_1 = \Vectt[5-\sqrt{35},3,1] ⇒ \|𝐲_2\| = \sqrt{70 - 10\sqrt{35}} , ⇒  𝐰_2 := 𝐲_2/\|𝐲_2\| = {1 \over  \sqrt{70 - 10\sqrt{35}}} \Vectt[5-\sqrt{35},3,1].
+$$
+We then define $Q̃_2 = I-2 𝐰_2 𝐰_2^⊤$ so that
+$$
+\underbrace{\underbrace{\begin{bmatrix}1 \\ & Q̃_2 \end{bmatrix}}_{Q_2} Q_1}_{Q^⊤}   V = \begin{bmatrix} 2 & 9/2 \\
+& -\sqrt{35}/2 \\ & 0 \\ & 0 \end{bmatrix}.
+$$
+
+To find the least squares solution we now compute (using $\sinc 2 = \sinc 3 = \sinc 4 = 0$ and $\sinc 0 = 1$)
+$$
+𝐰_1^⊤  \Vectt[1, 0,0,0]  = - {1 \over 2}
+$$
+so that 
+$$
+Q_1 \Vectt[1, 0, 0, 0] = {1 \over 2} \Vectt[
+1,1,1,1].
+$$
+We now compute
+$$
+𝐰_2^⊤ \Vectt[1,1,1,1]/2 = 
+ {1 \over 2 \sqrt{70 - 10\sqrt{35}}} (9-\sqrt{35}).
+$$
+We thus have
+$$
+Q^⊤ \Vectt[1,0,0,0] = {1 \over 2}  Q_2 
+\Vectt[
+1,1,1,1] = 
+\Vectt[
+1/2
+1/2 -  {(9-\sqrt{35}) (5-\sqrt{35}) \over  70 - 10\sqrt{35}} ,
+×,
+×] = \Vectt[
+1/2 ,
+{9 \over 2 \sqrt{35}},
+×,
+×],
+$$
+where we don't use the bottom two entries.
+We now find the coefficients via
+$$
+\begin{pmatrix}
+2 & 9/2 \\
+& -\sqrt{35}/2 
+\end{pmatrix}^{-1} \Vectt[1/2, {9 \over 2 \sqrt{35}}] = 
+{1 \over 35} \Vectt[
+29,
+-9].
+$$
+
 
 
 

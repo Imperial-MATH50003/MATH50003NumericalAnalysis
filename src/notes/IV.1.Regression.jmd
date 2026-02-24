@@ -2,12 +2,11 @@
 
 _Polynomial interpolation_ is the process of finding a polynomial that equals data at a precise set of points. In this section we see how an interpolant can be constructed
 by either solving a linear system involving the Vandermonde matrix, or directly in terms of the Lagrange basis for polynomials. We also investigate an application of polynomial
-interpolation to computing integrals, giving an alternative to the rectangular and triangular rules from the first chapter. In the lab we see that this leads to much more accurate
-computation. We also see in the lab that polynomial interpolation has issues, particular with an evenly spaced grid or with a monomial basis. Overcoming this will motivate orthogonal
-polynomials later in the module.
+interpolation to computing integrals, giving an alternative to the rectangular and triangular rules from the first chapter. 
+
 
 A more robust scheme that overcomes some of the issues with naive polynomial interpolation is _polynomial regression_,
-where we use more data than the degrees of freedom in the polynomial. We can determine such a polynomial by solving a _least squares peroblem_: instead of insisting that
+where we use more data than the degrees of freedom in the polynomial. We can determine such a polynomial by solving a _least squares problem_: instead of insisting that
 the polynomial matches data exactly, we find the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. 
 
 
@@ -20,11 +19,11 @@ $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 and _data_ $𝐟 = \vectt[f_1,…,f_n] ∈ ℂ^n$, a degree $n-1$
 _interpolatory polynomial_ $p(x)$ satisfies
 $$
-p(x_j) = f_j
+p(x_j) = f_j.
 $$
 ∎
 
-The easiest way to solve this problem is to invert the Vandermonde system:
+The easiest way to solve this problem is to solve a linear system involving the Vandermonde matrix:
 
 **Definition (Vandermonde)** The _Vandermonde matrix_ associated with $𝐱 ∈ ℂ^m$
 is the matrix
@@ -68,18 +67,17 @@ hence $q$ vanishes at $n$ distinct points and is therefore 0, i.e., $𝐜 = 0$.
 ∎
 
 
-We can invert square Vandermonde matrix numerically in $O(n^3)$ operations using the PLU factorisation.
+We can invert square Vandermonde matrix numerically in $O(n^3)$ operations using the PLU or QR factorisations.
 But it turns out we can also construct the interpolatory polynomial directly, and evaluate the polynomial in only $O(n^2)$ operations.
 We will use the following polynomials which equal $1$ at one grid point and zero at the others:
 
 **Definition (Lagrange basis polynomial)** The _Lagrange basis polynomial_ is defined as
 $$
-ℓ_k(x) := ∏_{j ≠ k} {x-x_j \over x_k - x_j} =  {(x-x_1) ⋯(x-x_{k-1})(x-x_{k+1}) ⋯ (x-x_n) \over (x_k - x_1) ⋯ (x_k - x_{k-1}) (x_k - x_{k+1}) ⋯ (x_k - x_n)}
+ℓ_k(x) := ∏_{j ≠ k} {x-x_j \over x_k - x_j} =  {(x-x_1) ⋯(x-x_{k-1})(x-x_{k+1}) ⋯ (x-x_n) \over (x_k - x_1) ⋯ (x_k - x_{k-1}) (x_k - x_{k+1}) ⋯ (x_k - x_n)}.
 $$
 ∎
 
 Plugging in the grid points verifies that $ℓ_k(x_j) = δ_{kj}$.
-
 We can use the Lagrange basis to directly construct the interpolatory polynomial:
 
 **Theorem (Lagrange interpolation)**
@@ -200,8 +198,7 @@ We do so by solving the _least squares_ system: given $V ∈ ℂ^{m × n}$ and $
 $$
 \| V 𝐜 - 𝐟 \|
 $$
-is minimal. Note interpolation is a special case where this norm is precisely zero (which is indeed minimal), but in general this norm may be rather large.   We will discuss the numerical solution
-of least squares problems in the next few sections.
+is minimal, which as discussed can be solved via the QR factorisation. Note interpolation is a special case where this norm is precisely zero (which is indeed minimal), but in general this norm may be rather large.  
 
 
 **Remark** Using regression instead of interpolation can overcome the issues with evenly spaced grids. However, the monomial basis is still very problematic.
@@ -211,7 +208,7 @@ of least squares problems in the next few sections.
 
 In the lab we explore the practical implementation of interpolation, but observe that issues are encountered with
 interpolation at evenly spaced points. Using special points that are defined trigonometrically to cluster at the endpoints
-will over come this issue. We also explore interpolatory rules, finding that we can achieve much higher accuracy than the simple
+will overcome this issue. We then explore interpolatory rules, finding that we can achieve much higher accuracy than the simple
 rectangular and trapezium rules introduced in the first week. We also see how least squares can provide a means of overcoming issues with interpolation.
 Later in the module, we will see orthogonal polynomials provide a more robust basis for very accurate and reliable interpolation.
 

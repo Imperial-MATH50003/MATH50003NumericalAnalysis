@@ -64,6 +64,7 @@
 \def\Rt{ {\tilde R} }
 \def\Xt{ {\tilde X} }
 \def\acos{ {\rm acos}\, }
+\def\sinc{ {\rm sinc}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
