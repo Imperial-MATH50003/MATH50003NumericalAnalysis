@@ -1,0 +1,164 @@
+
+In this appendix we discuss matrix and vector norms.
+
+\begin{itemize}
+\item[1. ] Vector norms: we discuss the standard $p$-norm for vectors in $\ensuremath{\bbR}^n$.
+
+
+\item[2. ] Matrix norms: we discuss how two vector norms can be used to induce a norm on matrices. These
+
+\end{itemize}
+satisfy an additional multiplicative inequality.
+
+\subsection{Vector norms}
+Recall the definition of a (vector-)norm:
+
+\begin{definition}[vector-norm] A norm $\|\ensuremath{\cdot}\|$ on a vector space $V$ (e.g. $\ensuremath{\bbR}^n$ or $\ensuremath{\bbC}^n$) over a field $\ensuremath{\bbF}$ (e.g. $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$)   is a function that satisfies the following, for $\ensuremath{\bm{\x}},\ensuremath{\bm{\y}} \ensuremath{\in} V$ and $c \ensuremath{\in} \ensuremath{\bbF}$:
+
+\begin{itemize}
+\item[1. ] Triangle inequality: $\|\ensuremath{\bm{\x}} + \ensuremath{\bm{\y}} \| \ensuremath{\leq} \|\ensuremath{\bm{\x}}\| + \|\ensuremath{\bm{\y}}\|$
+
+
+\item[2. ] Homogeneity: $\| c \ensuremath{\bm{\x}} \| = |c| \| \ensuremath{\bm{\x}} \|$
+
+
+\item[3. ] Positive-definiteness: $\|\ensuremath{\bm{\x}}\| = 0$ implies that $\ensuremath{\bm{\x}} = 0$.
+
+\end{itemize}
+\end{definition}
+
+Consider the following example:
+
+\begin{definition}[p-norm] For $1 \ensuremath{\leq} p < \ensuremath{\infty}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$, define the $p$-norm:
+\[
+\|\ensuremath{\bm{\x}}\|_p := \left(\sum_{k=1}^n |x_k|^p\right)^{1/p}
+\]
+where $x_k$ is the $k$-th entry of $\ensuremath{\bm{\x}}$.  For $p = \ensuremath{\infty}$ we define
+\[
+\|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} := \max_k |x_k|.
+\]
+The default norm is the 2-norm $\|\ensuremath{\bm{\x}}\| := \|\ensuremath{\bm{\x}}\|_2$. \end{definition}
+
+\begin{theorem}[p-norm] $\| \ensuremath{\cdot} \|_p$ is a norm for $1 \ensuremath{\leq} p \ensuremath{\leq} \ensuremath{\infty}$.
+
+\end{theorem}
+\textbf{Proof}
+
+We will only prove the case $p = 1, 2, \ensuremath{\infty}$ as general $p$ is more involved.
+
+Homogeneity and positive-definiteness are straightforward: e.g.,
+\[
+\|c \ensuremath{\bm{\x}}\|_p = (\sum_{k=1}^n |cx_k|^p)^{1/p} = (|c|^p \sum_{k=1}^n |x_k|^p)^{1/p} = |c| \| \ensuremath{\bm{\x}} \|
+\]
+and if $\| \ensuremath{\bm{\x}} \|_p = 0$ then all $|x_k|^p$ are have to be zero.
+
+For $p = 1,\ensuremath{\infty}$ the triangle inequality is also straightforward:
+\[
+\| \ensuremath{\bm{\x}} + \ensuremath{\bm{\y}} \|_\ensuremath{\infty} = \max_k (|x_k + y_k|) \ensuremath{\leq} \max_k (|x_k| + |y_k|) \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} + \|\ensuremath{\bm{\y}}\|_\ensuremath{\infty}
+\]
+and
+\[
+\| \ensuremath{\bm{\x}} + \ensuremath{\bm{\y}} \|_1 = \sum_{k=1}^n |x_k + y_k| \ensuremath{\leq}  \sum_{k=1}^n (|x_k| + |y_k|) = \| \ensuremath{\bm{\x}} \|_1 + \| \ensuremath{\bm{\y}}\|_1
+\]
+For $p = 2$ it can be proved using the Cauchy\ensuremath{\endash}Schwartz inequality:
+\[
+|\ensuremath{\bm{\x}}^\ensuremath{\star} \ensuremath{\bm{\y}}| \ensuremath{\leq} \| \ensuremath{\bm{\x}} \|_2 \| \ensuremath{\bm{\y}} \|_2
+\]
+That is, we have
+\[
+\| \ensuremath{\bm{\x}} + \ensuremath{\bm{\y}} \|^2 = \|\ensuremath{\bm{\x}}\|^2 + 2 \ensuremath{\bm{\x}}^\ensuremath{\top} \ensuremath{\bm{\y}} + \|\ensuremath{\bm{\y}}\|^2 \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|^2 + 2\| \ensuremath{\bm{\x}} \| \| \ensuremath{\bm{\y}} \| + \|\ensuremath{\bm{\y}}\|^2 = (\| \ensuremath{\bm{\x}} \| +  \| \ensuremath{\bm{\y}} \|)
+\]
+\ensuremath{\QED}
+
+\subsection{Matrix norms}
+Just like vectors, matrices have norms that measure their "length".  The simplest example is the Fröbenius norm:
+
+\begin{definition}[Fröbenius norm] For $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ define
+\[
+\|A\|_F := \sqrt{\sum_{k=1}^m \sum_{j=1}^n |a_{kj}|^2}
+\]
+\end{definition}
+
+While this is the simplest norm, it is not the most useful.  Instead, we will build a matrix norm from a  vector norm:
+
+\begin{definition}[matrix-norm] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$  and consider two norms $\| \ensuremath{\cdot} \|_X$ on $\ensuremath{\bbC}^n$  and  $\| \ensuremath{\cdot} \|_Y$ on $\ensuremath{\bbC}^n$. Define the \emph{(induced) matrix norm} as:
+\[
+\|A \|_{X \ensuremath{\rightarrow} Y} := \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\|_X=1} \|A \ensuremath{\bm{\v}}\|_Y
+\]
+Also define
+\[
+\|A\|_X := \|A\|_{X \ensuremath{\rightarrow} X}
+\]
+For  the induced $p$-norm we use the notation $\|A\|_p$ and the default norm is the 2-norm: $\|A \| := \|A \|_2$. \end{definition}
+
+Note an equivalent definition of the induced norm:
+\[
+\|A\|_{X \ensuremath{\rightarrow} Y} = \sup_{\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, \ensuremath{\bm{\x}} \ensuremath{\neq} 0} {\|A \ensuremath{\bm{\x}}\|_Y \over \| \ensuremath{\bm{\x}}\|_X}
+\]
+This follows since we can scale $\ensuremath{\bm{\x}}$ by its norm so that it has unit norm, that is, ${\ensuremath{\bm{\x}}} \over \|\ensuremath{\bm{\x}}\|_X$ has unit norm.
+
+\begin{lemma}[matrix norms are norms] Induced matrix norms are norms, that is for $\| \ensuremath{\cdot} \| = \| \ensuremath{\cdot} \|_{X \ensuremath{\rightarrow} Y}$ we have:
+
+\begin{itemize}
+\item[1. ] Triangle inequality: $\| A + B \| \ensuremath{\leq}  \|A\| + \|B\|$
+
+
+\item[2. ] Homogeneneity: $\|c A \| = |c| \|A\|$
+
+
+\item[3. ] Positive-definiteness: $\|A\| =0 \Rightarrow A = 0$
+
+\end{itemize}
+In addition, they satisfy the following additional properties:
+
+\begin{itemize}
+\item[1. ] \[
+\|A \ensuremath{\bm{\x}} \|_Y \ensuremath{\leq} \|A\|_{X \ensuremath{\rightarrow} Y} \|\ensuremath{\bm{\x}} \|_X
+\]
+
+\item[2. ] Multiplicative inequality: $\| AB\|_{X \ensuremath{\rightarrow} Z} \ensuremath{\leq} \|A \|_{Y \ensuremath{\rightarrow} Z} \|B\|_{X \ensuremath{\rightarrow}  Y}$
+
+\end{itemize}
+\end{lemma}
+\textbf{Proof}
+
+First we show the \emph{triangle inequality}:
+\[
+\|A + B \| \ensuremath{\leq} \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\|_X=1} (\|A \ensuremath{\bm{\v}}\|_Y + \|B \ensuremath{\bm{\v}}\|_Y) \ensuremath{\leq} \| A \| + \|B \|.
+\]
+Homogeneity is also immediate. Positive-definiteness follows from the fact that if $\|A\| = 0$ then $A \ensuremath{\bm{\x}}  = 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$. The property $\|A \ensuremath{\bm{\x}} \|_Y \ensuremath{\leq} \|A\|_{X \ensuremath{\rightarrow} Y} \|\ensuremath{\bm{\x}} \|_X$ follows from the definition. Finally, the multiplicative inequality follows from
+\[
+\|A B\| = \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\|_X=1} \|A B \ensuremath{\bm{\v}} \|_Z \ensuremath{\leq} \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\|_X=1} \|A\|_{Y \ensuremath{\rightarrow} Z} \| B \ensuremath{\bm{\v}} \| = \|A \|_{Y \ensuremath{\rightarrow} Z} \|B\|_{X \ensuremath{\rightarrow}  Y}
+\]
+\ensuremath{\QED}
+
+We have some simple examples of induced norms:
+
+\begin{example}[$1$-norm] We claim 
+\[
+\|A \|_1 = \max_j \|\ensuremath{\bm{\a}}_j\|_1
+\]
+that is, the maximum $1$-norm of the columns. To see this use the triangle inequality to find for $\|\ensuremath{\bm{\x}}\|_1 = 1$
+\[
+\| A \ensuremath{\bm{\x}} \|_1 \ensuremath{\leq} \ensuremath{\sum}_{j = 1}^n |x_j| \| \ensuremath{\bm{\a}}_j\|_1 \ensuremath{\leq} \max_j \| \ensuremath{\bm{\a}}_j\| \ensuremath{\sum}_{j = 1}^n |x_j| = \max_j \| \ensuremath{\bm{\a}}_j\|_1.
+\]
+But the bound is also attained since if $j$ is the column that maximises the norms then
+\[
+\|A \ensuremath{\bm{\e}}_j \|_1 = \|\ensuremath{\bm{\a}}_j\|_1 =  \max_j \| \ensuremath{\bm{\a}}_j\|_1.
+\]
+\end{example}
+
+Note that
+\[
+\|A\|_\ensuremath{\infty} = \max_k \|A[k,:]\|_1
+\]
+that is, the maximum $1$-norm of the rows.
+
+An example that does not have a simple formula is 
+\[
+\|A \| := \|A\|_2
+\]
+which requires the singular value decomposition.
+
+
+

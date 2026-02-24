@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{appendix}
 \usepackage[usename®s,dvipsnames]{xcolor}
+\usepackage{mathdots}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
 
@@ -150,6 +151,8 @@
 
 \def\fldown{{\rm fl}^{\rm down}}
 \def\flup{{\rm fl}^{\rm up}}
+
+\let\adots=\iddots
 
 \hypersetup
        {   pdfauthor = { {{Sheehan Olver}} },
@@ -290,22 +293,28 @@ Here we are constructing underlying computational tools that are important in ap
 
 
 
-% \chapter{Linear Algebra Applications}
+\chapter{Linear Algebra Applications}
 
-% Numerical linear algebra underlies many numerical methods in applications, from simulating fluids, to understanding data
-% and  neural networks. Here we briefly investigate some applications, allowing us to go beyond our preliminary numerical algorithms from Chapter I,
-% giving methods for approximating functions, a more powerful numerical method for computing integrals, and the ability to solve ordinary differential equations.
+Numerical linear algebra underlies many numerical methods in applications, from simulating fluids, to understanding data
+and  neural networks. Here we briefly investigate some applications, allowing us to go beyond our preliminary numerical algorithms from Chapter I.
 
-% \begin{enumerate}
-% \item IV.1 Polynomial Interpolation and Regression: Often in data science one needs to approximate data by a polynomial.
-% We discuss polynomial interpolation and see how it can be used to compute integrals. We also discuss regression, where more data is used than the degree of the polynomial,
-% leading to a robust approach  produced by solving a rectangular least squares problem.
-% \item IV.2 Differential Equations: Divided differences can can be used to {\it discretise} differential equations. That is, we can recast differential equation
+\begin{enumerate}
+\item IV.1 Polynomial Interpolation and Regression: Often in data science one needs to approximate data by a polynomial.
+We discuss polynomial interpolation and see how it can be used to compute integrals with higher accuracy than rectangular or trapezium rules. We also discuss regression, where more data is used than the degree of the polynomial,
+leading to a robust approach  produced by solving a rectangular least squares problem.
+
+\item IV.2 Singular Value Decomposition and Compression: We discuss the singular value decomposition, which gives the 2-norm of a matrix.
+We also discuss how it leads to an effective approach to compression, in particular, it allows for the computation of the best low-rank approximation to a matrix, in the sense that
+the matrix 2-norm is minimised. 
+
+
+% \item IV.3 Differential Equations: Divided differences can can be used to {\it discretise} differential equations. That is, we can recast differential equation
 % as (approximate) solutions to linear systems.  We investigate using this approach on some simple linear initial and boundary value problems. 
-% \end{enumerate}
+\end{enumerate}
 
-% \input{IV.1.Regression}
-% \input{IV.2.DifferentialEquations}
+\input{IV.1.Regression}
+\input{IV.2.SVD}
+% \input{IV.3.DifferentialEquations}
 
 
 
@@ -425,6 +434,9 @@ Here we are constructing underlying computational tools that are important in ap
 
 \chapter{Permutation Matrices}
 \input{A.Permutations}
+
+\chapter{Norms}
+\input{A.Norms}
 
 
 
