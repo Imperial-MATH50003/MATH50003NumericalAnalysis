@@ -409,9 +409,9 @@ function householderqr(A)
         R[j,j+1:end] = 𝐰
 
         ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
-        Q[:,j:end] = Q[:,j:end]*Q₁
+        Q[:,j:end] = Q[:,j:end]*Qⱼ
 
-        Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction", we get out the bottom right block of Q₁*Aⱼ
+        Aⱼ = QⱼAⱼ[2:end,2:end] # this is the "induction", we get out the bottom right block of Qⱼ*Aⱼ
     end
     Q,R
 end
@@ -563,4 +563,3 @@ function leastsquares(A, b)
 end
 
 @test A\b ≈ leastsquares(A,b)
-
