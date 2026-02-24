@@ -205,3 +205,16 @@ of least squares problems in the next few sections.
 
 
 **Remark** Using regression instead of interpolation can overcome the issues with evenly spaced grids. However, the monomial basis is still very problematic.
+
+
+## Lab and Problem Sheet
+
+In the lab we explore the practical implementation of interpolation, but observe that issues are encountered with
+interpolation at evenly spaced points. Using special points that are defined trigonometrically to cluster at the endpoints
+will over come this issue. We also explore interpolatory rules, finding that we can achieve much higher accuracy than the simple
+rectangular and trapezium rules introduced in the first week. We also see how least squares can provide a means of overcoming issues with interpolation.
+Later in the module, we will see orthogonal polynomials provide a more robust basis for very accurate and reliable interpolation.
+
+In the problem sheet we see some simple examples of interpolation, regression, and the explicit calculation of interpolatory quadrature rules.
+We also discuss the relationship between the Vandermonde matrix and its LU factorisation.
+

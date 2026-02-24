@@ -35,9 +35,9 @@ Consider the following example:
 \]
 where $x_k$ is the $k$-th entry of $\ensuremath{\bm{\x}}$.  For $p = \ensuremath{\infty}$ we define
 \[
-\|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} := \max_k |x_k|
+\|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} := \max_k |x_k|.
 \]
-\end{definition}
+The default norm is the 2-norm $\|\ensuremath{\bm{\x}}\| := \|\ensuremath{\bm{\x}}\|_2$. \end{definition}
 
 \begin{theorem}[p-norm] $\| \ensuremath{\cdot} \|_p$ is a norm for $1 \ensuremath{\leq} p \ensuremath{\leq} \ensuremath{\infty}$.
 
@@ -89,7 +89,7 @@ Also define
 \[
 \|A\|_X := \|A\|_{X \ensuremath{\rightarrow} X}
 \]
-For  the induced $p$-norm we use the notation $\|A\|_p.$ \end{definition}
+For  the induced $p$-norm we use the notation $\|A\|_p$ and the default norm is the 2-norm: $\|A \| := \|A \|_2$. \end{definition}
 
 Note an equivalent definition of the induced norm:
 \[
@@ -154,7 +154,11 @@ Note that
 \]
 that is, the maximum $1$-norm of the rows.
 
-An example that does not have a simple formula is $\|A \|_2$, which requires the singular value decomposition.
+An example that does not have a simple formula is 
+\[
+\|A \| := \|A\|_2
+\]
+which requires the singular value decomposition.
 
 
 

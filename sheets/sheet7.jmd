@@ -1,14 +1,39 @@
 **Numerical Analysis MATH50003 (2024–25) Problem Sheet 7**
 
+This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares.
+Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices.
+We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _(Moore–Penrose) pseudoinverse_:
+a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
 
-**Problem 1** Use Lagrange interpolation to
+We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
+
+
+-----
+
+**Problem 1(a)** Use Lagrange interpolation to
 interpolate the function $\cos x$ by a polynomial at the points
 $[0,2,3,4]$ and evaluate at $x = 1$.
 
 
 
-**Problem 2** Compute the LU factorisation of the following transposed Vandermonde matrices:
+**Problem 1(b)** Find a least squares fit to $\cos x$ by a polynomial of degree $1$ (linear regression) at the points $[0,2,3,4]$ using QR.
+Hint: Choose the (non-default) sign so that $R[1,1]$ is positive to arrive at simpler computations. Since we are doing arithmetic by-hand without
+rounding the benefits of the default sign no longer apply.
+
+
+
+-----
+
+
+The Vandermonde matrix used in interpolation is a fundamental mathematical object, in particular, its determinant comes up
+in differential equations, representation theory, and theoretical physics. The following problems investigate the relationship between
+the LU factorisation of a (transposed) Vandermonde matrix and its determinant.
+
+---
+
+
+**Problem 2(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
 \begin{bmatrix}
 1 & 1 \\
@@ -30,6 +55,21 @@ Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix.
 
 
 
+**Problem 2(b)** Use the LU factorisation to deduce the determinant of the above Vandermonde matrices. What
+happens to the determinants when you swap two points (i.e., swapping $x$ and $y$)?
+
+
+
+--------
+
+
+The following problem is a simple example of an interpolatory quadrature rule, which can be constructed
+using the Lagrange basis.
+
+
+------
+
+
 **Problem 3** Compute the interpolatory quadrature rule
 $$
 ∫_{-1}^1 f(x) w(x) \dx ≈ ∑_{j=1}^n w_j f(x_j)
@@ -38,35 +78,52 @@ for the points $[x_1,x_2,x_3] = [-1,1/2,1]$, for the weights $w(x) = 1$ and $w(x
 
 
 
-This problem sheet concerns singular value decompositions, pseudo-inverses,
-and condition numbers.
 
 -----
 
-For the SVD $A = U Σ V^⊤ ∈ ℝ^{m × n}$, where $U ∈ ℝ^{m × r}$ and $V ∈ ℝ^{n × r}$ have orthonormal columns
-and $Σ$ is a diagonal matrix with non-increasing positive entries, define the _pseudo-inverse_:
+We now turn to the (real-valued) SVD $A = U Σ V^⊤ ∈ ℝ^{m × n}$, where $U ∈ ℝ^{m × r}$ and $V ∈ ℝ^{n × r}$ have orthonormal columns
+and $Σ$ is a diagonal matrix with non-increasing positive entries. We can use these to define a generalisation of the inverse of a matrix,
+known as a  _pseudo-inverse_:
 $$
 A^+ := V Σ^{-1} U^⊤.
 $$
+The pseudo-inverse has a number of properties similar to inverses:
 
-**Problem 4(a)**  Show that $A^+$ satisfies the _Moore-Penrose conditions_:
-1. $A A^+ A = A$
-2. $A^+ A A^+ = A^+$
-3. $(A A^+)^⊤  = A A^+$ and $(A^+ A)^⊤ = A^+ A$
+-----
+
+**Problem 4**  Show that $A^+$ satisfies the _Moore-Penrose conditions_: (1) $A A^+ A = A$,
+(2) $A^+ A A^+ = A^+$, and (3) $(A A^+)^⊤ = A A^+$ and $(A^+ A)^⊤ = A^+ A$
 
 
 
-**Problem 4(b)** Show for $A ∈ ℝ^{m × n}$ with $m ≥ n$ and full rank
-that $𝐱 =  A^+ 𝐛$ is the least squares solution, i.e., minimises $\| A 𝐱 - 𝐛 \|_2$.
+----
+
+An important feature of the pseudo-inverse is that it can be used to solve least squares problems.
+That is, the SVD provides an alternative approach to QR for solving least squares, albeit one that
+is computationally less efficient.
+One advantage of the SVD for least squares is that it also allows for the case where the
+matrix involved is not of full column rank.
+
+
+
+
+----
+
+**Problem 5(a)** Show for $A ∈ ℝ^{m × n}$ with $m ≥ n$ and full rank
+that $𝐱 =  A^+ 𝐛$ is the least squares solution, i.e., minimises $\| A 𝐱 - 𝐛 \|$.
 Hint: extend $U$ in the SVD to be a square orthogonal matrix.
 
 
 
-**Problem 4(c)**
+
+
+
+
+**Problem 5(b)**
 If $A ∈ ℝ^{m × n}$ has a non-empty kernel there are multiple solutions to the least
 squares problem as 
 we can add any element of the kernel. Show that $𝐱 = A^+ 𝐛$ gives the least squares solution
-such that $\| 𝐱 \|_2$ is minimised.
+such that $\| 𝐱 \|$ is minimised.
 
 
 

@@ -22,11 +22,13 @@ compilenotes("III.5.QR")
 
 compilenotes("IV.1.Regression")
 compilenotes("IV.2.SVD")
-# compilenotes("IV.3.DifferentialEquations")
 
 # compilenotes("V.1.Fourier")
 # compilenotes("V.2.DFT")
 
+
+
+# compilenotes("IV.3.DifferentialEquations")
 # compilenotes("VI.1.OrthogonalPolynomials")
 # compilenotes("VI.2.ClassicalOPs")
 # compilenotes("VI.3.GaussianQuadrature")

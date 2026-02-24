@@ -1,7 +1,7 @@
 # Singular Value Decomposition and Matrix Compression
 
-In the previous section we saw an application of least squares, where the best 2-norm fit to a vector was found using the QR
-factorisation. But what if the data is a matrix, eg. corresponding to a 2D function? Here we consider finding the best
+In the previous section we saw an application of least squares to regression, where the best 2-norm fit to a vector of function
+samples was computed. But what if the data is a matrix, eg. corresponding to a 2D function? Here we consider finding the best
 approximation to a matrix in the 2-norm sense by by a matrix with a  lower rank.  This concept has numerous applications
 in compressing matrices, including  Principle Component Analysis (PCA) and Machine Learning (where one might want to compress the ``weight'' matrices to minimise
 degrees of freedom). 
@@ -9,15 +9,14 @@ degrees of freedom).
 
 We will use induced matrix norms, in particular the 2-norm of a matrix $A ∈ ℂ^{m × n}$ is defined via
 $$
-\| A \| :=  \sup_{𝐯 ∈ ℂ^m : \|𝐯\|_X=1} \|A 𝐯\| =  \sup_{𝐯 ∈ ℂ^m} {\|A 𝐯\| \over \| 𝐯\|}/
+\| A \| :=  \sup_{𝐯 ∈ ℂ^m : \|𝐯\|_X=1} \|A 𝐯\| =  \sup_{𝐱 ∈ ℂ^m} {\|A 𝐱\| \over \| 𝐱\|}
 $$
 The matrix 1- and $∞$-norms have simple definitions in terms of column/row sums (see appendix). On the other hand,
 the 2-norm has no simple formula. 
 
 
 In order to define the 2-norm we will introduce the  _Singular Value Decomposition (SVD)_: a matrix factorisation
-that encodes how much a matrix ``stretches'' a random vector. This includes _singular values_, 
-the largest of which dictates the $2$-norm of the matirx.
+that encodes how much a matrix ``stretches''  vectors:
 
 **Definition (singular value decomposition)** For $A ∈ ℂ^{m × n}$ with rank $r > 0$, 
 the _(reduced) singular value decomposition (SVD)_ is
@@ -45,9 +44,8 @@ where $σ_k = 0$ if $k > r$.
 In particular, we discuss:
 
 1. Existence of the SVD: we show that an SVD exists by relating it to the eigenvalue Decomposition of $A^⋆A$ and $AA^⋆$.
-2. 2-norm and SVD: the 2-norm of a matrix is defined in terms of the largest singular value.
-3. Best rank-$k$ approximation and compression: the best approximation of a matrix by a smaller rank matrix can be constructed
-using the SVD, which gives an effective way to compress matrices. 
+2. 2-norm and SVD: the 2-norm of a matrix is equal to  the largest singular value $σ_1$.
+3. Best rank-$k$ approximation and compression: the best approximation of a matrix by a smaller rank matrix can be constructed using the SVD, which gives an effective way to compress matrices. 
 
 What we do not discuss is computation of the SVD. There are reliable and efficient iterative algorithms for computing the SVD, similar to computing
 eigen-decompositions, but this is beyond the scope of this module.
@@ -57,7 +55,7 @@ eigen-decompositions, but this is beyond the scope of this module.
 
 
 To show the SVD exists we first establish some properties of a _Gram matrix_ ($A^⋆ A$), which
-has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns:
+has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns of a matrix:
 if $A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_m \end{bmatrix}$ then the Gram matrix is the Hermitian matrix
 $$
 A^⋆ A = \begin{bmatrix} 𝐚_1^⋆ 𝐚_1 & ⋯ &𝐚_1^⋆ 𝐚_m \\
@@ -67,7 +65,7 @@ $$
 
 We first establish that the kernels match:
 
-**Proposition (Gram matrix kernel)** The kernel of $A$ is the also the kernel of $A^⋆ A$. 
+**Proposition (Gram matrix kernel)** The kernel of $A$ equals the kernel of $A^⋆ A$. 
 
 **Proof**
 If $𝐱 ∈ \hbox{ker}(A)$, i.e., $A 𝐱 = 0$, then clearly $A^⋆A 𝐱 = 0 = A^⋆ 0 = 0$.
@@ -97,7 +95,7 @@ To see that the eigenvalues are real and positive  note for the corresponding (o
 $$
 λ_k = λ_k 𝐪_k^⋆ 𝐪_k = 𝐪_k^⋆ A^⋆ A 𝐪_k = \| A 𝐪_k \|^2 ≥ 0.
 $$
-The fact that when $A$ is real implies that $Q$ is also real follows from direct calculation
+The fact that real $A$  implies $Q ∈ O(n)$ (i.e. has real entries) follows from direct calculation
 since we can choose the first entry of the eigenvector to be real.
 
 ∎
@@ -117,27 +115,25 @@ are an enumeration of the non-zero eigenvalues and
 $$
 V := \begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_r \end{bmatrix}
 $$
-the corresponding (orthonormal) eigenvectors, with
+the corresponding (orthonormal) eigenvectors, with the columns
 $$
 K = \begin{bmatrix} 𝐪_{r+1} | ⋯ | 𝐪_n \end{bmatrix}
 $$
-the corresponding kernel. 
+spanning the kernel of $A^⋆ A$ (and hence $A$). 
 Define
 $$
 Σ :=  \begin{bmatrix} \sqrt{λ_1} \\ & ⋱ \\ && \sqrt{λ_r} \end{bmatrix}
 $$
-Now define
-$$
-U := AV Σ^{-1}
-$$
-which is orthogonal since $A^⋆ A V = V Σ^2$:
+Now define $U := AV Σ^{-1}$.
+Since $A^⋆ A V = V Σ^2$ we can verify that $U$ is unitary:
 $$
 U^⋆ U = Σ^{-1} V^⋆ A^⋆ A V Σ^{-1} = I.
 $$
 Thus we have
 $$
-U Σ V^⋆ = A V V^⋆ = A \underbrace{\begin{bmatrix} V | K \end{bmatrix}}_Q\underbrace{\begin{bmatrix} V^⋆ \\ K^⋆ \end{bmatrix}}_{Q^⋆}
+U Σ V^⋆ = A V V^⋆ = A \underbrace{\begin{bmatrix} V | K \end{bmatrix}}_Q\underbrace{\begin{bmatrix} V^⋆ \\ K^⋆ \end{bmatrix}}_{Q^⋆} = A
 $$
+since $Q Q^⋆ = I$, and
 where we use the fact that $A K = 0$ so that concatenating $K$ does not change the value.
 
 ∎
@@ -150,11 +146,17 @@ be defined in terms of the SVD. We begin with two cases where we do have simple 
 
 
 **Proposition (diagonal/orthogonal 2-norms)** If $Λ$ is diagonal with entries $λ_k$ then
-$\|Λ\|_2 = \max_k |λ_k|$. If $Q$ is orthogonal then $\|Q\| = 1$.
+$\|Λ\| = \max_k |λ_k|$. If $Q$ is orthogonal then $\|Q\| = 1$.
 
 **Proof**
 
-The first property follows immediately. The second property follows since $Q$ preserves norm:
+The first property follows from
+$$
+\| Λ 𝐱\| = \sqrt{∑_{k=1}^n |λ_k|^2 |x_k|^2} ≤  \max_k |λ_k| \| 𝐱 \|
+$$
+hence $\|Λ\| ≤  \max_k |λ_k|$. If $k$ is an index where this maximum is achieved we see this upper bound is achieved by $\| Λ𝐞_k\| = |λ_k|$.
+
+ The second property follows since $Q$ preserves norm:
 $$
 \|Q \| = \sup_{𝐯 : \|𝐯\| =1} \|Q 𝐯\| = \sup_{𝐯 : \|𝐯\| =1} \|𝐯\|  =1.
 $$
@@ -175,7 +177,7 @@ $$
 
 **Proof**
 
-First we establish the upper-bound using the fact for induced norms that $\|A B\| ≤ \|A\| \|B\|$:
+First we establish the upper-bound using the fact for induced norms that $\|A B\| ≤ \|A\| \|B\|$ (see appendix):
 $$
 \|A \| ≤  \|U \| \| Σ \| \| V^⋆\| = \| Σ \|  = σ_1
 $$
@@ -205,17 +207,17 @@ $$
 
 ## Best rank-$k$ approximation and compression
 
-One of the main usages for SVDs is low-rank approximation:
+One of the main usages for SVDs is low-rank compression: approximating a (possibly full rank) matrix $A ∈ ℂ^{m × n}$ by a matrix with a much smaller rank $k ≪ m,n$.
 
 **Theorem (best low rank approximation)** The  matrix
 $$
-A_k := \begin{bmatrix} 𝐮_1 | ⋯ | 𝐮_k \end{bmatrix} \begin{bmatrix}
+A_k := \underbrace{\begin{bmatrix} 𝐮_1 | ⋯ | 𝐮_k \end{bmatrix}}_{=: U_k ∈ ℂ^{m × k}} \underbrace{\begin{bmatrix}
 σ_1 \\
 & ⋱ \\
-&& σ_k\end{bmatrix} \begin{bmatrix} 𝐯_1 | ⋯ | 𝐯_k \end{bmatrix}^⋆
+&& σ_k\end{bmatrix}}_{=: Σ_k ∈ ℂ^{k × k}} \underbrace{\begin{bmatrix} 𝐯_1 | ⋯ | 𝐯_k \end{bmatrix}^⋆}_{=: V_k^⋆ ∈ ℂ^{k × n}}
 $$
 is the best 2-norm approximation of $A$ by a rank $k$ matrix, that is, for all rank-$k$ matrices $B$, we have 
-$$\|A - A_k\|_2 ≤ \|A -B \|_2.$$
+$$\|A - A_k\| ≤ \|A -B \|.$$
 
 
 **Proof**
@@ -226,19 +228,19 @@ A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& σ_{k+1} \cr &&&& \d
 $$
 Suppose a rank-$k$ matrix $B$ has 
 $$
-\|A-B\|_2  < \|A-A_k\|_2 = σ_{k+1}.
+\|A-B\|  < \|A-A_k\| = σ_{k+1}.
 $$
 For all $𝐰 ∈ \ker(B)$ we have 
 $$
-\|A 𝐰\|_2 = \|(A-B) 𝐰\|_2 ≤ \|A-B\|\|𝐰\|_2  < σ_{k+1} \|𝐰\|_2
+\|A 𝐰\| = \|(A-B) 𝐰\| ≤ \|A-B\|\|𝐰\|  < σ_{k+1} \|𝐰\|
 $$
 
 But for all $𝐮 ∈ {\rm span}(𝐯_1,…,𝐯_{k+1})$, that is, $𝐮 = V[:,1:k+1]𝐜$ for some $𝐜 ∈ ℂ^{k+1}$  we have 
 $$
-\|A 𝐮\|_2^2 = \|U Σ_k 𝐜\|_2^2 = \|Σ_k 𝐜\|_2^2 =
+\|A 𝐮\|^2 = \|U Σ_k 𝐜\|^2 = \|Σ_k 𝐜\|^2 =
 \sum_{j=1}^{k+1} (σ_j c_j)^2 ≥ σ_{k+1}^2 \| 𝐜  \|^2,
 $$
-i.e., $\|A 𝐮\|_2 ≥ σ_{k+1} \|𝐮\|$, where we use the fact that
+i.e., $\|A 𝐮\| ≥ σ_{k+1} \|𝐮\|$, where we use the fact that
 $$
 \|𝐮\|^2 = \|V[:,1:k+1]𝐜\|^2 = 𝐜^⋆ V[:,1:k+1]^⋆ V[:,1:k+1]𝐜 = 𝐜^⋆𝐜 = \|𝐜\|^2.
 $$
@@ -250,3 +252,21 @@ Since these two spaces cannot intersect (apart from at 0) we have a contradictio
 
 
 
+## Lab and Problem Sheet
+
+In the lab we explore the relationship between smoothness of a function and the decay in the singular values.
+We also implement low rank compression and see for samples of some smooth functions that we can massively reduce the data
+needed to represent the matrix. We also look at the case of the Hilbert matrix
+$$
+H_n := \begin{bmatrix} 1 & 1/2 & 1/3 & ⋯ & 1/n \\
+                      1/2 & 1/3 & 1/4 & ⋯ & 1/(n+1) \\
+                       1/3 & 1/4 & 1/5 & ⋯ & 1/(n+2) \\
+                       ⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
+                       1/n & 1/(n+1) & 1/(n+2) & ⋯ & 1/(2n-1)
+                       \end{bmatrix},
+$$
+a famous matrix introduced by Hilbert which has a number of applications in approximation theory.
+
+
+In the problem sheet we see that the SVD can be used to define the _Moore–Penrose pseudoinverse_, a way of 
+constructing a notion if an inverse for a rectangular or non-invertible matrix that is consistent with least sqaures.

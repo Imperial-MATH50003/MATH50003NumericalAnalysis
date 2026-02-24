@@ -2,8 +2,8 @@
 
 This problem sheet explores approximation of functions by polynomials using interpolation and regression via least squares.
 Part of the nuance is understanding the relationship between Lagrange interpolation and interpolation via the Vandermonde matrices.
-We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _Moore-Penrose pseudoinverse_:
-a way of making sense of an "inverse" for rectangular or non-invertible matrices in a way that is consistent with least squares.
+We also discuss the singular value decomposition, in particular, we explore how itr can be used to construct the _(Moore–Penrose) pseudoinverse_:
+a way of making sense of an ``inverse'' for rectangular or non-invertible matrices in a way that is consistent with least squares.
 
 
 We begin with simple examples of constructing interpolants (using Lagrange interpolation) and linea regressions (using QR factorisations):
@@ -57,8 +57,14 @@ $$
 -----
 
 
+The Vandermonde matrix used in interpolation is a fundamental mathematical object, in particular, its determinant comes up
+in differential equations, representation theory, and theoretical physics. The following problems investigate the relationship between
+the LU factorisation of a (transposed) Vandermonde matrix and its determinant.
 
-**Problem 2** Compute the LU factorisation of the following transposed Vandermonde matrices:
+---
+
+
+**Problem 2(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
 \begin{bmatrix}
 1 & 1 \\
@@ -252,6 +258,27 @@ Multiplying it out we confirm that our conjecture is correct in this case.
 
 **END**
 
+**Problem 2(b)** Use the LU factorisation to deduce the determinant of the above Vandermonde matrices. What
+happens to the determinants when you swap two points (i.e., swapping $x$ and $y$)?
+
+**SOLUTION**
+
+The determinant can be deduced from an LU factorisation by multiplying the diagonal of $U$.
+The  2 × 2 case gives $y-x$. The 3 × 3 case gives $(y-x) (z-x)(z-y)$. The 4 × 4 case gives $(y-x)(z-x)(z-y)(w-x)(w-y)(w-z)$.
+In all cases swapping $x$ and $y$ (or any variables) flips the sign.
+
+**END**
+
+--------
+
+
+The following problem is a simple example of an interpolatory quadrature rule, which can be constructed
+using the Lagrange basis.
+
+
+------
+
+
 **Problem 3** Compute the interpolatory quadrature rule
 $$
 ∫_{-1}^1 f(x) w(x) \dx ≈ ∑_{j=1}^n w_j f(x_j)
@@ -299,21 +326,21 @@ $$
 
 **END**
 
-This problem sheet concerns singular value decompositions, pseudo-inverses,
-and condition numbers.
 
 -----
 
-For the SVD $A = U Σ V^⊤ ∈ ℝ^{m × n}$, where $U ∈ ℝ^{m × r}$ and $V ∈ ℝ^{n × r}$ have orthonormal columns
-and $Σ$ is a diagonal matrix with non-increasing positive entries, define the _pseudo-inverse_:
+We now turn to the (real-valued) SVD $A = U Σ V^⊤ ∈ ℝ^{m × n}$, where $U ∈ ℝ^{m × r}$ and $V ∈ ℝ^{n × r}$ have orthonormal columns
+and $Σ$ is a diagonal matrix with non-increasing positive entries. We can use these to define a generalisation of the inverse of a matrix,
+known as a  _pseudo-inverse_:
 $$
 A^+ := V Σ^{-1} U^⊤.
 $$
+The pseudo-inverse has a number of properties similar to inverses:
 
-**Problem 4(a)**  Show that $A^+$ satisfies the _Moore-Penrose conditions_:
-1. $A A^+ A = A$
-2. $A^+ A A^+ = A^+$
-3. $(A A^+)^⊤  = A A^+$ and $(A^+ A)^⊤ = A^+ A$
+-----
+
+**Problem 4**  Show that $A^+$ satisfies the _Moore-Penrose conditions_: (1) $A A^+ A = A$,
+(2) $A^+ A A^+ = A^+$, and (3) $(A A^+)^⊤ = A A^+$ and $(A^+ A)^⊤ = A^+ A$
 
 **SOLUTION**
 
@@ -338,8 +365,21 @@ $$
 
 **END**
 
-**Problem 4(b)** Show for $A ∈ ℝ^{m × n}$ with $m ≥ n$ and full rank
-that $𝐱 =  A^+ 𝐛$ is the least squares solution, i.e., minimises $\| A 𝐱 - 𝐛 \|_2$.
+----
+
+An important feature of the pseudo-inverse is that it can be used to solve least squares problems.
+That is, the SVD provides an alternative approach to QR for solving least squares, albeit one that
+is computationally less efficient.
+One advantage of the SVD for least squares is that it also allows for the case where the
+matrix involved is not of full column rank.
+
+
+
+
+----
+
+**Problem 5(a)** Show for $A ∈ ℝ^{m × n}$ with $m ≥ n$ and full rank
+that $𝐱 =  A^+ 𝐛$ is the least squares solution, i.e., minimises $\| A 𝐱 - 𝐛 \|$.
 Hint: extend $U$ in the SVD to be a square orthogonal matrix.
 
 **SOLUTION**
@@ -351,23 +391,27 @@ $$
 so that $Ũ$ is orthogonal. We use the fact orthogonal matrices do not change norms:
 $$
 \begin{align*}
-\|A 𝐱 - 𝐛 \|_2^2 &= \|U Σ V^⊤ 𝐱 - 𝐛 \|_2^2 = \|Ũ^⊤ U Σ V^⊤ 𝐱 - Ũ^⊤ 𝐛 \|_2^2 = 
-\|\underbrace{\begin{bmatrix}I_n \\ O \end{bmatrix}}_{∈ ℝ^{m × n}} Σ V^⊤ 𝐱 - \begin{bmatrix} U^⊤ \\ K^⊤ \end{bmatrix} 𝐛 \|_2^2 \\
-&= \|Σ V^⊤ 𝐱 - U^⊤ 𝐛 \|_2^2 + \|K^⊤ 𝐛\|^2
+\|A 𝐱 - 𝐛 \|^2 &= \|U Σ V^⊤ 𝐱 - 𝐛 \|^2 = \|Ũ^⊤ U Σ V^⊤ 𝐱 - Ũ^⊤ 𝐛 \|^2 = 
+\|\underbrace{\begin{bmatrix}I_n \\ O \end{bmatrix}}_{∈ ℝ^{m × n}} Σ V^⊤ 𝐱 - \begin{bmatrix} U^⊤ \\ K^⊤ \end{bmatrix} 𝐛 \|^2 \\
+&= \|Σ V^⊤ 𝐱 - U^⊤ 𝐛 \|^2 + \|K^⊤ 𝐛\|^2
 \end{align*}
 $$
 The second term is independent of $𝐱$. The first term is minimised when zero:
 $$
- \|Σ V^⊤ 𝐱 - U^⊤ 𝐛 \|_2 =\|Σ V^⊤ V Σ^{-1} U^⊤ 𝐛  - U^⊤ 𝐛 \|_2 = 0
+ \|Σ V^⊤ 𝐱 - U^⊤ 𝐛 \| =\|Σ V^⊤ V Σ^{-1} U^⊤ 𝐛  - U^⊤ 𝐛 \| = 0
 $$
 
 **END**
 
-**Problem 4(c)**
+
+
+
+
+**Problem 5(b)**
 If $A ∈ ℝ^{m × n}$ has a non-empty kernel there are multiple solutions to the least
 squares problem as 
 we can add any element of the kernel. Show that $𝐱 = A^+ 𝐛$ gives the least squares solution
-such that $\| 𝐱 \|_2$ is minimised.
+such that $\| 𝐱 \|$ is minimised.
 
 **SOLUTION**
 

@@ -13,7 +13,8 @@
 
 # 1. Vandermonde matrices and least squares.
 # 2. Constructing interpolatory quadrature rules.
-# 2. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
+# 3. Issues with interpolation at evenly spaced points with functions with small radii of convergence.
+# 4. 
 
 
 
@@ -22,24 +23,6 @@
 
 ## LinearAlgebra contains routines for doing linear algebra
 using LinearAlgebra, Plots, Test
-
-
-# **Remark** One should normally not need to implement methods for solving differential equations
-# oneself as there are packages available, including the high-performance
-#  Julia package  [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl). Moreover Forward and Backward
-# Euler are only the first baby steps to a wide range of time-steppers, with Runge–Kutta being
-# one of the most successful.
-# For example, in practice we can solve
-# a simple differential equation like a pendulum $u'' = -\sin u$ can be solved
-# as follows (writing at a system $u' = v, v' = -\sin u$):
-
-using DifferentialEquations, LinearAlgebra, Plots
-
-u = solve(ODEProblem((u,_,x) -> [u[2], -sin(u[1])], [1,0], (0,10)))
-plot(u)
-
-# However, even in these automated packages one has a choice of different methods with
-# different behaviour, so it is important to understand on a mathematical level what is happening under the hood.
 
 
 
@@ -109,16 +92,25 @@ scatter!(𝐱, f.(𝐱); label="samples")
 
 # -------
 
-# **Problem 1** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
+# **Problem 1(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
 # points, plotting the solution at a grid of $1000$ points. For $n = 50$ does your interpolation match
 # the true function?  Does increasing $n$ to 400 improve the accuracy? How about using `BigFloat`?
 # Hint: make sure to make your `range` be `BigFloat` valued, e.g., `range(big(-1), big(1); length=n)`.
 
-## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
-## the plotting grid with 1000 points, for $n = 50$ and $400$.
+## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at n evenly spaced points, plotting both solutions evaluated at
+## the plotting grid with 1000 points, for n = 50 and 400.
 
 
-# ------
+
+
+# **Problem 1(b)** Repeat the previous problem with the points $x_j = \cos θ_j$ where $θ_j$ are $n$ evenly spaced points
+# between $0$ and $π$. How do the results compare with evenly spaced points? Do you believe interpolation is now converging?
+
+## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at n points given by x_j, plotting both solutions evaluated at
+## the plotting grid with 1000 points, for n = 50 and 400.  Does the accuracy improve with BigFloat?
+
+
+
 
 # ### IV.1.2 Interpolatory quadrature rules
 
@@ -234,12 +226,12 @@ plot!(𝐠, p.(𝐠); label="quadratic")
 
 
 
-#-----
+#-------
 
 
-# # Lab 7: Function compression and the SVD
+# ## IV.2 Singular Value Decomposition and Matrix Compression
 
-# This lecture will explore using the SVD to compress 2D functions sampled at an 
+# We now explore using the SVD to compress 2D functions sampled at an 
 # evenly spaced grid. This is very much the same as image compression,
 # but we will see that samples of smooth functions can be approximated by very small rank matrices.  
 # This gives some intuition on why pictures tend to be low rank: most pictures have large portions that are "smooth".
@@ -248,8 +240,6 @@ plot!(𝐠, p.(𝐠); label="quadratic")
 
 # The following code samples a function on a grid in the square `[-1,1]^2`
 # and plots the corresponding pixels:
-
-using Plots, LinearAlgebra, Test
 
 f = (x,y) -> exp(-x^2*sin(2y-1))
 
@@ -261,7 +251,9 @@ F = f.(x', y) # equivalent to [f(x[j],y[k]) for k=1:m, j=1:n]
 
 heatmap(x, y, F)
 
-# **Problem 1** Complete the following function `fsample(f, m, n)` which takes in a function
+# -----
+
+# **Problem 5** Complete the following function `fsample(f, m, n)` which takes in a function
 # and returns its samples on a grid.
 
 function fsample(f::Function, m::Int, n::Int)
@@ -291,25 +283,27 @@ end
 # Note that `svdvals(A)` calculates the singular values of a matrix `A`, without calculating
 # the `U` and `V` components.
 
-# **Problem 2.1** Use `plot(...; yscale=:log10)` and `svdvals` to plot the singular values of 
+# -----
+
+# **Problem 6(a)** Use `plot(...; yscale=:log10)` and `svdvals` to plot the singular values of 
 # $f(x,y) = \exp(-x^2 \sin(2y-1))$ sampled at a $100 × 150$ evenly spaced grid on $[-1,1]^2$. 
 # At what value does it appear to level off? 
 
 
 
-# **Problem 2.2** Repeat Problem 2.1, but plotting the first 20 singular values divided by `n`
+# **Problem 6(b)** Repeat Problem 2.1, but plotting the first 20 singular values divided by `n`
 # for `n = m = 50`, `n = m = 100`, and `n = m = 200` on the same figure.  What do you notice?  
 # Hint: recall `plot!` adds a plot to an existing plot.
 
 
 
-# **Problem 2.3** Plot the first 50 singular values for `n = m = 200` of
+# **Problem 6(c)** Plot the first 50 singular values for `n = m = 200` of
 #  $\cos(ωxy)$ and $\cos(ωx) \cos(ωy)$ for `ω` equal to 1,10 and 50, on the same figure. 
 # How do the singular values change as the functions become more oscillatory in both examples?
 
 
 
-# **Problem 2.4** Plot the singular values of ${\rm sign}(x-y)$ for `n=m=100` 
+# **Problem 6(d)** Plot the singular values of ${\rm sign}(x-y)$ for `n=m=100` 
 # and `n=m=200`.  What do you notice?  
 
 
@@ -317,19 +311,30 @@ end
 # -----
 # ## Matrix compression
 
-# We now turn to using the SVD to compress matrices.
+# We now turn to using the SVD to compress matrices. In particular, the following problems explore how we can use
+# the approximation
+# $$
+# A ≈ A_k := \underbrace{\begin{bmatrix} 𝐮_1 | ⋯ | 𝐮_k \end{bmatrix}}_{=: U_k ∈ ℂ^{m × k}} \underbrace{\begin{bmatrix}
+# σ_1 \\
+# & ⋱ \\
+# && σ_k\end{bmatrix}}_{=: Σ_k ∈ ℂ^{k × k}} \underbrace{\begin{bmatrix} 𝐯_1 | ⋯ | 𝐯_k \end{bmatrix}^⋆}_{=: V_k^⋆ ∈ ℂ^{k × n}}
+# $$
+# to approximate a matrix (say, coming from function samples, or pixels of image, or even weights in a Neural Network)
+# using significantly less data.
 
-# **Problem 3.1** Write a function `svdcompress(A::Matrix, k::Integer)` that returns the best rank-`k` approximation to `A`,
+# -----
+
+# **Problem 7(a)** Write a function `svdcompress(A::Matrix, k::Integer)` that returns the best rank-`k` approximation to `A`,
 # using the in-built `svd` command.
 
 
 
-# **Problem 3.2** Compare a `heatmap` plot of `fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)` to its best rank-5 approximation.
+# **Problem 7(b)** Compare a `heatmap` plot of `fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)` to its best rank-5 approximation.
 # What do you observe?
 
 
 
-# **Problem 3.3** Write a function `svdcompress_rank(A::Matrix, ε::Real)` that returns the smallest integer `k` so that `opnorm(A - svdcompress(A, k)) ≤ ε`,
+# **Problem 7(c)** Write a function `svdcompress_rank(A::Matrix, ε::Real)` that returns the smallest integer `k` so that `opnorm(A - svdcompress(A, k)) ≤ ε`,
 # which we call the "numerical rank".   (Hint: use the singular values instead of guess-and-check.)
 
 
@@ -342,7 +347,7 @@ F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 
 
 
-# **Problem 3.4** Use `svdcompress_rank` to roughly estimate how the numerical rank of the Hilbert matrix 
+# **Problem 7(d)** Use `svdcompress_rank` to roughly estimate how the numerical rank of the Hilbert matrix 
 # $$
 # H_n := \begin{bmatrix} 1 & 1/2 & 1/3 & ⋯ & 1/n \\
 #                       1/2 & 1/3 & 1/4 & ⋯ & 1/(n+1) \\
@@ -358,3 +363,4 @@ F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 
 
 
+# -----

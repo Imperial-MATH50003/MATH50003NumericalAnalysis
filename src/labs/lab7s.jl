@@ -92,13 +92,13 @@ scatter!(𝐱, f.(𝐱); label="samples")
 
 # -------
 
-# **Problem 1** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
+# **Problem 1(a)** Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at an evenly spaced grid of $n$
 # points, plotting the solution at a grid of $1000$ points. For $n = 50$ does your interpolation match
 # the true function?  Does increasing $n$ to 400 improve the accuracy? How about using `BigFloat`?
 # Hint: make sure to make your `range` be `BigFloat` valued, e.g., `range(big(-1), big(1); length=n)`.
 
-## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
-## the plotting grid with 1000 points, for $n = 50$ and $400$.
+## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at n evenly spaced points, plotting both solutions evaluated at
+## the plotting grid with 1000 points, for n = 50 and 400.
 
 ## SOLUTION
 
@@ -153,7 +153,72 @@ plot!(𝐠, V_g*𝐜_25)
 ## convergence.
 
 ## END
-# ------
+
+
+# **Problem 1(b)** Repeat the previous problem with the points $x_j = \cos θ_j$ where $θ_j$ are $n$ evenly spaced points
+# between $0$ and $π$. How do the results compare with evenly spaced points? Do you believe interpolation is now converging?
+
+## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at n points given by x_j, plotting both solutions evaluated at
+## the plotting grid with 1000 points, for n = 50 and 400.  Does the accuracy improve with BigFloat?
+
+## SOLUTION
+
+n = 50
+𝐱 = cos.(range(0,π,n))
+𝐠 = range(-1, 1; length=1000) # plotting grid
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+## We no longer see large errors.
+
+n = 400
+𝐱 = cos.(range(0,π,n))
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
+plot!(𝐠, V_g*𝐜_25)
+## We no longer see large errors in either case.
+
+## we can plot the errors and see they are not that small though
+plot(𝐠, abs.(V_g*𝐜_25 - f_25.(𝐠)))
+
+## Now do big float
+n = 400
+𝐱 = cos.(range(0,big(π),n))
+𝐠 = range(big(-1), 1; length=1000) # plotting grid
+
+V = 𝐱 .^ (0:n-1)'
+V_g = 𝐠 .^ (0:n-1)'
+
+f_4 = x -> 1/(4x^2 + 1)
+𝐜_4 = V \ f_4.(𝐱)
+f_25 = x -> 1/(25x^2 + 1)
+𝐜_25 = V \ f_25.(𝐱)
+
+## we can plot the errors and see they are really small
+plot(𝐠, abs.(V_g*𝐜_25 - f_25.(𝐠)))
+#
+
+## The conclusion is that interpolation converges with this set of points.
+## Note we still need BigFloat to see this as the monomial basis is problematic.
+## Using orthogonal polynomials (dicussed later) will perform much better.
+
+## END
+
 
 # ### IV.1.2 Interpolatory quadrature rules
 
@@ -331,7 +396,7 @@ plot!(𝐠, V_g*𝐜_25)
 
 # ## IV.2 Singular Value Decomposition and Matrix Compression
 
-# This lecture will explore using the SVD to compress 2D functions sampled at an 
+# We now explore using the SVD to compress 2D functions sampled at an 
 # evenly spaced grid. This is very much the same as image compression,
 # but we will see that samples of smooth functions can be approximated by very small rank matrices.  
 # This gives some intuition on why pictures tend to be low rank: most pictures have large portions that are "smooth".
@@ -340,8 +405,6 @@ plot!(𝐠, V_g*𝐜_25)
 
 # The following code samples a function on a grid in the square `[-1,1]^2`
 # and plots the corresponding pixels:
-
-using Plots, LinearAlgebra, Test
 
 f = (x,y) -> exp(-x^2*sin(2y-1))
 
@@ -353,7 +416,9 @@ F = f.(x', y) # equivalent to [f(x[j],y[k]) for k=1:m, j=1:n]
 
 heatmap(x, y, F)
 
-# **Problem 1** Complete the following function `fsample(f, m, n)` which takes in a function
+# -----
+
+# **Problem 5** Complete the following function `fsample(f, m, n)` which takes in a function
 # and returns its samples on a grid.
 
 function fsample(f::Function, m::Int, n::Int)
@@ -387,10 +452,13 @@ end
 # Note that `svdvals(A)` calculates the singular values of a matrix `A`, without calculating
 # the `U` and `V` components.
 
-# **Problem 2.1** Use `plot(...; yscale=:log10)` and `svdvals` to plot the singular values of 
+# -----
+
+# **Problem 6(a)** Use `plot(...; yscale=:log10)` and `svdvals` to plot the singular values of 
 # $f(x,y) = \exp(-x^2 \sin(2y-1))$ sampled at a $100 × 150$ evenly spaced grid on $[-1,1]^2$. 
 # At what value does it appear to level off? 
 
+## TODO: Plot the singular values of samples of a smooth function and observe their decay.
 ## SOLUTION
 F = fsample((x,y)->exp(-x^2*sin(2y-1)), 100, 150)
 plot(svdvals(F); yscale=:log10)
@@ -398,10 +466,12 @@ plot(svdvals(F); yscale=:log10)
 ## few singular values decrease further.
 ## END
 
-# **Problem 2.2** Repeat Problem 2.1, but plotting the first 20 singular values divided by `n`
-# for `n = m = 50`, `n = m = 100`, and `n = m = 200` on the same figure.  What do you notice?  
+# **Problem 6(b)** Repeat Problem 6(a), but plotting the first 20 singular values divided by `n`
+# for `n = m = 50`, `n = m = 100`, and `n = m = 200` on the same figure, where the function is sampled at
+# an $n × m$ evenly spaced grid.  What do you notice?  
 # Hint: recall `plot!` adds a plot to an existing plot.
 
+## TODO: Plot the singular values for increasing grid sizes and observe how they remain largely unchanged
 ## SOLUTION
 f = (x,y)->exp(-x^2*sin(2y-1))
 plot(svdvals(fsample(f, 50, 50))[1:20]/50; yscale=:log10)
@@ -411,10 +481,11 @@ plot!(svdvals(fsample(f, 200, 200))[1:20]/200; yscale=:log10)
 ## we appear to be converging to a fixed distribution
 ## END
 
-# **Problem 2.3** Plot the first 50 singular values for `n = m = 200` of
+# **Problem 6(c)** Plot the first 50 singular values for `n = m = 200` of
 #  $\cos(ωxy)$ and $\cos(ωx) \cos(ωy)$ for `ω` equal to 1,10 and 50, on the same figure. 
 # How do the singular values change as the functions become more oscillatory in both examples?
 
+## TODO: See how oscillatory behaviour impacts the rank of the samples.
 ## SOLUTION
 f = (x,y) -> cos(ω*x*y)
 g = (x,y) -> cos(ω*x)cos(ω*y)
@@ -432,9 +503,11 @@ g = (x,y) -> cos(ω*x)cos(ω*y)
 
 ## END
 
-# **Problem 2.4** Plot the singular values of ${\rm sign}(x-y)$ for `n=m=100` 
+# **Problem 6(d)** Plot the singular values of ${\rm sign}(x-y)$ for `n=m=100` 
 # and `n=m=200`.  What do you notice?  
 
+
+## TODO: See how a diagonal jump impacts the rank of the samples.
 ## SOLUTION
 f = (x,y) -> sign(x-y)
 plot(svdvals(fsample(f, 100, 100)); yscale=:log10)
@@ -445,21 +518,34 @@ plot!(svdvals(fsample(f, 200, 200)); yscale=:log10)
 # -----
 # ## Matrix compression
 
-# We now turn to using the SVD to compress matrices.
+# We now turn to using the SVD to compress matrices. In particular, the following problems explore how we can use
+# the approximation
+# $$
+# A ≈ A_k := \underbrace{\begin{bmatrix} 𝐮_1 | ⋯ | 𝐮_k \end{bmatrix}}_{=: U_k ∈ ℝ^{m × k}} \underbrace{\begin{bmatrix}
+# σ_1 \\
+# & ⋱ \\
+# && σ_k\end{bmatrix}}_{=: Σ_k ∈ ℝ^{k × k}} \underbrace{\begin{bmatrix} 𝐯_1 | ⋯ | 𝐯_k \end{bmatrix}^⊤}_{=: V_k^⊤ ∈ ℝ^{k × n}}
+# $$
+# to approximate a matrix (say, coming from function samples, or pixels of image, or even weights in a Neural Network)
+# using significantly less data.
 
-# **Problem 3.1** Write a function `svdcompress(A::Matrix, k::Integer)` that returns the best rank-`k` approximation to `A`,
+# -----
+
+# **Problem 7(a)** Write a function `svdcompress(A::Matrix, k::Integer)` that returns the best rank-`k` approximation to `A`,
 # using the in-built `svd` command.
 
-## SOLUTION
 function svdcompress(A::Matrix, k::Integer)
+    ## TODO: Implement the best rank-k approximation
+    ## SOLUTION
     U,σ,V = svd(A)
     U[:,1:k] * Diagonal(σ[1:k]) * V[:,1:k]'
+    ## END
 end
-## END
 
-# **Problem 3.2** Compare a `heatmap` plot of `fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)` to its best rank-5 approximation.
+# **Problem 7(b)** Compare a `heatmap` plot of `fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)` to its best rank-5 approximation.
 # What do you observe?
 
+## TODO: compare a simple function with its low rank approximation.
 ## SOLUTION
 F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 heatmap(F)
@@ -470,7 +556,7 @@ heatmap(F_c)
 ## There is no obvious difference
 ## END
 
-# **Problem 3.3** Write a function `svdcompress_rank(A::Matrix, ε::Real)` that returns the smallest integer `k` so that `opnorm(A - svdcompress(A, k)) ≤ ε`,
+# **Problem 7(c)** Write a function `svdcompress_rank(A::Matrix, ε::Real)` that returns the smallest integer `k` so that `opnorm(A - svdcompress(A, k)) ≤ ε`,
 # which we call the "numerical rank".   (Hint: use the singular values instead of guess-and-check.)
 
 
@@ -491,7 +577,7 @@ F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 
 
 
-# **Problem 3.4** Use `svdcompress_rank` to roughly estimate how the numerical rank of the Hilbert matrix 
+# **Problem 7(d)** Use `svdcompress_rank` to roughly estimate how the numerical rank of the Hilbert matrix 
 # $$
 # H_n := \begin{bmatrix} 1 & 1/2 & 1/3 & ⋯ & 1/n \\
 #                       1/2 & 1/3 & 1/4 & ⋯ & 1/(n+1) \\
@@ -505,6 +591,7 @@ F = fsample((x,y) -> exp(-x^2*sin(2y-1)), 100, 100)
 # Hint: scaling just the x axis in a plot via `plot(...; xscale=:log10)` will reveal logarithmic
 # growth.
 
+## TODO: investigate the rank structure of the Hilbert matrix
 ## SOLUTION
 
 hilbertmatrix(n) = [1/(k + j - 1) for k=1:n, j=1:n]
@@ -517,3 +604,4 @@ plot!(5log10.((1:200)))
 
 ## END
 
+# -----
