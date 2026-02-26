@@ -64,7 +64,7 @@ for k = 1:6
     compilelabdemo(k)
 end
 
-
+compilelab('r')
 
 
 compilelabsolution(1)
@@ -77,7 +77,7 @@ compilelabsolution(4)
 # compilelabsolution(8)
 
 
-# compilelabsolution('r')
+compilelabsolution('r')
 
 #####
 # extras
