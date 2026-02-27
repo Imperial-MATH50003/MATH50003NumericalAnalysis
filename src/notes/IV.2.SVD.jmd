@@ -56,11 +56,11 @@ eigen-decompositions, but this is beyond the scope of this module.
 
 To show the SVD exists we first establish some properties of a _Gram matrix_ ($A^⋆ A$), which
 has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns of a matrix:
-if $A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_m \end{bmatrix}$ then the Gram matrix is the Hermitian matrix
+if $A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_n \end{bmatrix} ∈ ℂ^{m × n}$ then the Gram matrix is the Hermitian matrix
 $$
-A^⋆ A = \begin{bmatrix} 𝐚_1^⋆ 𝐚_1 & ⋯ &𝐚_1^⋆ 𝐚_m \\
+A^⋆ A = \begin{bmatrix} 𝐚_1^⋆ 𝐚_1 & ⋯ &𝐚_1^⋆ 𝐚_n \\
                         ⋮ &  ⋱ & ⋮ \\
-                        𝐚_m^⋆ 𝐚_1 & ⋯ &𝐚_m^⋆ 𝐚_m \end{bmatrix} ∈ ℂ^{m × m}.
+                        𝐚_n^⋆ 𝐚_1 & ⋯ &𝐚_n^⋆ 𝐚_n \end{bmatrix} ∈ ℂ^{n × n}.
 $$
 
 We first establish that the kernels match:
@@ -86,7 +86,7 @@ $$
 A^⋆ A = Q Λ Q^⋆ ∈ ℂ^{n × n}
 $$
 is a Hermitian matrix where $Q ∈ U(n)$ and the eigenvalues $λ_k$ are real and non-negative.
-If $A ∈ ℝ^{m × n}$ then $Q ∈ O(n)$.
+If $A ∈ ℝ^{m × n}$ then we can choose $Q ∈ O(n)$.
 
 **Proof**
 $A^⋆ A$ is Hermitian so we appeal to the spectral theorem for the
@@ -95,8 +95,11 @@ To see that the eigenvalues are real and positive  note for the corresponding (o
 $$
 λ_k = λ_k 𝐪_k^⋆ 𝐪_k = 𝐪_k^⋆ A^⋆ A 𝐪_k = \| A 𝐪_k \|^2 ≥ 0.
 $$
-The fact that real $A$  implies $Q ∈ O(n)$ (i.e. has real entries) follows from direct calculation
-since we can choose the first entry of the eigenvector to be real.
+The fact that real $A$  implies $Q ∈ O(n)$ (i.e. has real entries) follows since if $𝐪_k ∈ ℂ^n$ is an eigenvector than
+so is $ℜ 𝐪_k$:
+$$
+A^⊤ A ℜ 𝐪_k = ℜ A^⊤ A  𝐪_k  = ℜ λ_k 𝐪_k = λ_k ℜ 𝐪_k.
+$$
 
 ∎
 
@@ -125,7 +128,7 @@ $$
 Σ :=  \begin{bmatrix} \sqrt{λ_1} \\ & ⋱ \\ && \sqrt{λ_r} \end{bmatrix}
 $$
 Now define $U := AV Σ^{-1}$.
-Since $A^⋆ A V = V Σ^2$ we can verify that $U$ is unitary:
+Since $A^⋆ A V = V Σ^2$ we can verify that $U$ has orthonormal columns:
 $$
 U^⋆ U = Σ^{-1} V^⋆ A^⋆ A V Σ^{-1} = I.
 $$
@@ -145,8 +148,8 @@ Somewhat surprisingly, the 2-norm for matrices does not have a simple formula bu
 be defined in terms of the singular values. We begin with two cases where we do have simple formulæ:
 
 
-**Proposition (diagonal/orthogonal 2-norms)** If $Λ$ is diagonal with entries $λ_k$ then
-$\|Λ\| = \max_k |λ_k|$. If $Q$ is orthogonal then $\|Q\| = 1$.
+**Proposition (diagonal/orthogonal column 2-norms)** If $Λ$ is diagonal with entries $λ_k$ then
+$\|Λ\| = \max_k |λ_k|$. If $U$ has orthonormal columns then $\|U\| = \|U^⋆\| = 1$.
 
 **Proof**
 
@@ -156,10 +159,38 @@ $$
 $$
 hence $\|Λ\| ≤  \max_k |λ_k|$. If $k$ is an index where this maximum is achieved we see this upper bound is achieved by $\| Λ𝐞_k\| = |λ_k|$.
 
- The second property follows since $Q$ preserves norm:
+ $U$ with orthonormal columns has unit norm because:
 $$
-\|Q \| = \sup_{𝐯 : \|𝐯\| =1} \|Q 𝐯\| = \sup_{𝐯 : \|𝐯\| =1} \|𝐯\|  =1.
+ \|U 𝐱\|^2 = 𝐱^⋆ \underbrace{U^⋆U}_I 𝐱 =  \|𝐱\|^2.
 $$
+
+To show $U^⋆$ also has unit norm is more challenging. We first note from the spectral theorem we know we can diagonalise
+$$
+U U^⋆ = Q Λ Q^⋆
+$$
+and therefore 
+$$
+\| U U^⋆ \| ≤ \|Q \| \| Λ \| \| Q^⋆ \| =\| Λ \|.
+$$
+We further note this is a projection, that is, it equals its square:
+$$
+(U U^⋆)^2 = U \underbrace{U^⋆ U}_{I} U^⋆ = U U^⋆.
+$$
+Thus the eigenvalues are either 0 or 1 since:
+$$
+λ_j = λ_j 𝐪_j^⋆ 𝐪_j = 𝐪_j^⋆ U U^⋆ 𝐪_j = 𝐪_j^⋆ (U U^⋆)^2 𝐪_j = λ_j^2
+$$
+and thus $\| U U^⋆ \| ≤ \| Λ\| ≤ 1$. We thus have  (using the fact that multiplication by $U$ preserves norm)
+$$
+\|U^⋆ 𝐱 \| = \|U U^ ⋆ 𝐱 \| ≤ \| U U^⋆\| \| 𝐱\| ≤ \| 𝐱\|
+$$
+hence $\| U^⋆\| ≤ 1$. But this bound is achieved using any column of $U$ since, eg. for $𝐮_1 = U𝐞_1$ we have
+$$
+\sup_{\|𝐯\|=1} \| U^⋆ 𝐯\| ≥\| U^⋆ 𝐮_1 \| = \| 𝐞_1 \| = 1.
+$$
+
+
+
 
 ∎
 
@@ -181,7 +212,7 @@ First we establish the upper-bound using the fact for induced norms that $\|A B\
 $$
 \|A \| ≤  \|U \| \| Σ \| \| V^⋆\| = \| Σ \|  = σ_1
 $$
-This is attained using the first right singular vector:
+This is attained using the first right singular vector: for $𝐯_1 = V 𝐞_1$ we have
 $$
 \|A 𝐯_1\| = \|Σ V^⋆ 𝐯_1\| = \|Σ  𝐞_1\| = σ_1
 $$
@@ -217,15 +248,24 @@ A_k := \underbrace{\begin{bmatrix} 𝐮_1 | ⋯ | 𝐮_k \end{bmatrix}}_{=: U_k 
 && σ_k\end{bmatrix}}_{=: Σ_k ∈ ℂ^{k × k}} \underbrace{\begin{bmatrix} 𝐯_1 | ⋯ | 𝐯_k \end{bmatrix}^⋆}_{=: V_k^⋆ ∈ ℂ^{k × n}}
 $$
 is the best 2-norm approximation of $A$ by a rank $k$ matrix, that is, for all rank-$k$ matrices $B$, we have 
-$$\|A - A_k\| ≤ \|A -B \|.$$
+$$
+σ_{k+1} = \|A - A_k\| ≤ \|A -B \|.
+$$
 
 
 **Proof**
 We have
+$$
+A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& σ_{k+1} \cr &&&& \ddots \cr &&&&& σ_r\end{bmatrix} V^⋆
+= \begin{bmatrix} 𝐮_{k+1} | ⋯ | 𝐮_r \end{bmatrix}
+\begin{bmatrix}
+σ_{k+1} \\
+& ⋱ \\
+&& σ_r \end{bmatrix}\begin{bmatrix} 𝐯_{k+1} | ⋯ | 𝐯_r \end{bmatrix}^⋆
+$$
+hence $\| A - A_k \| = σ_{k+1}$.
 
-$$
-A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& σ_{k+1} \cr &&&& \ddots \cr &&&&& σ_r\end{bmatrix} V^⋆.
-$$
+
 Suppose a rank-$k$ matrix $B$ has 
 $$
 \|A-B\|  < \|A-A_k\| = σ_{k+1}.
@@ -235,14 +275,14 @@ $$
 \|A 𝐰\| = \|(A-B) 𝐰\| ≤ \|A-B\|\|𝐰\|  < σ_{k+1} \|𝐰\|
 $$
 
-But for all $𝐮 ∈ {\rm span}(𝐯_1,…,𝐯_{k+1})$, that is, $𝐮 = V[:,1:k+1]𝐜$ for some $𝐜 ∈ ℂ^{k+1}$  we have 
+But for all $𝐱 ∈ {\rm span}(𝐯_1,…,𝐯_{k+1})$, that is, $𝐱 = V[:,1:k+1]𝐜$ for some $𝐜 ∈ ℂ^{k+1}$  we have 
 $$
-\|A 𝐮\|^2 = \|U Σ_k 𝐜\|^2 = \|Σ_k 𝐜\|^2 =
+\|A 𝐱\|^2 = \|U Σ_k 𝐜\|^2 = \|Σ_k 𝐜\|^2 =
 \sum_{j=1}^{k+1} (σ_j c_j)^2 ≥ σ_{k+1}^2 \| 𝐜  \|^2,
 $$
-i.e., $\|A 𝐮\| ≥ σ_{k+1} \|𝐮\|$, where we use the fact that
+i.e., $\|A 𝐱\| ≥ σ_{k+1} \|𝐱\|$, where we use the fact that
 $$
-\|𝐮\|^2 = \|V[:,1:k+1]𝐜\|^2 = 𝐜^⋆ V[:,1:k+1]^⋆ V[:,1:k+1]𝐜 = 𝐜^⋆𝐜 = \|𝐜\|^2.
+\|𝐱\|^2 = \|V[:,1:k+1]𝐜\|^2 = 𝐜^⋆ V[:,1:k+1]^⋆ V[:,1:k+1]𝐜 = 𝐜^⋆𝐜 = \|𝐜\|^2.
 $$
 Thus $𝐰$ cannot be in this span.
 

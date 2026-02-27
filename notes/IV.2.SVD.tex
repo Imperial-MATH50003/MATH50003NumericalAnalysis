@@ -2,11 +2,11 @@
 \section{Singular Value Decomposition and Matrix Compression}
 In the previous section we saw an application of least squares to regression, where the best 2-norm fit to a vector of function samples was computed. But what if the data is a matrix, eg. corresponding to a 2D function? Here we consider finding the best approximation to a matrix in the 2-norm sense by by a matrix with a  lower rank.  This concept has numerous applications in compressing matrices, including  Principle Component Analysis (PCA) and Machine Learning (where one might want to compress the ``weight'' matrices to minimise degrees of freedom). 
 
-We will use induced matrix norms, in particular the 2-norm of a matrix $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ is defined via
+We will use induced matrix norms (see appendix), in particular the 2-norm of a matrix $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ is defined via
 \[
 \| A \| :=  \sup_{\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^m : \|\ensuremath{\bm{\v}}\|_X=1} \|A \ensuremath{\bm{\v}}\| =  \sup_{\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^m} {\|A \ensuremath{\bm{\x}}\| \over \| \ensuremath{\bm{\x}}\|}
 \]
-The matrix 1- and $\ensuremath{\infty}$-norms have simple definitions in terms of column/row sums (see appendix). On the other hand, the 2-norm has no simple formula. 
+The matrix 1- and $\ensuremath{\infty}$-norms have simple definitions in terms of column/row sums. On the other hand, the 2-norm has no simple formula. 
 
 In order to define the 2-norm we will introduce the  \emph{Singular Value Decomposition (SVD)}: a matrix factorisation that encodes how much a matrix ``stretches''  vectors:
 
@@ -43,11 +43,11 @@ In particular, we discuss:
 What we do not discuss is computation of the SVD. There are reliable and efficient iterative algorithms for computing the SVD, similar to computing eigen-decompositions, but this is beyond the scope of this module.
 
 \subsection{Existence}
-To show the SVD exists we first establish some properties of a \emph{Gram matrix} ($A^\ensuremath{\star} A$), which has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns of a matrix: if $A = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_m \end{bmatrix}$ then the Gram matrix is the Hermitian matrix
+To show the SVD exists we first establish some properties of a \emph{Gram matrix} ($A^\ensuremath{\star} A$), which has within its eigendecomposition part of the SVD. The Gram matrix is best viewed as the matrix of inner products of the columns of a matrix: if $A = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n \end{bmatrix} \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ then the Gram matrix is the Hermitian matrix
 \[
-A^\ensuremath{\star} A = \begin{bmatrix} \ensuremath{\bm{\a}}_1^\ensuremath{\star} \ensuremath{\bm{\a}}_1 & \ensuremath{\cdots} &\ensuremath{\bm{\a}}_1^\ensuremath{\star} \ensuremath{\bm{\a}}_m \\
+A^\ensuremath{\star} A = \begin{bmatrix} \ensuremath{\bm{\a}}_1^\ensuremath{\star} \ensuremath{\bm{\a}}_1 & \ensuremath{\cdots} &\ensuremath{\bm{\a}}_1^\ensuremath{\star} \ensuremath{\bm{\a}}_n \\
                         \ensuremath{\vdots} &  \ensuremath{\ddots} & \ensuremath{\vdots} \\
-                        \ensuremath{\bm{\a}}_m^\ensuremath{\star} \ensuremath{\bm{\a}}_1 & \ensuremath{\cdots} &\ensuremath{\bm{\a}}_m^\ensuremath{\star} \ensuremath{\bm{\a}}_m \end{bmatrix} \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} m}.
+                        \ensuremath{\bm{\a}}_n^\ensuremath{\star} \ensuremath{\bm{\a}}_1 & \ensuremath{\cdots} &\ensuremath{\bm{\a}}_n^\ensuremath{\star} \ensuremath{\bm{\a}}_n \end{bmatrix} \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}.
 \]
 We first establish that the kernels match:
 
@@ -62,19 +62,21 @@ which means $A \ensuremath{\bm{\x}} = 0$ and $\ensuremath{\bm{\x}} \ensuremath{\
 
 As mentioned in PS6, the spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = Q \ensuremath{\Lambda} Q^\ensuremath{\star}$ where $Q \ensuremath{\in} U(n)$ and $\ensuremath{\Lambda}$ is diagonal. In the special case where $A$ is symmetric/Hermitian you would have seen a proof of this in first year. We can use this to ensure that the Gram matrix is diagonalisable:
 
-\begin{proposition}[Gram matrix diagonalisation] The Gram-matrix satisfies
+\begin{proposition}[Gram matrix diagonalisation] The Gram matrix satisfies
 \[
 A^\ensuremath{\star} A = Q \ensuremath{\Lambda} Q^\ensuremath{\star} \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}
 \]
-is a Hermitian matrix where $Q \ensuremath{\in} U(n)$ and the eigenvalues $\ensuremath{\lambda}_k$ are real and non-negative. If $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ then $Q \ensuremath{\in} O(n)$.
+is a Hermitian matrix where $Q \ensuremath{\in} U(n)$ and the eigenvalues $\ensuremath{\lambda}_k$ are real and non-negative. If $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ then we can choose $Q \ensuremath{\in} O(n)$.
 
 \end{proposition}
 \textbf{Proof} $A^\ensuremath{\star} A$ is Hermitian so we appeal to the spectral theorem for the existence of the decomposition.  To see that the eigenvalues are real and positive  note for the corresponding (orthonormal) eigenvector $\ensuremath{\bm{\q}}_k$ we have
 \[
 \ensuremath{\lambda}_k = \ensuremath{\lambda}_k \ensuremath{\bm{\q}}_k^\ensuremath{\star} \ensuremath{\bm{\q}}_k = \ensuremath{\bm{\q}}_k^\ensuremath{\star} A^\ensuremath{\star} A \ensuremath{\bm{\q}}_k = \| A \ensuremath{\bm{\q}}_k \|^2 \ensuremath{\geq} 0.
 \]
-The fact that real $A$  implies $Q \ensuremath{\in} O(n)$ (i.e. has real entries) follows from direct calculation since we can choose the first entry of the eigenvector to be real.
-
+The fact that real $A$  implies $Q \ensuremath{\in} O(n)$ (i.e. has real entries) follows since if $\ensuremath{\bm{\q}}_k \ensuremath{\in} \ensuremath{\bbC}^n$ is an eigenvector than so is $\ensuremath{\mathfrak{R}} \ensuremath{\bm{\q}}_k$:
+\[
+A^\ensuremath{\top} A \ensuremath{\mathfrak{R}} \ensuremath{\bm{\q}}_k = \ensuremath{\mathfrak{R}} A^\ensuremath{\top} A  \ensuremath{\bm{\q}}_k  = \ensuremath{\mathfrak{R}} \ensuremath{\lambda}_k \ensuremath{\bm{\q}}_k = \ensuremath{\lambda}_k \ensuremath{\mathfrak{R}} \ensuremath{\bm{\q}}_k.
+\]
 \ensuremath{\QED}
 
 This connection allows us to prove existence:
@@ -98,7 +100,7 @@ spanning the kernel of $A^\ensuremath{\star} A$ (and hence $A$).  Define
 \[
 \ensuremath{\Sigma} :=  \begin{bmatrix} \sqrt{\ensuremath{\lambda}_1} \\ & \ensuremath{\ddots} \\ && \sqrt{\ensuremath{\lambda}_r} \end{bmatrix}
 \]
-Now define $U := AV \ensuremath{\Sigma}^{-1}$. Since $A^\ensuremath{\star} A V = V \ensuremath{\Sigma}^2$ we can verify that $U$ is unitary:
+Now define $U := AV \ensuremath{\Sigma}^{-1}$. Since $A^\ensuremath{\star} A V = V \ensuremath{\Sigma}^2$ we can verify that $U$ has orthonormal columns:
 \[
 U^\ensuremath{\star} U = \ensuremath{\Sigma}^{-1} V^\ensuremath{\star} A^\ensuremath{\star} A V \ensuremath{\Sigma}^{-1} = I.
 \]
@@ -110,10 +112,10 @@ since $Q Q^\ensuremath{\star} = I$, and where we use the fact that $A K = 0$ so 
 
 \ensuremath{\QED}
 
-\subsection{2-norm and SVD}
-Somewhat surprisingly, the 2-norm does not have a simple formula but instead, as we shall show, can be defined in terms of the SVD. We begin with two cases where we do have simple formul\ensuremath{\ae}:
+\subsection{The matrix 2-norm}
+Somewhat surprisingly, the 2-norm for matrices does not have a simple formula but instead, as we shall show, can be defined in terms of the singular values. We begin with two cases where we do have simple formul\ensuremath{\ae}:
 
-\begin{proposition}[diagonal/orthogonal 2-norms] If $\ensuremath{\Lambda}$ is diagonal with entries $\ensuremath{\lambda}_k$ then $\|\ensuremath{\Lambda}\| = \max_k |\ensuremath{\lambda}_k|$. If $Q$ is orthogonal then $\|Q\| = 1$.
+\begin{proposition}[diagonal/orthogonal column 2-norms] If $\ensuremath{\Lambda}$ is diagonal with entries $\ensuremath{\lambda}_k$ then $\|\ensuremath{\Lambda}\| = \max_k |\ensuremath{\lambda}_k|$. If $U$ has orthonormal columns then $\|U\| = \|U^\ensuremath{\star}\| = 1$.
 
 \end{proposition}
 \textbf{Proof}
@@ -124,9 +126,33 @@ The first property follows from
 \]
 hence $\|\ensuremath{\Lambda}\| \ensuremath{\leq}  \max_k |\ensuremath{\lambda}_k|$. If $k$ is an index where this maximum is achieved we see this upper bound is achieved by $\| \ensuremath{\Lambda}\ensuremath{\bm{\e}}_k\| = |\ensuremath{\lambda}_k|$.
 
-The second property follows since $Q$ preserves norm:
+$U$ with orthonormal columns has unit norm because:
 \[
-\|Q \| = \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\| =1} \|Q \ensuremath{\bm{\v}}\| = \sup_{\ensuremath{\bm{\v}} : \|\ensuremath{\bm{\v}}\| =1} \|\ensuremath{\bm{\v}}\|  =1.
+ \|U \ensuremath{\bm{\x}}\|^2 = \ensuremath{\bm{\x}}^\ensuremath{\star} \underbrace{U^\ensuremath{\star}U}_I \ensuremath{\bm{\x}} =  \|\ensuremath{\bm{\x}}\|^2.
+\]
+To show $U^\ensuremath{\star}$ also has unit norm is more challenging. We first note from the spectral theorem we know we can diagonalise
+\[
+U U^\ensuremath{\star} = Q \ensuremath{\Lambda} Q^\ensuremath{\star}
+\]
+and therefore 
+\[
+\| U U^\ensuremath{\star} \| \ensuremath{\leq} \|Q \| \| \ensuremath{\Lambda} \| \| Q^\ensuremath{\star} \| =\| \ensuremath{\Lambda} \|.
+\]
+We further note this is a projection, that is, it equals its square:
+\[
+(U U^\ensuremath{\star})^2 = U \underbrace{U^\ensuremath{\star} U}_{I} U^\ensuremath{\star} = U U^\ensuremath{\star}.
+\]
+Thus the eigenvalues are either 0 or 1 since:
+\[
+\ensuremath{\lambda}_j = \ensuremath{\lambda}_j \ensuremath{\bm{\q}}_j^\ensuremath{\star} \ensuremath{\bm{\q}}_j = \ensuremath{\bm{\q}}_j^\ensuremath{\star} U U^\ensuremath{\star} \ensuremath{\bm{\q}}_j = \ensuremath{\bm{\q}}_j^\ensuremath{\star} (U U^\ensuremath{\star})^2 \ensuremath{\bm{\q}}_j = \ensuremath{\lambda}_j^2
+\]
+and thus $\| U U^\ensuremath{\star} \| \ensuremath{\leq} \| \ensuremath{\Lambda}\| \ensuremath{\leq} 1$. We thus have  (using the fact that multiplication by $U$ preserves norm)
+\[
+\|U^\ensuremath{\star} \ensuremath{\bm{\x}} \| = \|U U^ \ensuremath{\star} \ensuremath{\bm{\x}} \| \ensuremath{\leq} \| U U^\ensuremath{\star}\| \| \ensuremath{\bm{\x}}\| \ensuremath{\leq} \| \ensuremath{\bm{\x}}\|
+\]
+hence $\| U^\ensuremath{\star}\| \ensuremath{\leq} 1$. But this bound is achieved using any column of $U$ since, eg. for $\ensuremath{\bm{\u}}_1 = U\ensuremath{\bm{\e}}_1$ we have
+\[
+\sup_{\|\ensuremath{\bm{\v}}\|=1} \| U^\ensuremath{\star} \ensuremath{\bm{\v}}\| \ensuremath{\geq}\| U^\ensuremath{\star} \ensuremath{\bm{\u}}_1 \| = \| \ensuremath{\bm{\e}}_1 \| = 1.
 \]
 \ensuremath{\QED}
 
@@ -147,7 +173,7 @@ First we establish the upper-bound using the fact for induced norms that $\|A B\
 \[
 \|A \| \ensuremath{\leq}  \|U \| \| \ensuremath{\Sigma} \| \| V^\ensuremath{\star}\| = \| \ensuremath{\Sigma} \|  = \ensuremath{\sigma}_1
 \]
-This is attained using the first right singular vector:
+This is attained using the first right singular vector: for $\ensuremath{\bm{\v}}_1 = V \ensuremath{\bm{\e}}_1$ we have
 \[
 \|A \ensuremath{\bm{\v}}_1\| = \|\ensuremath{\Sigma} V^\ensuremath{\star} \ensuremath{\bm{\v}}_1\| = \|\ensuremath{\Sigma}  \ensuremath{\bm{\e}}_1\| = \ensuremath{\sigma}_1
 \]
@@ -159,7 +185,7 @@ is the SVD of $A^{-1}$, i.e. $VW \ensuremath{\in} U(n)$ are the left singular ve
 \[
 W := P_\ensuremath{\sigma} = \begin{bmatrix} && 1 \\ & \ensuremath{\adots} \\ 1 \end{bmatrix}
 \]
-is the permutation that reverses the entries, that is, $\ensuremath{\sigma}$ has Cauchy notation
+is the permutation that reverses the entries of a vector, that is, $\ensuremath{\sigma}$ has Cauchy notation
 \[
 \begin{pmatrix}
 1 & 2 & \ensuremath{\cdots} & n \\
@@ -178,13 +204,22 @@ A_k := \underbrace{\begin{bmatrix} \ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} 
 & \ensuremath{\ddots} \\
 && \ensuremath{\sigma}_k\end{bmatrix}}_{=: \ensuremath{\Sigma}_k \ensuremath{\in} \ensuremath{\bbC}^{k \ensuremath{\times} k}} \underbrace{\begin{bmatrix} \ensuremath{\bm{\v}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\v}}_k \end{bmatrix}^\ensuremath{\star}}_{=: V_k^\ensuremath{\star} \ensuremath{\in} \ensuremath{\bbC}^{k \ensuremath{\times} n}}
 \]
-is the best 2-norm approximation of $A$ by a rank $k$ matrix, that is, for all rank-$k$ matrices $B$, we have  $\|A - A_k\| \ensuremath{\leq} \|A -B \|.$
-
+is the best 2-norm approximation of $A$ by a rank $k$ matrix, that is, for all rank-$k$ matrices $B$, we have 
+\[
+\ensuremath{\sigma}_{k+1} = \|A - A_k\| \ensuremath{\leq} \|A -B \|.
+\]
 \end{theorem}
 \textbf{Proof} We have
 \[
-A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& \ensuremath{\sigma}_{k+1} \cr &&&& \ddots \cr &&&&& \ensuremath{\sigma}_r\end{bmatrix} V^\ensuremath{\star}.
+A - A_k = U \begin{bmatrix} 0  \cr &\ddots \cr && 0 \cr &&& \ensuremath{\sigma}_{k+1} \cr &&&& \ddots \cr &&&&& \ensuremath{\sigma}_r\end{bmatrix} V^\ensuremath{\star}
+= \begin{bmatrix} \ensuremath{\bm{\u}}_{k+1} | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_r \end{bmatrix}
+\begin{bmatrix}
+\ensuremath{\sigma}_{k+1} \\
+& \ensuremath{\ddots} \\
+&& \ensuremath{\sigma}_r \end{bmatrix}\begin{bmatrix} \ensuremath{\bm{\v}}_{k+1} | \ensuremath{\cdots} | \ensuremath{\bm{\v}}_r \end{bmatrix}^\ensuremath{\star}
 \]
+hence $\| A - A_k \| = \ensuremath{\sigma}_{k+1}$.
+
 Suppose a rank-$k$ matrix $B$ has 
 \[
 \|A-B\|  < \|A-A_k\| = \ensuremath{\sigma}_{k+1}.
@@ -193,14 +228,14 @@ For all $\ensuremath{\bm{\w}} \ensuremath{\in} \ker(B)$ we have
 \[
 \|A \ensuremath{\bm{\w}}\| = \|(A-B) \ensuremath{\bm{\w}}\| \ensuremath{\leq} \|A-B\|\|\ensuremath{\bm{\w}}\|  < \ensuremath{\sigma}_{k+1} \|\ensuremath{\bm{\w}}\|
 \]
-But for all $\ensuremath{\bm{\u}} \ensuremath{\in} {\rm span}(\ensuremath{\bm{\v}}_1,\ensuremath{\ldots},\ensuremath{\bm{\v}}_{k+1})$, that is, $\ensuremath{\bm{\u}} = V[:,1:k+1]\ensuremath{\bm{\c}}$ for some $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^{k+1}$  we have 
+But for all $\ensuremath{\bm{\x}} \ensuremath{\in} {\rm span}(\ensuremath{\bm{\v}}_1,\ensuremath{\ldots},\ensuremath{\bm{\v}}_{k+1})$, that is, $\ensuremath{\bm{\x}} = V[:,1:k+1]\ensuremath{\bm{\c}}$ for some $\ensuremath{\bm{\c}} \ensuremath{\in} \ensuremath{\bbC}^{k+1}$  we have 
 \[
-\|A \ensuremath{\bm{\u}}\|^2 = \|U \ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|^2 = \|\ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|^2 =
+\|A \ensuremath{\bm{\x}}\|^2 = \|U \ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|^2 = \|\ensuremath{\Sigma}_k \ensuremath{\bm{\c}}\|^2 =
 \sum_{j=1}^{k+1} (\ensuremath{\sigma}_j c_j)^2 \ensuremath{\geq} \ensuremath{\sigma}_{k+1}^2 \| \ensuremath{\bm{\c}}  \|^2,
 \]
-i.e., $\|A \ensuremath{\bm{\u}}\| \ensuremath{\geq} \ensuremath{\sigma}_{k+1} \|\ensuremath{\bm{\u}}\|$, where we use the fact that
+i.e., $\|A \ensuremath{\bm{\x}}\| \ensuremath{\geq} \ensuremath{\sigma}_{k+1} \|\ensuremath{\bm{\x}}\|$, where we use the fact that
 \[
-\|\ensuremath{\bm{\u}}\|^2 = \|V[:,1:k+1]\ensuremath{\bm{\c}}\|^2 = \ensuremath{\bm{\c}}^\ensuremath{\star} V[:,1:k+1]^\ensuremath{\star} V[:,1:k+1]\ensuremath{\bm{\c}} = \ensuremath{\bm{\c}}^\ensuremath{\star}\ensuremath{\bm{\c}} = \|\ensuremath{\bm{\c}}\|^2.
+\|\ensuremath{\bm{\x}}\|^2 = \|V[:,1:k+1]\ensuremath{\bm{\c}}\|^2 = \ensuremath{\bm{\c}}^\ensuremath{\star} V[:,1:k+1]^\ensuremath{\star} V[:,1:k+1]\ensuremath{\bm{\c}} = \ensuremath{\bm{\c}}^\ensuremath{\star}\ensuremath{\bm{\c}} = \|\ensuremath{\bm{\c}}\|^2.
 \]
 Thus $\ensuremath{\bm{\w}}$ cannot be in this span.
 
