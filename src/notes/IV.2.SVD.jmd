@@ -288,7 +288,7 @@ Thus $𝐰$ cannot be in this span.
 
 
 The dimension of the span of $\ker(B)$ is at least $n-k$, but the dimension of ${\rm span}(𝐯_1,…,𝐯_{k+1})$ is at least $k+1$.
-Since these two spaces cannot intersect (apart from at 0) we have a contradiction, since $(n-r) + (r+1) = n+1 > n$.  ∎
+Since these two spaces cannot intersect (apart from at 0) we have a contradiction, since $(n-k) + (k+1) = n+1 > n$.  ∎
 
 
 
