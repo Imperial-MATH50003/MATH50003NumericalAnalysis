@@ -23,8 +23,8 @@ compilenotes("III.5.QR")
 compilenotes("IV.1.Regression")
 compilenotes("IV.2.SVD")
 
-# compilenotes("V.1.Fourier")
-# compilenotes("V.2.DFT")
+compilenotes("V.1.Fourier")
+compilenotes("V.2.DFT")
 
 
 
@@ -44,12 +44,12 @@ compilenotes("A.Norms")
 # Sheets
 ####
 
-for k = 1:6
+for k = 1:8
     compilesheet(k)
 end
 
 
-for k = 1:4
+for k = 1:6
     compilesheetsolution(k)
 end
 
@@ -59,7 +59,7 @@ end
 ####
 # Labs
 ####
-for k = 1:6
+for k = 1:8
     compilelab(k)
     compilelabdemo(k)
 end
