@@ -83,8 +83,8 @@ When does a function have absolutely convergent Fourier coefficients? We can ded
 \textbf{Proof} Integrate by parts twice using the fact that $f(0) = f(2\ensuremath{\pi})$, $f'(0) = f'(2\ensuremath{\pi})$:
 \begin{align*}
 2\ensuremath{\pi}\hat f_k &= \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} =
-[f(\ensuremath{\theta}) {\E^{-\I k \ensuremath{\theta}} \over -\I k}]_0^{2\ensuremath{\pi}} + {1 \over \I k} \ensuremath{\int}_0^{2\ensuremath{\pi}} f'(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
-&=  [f'(\ensuremath{\theta}) {\E^{-\I k \ensuremath{\theta}} \over (-\I k)^2 }]_0^{2\ensuremath{\pi}} - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
+\br[f(\ensuremath{\theta}) {\E^{-\I k \ensuremath{\theta}} \over -\I k}]_0^{2\ensuremath{\pi}} + {1 \over \I k} \ensuremath{\int}_0^{2\ensuremath{\pi}} f'(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
+&=  \br[f'(\ensuremath{\theta}) {\E^{-\I k \ensuremath{\theta}} \over (-\I k)^2 }]_0^{2\ensuremath{\pi}} - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
 &= - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) \E^{-\I k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}.
 \end{align*}
 Thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
@@ -98,13 +98,15 @@ using the dominant convergence test.
 This condition can be weakened to Lipschitz continuity but the proof is  beyond the scope of this module. Of more practical importance is the other direction: the more times differentiable a function the faster the coefficients decay, and thence the faster Fourier expansions converge. In fact, if a function is smooth and 2\ensuremath{\pi}-periodic its Fourier coefficients decay faster than algebraically: they decay like $O(k^{-\ensuremath{\lambda}})$ for any $\ensuremath{\lambda}$. This will be explored in the problem sheet.
 
 \subsection{Trapezium rule and discrete Fourier coefficients}
+For periodic functions the Trapezium rule simplies and has a lot of nice properties (some of which we saw in the first lab). For concreteness we define a specific normalisation for the Trapezium rule as follows:
+
 \begin{definition}[Periodic Trapezium Rule] Let $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $j = 0,1,\ensuremath{\ldots},n$ denote $n+1$ evenly spaced points over $[0,2\ensuremath{\pi}]$. Recall that the \emph{Trapezium rule} over $[0,2\ensuremath{\pi}]$ is the approximation:
 \[
 \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} {2 \ensuremath{\pi} \over n} \left[{f(0) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(\ensuremath{\theta}_j) + {f(2 \ensuremath{\pi}) \over 2} \right]
 \]
 But if $f$ is periodic we have $f(0) = f(2\ensuremath{\pi})$ and we get the \emph{periodic Trapezium rule}:
 \[
-{1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} f(\ensuremath{\theta}_j)}_{\ensuremath{\Sigma}_n[f]}
+{1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} f(\ensuremath{\theta}_j)}_{=:\ensuremath{\Sigma}_n[f]}
 \]
 \end{definition}
 
@@ -146,7 +148,7 @@ where we use the fact that $k$ is not a multiple of $n$ to guarantee that $\ensu
 \ensuremath{\QED}
 
 \subsection{Convergence of Approximate Fourier expansions}
-We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
+To perform computations with Fourier expansions we need to compute the Fourier coefficients, and the periodic Trapezium rule provides a natural way to do so. We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
 
 \begin{definition}[Discrete Fourier coefficients] Define the Trapezium rule approximation to the Fourier coefficients by:
 \[
@@ -154,9 +156,9 @@ We will now use the Trapezium rule to approximate Fourier coefficients and expan
 \]
 \end{definition}
 
-A remarkable fact is that the discete Fourier coefficients can be expressed as a sum of the true Fourier coefficients:
+A remarkable fact is that the discrete Fourier coefficients can be expressed as a sum of the true Fourier coefficients:
 
-\begin{theorem}[discrete Fourier coefficients] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ (absolutely convergent Fourier coefficients) then
+\begin{theorem}[discrete Fourier coefficients] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ then
 \[
 \hat f_k^n = \ensuremath{\cdots} + \hat f_{k-2n} + \hat f_{k-n} + \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + \ensuremath{\cdots}
 \]
@@ -188,7 +190,7 @@ If we use an $n$ point discretisation we get for $0 \ensuremath{\leq} k \ensurem
 \]
 Note that as $n \rightarrow \ensuremath{\infty}$, we have $\hat f_k^n \rightarrow \hat f_k$. \end{example}
 
-Note that there is redundancy:
+Note that there is redundancy, in that higher order discrete Fourier coefficients are exactly the same as certain low order ones. This phenomena is called \emph{aliasing}:
 
 \begin{corollary}[aliasing] For all $p \ensuremath{\in} \ensuremath{\bbZ}$, $\hat f_k^n = \hat f_{k+pn}^n$.
 
@@ -226,7 +228,7 @@ where $\ensuremath{\sigma}$ has Cauchy notation (\emph{Careful}: we are using 1-
 m+2 & m+3 & \ensuremath{\cdots} & n & 1 & 2 & \ensuremath{\cdots} & m+1
 \end{pmatrix}.
 \]
-We can  prove \emph{convergence} whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients.
+We can  prove \emph{convergence} of an approximate Fourier series using the discrete Fourier coefficients  whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients.
 
 \begin{theorem}[Approximate Fourier-Taylor expansions converge] If $0 = \hat f_{-1} = \hat f_{-2} = \ensuremath{\cdots}$ and $\vchatf$ is absolutely convergent then
 \[

@@ -115,8 +115,8 @@ Integrate by parts twice using the fact that $f(0) = f(2π)$, $f'(0) = f'(2π)$:
 $$
 \begin{align*}
 2π\hat f_k &= ∫_0^{2π} f(θ) \E^{-\I k θ} {\rm d}θ =
-[f(θ) {\E^{-\I k θ} \over -\I k}]_0^{2π} + {1 \over \I k} ∫_0^{2π} f'(θ) \E^{-\I k θ} {\rm d}θ \\
-&=  [f'(θ) {\E^{-\I k θ} \over (-\I k)^2 }]_0^{2π} - {1 \over k^2} ∫_0^{2π} f''(θ) \E^{-\I k θ} {\rm d}θ \\
+\br[f(θ) {\E^{-\I k θ} \over -\I k}]_0^{2π} + {1 \over \I k} ∫_0^{2π} f'(θ) \E^{-\I k θ} {\rm d}θ \\
+&=  \br[f'(θ) {\E^{-\I k θ} \over (-\I k)^2 }]_0^{2π} - {1 \over k^2} ∫_0^{2π} f''(θ) \E^{-\I k θ} {\rm d}θ \\
 &= - {1 \over k^2} ∫_0^{2π} f''(θ) \E^{-\I k θ} {\rm d}θ.
 \end{align*}
 $$
@@ -140,7 +140,8 @@ problem sheet.
 
 ## Trapezium rule and discrete Fourier coefficients
 
-
+For periodic functions the Trapezium rule simplies and has a lot of nice properties (some of which we saw in the first lab).
+For concreteness we define a specific normalisation for the Trapezium rule as follows:
 
 **Definition (Periodic Trapezium Rule)** Let $θ_j = 2πj/n$ for $j = 0,1,…,n$ denote $n+1$ evenly spaced points over $[0,2π]$.
 Recall that the _Trapezium rule_ over $[0,2π]$ is the approximation:
@@ -149,7 +150,7 @@ $$
 $$
 But if $f$ is periodic we have $f(0) = f(2π)$ and we get the _periodic Trapezium rule_:
 $$
-{1 \over 2π} ∫_0^{2π} f(θ) {\rm d}θ ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} f(θ_j)}_{Σ_n[f]}
+{1 \over 2π} ∫_0^{2π} f(θ) {\rm d}θ ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} f(θ_j)}_{=:Σ_n[f]}
 $$
 ∎
 
@@ -199,7 +200,8 @@ where we use the fact that $k$ is not a multiple of $n$ to guarantee that $ω^k 
 
 ## Convergence of Approximate Fourier expansions
 
-We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
+To perform computations with Fourier expansions we need to compute the Fourier coefficients, and the periodic Trapezium rule provides
+a natural way to do so. We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
 
 **Definition (Discrete Fourier coefficients)** Define the Trapezium rule approximation to the Fourier coefficients by:
 $$
@@ -207,11 +209,11 @@ $$
 $$
 ∎
 
-A remarkable fact is that the discete Fourier coefficients can be expressed as a sum of
+A remarkable fact is that the discrete Fourier coefficients can be expressed as a sum of
 the true Fourier coefficients:
 
 **Theorem (discrete Fourier coefficients)**
-If $\vchatf ∈ ℓ^1$ (absolutely convergent Fourier coefficients) then
+If $\vchatf ∈ ℓ^1$ then
 $$
 \hat f_k^n = ⋯ + \hat f_{k-2n} + \hat f_{k-n} + \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + ⋯
 $$
@@ -251,7 +253,8 @@ Note that as $n \rightarrow ∞$, we have $\hat f_k^n \rightarrow \hat f_k$.
 
 
 
-Note that there is redundancy:
+Note that there is redundancy, in that higher order discrete Fourier coefficients are exactly
+the same as certain low order ones. This phenomena is called _aliasing_:
 
 **Corollary (aliasing)**
 For all $p ∈ ℤ$, $\hat f_k^n = \hat f_{k+pn}^n$.
@@ -296,7 +299,8 @@ $$
 
 
 
-We can  prove _convergence_ whenever $f$ has absolutely summable coefficients.
+We can  prove _convergence_ of an approximate Fourier series using the discrete Fourier coefficients
+ whenever $f$ has absolutely summable coefficients.
 We will prove the result here in the special case where the negative
 coefficients are zero. That is, $\hat f_0^n, …, \hat f_{n-1}^n$ are approximations of the Fourier–Taylor coefficients.
 
@@ -325,7 +329,7 @@ negative and positive coefficients (preferring negative over positive in a tie a
 $$
 f_n(θ) = ∑_{k=-⌈n/2⌉}^{⌊n/2⌋} \hat f_k \E^{\I k θ}
 $$
-In the problem sheet we will prove this converges provided the coefficients are absolutely convergent.
+
 
 
 
