@@ -319,23 +319,25 @@ the matrix 2-norm is minimised.
 
 
 
-%  \chapter{Numerical Fourier series}
+  \chapter{Numerical Fourier series}
 
-%  So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
-%  differential equations, primarily based on representing functions by their values at a grid of points.
-%  But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
-%  numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
-%  and orthogonal polynomials for non-periodic functions that are smooth within an interval.
-%  Here we introduce these fundamental tools and explore applications to quadrature (computing integrals) where they
-%  produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
+  We have seen intuitive numerical methods for computing derivatives and integrals, 
+  primarily based on representing functions by their values at a grid of points.
+  But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
+  numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
+  which will later be adapted in the form of orthogonal polynomials for non-periodic functions that are smooth within an interval.
+  
 
-%  \begin{enumerate}
-%      \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
-%      \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
-% \end{enumerate}
+  \begin{enumerate}
+      \item V.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
+      \item V.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+            \item V.3 Convolutions: Convolutions are natural ways of representing operators that commute with translations, and underly Convolutional Neural Networks which have advantages for problems with natural
+            translation symmetry (for example, number recognisition which should be invariant to where the number is in an image). 
+            We discuss how discrete convolutions can be diagonalised using the DFT leading to fast convolution when implemented via the Fast Fourier Transform (FFT).
+ \end{enumerate}
 
-% \input{V.1.Fourier}
-% \input{V.2.DFT}
+ \input{V.1.Fourier}
+ \input{V.2.DFT}
 
 % \chapter{Orthogonal Polynomials}
 
