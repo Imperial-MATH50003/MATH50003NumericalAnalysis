@@ -51,6 +51,10 @@ directly examined in the computer-based or final exam, though they may give good
    - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb)
    - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf)
    - Optional Problems: Sheet 4–5. Lab 5–7.
+8. V.1 Fourier Expansions and V.2 Discrete Fourier Transform
+   - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2024-25/blob/main/labs/lab8.ipynb)
+   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2024-25/blob/main/sheets/sheet8.pdf)
+   - Optional Problems: Sheet 4. Lab 1–2.
 
 ## Revision
 
