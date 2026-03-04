@@ -329,5 +329,13 @@ In the problem sheet we will prove this converges provided the coefficients are 
 
 
 
+## Lab and Problem Sheet
 
+In the problem sheet we investigate some examples of Fourier and discrete Fourier coefficients
+and explore the relationship between smoothness, decay in Fourier coefficients, and convergence of
+approximate Fourier expansions. We also extend the convergence and interpolation results to the non-Taylor
+case, that is, where the negative Fourier coefficients may be zero. 
 
+In the lab we explore numerical computation of Fourier coefficients and convergence of
+Fourier expansions. We also observe the _Gibb's phenomena_, where approximate Fourier expansions overshoot
+near discontinuities.

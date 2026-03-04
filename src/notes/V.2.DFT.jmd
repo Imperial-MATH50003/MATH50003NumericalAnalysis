@@ -184,3 +184,11 @@ $$
 f_n(θ) = ∑_{k=-⌈n/2⌉}^{⌊n/2⌋} \hat f_k {\rm e}^{{\rm i} k θ}
 $$
 for general Fourier series, which is investigated in the problem sheet.
+
+
+## Lab and Problem Sheet
+
+In the problem sheet we see how the DFT can be extended to a cosine expansion,
+in the form of the Discrete Cosine Transform (DCT). In the lab, we see how the FFT
+implements the DFT in a fast manner, and see how the approximate cosine expansion
+can be constructed numerically. 
