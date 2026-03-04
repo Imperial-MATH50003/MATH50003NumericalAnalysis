@@ -155,7 +155,7 @@ x = 0.1
 function sinh_t(x, n)
     ret = x
     s = x
-    ## TODO: Compute the first 2n+1 terms of the Taylor series of cos,
+    ## TODO: Compute the first 2n+1 terms of the Taylor series of sinh,
     ## without using the factorial function.
     
 end
