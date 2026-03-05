@@ -146,12 +146,12 @@ end
 
 
 # **Problem 5** A one-hot vector is a concept used in machine learning to define a vector with a single non-zero entry.
-# Complete the following data structure
+# Complete the following data structure representing the vector $c 𝐞_j ∈ ℝ^n$.
 
 struct OneHotVector <: AbstractVector{Float64}
-    c::Float64
-    j::Int
-    n::Int
+    c::Float64 # value at j
+    j::Int # index that is nonzero
+    n::Int # length of vector
 end
 
 import Base: size, getindex

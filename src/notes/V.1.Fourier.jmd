@@ -1,0 +1,345 @@
+# Fourier Expansions
+
+
+Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere.
+They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving
+problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large period.
+Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
+
+
+
+
+The most fundamental basis is (complex) Fourier: we have $\E^{\I k θ}$
+are orthogonal with respect to the inner product
+$$
+⟨f, g ⟩ := {1 \over 2π} ∫_0^{2π} \bar f(θ) g(θ) {\rm d}θ,
+$$
+where we conjugate the first argument to be consistent with the vector inner product $𝐱^⋆ 𝐲$.
+We will use the notation $𝕋 := [0,2π)$ (typically this has the topology of a circle attached but
+we do not need to worry about that here).
+We can (typically) expand functions in this basis:
+
+**Definition (Fourier)** A function $f$ has a Fourier expansion if
+$$
+f(θ) = ∑_{k = -∞}^∞ \hat f_k \E^{\I k θ}
+$$
+where
+$$
+\hat f_k := ⟨\E^{\I k θ}, f⟩ = {1 \over 2π} ∫_0^{2π}  \E^{-\I k θ} f(θ) {\rm d}θ
+$$
+∎
+
+A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series in disguise:
+
+**Definition (Fourier-Taylor)** A function $f$ has a Fourier–Taylor expansion if
+$$
+f(θ) = ∑_{k = 0}^∞ \hat f_k \E^{\I k θ} = ∑_{k = 0}^∞ \hat f_k z^k
+$$
+where $\hat f_k := ⟨\E^{\I k θ}, f⟩$, and $z = \E^{\I θ}$.
+∎
+
+
+In numerical analysis we try to build on the analogy with linear algebra as much as possible.
+Therefore we  can write this this as:
+$$
+f(θ) = \underbrace{[1 | \E^{\Iθ} | \E^{2\Iθ} | ⋯]}_{T(θ)}
+\underbrace{\begin{bmatrix} \hat f_0 \\ \hat f_1 \\ \hat f_2 \\ ⋮ \end{bmatrix}}_{\vchatf}.
+$$
+Essentially, expansions in bases are viewed as a way of turning _functions_ into (infinite) _vectors_.
+And (differential) _operators_ into _matrices_.
+
+
+## Convergence of Fourier series
+
+In analysis one typically works with continuous functions and relates results to continuity.
+In numerical analysis we inherently have to work with _vectors_, so it is more natural
+to  focus on the case where the _Fourier coefficients_ $\hat f_k$ are _absolutely convergent_:
+
+
+**Definition (absolute convergent)** We write
+$\vchatf ∈ ℓ^1$ if it is absolutely convergent,
+or in otherwords, the $1$-norm of $\vchatf$ is bounded:
+$$
+\|\vchatf\|_1 := ∑_{k=-∞}^∞ |\hat f_k| < ∞.
+$$
+∎
+
+We first state a  basic results (whose proof is beyond the scope of this module):
+
+**Theorem (Fourier series equivalence)**
+If $f, g : 𝕋 → ℂ$ are periodic and continuous and $\hat f_k = \hat g_k$ for all $k ∈ ℤ$ then $f = g$.
+
+**Proof**
+See [Körner 2022 (Theorem 2.4)](https://www.cambridge.org/core/books/fourier-analysis/5FD8F0FD69DDB139019655D7F8440D2F).
+∎
+
+This allows us to prove the following:
+
+**Theorem (Absolute converging Fourier series)**
+If $\vchatf ∈ ℓ^1$ then
+$$
+f(θ) = ∑_{k = -∞}^∞ \hat f_k \E^{\I k θ},
+$$
+which converges uniformly.
+**Proof**
+
+Note that
+$$
+g_n(θ) := ∑_{k = -n}^n \hat f_k \E^{\I k θ}
+$$
+is uniformly-absolutely convergent as $n → ∞$, that is,
+$$
+∑_{k = -n}^n |\hat f_k \E^{\I k θ}| = ∑_{k = -n}^n |\hat f_k| → \|\vchatf\|_1.
+$$
+This guarantees that $g_n(θ)$ converges uniformly to a continuous function $g(θ)$. We have for $n > k$,
+that the $k$-th Fourier coefficient of $g_n(θ)$ equals $\hat f_k$. Thus,
+by the properties of uniform convergence,
+$$
+\hat f_k = \lim_{n → ∞} \hat f_k =  \lim_{n → ∞} {1 \over 2π} ∫_0^{2π}  \E^{-\I k θ} g_n(θ) {\rm d}θ =
+ {1 \over 2π} ∫_0^{2π}  \E^{-\I k θ} \lim_{n → ∞} g_n(θ) {\rm d}θ = \hat g_k.
+$$
+Since $f$ and $g$ are continuous and share the same Fourier coefficients, they are equal.
+
+
+∎
+
+
+When does a function have absolutely convergent Fourier coefficients? We can deduce it from
+periodic differentiability of the function:
+
+**Lemma (differentiability and absolutely convergence)** If $f : 𝕋 → ℂ$ and $f'$ are periodic
+ and $f''$ is uniformly bounded, then $\vchatf ∈ ℓ^1$.
+
+**Proof**
+Integrate by parts twice using the fact that $f(0) = f(2π)$, $f'(0) = f'(2π)$:
+$$
+\begin{align*}
+2π\hat f_k &= ∫_0^{2π} f(θ) \E^{-\I k θ} {\rm d}θ =
+\br[f(θ) {\E^{-\I k θ} \over -\I k}]_0^{2π} + {1 \over \I k} ∫_0^{2π} f'(θ) \E^{-\I k θ} {\rm d}θ \\
+&=  \br[f'(θ) {\E^{-\I k θ} \over (-\I k)^2 }]_0^{2π} - {1 \over k^2} ∫_0^{2π} f''(θ) \E^{-\I k θ} {\rm d}θ \\
+&= - {1 \over k^2} ∫_0^{2π} f''(θ) \E^{-\I k θ} {\rm d}θ.
+\end{align*}
+$$
+Thus uniform boundedness of $f''$ guarantees $|\hat f_k| ≤ M |k|^{-2}$ for some $M$, and we have
+$$
+∑_{k = -∞}^∞ |\hat f_k| ≤ |\hat f_0|  + 2M ∑_{k = 1}^∞ |k|^{-2}  < ∞
+$$
+using the dominant convergence test.
+
+∎
+
+This condition can be weakened to Lipschitz continuity but the proof is  beyond the scope
+of this module.
+Of more practical importance is the other direction: the more times differentiable a function the
+faster the coefficients decay, and thence the faster Fourier expansions converge.
+In fact, if a function is smooth and 2π-periodic its Fourier coefficients decay
+faster than algebraically: they decay like $O(k^{-λ})$ for any $λ$. This will be explored in the
+problem sheet.
+
+
+
+## Trapezium rule and discrete Fourier coefficients
+
+For periodic functions the Trapezium rule simplies and has a lot of nice properties (some of which we saw in the first lab).
+For concreteness we define a specific normalisation for the Trapezium rule as follows:
+
+**Definition (Periodic Trapezium Rule)** Let $θ_j = 2πj/n$ for $j = 0,1,…,n$ denote $n+1$ evenly spaced points over $[0,2π]$.
+Recall that the _Trapezium rule_ over $[0,2π]$ is the approximation:
+$$
+∫_0^{2π} f(θ) {\rm d}θ ≈ {2 π \over n} \left[{f(0) \over 2} + ∑_{j=1}^{n-1} f(θ_j) + {f(2 π) \over 2} \right]
+$$
+But if $f$ is periodic we have $f(0) = f(2π)$ and we get the _periodic Trapezium rule_:
+$$
+{1 \over 2π} ∫_0^{2π} f(θ) {\rm d}θ ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} f(θ_j)}_{=:Σ_n[f]}
+$$
+∎
+
+
+
+We know that $\E^{\I k θ}$ are orthogonal with respect to the continuous inner product.
+The following says that this property is maintained (up to “aliasing") when we replace the continuous
+integral with a trapezium rule approximation:
+
+**Lemma (Discrete orthogonality)**
+We have:
+$$
+∑_{j=0}^{n-1} \E^{\I k θ_j} =
+\begin{cases} n & k = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+              0 & \hbox{otherwise}
+\end{cases}
+$$
+In other words,
+$$
+Σ_n[\E^{\I (k-ℓ) θ}] =
+\begin{cases} 1 & k-ℓ = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+              0 & \hbox{otherwise}
+\end{cases}.
+$$
+
+**Proof**
+
+Consider $ω := \E^{\I θ_1} = \E^{2 π \I \over n}$. This is an $n$-th root of unity: $ω^n = 1$.
+Note that $\E^{\I θ_j} =\E^{2 π \I j \over n}= ω^j$.
+
+(Case 1: $k = pn$ for an integer $p$)
+We have
+$$
+∑_{j=0}^{n-1} \E^{\I k θ_j} = ∑_{j=0}^{n-1} ω^{kj} = ∑_{j=0}^{n-1} ({ω^{pn}})^j =   ∑_{j=0}^{n-1} 1 = n
+$$
+(Case 2: $k ≠ pn$ for an integer $p$)  Recall that (via a telescoping sum argument)
+$$
+∑_{j=0}^{n-1} z^j = {z^n-1 \over z-1}.
+$$
+Then we have
+$$
+∑_{j=0}^{n-1} \E^{\I k θ_j} = ∑_{j=0}^{n-1} (ω^k)^j = {ω^{kn} -1 \over ω^k -1} = 0.
+$$
+where we use the fact that $k$ is not a multiple of $n$ to guarantee that $ω^k ≠ 1$.
+
+∎
+
+## Convergence of Approximate Fourier expansions
+
+To perform computations with Fourier expansions we need to compute the Fourier coefficients, and the periodic Trapezium rule provides
+a natural way to do so. We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
+
+**Definition (Discrete Fourier coefficients)** Define the Trapezium rule approximation to the Fourier coefficients by:
+$$
+\hat f_k^n := Σ_n[\E^{-i k θ} f(θ)]  = {1 \over n} ∑_{j=0}^{n-1} \E^{-i k θ_j} f(θ_j)
+$$
+∎
+
+A remarkable fact is that the discrete Fourier coefficients can be expressed as a sum of
+the true Fourier coefficients:
+
+**Theorem (discrete Fourier coefficients)**
+If $\vchatf ∈ ℓ^1$ then
+$$
+\hat f_k^n = ⋯ + \hat f_{k-2n} + \hat f_{k-n} + \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + ⋯
+$$
+
+**Proof**
+$$
+\begin{align*}
+\hat f_k^n &= Σ_n[f(θ) \E^{-\I k θ}] = ∑_{ℓ=-∞}^∞ \hat f_ℓ Σ_n[\E^{\I (ℓ-k) θ}] \\
+&= ∑_{ℓ=-∞}^∞ \hat f_ℓ \begin{cases} 1 & ℓ-k = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+0 & \hbox{otherwise}
+\end{cases}
+\end{align*}
+$$
+∎
+
+
+**Example (Taylor coefficients via Geometric series)** Consider the function
+$$
+f(θ) = {2 \over 2 - \E^{\I θ}}
+$$
+Under the change of variables $z = \E^{\I θ}$ we know for
+$z$ on the unit circle this becomes (using the geometric series with $z/2$)
+$$
+{2 \over 2-z} = ∑_{k=0}^∞ {z^k \over 2^k}
+$$
+i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
+$$
+∑_{k=0}^∞ |\hat f_k| = f(0) = 2.
+$$
+If we use an $n$ point discretisation we get for $0 ≤ k ≤ n-1$ (using the geoemtric series with $2^{-n}$)
+$$
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + ⋯ = ∑_{p=0}^∞ {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
+$$
+Note that as $n \rightarrow ∞$, we have $\hat f_k^n \rightarrow \hat f_k$.
+∎
+
+
+
+
+Note that there is redundancy, in that higher order discrete Fourier coefficients are exactly
+the same as certain low order ones. This phenomena is called _aliasing_:
+
+**Corollary (aliasing)**
+For all $p ∈ ℤ$, $\hat f_k^n = \hat f_{k+pn}^n$.
+
+**Proof**
+Follows immediately:
+$$
+\hat f_{k+pn}^n = \sum_{j=-∞}^∞ \hat f_{k+(p+j)n}= \sum_{j=-∞}^∞ \hat f_{k+j n} = \hat f_k^n.
+$$
+∎
+
+
+In other words if we know $\hat f_0^n, …, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation,
+for example if $n = 2m+1$ we have
+$$
+\begin{bmatrix}
+\hat f_{-m}^n \\
+⋮\\
+\hat f_{-1}^n \\
+\hat f_0^n \\
+⋮\\
+\hat f_m^n
+\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& ⋱ \\ &&&&& 1 \\
+    1 \\ & ⋱ \\ && 1 \end{bmatrix}}_{P_σ}
+\begin{bmatrix}
+\hat f_0^n \\
+⋮\\
+\hat f_m^n\\
+\hat f_{m+1}^n \\
+⋮\\
+\hat f_{n-1}^n
+\end{bmatrix}
+$$
+where $σ$ has Cauchy notation (_Careful_: we are using 1-based indexing here):
+$$
+\begin{pmatrix}
+1 & 2 & ⋯ & m & m+1 & m+2 & ⋯ & n  \\
+m+2 & m+3 & ⋯ & n & 1 & 2 & ⋯ & m+1
+\end{pmatrix}.
+$$
+
+
+
+
+We can  prove _convergence_ of an approximate Fourier series using the discrete Fourier coefficients
+ whenever $f$ has absolutely summable coefficients.
+We will prove the result here in the special case where the negative
+coefficients are zero. That is, $\hat f_0^n, …, \hat f_{n-1}^n$ are approximations of the Fourier–Taylor coefficients.
+
+
+**Theorem (Approximate Fourier-Taylor expansions converge)**
+If $0 = \hat f_{-1} = \hat f_{-2} = ⋯$ and $\vchatf$ is absolutely convergent then
+$$
+f_n(θ) = ∑_{k=0}^{n-1} \hat f_k^n \E^{\I k θ}
+$$
+converges uniformly to $f(θ)$.
+
+**Proof**
+
+$$
+\begin{align*}
+|f(θ) - f_n(θ)| = |∑_{k=0}^{n-1} (\hat f_k - \hat f_k^n) \E^{\I k θ} + ∑_{k=n}^∞ \hat f_k \E^{\I k θ}|
+= |∑_{k=n}^∞ \hat f_k (\E^{\I k θ} - \E^{\I {\rm mod}(k,n) θ})|
+≤ 2 ∑_{k=n}^∞ |\hat f_k|
+\end{align*}
+$$
+which goes to zero as $n → ∞$.
+∎
+
+For the general case we need to choose a range of coefficients that includes roughly an equal number of
+negative and positive coefficients (preferring negative over positive in a tie as a convention):
+$$
+f_n(θ) = ∑_{k=-⌈n/2⌉}^{⌊n/2⌋} \hat f_k \E^{\I k θ}
+$$
+
+
+
+
+## Lab and Problem Sheet
+
+In the problem sheet we investigate some examples of Fourier and discrete Fourier coefficients
+and explore the relationship between smoothness, decay in Fourier coefficients, and convergence of
+approximate Fourier expansions. We also extend the convergence and interpolation results to the non-Taylor
+case, that is, where the negative Fourier coefficients may be zero. 
+
+In the lab we explore numerical computation of Fourier coefficients and convergence of
+Fourier expansions. We also observe the _Gibb's phenomena_, where approximate Fourier expansions overshoot
+near discontinuities.

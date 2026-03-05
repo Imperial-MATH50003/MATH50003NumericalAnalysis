@@ -1,0 +1,194 @@
+# Discrete Fourier Transform
+
+
+In the previous section we explored using the trapezium rule for approximating Fourier coefficients.
+This is a linear map from function values to coefficients and thus can be reinterpreted as
+a matrix-vector product, called the the Discrete Fourier Transform (DFT). It turns out the matrix
+is unitary which leads to important properties including interpolation. 
+
+
+**Remark** A clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the
+most influencial algorithms of the 20th century: the Fast Fourier Transform (FFT). But this is beyond the scope of this module.
+
+
+
+**Definition (DFT)**
+The _Discrete Fourier Transform (DFT)_ is defined as:
+$$
+\begin{align*}
+Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  ⋯ & 1 \\
+                                    1 & {\rm e}^{-\I θ_1} & {\rm e}^{-\I θ_2} & ⋯ & {\rm e}^{-\I θ_{n-1}} \\
+                                    1 & {\rm e}^{-\I 2 θ_1} & {\rm e}^{-\I 2 θ_2} & ⋯ & {\rm e}^{-\I 2θ_{n-1}} \\
+                                    ⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
+                                    1 & {\rm e}^{-\I (n-1) θ_1} & {\rm e}^{-\I (n-1) θ_2} & ⋯ & {\rm e}^{-\I (n-1) θ_{n-1}}
+\end{bmatrix} \\
+&= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  ⋯ & 1 \\
+                                    1 & ω^{-1} & ω^{-2} & ⋯ & ω^{-(n-1)}\\
+                                    1 & ω^{-2} & ω^{-4} & ⋯ & ω^{-2(n-1)}\\
+                                    ⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
+                                    1 & ω^{-(n-1)} & ω^{-2(n-1)} & ⋯ & ω^{-(n-1)^2}
+\end{bmatrix}
+\end{align*}
+$$
+for the $n$-th root of unity $ω = {\rm e}^{2π\I/n}$. 
+∎
+
+Note that
+$$
+\begin{align*}
+Q_n^⋆ &= {1 \over \sqrt{n}} \begin{bmatrix}
+1 & 1 & 1&  ⋯ & 1 \\
+1 & {\rm e}^{\I θ_1} & {\rm e}^{\I 2 θ_1} & ⋯ & {\rm e}^{\I (n-1) θ_1} \\
+1 &  {\rm e}^{\I θ_2}  & {\rm e}^{\I 2 θ_2} & ⋯ & {\rm e}^{\I (n-1)θ_2} \\
+⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
+1 & {\rm e}^{\I θ_{n-1}} & {\rm e}^{\I 2 θ_{n-1}} & ⋯ & {\rm e}^{\I (n-1) θ_{n-1}}
+\end{bmatrix} \\
+&= {1 \over \sqrt{n}} \begin{bmatrix}
+1 & 1 & 1&  ⋯ & 1 \\
+1 & ω^{1} & ω^{2} & ⋯ & ω^{(n-1)}\\
+1 & ω^{2} & ω^{4} & ⋯ & ω^{2(n-1)}\\
+⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
+1 & ω^{(n-1)} & ω^{2(n-1)} & ⋯ & ω^{(n-1)^2}
+\end{bmatrix}
+\end{align*}
+$$
+Hence we have
+$$
+\underbrace{\begin{bmatrix} \hat f_0^n \\ ⋮ \\ \hat f_{n-1}^n \end{bmatrix}}_{\vchatf^n} =
+{1 \over \sqrt{n}} Q_n \underbrace{\begin{bmatrix} f(θ_0) \\ ⋮ \\ f(θ_{n-1}) \end{bmatrix}}_{𝐟^n}
+$$
+
+The choice of normalisation constant is motivated by the following:
+
+**Proposition 1 (DFT is Unitary)** $Q_n ∈ U(n)$, that is, $Q_n^⋆ Q_n = Q_n Q_n^⋆ = I$.
+
+**Proof**
+$$
+Q_n Q_n^⋆  = \begin{bmatrix} Σ_n[1] & Σ_n[{\rm e}^{\I θ}] & ⋯ & Σ_n[{\rm e}^{\I (n-1) θ}] \\
+                            Σ_n[{\rm e}^{-\I θ}] & Σ_n[1] & ⋯ & Σ_n[{\rm e}^{\I (n-2) θ}] \\
+                            ⋮ & ⋮ & ⋱ & ⋮ \\
+                            Σ_n[{\rm e}^{-\I(n-1) θ}] & Σ_n[{\rm e}^{-\I(n-2) θ}] & ⋯ & Σ_n[1]
+                            \end{bmatrix} = I
+$$
+∎
+
+In other words, $Q_n$ is easily inverted and we also have a map from discrete Fourier coefficients back to values:
+$$
+\sqrt{n} Q_n^⋆ \vchatf^n = 𝐟^n
+$$
+
+**Example (Computing sum)** Define the following infinite sum (which has no name apparently,
+according to Mathematica):
+$$
+S_n(k) := ∑_{p=0}^∞ {1 \over (k+pn)!}.
+$$
+We can use the DFT to compute $S_n(0), …, S_n(n-1)$.
+Consider
+$$
+f(θ) = \exp({\rm e}^{\I θ}) = ∑_{k=0}^∞ {{\rm e}^{\I k θ} \over k!}
+$$
+where we know the Fourier coefficients from the Taylor series of ${\rm e}^z$.
+The discrete Fourier coefficients satisfy for $0 ≤ k ≤ n-1$:
+$$
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + ⋯ = S_n(k)
+$$
+Thus we have
+$$
+\begin{bmatrix}
+S_n(0) \\
+⋮ \\
+S_n(n-1)
+\end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} {\rm e} \\
+                                \exp({\rm e}^{2\I π/n}) \\
+                                ⋮ \\
+                                \exp({\rm e}^{2\I (n-1) π/n}) \end{bmatrix}
+$$
+∎
+
+
+
+## Trigonometric Interpolation
+
+We investigated  interpolation and least squares using polynomials at evenly spaced points, observing that
+there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier
+expansions. As the DFT is a unitary matrix multiplication is “stable", i.e. it preserves norms and hence we know
+it cannot cause the same huge blow-up we saw for polynomials. That is: whilst polynomials are bad for interpolation at
+evenly spaced points, trigonometric polynomials are great. 
+
+The following guarantees that our approximate Fourier series actually interpolates the data:
+
+**Corollary (Interpolation)**
+$$
+f_n(θ) := ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ}
+$$
+interpolates $f$ at $θ_j$:
+$$
+f_n(θ_j) = f(θ_j).
+$$
+
+**Proof**
+We have
+$$
+f_n(θ_j) = ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ_j} = \sqrt n 𝐞_{j+1}^⊤ Q_n^⋆ \vchatf^n = 𝐞_{j+1}^⊤ Q_n^⋆ Q_n 𝐟^n = f(θ_j).
+$$
+
+∎
+
+
+
+**Example (DFT versus Lagrange)** Consider interpolating $\exp z$ by a polynomial at the points $1, \I, -1, -\I$.
+We can use Lagrange polynomials:
+$$
+\meeq{
+ℓ_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { z^3 + z^2 + z + 1 \over 4} \ccr
+ℓ_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = { \I z^3 - z^2 - \I z + 1 \over 4} \ccr
+ℓ_3(z) ={ (z - 1)(z - \I)(z + \I) \over -2 (-1-\I)(-1+\I)} = {-z^3 + z^2 - z + 1 \over 4} \ccr
+ℓ_4(z) ={ (z - 1)(z - \I)(z+1) \over (-\I-1)(-2\I)(-\I+1)} = {- \I z^3 -z^2 + \I z + 1 \over 4}
+}
+$$
+So we get the interpolant:
+$$
+\begin{align*}
+\E & ℓ_1(z) + \E^\I ℓ_2(z) + \E^{-1} ℓ_3(z) + \E^{-\I} ℓ_4(z) \\
+ &= 
+{\E + \E^\I + \E^{-1} + \E^{-\I} \over 4} +
+{\E - \I \E^\I - \E^{-1} + \I \E^{-\I} \over 4} z +
+ {\E - \E^\I + \E^{-1} - \I \E^{-\I} \over 4} z^2 +
+ {\E + \I \E^\I - \E^{-1} - \I \E^{-\I} \over 4} z^3 
+\end{align*}
+$$
+
+Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be,
+for $ω = \I$ and $f(θ) = \exp(\E^{\I θ})$,
+$$
+\Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
+{1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
+                            1 & -\I & -1 & \I \\
+                            1 & -1 & 1 & -1 \\
+                            1 & \I & -1 & -\I
+                            \end{bmatrix}
+ \Vectt[\E, \E^\I, \E^{-1}, \E^{-\I}] = {1 \over 4} \Vectt[\E + \E^\I + \E^{-1} + \E^{-\I} ,
+ \E -\I \E^\I - \E^{-1} + \I \E^{-\I} ,
+ \E - \E^\I + \E^{-1} - \E^{-\I} ,
+ \E + \I \E^\I - \E^{-1} - \I \E^{-\I}
+ ] = {1 \over 2} \Vectt[\cosh 1 + \cos 1 ,
+\sinh 1 + \sin 1 ,
+ \cosh 1 - \cos 1 ,
+ \sinh 1 - \sin 1
+ ].
+$$
+∎
+
+
+
+
+## Lab and Problem Sheet
+
+In the problem sheet we see how the DFT can be extended to a cosine expansion,
+in the form of the Discrete Cosine Transform (DCT). We  also show that the interpolation property also applies to the approximation
+$$
+f_n(θ) = ∑_{k=-⌈n/2⌉}^{⌊n/2⌋} \hat f_k {\rm e}^{{\rm i} k θ}
+$$
+for general Fourier series. In the lab, we see how the FFT
+implements the DFT in a fast manner, and see how the approximate cosine expansion
+can be constructed numerically. 
