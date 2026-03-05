@@ -57,7 +57,10 @@ $$
 
 Let (we remove the $1/2$ since it doesn't actually change the Householder reflection)
 $$
-𝐱_2 = \Vectt[5,3,1] ⇒ \| 𝐱_2 \| = \sqrt{35} ⇒ 𝐲_2 :=  𝐱_2 - \| 𝐱_2 \| 𝐞_1 = \Vectt[5-\sqrt{35},3,1] ⇒ \|𝐲_2\| = \sqrt{70 - 10\sqrt{35}} , ⇒  𝐰_2 := 𝐲_2/\|𝐲_2\| = {1 \over  \sqrt{70 - 10\sqrt{35}}} \Vectt[5-\sqrt{35},3,1].
+\begin{align*}
+&𝐱_2 = \Vectt[5,3,1] ⇒ \| 𝐱_2 \| = \sqrt{35} ⇒ 𝐲_2 :=  𝐱_2 - \| 𝐱_2 \| 𝐞_1 = \Vectt[5-\sqrt{35},3,1] ⇒ \|𝐲_2\| = \sqrt{70 - 10\sqrt{35}} , \\
+ & ⇒  𝐰_2 := 𝐲_2/\|𝐲_2\| = {1 \over  \sqrt{70 - 10\sqrt{35}}} \Vectt[5-\sqrt{35},3,1].
+\end{align*}
 $$
 We then define $Q̃_2 = I-2 𝐰_2 𝐰_2^⊤$ so that
 $$
