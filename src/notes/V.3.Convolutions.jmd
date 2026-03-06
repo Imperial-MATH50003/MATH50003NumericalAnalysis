@@ -4,13 +4,13 @@ Convolutions are a fundamental concept in mathematics that are intrinsically lin
 $$
 (a ⋆ f)(x) := ∫_{-∞}^∞ a(x-t) f(t) \dt.
 $$
-This was probably introduced in the context of random variables: if $X$ has a probabilty density function (PDF) given by $a$ and $Y$ has a PDF give by $f$ then the PDF of $X + Y$ is given by $a ⋆ f$. But this can also be viewed as a linear operator acting on $f$ with this basic property that it commutes with translation: if $f_τ(x) = f(x + τ)$ then we have
+This was probably introduced in the context of random variables: if $X$ has a probabilty density function (PDF) given by $a$ and $Y$ has a PDF give by $f$ then the PDF of $X + Y$ is given by $a ⋆ f$. But this can also be viewed as a linear operator acting on $f$ with this basic property that it commutes with translation: if we shift the point evaluation by $τ$, $f_τ(x) = f(x - τ)$, then we have
 $$
-(a ⋆ f_τ)(x) = ∫_{-∞}^∞ a(x-t) f(t+τ) \dt = ∫_{-∞}^∞ a(x-(s-τ)) f(s) \ds = (a ⋆ f)(x + τ).
+(a ⋆ f_τ)(x) = ∫_{-∞}^∞ a(x-t) f(t-τ) \dt = ∫_{-∞}^∞ a(x-(s+τ)) f(s) \ds = (a ⋆ f)(x - τ).
 $$
-There is a natural link between convolutions and Fourier transforms: the Fourier transforms: Fourier transforms turn convolutions into pointwise multiplcation. 
+There is a natural link between convolutions and Fourier transforms: the Fourier transforms: Fourier transforms turn convolutions into pointwise multiplication. 
 
-All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x+ τ$. Common examples are differentiation ($f_τ'(x) = f'(x+ τ)$) or even the identity operator. Thus this property is fundamental. 
+All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x+ τ$. Common examples are differentiation ($f_τ'(x) = f'(x - τ)$) or even the identity operator. Thus this property is fundamental. 
 
 In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be same even if we shift the number up or down. In this context we want to introduce a discrete version of convolution. In this section we investigate the type of linear operators acting on vectors (_matrices_) that commute with translations in the exact same way that convolutions do on functions, thus constructing a discrete version of convolutions.  Here we derive a natural link between discrete convolutions and the DFT, exactly mimicking the continuous version.
 
@@ -19,17 +19,17 @@ In the context of machine learning, this property underlies _Convolutional Neura
 The starting point is a discrete version of the translations, which are give by the periodic shift operator:
 \[
 S := \begin{bmatrix}
-0 & 1 
-&& 1 \\
-&&& ⋱
-&&&& 1 \\
-1
+0 & & ⋯ & 1\\
+ 1 
+& 1 \\
+&& ⋱
+&&& 1 \\
 \]
 which have captures the shift property in the sense
 \[
-S \Vectt[f_1,f_2,\dots,f_n] = \Vectt[f_2,\dots,f_n,f_1]
+S \Vectt[f_1,f_2,\dots,f_n] = \Vectt[f_n,f_1,f_2,\dots,f_{n-1}]
 \]
-Thus $S 𝐟$ is a discrete version of $f(x+τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$,
+Thus $S 𝐟$ is a discrete, periodic version of the translation $f(x-τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$,
 \[
 \Vectt[f(θ_0),\dots,f(θ_{n-1})]
 \]
@@ -37,22 +37,22 @@ with shift $τ = 2π/n$.
 
 What matrices commute with such discrete translations? We can categorise all possible matrices in terms of a _circluant matrix_ which will be helpful to associate with a Taylor series as follows:
 
-**Definition (circulant matrix)** Given
+**Definition (circulant matrix)** Given a polynomial
 $$
-a(θ) = a_0 + a_1 \E^{\I θ} + … + a_{n-1} \E^{\I (n-1) θ}
+a(z) = a_0 + a_1 z + … + a_{n-1} z^{n-1}
 $$
-the associated _circulant matrix is 
+the associated _circulant matrix_ is 
 $$
-L[a] := \begin{bmtrix}
+L[a] := \begin{bamtrix}
 a_0 & a_{n-1} & ⋯ a_1 \\ 
 a_1 & a_0 & ⋱ & a_2 \\
 ⋮ & ⋱ &  ⋱ & ⋮ \\
 a_{n-1} & a_{n-2} & ⋯ & a_0
-\end{matrix}
+\end{matrix} = a(S) = a_0I + a_1S + ⋯ + a_{n-1} S^{n-1}.
 $$
 
 
-as follows:
+Circulant matrices tell us every operator that commutes with (periodic) translations:
 
 **Lemma (operators which commute with translations)** Every matrix $A ∈ ℂ^{n × n}$ such that $A S = S A$ is a circulant matrix.
 
