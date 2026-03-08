@@ -45,11 +45,15 @@ directly examined in the computer-based or final exam, though they may give good
    - Optional Problems: Sheet 1. Lab 1.
 6. III.4 Orthogonal and Unitary Matrices and III.5 QR Factorisation
    - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6s.ipynb))
    - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6s.pdf))
    - Optional Problems: Sheet 1, 4. Lab 1, 4.
 7. IV.1 Polynomial Interpolation and Regression and IV.2 Singular Value Decomposition and Matrix Compression
    - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7s.ipynb))
    - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf)
+   ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7s.pdf))
    - Optional Problems: Sheet 4–5. Lab 5–7.
 8. V.1 Fourier Expansions and V.2 Discrete Fourier Transform
    - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2024-25/blob/main/labs/lab8.ipynb)
@@ -58,12 +62,12 @@ directly examined in the computer-based or final exam, though they may give good
 
 ## Revision
 
-1. [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labr.ipynb)
+1. [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labr.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labrs.ipynb))
 2. Revision Sheet
 
 ## Assessment
 
-2. Mock computer-based exam (4 March 2026, 11am)
+2. [Mock computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexam.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexams.ipynb))
 2. Computer-based exam (1 hour, 13 March 2026, 11am)
 5. Final exam (pen-and-paper, 80% of term mark)
 

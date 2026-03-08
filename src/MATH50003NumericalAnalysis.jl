@@ -38,6 +38,7 @@ function fixunderbars(path)
     write(path, replace(read(path, String), "V\\ensuremath{\\tilde}" => "\\tilde{V}"))
     write(path, replace(read(path, String), "\\ensuremath{\\Sigma}\\ensuremath{\\tilde}" => "\\tilde{\\Sigma}"))
     write(path, replace(read(path, String), "Q\\ensuremath{\\hat}" => "\\hat{Q}"))
+    write(path, replace(read(path, String), "Q\\ensuremath{\\tilde}" => "\\tilde{Q}"))
     write(path, replace(read(path, String), "R\\ensuremath{\\hat}" => "\\hat{R}"))
 end
 
