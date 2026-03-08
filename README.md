@@ -62,7 +62,7 @@ directly examined in the computer-based or final exam, though they may give good
 
 ## Revision
 
-1. [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labr.ipynb)
+1. [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labr.ipynb) ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/labrs.ipynb))
 2. Revision Sheet
 
 ## Assessment
