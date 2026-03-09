@@ -25,6 +25,7 @@ compilenotes("IV.2.SVD")
 
 compilenotes("V.1.Fourier")
 compilenotes("V.2.DFT")
+compilenotes("V.3.Convolutions")
 
 
 

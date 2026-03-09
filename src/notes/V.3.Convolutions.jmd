@@ -4,35 +4,38 @@ Convolutions are a fundamental concept in mathematics that are intrinsically lin
 $$
 (a ⋆ f)(x) := ∫_{-∞}^∞ a(x-t) f(t) \dt.
 $$
-This was probably introduced in the context of random variables: if $X$ has a probabilty density function (PDF) given by $a$ and $Y$ has a PDF give by $f$ then the PDF of $X + Y$ is given by $a ⋆ f$. But this can also be viewed as a linear operator acting on $f$ with this basic property that it commutes with translation: if we shift the point evaluation by $τ$, $f_τ(x) = f(x - τ)$, then we have
+This was probably introduced in the context of random variables: if $X$ has a probabilty density function (PDF) given by $a$ and $Y$ has a PDF give by $f$ then the PDF of $X + Y$ is given by $a ⋆ f$. But this can also be viewed as a linear operator acting on $f$ with the basic property that it commutes with translation: if we shift the point evaluation by $τ$, $f_τ(x) = f(x - τ)$, then we have
 $$
 (a ⋆ f_τ)(x) = ∫_{-∞}^∞ a(x-t) f(t-τ) \dt = ∫_{-∞}^∞ a(x-(s+τ)) f(s) \ds = (a ⋆ f)(x - τ).
 $$
-There is a natural link between convolutions and Fourier transforms: the Fourier transforms: Fourier transforms turn convolutions into pointwise multiplication. 
 
-All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x+ τ$. Common examples are differentiation ($f_τ'(x) = f'(x - τ)$) or even the identity operator. Thus this property is fundamental. 
 
-In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be same even if we shift the number up or down. In this context we want to introduce a discrete version of convolution. In this section we investigate the type of linear operators acting on vectors (_matrices_) that commute with translations in the exact same way that convolutions do on functions, thus constructing a discrete version of convolutions.  Here we derive a natural link between discrete convolutions and the DFT, exactly mimicking the continuous version.
+All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x- τ$. Common examples are differentiation ($f_τ'(x) = f'(x - τ)$) or even the identity operator. Thus this property is fundamental. 
+
+In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be same even if we shift the number up or down. In this context we want to introduce a discrete version of convolution. In this section we investigate the type of linear operators acting on vectors (_matrices_) that commute with translations in the exact same way that convolutions do on functions, thus constructing a discrete version of convolutions. 
+
+There is also a natural link between continuous convolutions and Fourier transforms: Fourier transforms turn convolutions into pointwise multiplication.   Here we will derive a natural link between discrete convolutions and the DFT, exactly mimicking the continuous version.
 
 ## Matrices that commute with translations
 
-The starting point is a discrete version of the translations, which are give by the periodic shift operator:
-\[
+The starting point is a discrete version of a translation, which are give by the periodic (right) shift operator:
+$$
 S := \begin{bmatrix}
-0 & & ⋯ & 1\\
- 1 
+0 & & & &  1\\
+ 1 \\
 & 1 \\
-&& ⋱
-&&& 1 \\
-\]
-which have captures the shift property in the sense
-\[
-S \Vectt[f_1,f_2,\dots,f_n] = \Vectt[f_n,f_1,f_2,\dots,f_{n-1}]
-\]
+&& ⋱ \\
+&&& 1 & 0 \\
+\end{bmatrix}.
+$$
+These shift vectors to the right in a periodic way:
+$$
+S \Vectt[f_1,f_2,\dots, f_{n-1},f_n] = \Vectt[f_n,f_1,f_2,\dots,f_{n-1}]
+$$
 Thus $S 𝐟$ is a discrete, periodic version of the translation $f(x-τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$,
-\[
+$$
 \Vectt[f(θ_0),\dots,f(θ_{n-1})]
-\]
+$$
 with shift $τ = 2π/n$.
 
 What matrices commute with such discrete translations? We can categorise all possible matrices in terms of a _circluant matrix_ which will be helpful to associate with a Taylor series as follows:
@@ -43,16 +46,17 @@ a(z) = a_0 + a_1 z + … + a_{n-1} z^{n-1}
 $$
 the associated _circulant matrix_ is 
 $$
-L[a] := \begin{bamtrix}
-a_0 & a_{n-1} & ⋯ a_1 \\ 
-a_1 & a_0 & ⋱ & a_2 \\
-⋮ & ⋱ &  ⋱ & ⋮ \\
-a_{n-1} & a_{n-2} & ⋯ & a_0
-\end{matrix} = a(S) = a_0I + a_1S + ⋯ + a_{n-1} S^{n-1}.
+L[a] := \begin{bmatrix}
+a_0 & a_{n-1} & ⋯ & a_2 & a_1 \\ 
+a_1 & a_0 & a_{n-1}&  ⋯ & ⋮ \\
+⋮ &  a_1 & a_0 & ⋱ &  ⋮  \\
+a_{n-2}  & ⋯ & ⋱ & ⋱ & a_{n-1} \\
+a_{n-1} & a_{n-2} & ⋯ & a_1 & a_0
+\end{bmatrix}  = a_0I + a_1S + ⋯ + a_{n-1} S^{n-1} = a(S).
 $$
 
 
-Circulant matrices tell us every operator that commutes with (periodic) translations:
+Every operator that commutes with (periodic) translations is a circulant matrix:
 
 **Lemma (operators which commute with translations)** Every matrix $A ∈ ℂ^{n × n}$ such that $A S = S A$ is a circulant matrix.
 
@@ -66,48 +70,63 @@ a_{11} & ⋯ & a_{1n} \\
 a_{n1} & ⋯ & a_{nn}
 \end{bmatrix}
 $$
-We have
+We want
 $$
-SA = 
+SA = \begin{bmatrix}
+a_{n1} & ⋯ & a_{nn}\\
+a_{11} & ⋯ & a_{1n} \\
+⋮ & ⋱ & ⋮ \\
+a_{n-1,1} & ⋯ & a_{n-1n} 
+\end{bmatrix} = \begin{bmatrix}
+a_{12} & ⋯ & a_{1n} & a_{11} \\
+a_{22} & ⋯ & a_{2n} & a_{21} \\
+⋮ & ⋱ &  ⋱ & ⋮ \\
+a_{n2} & ⋯ & a_{nn} & a_{n1}
+\end{bmatrix} = AS
 $$
-
+From this we see, for example
+$$
+\underbrace{(S A)[2,1]}_{a_{11}} = \underbrace{(A S)[2,1]}_{a_{22}} 
+= \underbrace{(S A)[3,2]}_{a_{22}} = \underbrace{(A S)[3,2]}_{a_{33}} =
+ ⋯ = \underbrace{(AS)[n,n-1]}_{a_{nn}}
+$$
+Thus we have $a_0 : = a_{11} = ⋯ = a_{nn}$. More generally, if we define $a_k := a_{k+1,1}$ we have for $k = 0,…,n-1$
+$$
+a_k = \underbrace{(S A)[k+2,1]}_{a_{k+1,1}} = \underbrace{(AS)[k+2,1]}_{a_{k+2,2}} =
+\underbrace{(SA)[k+3,2]}_{a_{k+2,2}} =
+ ⋯ = \underbrace{(S A)[n,n-k+1]}_{a_{n,n-k}}
+$$
 
 ∎
 
 A cirulant matrix defines a discrete convolution:
 
 **Definition (discrete convolution)**
-The _discrete convolution_ of two vectors is given by
+The _discrete convolution_ of two vectors $𝐚, 𝐟 ∈ ℂ^n$ written with 0-based indexing as
 $$
-𝐚 ⋆ 𝐟 := L[a] 𝐟,
+𝐚 = \Vectt[a_0,⋮,a_{n-1}], \qquad 𝐟 = \Vectt[f_0,⋮,f_{n-1}]
 $$
+ is given by
+$$
+𝐚 ⋆ 𝐟 := L[a] 𝐟
+$$
+for the polynomial $a(z) = a_0 + a_1 z + ⋯ + a_{n-1} z^{n-1}$.
 i.e.,
 $$
-(𝐚 * 𝐟)[k] = ∑_{j=1}^n a_{k-j} f_{j-1}
+(𝐚 * 𝐟)[k+1] = ∑_{j=0}^n a_{k-j} f_{j}
 $$
-where we define $a_{-j} := a_j$.
+where we identify $a_{-j} := a_j$.
 
 The analogue between this discsrete convolution and the continuous convolution is immediate, and this can be thought of as a discretisation of the continuous convolution using a trapezium rule.
 
 ## Diagonalising convolutions
 
-Note that $S$ is an orthogonal matrix, in particular we can verify
-$$
-S^{-1} = S^⊤ = \begin{bmatrix}
-0 & 1 \\
- && ⋱ \\
- &&& 1 \\
- 1 \end{bmatrix}
-$$
-We can thus write
-$$
-L[a] = a_0 + S^{-1} a_1 + ⋯ + S^{1-n} a_{n-1}
-$$
-It follows that diagonalising $S$ (and therefore $S^{-1}$) allows us to diagonalise and circulant matrix. The nice property is that the DFT diagonalises $S$:
+Since a circlulant matrix is defined in terms of powers of $S$,
+ diagonalising $S$ allows us to diagonalise any circulant matrix. The nice property is that the DFT diagonalises $S$:
 
 **Proposition (diagonalising $S$)**
 $$
-S Q_n = Q_n \begin{bmatrix}1 \\ & ⋱ && ω^{n-1} \end{matrix]
+S Q_n = Q_n \begin{bmatrix}1 \\ & ⋱ && ω^{n-1} \end{bmatrix}
 $$
 where $Q_n$ is the DFT matrix and $ω = \E^{2π\I/n}$.
 
@@ -115,10 +134,10 @@ where $Q_n$ is the DFT matrix and $ω = \E^{2π\I/n}$.
 
 We can verify that the columns of $Q_n$ are eigenvectors of $S$:
 $$
-S \Vectt[1, ω^k , \dots, ω^{k(n-1)}] = \Vectt[ω^k , \dots, ω^{k(n-1),1] = 
-ω^k \Vectt[1, ω^k , \dots, ω^{k(n-1)}],
+S \Vectt[1, ω^k , \dots, ω^{k(n-2)}, ω^{k(n-1)}] = \Vectt[ω^{k(n-1)},ω^k ,  1, \dots, ω^{k(n-2)}] = 
+ω^{-k} \Vectt[1, ω^k , \dots, ω^{k(n-1)}],
 $$
-since we have $ω^k ω^{k(n-1)} = ω^{kn} 1$.
+since we have $ω^{-k} =  ω^{k(n-1)}$.
 
 ∎
 
@@ -127,21 +146,26 @@ This immediately gives us a diagonalisation of circulant matrices:
 **Theorem (diagonalising circulants)**
 For
 $$
-a(θ) = a_0 + a_1 \E^{\I θ} + … + a_{n-1} \E^{\I (n-1) θ}
+a(θ) = a_0 + a_1 z + … + a_{n-1} z^{n-1}
 $$
 we have
 $$
-L[a] Q_n = Q_n \begin{bmatrix} a(1) \\ & ⋱ && a(ω^{1-n}) \end{matrix]
+L[a] Q_n = Q_n \diag(Q_n 𝐚)
 $$
 
 **Proof**
 
-We see directly
+We first see that
 $$
-L[a] = ∑_{k=0}^{n-1} a_k S^{-k} = 
-∑_{k=0}^{n-1} a_k Q_n begin{bmatrix}1 \\ & ⋱ && ω^{k(1-n)} \end{matrix] Q_n^⋆.
+L[a] = ∑_{k=0}^{n-1} a_k S^k = 
+∑_{k=0}^{n-1} a_k Q_n \begin{bmatrix}1 \\ & ⋱ && ω^{k(1-n)} \end{bmatrix} Q_n^⋆= \begin{bmatrix} a(1) \\ & a(ω^{-1}) \\ && ⋱ \\ &&& a(ω^{1-n}) \end{bmatrix}.
 $$
-
-
+But we can further observe that
+$$
+a(ω^{-j}) = ∑_{k=0}^{n-1} a_k ω^{-kj} = \vectt[1,ω^{-j},…,ω^{-kj}] 𝐚 = 
+𝐞_{j+1}^⊤ Q_n 𝐚.
+$$
 ∎
+
+The impact of this is that we can apply a convolution in $O(n \log n)$ when we use the FFT to apply the DFT. 
 
