@@ -1,4 +1,4 @@
-# # MATH50003 (2024–25)
+# # MATH50003 (2025–26)
 # # Lab 8: V.1 Fourier Expansions and V.2 Discrete Fourier Transform
 
 # This lab explores the practical implementation of Fourier expansions on a computer,
