@@ -1,0 +1,351 @@
+# General Orthogonal Polynomials
+
+A family of orthogonal polynomials is a special case of a _graded polynomial basis_:
+
+**Definition (graded polynomial basis)**
+A set of polynomials $\{p_0(x), p_1(x), … \}$ is _graded_ if $p_n$ is
+precisely degree $n$: i.e.,
+$$
+p_n(x) = k_n x^n + k_n^{(1)} x^{n-1} + ⋯ + k_n^{(n-1)} x + k_n^{(n)}
+$$
+for $k_n ≠ 0$.
+∎
+
+Note that if $p_n$ are graded then $\{p_0(x), …, p_n(x) \}$
+are a basis of all polynomials of degree $n$.
+
+
+**Definition (Orthogonal Polynomials)**
+Given an (integrable) _weight_ $w(x) > 0$ for $x ∈ (a,b)$,
+which defines a continuous inner product
+$$
+⟨f,g⟩ = ∫_a^b  f(x) g(x) w(x) {\rm d} x
+$$
+a graded polynomial basis $\{p_0(x), p_1(x), … \}$
+are _orthogonal polynomials (OPs)_ if
+$$
+⟨p_n,p_m⟩ = 0
+$$
+whenever $n ≠ m$. We assume throughout that integrals of polynomials are finite:
+$$
+∫_a^b  x^k w(x) {\rm d} x < ∞.
+$$
+∎
+
+
+Note in the above
+$$
+h_n := ⟨p_n,p_n⟩ = \|p_n\|^2 = ∫_a^b  p_n(x)^2 w(x) {\rm d} x > 0.
+$$
+
+Multiplying any orthogonal polynomial by a nonzero constant necessarily is also an orthogonal
+polynomial. We have two standard normalisations:
+
+
+**Definition (Orthonormal Polynomials)**
+A set of orthogonal polynomials $\{q_0(x), q_1(x), … \}$
+are _orthonormal_ if $\|q_n\| = 1$.
+∎
+
+**Definition (Monic Orthogonal Polynomials)**
+A set of orthogonal polynomials $\{π_0(x), π_1(x), … \}$
+are _monic_ if $k_n = 1$.
+∎
+
+
+**Proposition (existence)** Given a weight $w(x)$, monic orthogonal polynomials
+exist.
+
+**Proof**
+Existence follows immediately from the Gram–Schmidt procedure. That is,
+define $π_0(x) := 1$ and
+$$
+π_n(x) := x^n - ∑_{k=0}^{n-1} {⟨x^n,π_k⟩ \over \|π_k\|^2} π_k(x).
+$$
+Assume $π_m$ are monic OPs for all $m < n$. Then we have
+$$
+⟨π_m, π_n⟩ = ⟨π_m, x^n ⟩ - ∑_{k=0}^{n-1} {⟨x^n,π_k⟩ \over \|π_k\|^2} \underbrace{⟨π_m, π_k⟩}_{= 0 \hbox{ if $m ≠ k$}}  = ⟨π_m, x^n ⟩ - ⟨x^n,π_m⟩ = 0.
+$$
+
+∎
+
+
+We are primarly concerned with the usage of orthogonal polynomials in
+approximating functions. First we observe the following:
+
+**Proposition (expansion)**
+If $r(x)$ is a degree $n$ polynomial and $\{p_n\}$ are orthogonal then
+$$
+r(x) = ∑_{k=0}^n {⟨p_k,r⟩ \over \|p_k\|^2} p_k(x).
+$$
+Note for $\{q_n\}$ orthonormal we have
+$$
+r(x) = ∑_{k=0}^n ⟨q_k,r⟩ q_k(x).
+$$
+
+**Proof**
+Because $\{p_0,…,p_n \}$ are a basis of polynomials we can
+write
+$$
+r(x) = ∑_{k=0}^n r_k p_k(x)
+$$
+for constants $r_k ∈ ℝ$.
+By linearity we have
+$$
+⟨p_m,r⟩ = ∑_{k=0}^n r_k ⟨p_m,p_k⟩= r_m ⟨p_m,p_m⟩
+$$
+which implies that $r_m = ⟨p_m,r⟩/⟨p_m,p_m⟩$.
+∎
+
+**Corollary (zero inner product)**
+If a degree $n$ polynomial $r$ satisfies
+$$
+0 = ⟨p_0,r⟩ = … = ⟨p_n,r⟩
+$$
+then $r = 0$.
+
+**Proof**
+If all the inner products are zero the coefficients in the expansion are all zero and $r$ is zero.
+∎
+
+**Corollary (uniqueness)**
+Monic orthogonal polynomials are unique.
+
+**Proof**
+If $p_n(x)$ and $π_n(x)$ are both monic orthogonal polynomials
+then $r(x) = p_n(x) - π_n(x)$ is degree $n-1$ but satisfies
+$$
+⟨r, π_k⟩ = ⟨p_n, π_k⟩ - ⟨π_n, π_k⟩ = 0
+$$
+for $k = 0,…,{n-1}$. Note $⟨p_n, π_k⟩ = 0$ can be seen by
+expanding
+$$
+π_k(x) = ∑_{j=0}^k c_j p_j(x).
+$$
+∎
+
+
+OPs are uniquely defined (up to a constant) by the
+property that they are orthogonal to all lower degree polynomials.
+
+**Theorem (orthogonal to lower degree)**
+Given a weight $w(x)$,
+a polynomial
+$$
+p(x) = k_n x^n + O(x^{n-1})
+$$
+with $k_n ≠ 0$ satisfies
+$$
+⟨p,f_m⟩ = 0
+$$
+for all  polynomials $f_m$ of degree $m < n$ if and only if
+$p(x) = k_n π_n(x)$ where $π_n(x)$ are the monic orthogonal polynomials.
+Therefore an orthogonal polynomial is uniquely
+defined by the weight and leading order coefficient $k_n$.
+
+**Proof**
+We leave this proof to the problem sheets.
+∎
+
+
+
+
+## Three-term recurrence
+
+The most _fundamental_ property of orthogonal polynomials is their three-term
+recurrence.
+
+**Theorem (3-term recurrence, 2nd form)**
+If $\{p_n\}$ are OPs then there exist real constants
+$a_n b_n, c_{n-1}$
+such that
+$$
+\begin{align*}
+x p_0(x) &= a_0 p_0(x) + b_0 p_1(x)  \\
+x p_n(x) &= c_{n-1} p_{n-1}(x) + a_n p_n(x) + b_n p_{n+1}(x),
+\end{align*}
+$$
+where $b_n ≠0$ and $c_{n-1} ≠0$.
+**Proof**
+The $n=0$ case is immediate since $\{p_0,p_1\}$ are a basis of degree 1 polynomials.
+The $n >0$ case follows from
+$$
+⟨x p_n, p_k⟩ = ⟨ p_n, xp_k⟩ = 0
+$$
+for $k < n-1$ as $x p_k$ is of degree $k+1 < n$.
+
+Note that
+$$
+b_n = {⟨p_{n+1}, x p_n⟩ \over \|p_{n+1} \|^2} ≠ 0
+$$
+since $x p_n = k_n x^{n+1} + O(x^n)$ is precisely degree
+$n$. Further,
+$$
+c_{n-1} = {⟨p_{n-1}, x p_n⟩ \over \|p_{n-1}\|^2 } =
+{⟨p_n, x p_{n-1}⟩  \over \|p_{n-1}\|^2 } =  b_{n-1}{\|p_n\|^2  \over \|p_{n-1}\|^2 } ≠ 0.
+$$
+
+
+
+∎
+
+
+
+
+Clearly if $π_n$ is monic then so is $x π_n$ which leads to the following:
+
+**Corollary (monic 3-term recurrence)** $\{π_n\}$ are monic if and only if $b_n =  1$.
+**Proof**
+
+If $b_n = 1$ and $π_n(x) = x^n + O(x^{n-1})$ then the 3-term recurrence shows us that
+$$
+π_{n+1}(x) = x π_n(x) - c_{n-1} π_{n-1}(x) - a_n π_n(x) = x^{n+1} + O(x^n)
+$$
+and $π_{n+1}(x)$ is also monic. Similarly, if $π_n(x)$ is monic and $b_n ≠ 1$ then $π_{n+1}(x)$ is not
+monic, which would be a contradiction.
+∎
+
+
+Note this implies that we can define $π_{n+1}(x)$ in terms of $π_{n-1}$ and $π_n$:
+$$
+π_{n+1}(x) = x π_n(x) - a_n π_n(x) - c_{n-1} π_{n-1}(x)
+$$
+where
+$$
+a_n = {⟨x π_n, π_n⟩ \over \| π_n\|^2} \qquad \hbox{and} \qquad c_{n-1} = {⟨x π_n, π_{n-1}⟩ \over \| π_{n-1}\|^2}.
+$$
+
+
+**Example (constructing OPs)** What are the  monic OPs $π_0(x),…,π_3(x)$ with respect to $w(x) = 1$ on $[0,1]$?
+We can construct these using Gram–Schmidt, but exploiting the 3-term recurrence to reduce the computational cost.
+We have $π_0(x) = 1$, which we see is already normalised:
+$$
+\|π_0\|^2 = ⟨π_0,π_0⟩ = ∫_0^1 {\rm d} x = 1.
+$$
+We know from the 3-term recurrence that
+$$
+x π_0(x) = a_0 π_0(x) +  π_1(x)
+$$
+where
+$$
+a_0 = {⟨π_0,x π_0⟩  \over \|π_0\|^2} = ∫_0^1 x {\rm d} x = 1/2.
+$$
+Thus
+$$
+\begin{align*}
+π_1(x) = x π_0(x) - a_0 π_0(x) = x-1/2 \qquad  ⇒ \\
+\|π_1\|^2 = ∫_0^1 (x^2 - x + 1/4) {\rm d} x = 1/12.    
+\end{align*}
+$$
+From
+$$
+x π_1(x) = c_0 π_0(x) + a_1 π_1(x) +  π_2(x)
+$$
+we have
+$$
+\begin{align*}
+c_0 &= {⟨π_0,x π_1⟩  \over \|π_0\|^2} = ∫_0^1 (x^2 - x/2) {\rm d} x = 1/12, \\
+a_1 &= {⟨π_1,x π_1⟩  \over \|π_1\|^2} = 12 ∫_0^1 (x^3 - x^2 + x/4) {\rm d} x = 1/2, \\
+π_2(x) &= x π_1(x) - c_0 - a_1 π_1(x) = x^2 - x + 1/6 \qquad ⇒ \\
+\|π_2\|^2 &= \int_0^1 (x^4 - 2x^3 + 4x^2/3 - x/3 + 1/36) {\rm d} x = {1 \over 180}
+\end{align*}
+$$
+Finally, from
+$$
+x π_2(x) = c_1 π_1(x) + a_2 π_2(x) +  π_3(x)
+$$
+we have
+$$
+\begin{align*}
+c_1 &= {⟨π_1,x π_2⟩  \over \|π_1\|^2} = 12 ∫_0^1 (x^4 - 3x^3/2 +2x^2/3 -x/12)  {\rm d} x = 1/15, \\
+a_2 &= {⟨π_2,x π_2⟩  \over \|π_2\|^2} = 180 ∫_0^1 (x^5 - 2x^4 +4x^3/3 - x^2/3 + x/36) {\rm d} x = 1/2, \\
+π_3(x) &= x π_2(x) - c_1 π_1(x)- a_2 π_2(x) \ccr 
+= x^3 - x^2 + x/6 - x/15 + 1/30 -x^2/2 + x/2 - 1/12 \\
+&= x^3 - 3x^2/2 + 3x/5 -1/20
+\end{align*}
+$$
+∎
+
+
+## Gaussian quadrature
+
+We have already seen examples of quadrature including the Rectangular, Trapezium and Interpolatory Quadrature Rules.
+In this section we see that a special type of interpolatory quadrature can be constructed by using the roots of orthogonal
+polynomials, leading to a method that is exact for polynomials of twice the expected degree.
+
+
+**Definition (Gaussian quadrature)** Given a weight $w(x)$ on $[a,b]$, the $n$-point Gauss quadrature rule is
+the interpolatory quadrature rule associated with the roots of the orthogonal polynomial $p_n$. That is, if $x_1,…,x_n$ satisfy $p_n(x_j) = 0$
+then
+$$
+∫_a^b f(x)w(x) {\rm d}x ≈ \underbrace{∑_{j=1}^n w_j f(x_j)}_{Σ_n^w[f]}
+$$
+where $w_j$ are chosen so it is exact up to polynomials of degree $n-1$.
+∎
+
+
+Our first example shows that this choice of points has an unexpected property: it is exact up to twice the expected degree of polynomial.
+
+
+
+**Example (Gauss)** We  find the Gaussian quadrature rule for $w(x) = 1$ on $[0,1]$ with points equal to the
+roots of $π_2(x) = x^2 - x + 1/6$.  This has two roots (via the quadratic formula):
+$$
+x_1 = {3 - \sqrt 3 \over 6}, \qquad x_2 = {3 + \sqrt 3 \over 6}.
+$$
+We compute
+\begin{align*}
+w_1 = \int_0^1 w(x) ℓ_1(x) {\rm d}x = \int_{-1}^1 {x - x_2 \over  x_1 - x_2} {\rm d}x = {1 \over 2} \\
+w_2 = \int_0^1 w(x) ℓ_2(x) {\rm d}x = \int_{-1}^1 {x - x_1 \over  x_2 - x_1} {\rm d}x = {1 \over 2}.
+\end{align*}
+$$
+(It's not a coincidence that they are all the same but this will differ for roots of other OPs.) 
+That is we have
+$$
+Σ_n^{w,𝐱}[f]  = {1 \over 2}\br[ f\pr({3 - \sqrt 3 \over 6}) + f\pr({3 + \sqrt 3 \over 6}) ].
+$$
+This is indeed exact for polynomials up to degree $n-1=1$, but it goes all the way up to $2n-1 = 3$:
+$$
+\begin{align*}
+Σ_n^{w,𝐱}[1] &= 1, Σ_n^{w,𝐱}[x] = {1 \over 2}, Σ_n^{w,𝐱}[x^2] = {2 - \sqrt{3} \over 12} + {2 + \sqrt{3} \over 12} = {1 \over 3}, \\
+Σ_n^{w,𝐱}[x^3] &= {9- 5\sqrt{3} \over 72} + {9+ 5\sqrt{3} \over 72}  = {1 \over 4}, \\
+Σ_n^{w,𝐱}[x^4] &= {7-4\sqrt{3} \over 72} + {7+4\sqrt{3} \over 72} = {7 \over 36}   ≠ {1 \over 4}.
+\end{align*}
+$$
+∎
+
+
+We now explain where this property comes from:
+
+**Theorem (Exactness of Gauss quadrature)** If $p(x)$ is a degree $2n-1$ polynomial then
+Gauss quadrature is exact:
+$$
+∫_a^b p(x)w(x) {\rm d}x = Σ_n^w[p].
+$$
+
+**Proof**
+Using polynomial division algorithm (e.g. by matching terms) we can write
+$$
+p(x) = p_n(x) s(x) + r(x)
+$$
+where $s$ and $r$ are degree $n-1$ and $p_n(x)$ is the degree $n$ orthonormal polynomial. Because
+Gauss quadrature is interpolatory we know that it is exact for degree $n-1$ polynomials, in particular:
+$$
+Σ_n^w[r] = ∫_a^b r(x) w(x) {\rm d}x.
+$$
+But then we find that
+$$
+\begin{align*}
+Σ_n^w[p] &= \underbrace{Σ_n^w[p_n s]}_{\hbox{$0$ since evaluating $p_n$ at zeros}} + Σ_n^w[r] = ∫_a^b r(x) w(x) {\rm d}x\\
+&= \underbrace{∫_a^b p_n(x)s(x) w(x) {\rm d}x}_{\hbox{$0$ since $s$ is degree $<n$}}  + ∫_a^b r(x) w(x) {\rm d}x \\
+&= ∫_a^b p(x)w(x) {\rm d}x.
+\end{align*}
+$$
+∎
+
+
+Going beyond polynomials,  Gaussian quadrature
+achieves faster than algebraic convergence for any smooth function.
+ If the function is analytic in a neighbourhood of the support of the interval this
+is in fact exponential convergence, far exceeding the convergence rate observed for rectangular and Trapezium rules. 
+This is a beautiful example of more sophisticated mathematics leading to powerful numerical methods. 

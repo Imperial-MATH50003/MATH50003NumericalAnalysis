@@ -1,10 +1,50 @@
-**Numerical Analysis MATH50003 (2023–24) Problem Sheet 9**
+**Numerical Analysis MATH50003 (2025–26) Problem Sheet 9**
 
 
 
 
-**Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
-for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the top $3 × 3$ entries of the corresponding Jacobi matrices?
+**Problem 1** Use the connection with the DFT to prove the following properties of convolutions:
+1. _Commutativity_: $𝐟 ⋆ 𝐠 = 𝐠 ⋆ 𝐟$.
+2. _Associativity_: $(𝐟 ⋆ 𝐠) ⋆ 𝐡 = 𝐟 ⋆ (𝐠 ⋆ 𝐡)$.
+
+**Problem 2(a)**  For $2π$-periodic smooth functions $a$ and $f$ (i.e., such that $a(θ+2π) = a(θ)$
+and $b(θ+2π) = b(θ)$) with no negative Fourier coefficients ($0 = â_{-1} = â_{-2} = …$ and $0 = f̂_{-1} = f̂_{-2} = …$ )
+consider the periodic Trapezium rule approximation to the (continuous) convolution:
+$$
+ {1 \over 2π} ∫_0^{2π}  a(θ-φ) f(φ) \D φ ≈ \underbrace{∑_{j=0}^{n-1} a(θ-θ_j) f(θ_j)}_{
+=: (a ⋆_n f)(θ)}
+$$
+for $θ_j = 2πj/n$. 
+Express the Fourier coefficients of $a ⋆_n f$  in terms of $â_k$ and $f̂_k$.
+
+**SOLUTION**
+
+We write
+$$
+\meeq{
+(a ⋆_n f)(θ)  = ∑_{j=0}^{n-1} ∑_{k=0}^∞ â_k E^{\I k (θ-θ_j)} f(θ_j)
+=  ∑_{k=0}^∞ E^{\I k θ} â_k \underbrace{∑_{j=0}^{n-1}  E^{-\I k θ_j} f(θ_j)}_{f̂_k^n}.
+}
+$$
+**END**
+
+
+**Problem 2(b)** Express the discrete Fourier coefficients of $a ⋆_n f$ in terms of $â_k$ and $f̂_k$. What does that tell us about the convergence to the true continuous convolution?
+
+**SOLUTION**
+
+$$
+\Vectt[(a ⋆_n f)(θ_0), …, (a ⋆_n f)(θ_{n-1})]
+$$
+
+
+**END**
+
+
+
+
+**Problem 3** Construct the monic and orthonormal polynomials up to degree $3$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. 
 Hint: for the first weight, find a recursive formula for $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$
 using a change-of-variables.
 
@@ -70,51 +110,6 @@ p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-x/2
 $$
 
 
-We need one more constant:  from
-$$
-x p_3(x) p_2(x) = (x^4-x^2/2)(x^2-1/4) = x^6 - 3x^4/4 - x^2/8
-$$
-we find (since $I_6 = 5I_4/8 =5π/256$)
-$$
-c_2 = \frac{⟨ p_2,xp_3⟩}{\|p_2\|^2}=2{I_6-3I_4/4 + I_2/8 \over π/32} =1/4
-$$
-We see from this that
-$$
-x [p_0(x),p_1(x),…] = [p_0(x),p_1(x),…] \begin{bmatrix} 0 & 1/4 \\
-                                                        1 & 0 & 1/4 \\
-                                                          & 1 & 0  & 1/4 \\
-                                                          && 1 & 0  & ⋱ \\
-                                                          &&& ⋱ & ⋱
-                                                          \end{bmatrix}
-$$
-To make this symmetric we choose
-$$
-\meeq{
-k_0 = \|p_0\|^{-1} = \sqrt{2/π} \ccr
-k_1 = k_0 \sqrt{4} = 2\sqrt{2/π} \ccr
-k_2 = k_1 \sqrt{4} = 4\sqrt{2/π} \ccr
-k_3 = k_2 \sqrt{4} = 8\sqrt{2/π}
-}
-$$
-Giving us (also computable from norms of $p_n(x)$):
-$$
-\meeq{
-q_0(x) = \sqrt{2/π} \ccr
-q_1(x) = 2\sqrt{2/π} x \ccr
-q_2(x) = 4 \sqrt{2/π} (x^2-1/4) \ccr
-q_3(x) = 8\sqrt{2/π}(x^3-x/2)
-}
-$$
-with Jacobi matrix
-$$
-J = \begin{bmatrix} 0 & 1/2 \\
-                    1/2 & 0 & 1/2 \\
-                        & 1/2 & 0  & 1/2 \\
-                        && ⋱ & ⋱  & ⋱
-                        \end{bmatrix}
-$$
-
-
 **Weight 2** ($1-x$)
 
 Here we have polynomials so computing the moments are easier. We have $p_0(x) = 1$ hence
@@ -137,43 +132,6 @@ p_3(x) = x p_2(x) - a_2 p_2(x) - c_1 p_1(x) = x^3 + {3x^2 \over 7} - {3 x \over 
 c_2 =  {⟨xp_3, p_2 ⟩ \over \|p_2\|^2} = {12 \over 49}.
 }
 $$
-Thus the multiplication matrix is
-$$
-x [p_0(x),p_1(x),…] = [p_0(x),p_1(x),…] \begin{bmatrix} -1/3 & 2/9\\
-                                                        1 & -1/15 & 6/25 \\
-                                                          & 1 & -1/35  & 12/49 \\
-                                                          && 1 & ⋱  & ⋱ \\
-                                                          &&& ⋱ & ⋱
-                                                          \end{bmatrix}
-$$
-To make this symmetric we choose
-$$
-\meeq{
-k_0 = \|p_0\|^{-1} = 1/\sqrt{2} \ccr
-k_1 = k_0 \sqrt{9/2} = 3/2 \ccr
-k_2 = k_1 \sqrt{25/6} = 15/(2\sqrt 6) \ccr
-k_3 = k_2 \sqrt{49/12} = 35/(4\sqrt 2)
-}
-$$
-That is
-$$
-\meeq{
-q_0(x) = 1/\sqrt{2} \ccr
-q_1(x) = {3 \over 2} (x + 1/3) \ccr
-q_2(x) = {15 \over 2\sqrt 6} ( x^2 + {2x \over 5} - {1 \over 5}) \ccr
-q_3(x) = {35 \over 4\sqrt 2}( x^3 + {3x^2 \over 7} - {3 x \over 7} - {3 \over 35}).
-}
-$$
-with Jacobi matrix
-$$
-J = \begin{bmatrix} -1/3 & \sqrt 2 / 3 \\
-                    \sqrt 2 / 3  & -1/15 & \sqrt{6}/5 \\
-                        & \sqrt{6}/5 &  -1/35   & ⋱ \\
-                        && ⋱ & ⋱
-                        \end{bmatrix}
-$$
-
-
 
 
 **END**
@@ -181,7 +139,7 @@ $$
 
 
 
-**Problem 2** Prove Theorem 13: a precisely degree $n$ polynomial
+**Problem 4** Prove Theorem 13: a precisely degree $n$ polynomial
 $$
 p(x) = k_n x^n + O(x^{n-1})
 $$
@@ -218,7 +176,7 @@ Thus $p - c π_n$ is zero, i.e., $p(x) = c π_n(x)$.
 **END**
 
 
-**Problem 3** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+**Problem 5** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
 Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
 
 **SOLUTION**
@@ -263,219 +221,74 @@ is even.
 **END**
 
 
-
-
-**Problem 4(a)** Prove that
-$$
-U_n(\cos θ) = {\sin(n+1) θ \over \sin θ}.
-$$
-
+**Problem 6** Compute the 2-point
+Gaussian quadrature rules for the weights $\sqrt{1-x^2}$,
+and $1-x$ on $[-1,1]$.
 
 **SOLUTION**
-
-We need to verify
-$$
-p_n(x) := {\sin(n+1) θ \over \sin θ}
-$$
-are
-1. graded polynomials
-2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
-3. have the leading coefficient $2^n$.
-Then uniqueness will guarantee that $p_n(x) = U_n(x)$.
-
-(2) follows under a change of variables
+For $w(x) = \sqrt{1-x^2}$ the orthogonal polynomial of degree 2 is $U_2(x) = 4x^2 -1$, with roots $𝐱 = \{x = ± \frac{1}{2}\}$. The Lagrange polynomials corresponding to these roots are,
 $$
 \begin{align*}
-\int_{-1}^1 p_n(x)p_m(x)\sqrt{1-x^2}{\rm d}x &= \int_0^{π}p_n(\cos θ)p_m(\cos θ)\sin^2 θ{\rm d} θ \\
-&= \int_0^{π}\sin(n+1) θ\sin(m+1) θ{\rm d} θ=\frac{π}{2}δ_{mn}
+ℓ_1(x) &= \frac{x - 1/2}{-1/2 - 1/2} = \frac{1}{2} - x, \\
+ℓ_2(x) &= \frac{x + 1/2}{1/2 + 1/2} = x + \frac{1}{2}
 \end{align*}
 $$
-where the last step can be shown by substituting $\sin kθ = (\exp(ikθ)-\exp(-ikθ)/(2i)$.
+We again work out the weights
+$$
+w_j = \int_{-1}^1 ℓ_j(x)w(x)dx,
+$$
+to find,
+$$
+w_1 = w_2 = {π \over 4},
+$$
+and thus the interpolatory quadrature rule is,
+$$
+Σ_2^{w,𝐱}(f) = \frac{π}{4}(f(-1/2) + f(1/2)).
+$$
 
-To see that they are graded, first note that
+For $w(x) = 1$, the orthogonal polynomial of degree 2 is, using Legendre Rodriguez formula:
 $$
-p_0(x) = {\sin θ /\sin θ} = 1, p_1(x) =  {\sin 2 θ \over \sin θ} = {2 \sin θ \cos θ \over \sin θ} = 2x.
+P_2(x) = \frac{1}{(-2)^22!} \frac{d^2}{dx^2}\left(1 - x^2\right)^2 = -\frac{1}{2} + \frac{3}{2}x^2.
 $$
-Now for $n = 1,2,…$  use the fact that
-$$
-xp_n(x)=\frac{\cos θ\sin(n+1) θ}{\sin θ}=\frac{\sin (n+2) θ+\sin n θ}{2\sin θ}
-$$
-In other words $2xp_n(x)=p_{n+1}(x)+p_{n-1}(x)$, i.e. $p_{n+1}(x) = 2x p_n(x) + p_{n-1}(x).$
-By induction it follows that
-$$
-p_n(x) = 2^n x^n + O(x^{n-1})
-$$
-which also proves (3).
-
-
-**END**
-
-**Problem 4(b)** Show that
+This has roots $𝐱 = \left\{± \frac{1}{\sqrt{3}}\right\}$. We then have,
 $$
 \begin{align*}
-x U_0(x) &= U_1(x)/2 \\
-x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
+	ℓ_1(x) &= -\frac{\sqrt{3}}{2}x + \frac{1}{2} \\
+	ℓ_2(x) &= \frac{3}{2}x + \frac{1}{2},
 \end{align*}
 $$
-
-**SOLUTION**
-
-The first result is trivial. For the other parts, from the solution to the previous part we know $2xU_n(x)=U_{n+1}(x)+U_{n-1}(x)$
-and this result is a reordering.
-
-**END**
-
-**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower
-dimensional polynomials to show that:
+from which we can compute the weights,
 $$
-T_n'(x) = n U_{n-1}(x).
+w_1 = w_2 = 1,
+$$
+which give the quadrature rule:
+$$
+Σ_2^{w,𝐱}(f) = \left[f\left(-\frac{1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)\right]
 $$
 
-
-**SOLUTION**
-
-We need to verify that $T_n'(x)$
-1. graded polynomials
-2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
-3. have the leading coefficient $n 2^n$.
-(1) and (3) are clear:
+Finally, with $w(x) = 1 - x$ we use the solution to PS9, which states that
 $$
-T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
+p_2(x) = x^2 + 2x/5 - 1/5
 $$
-(2) For $f_m$ degree $m < n-1$ we have
-$$
-∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x =
--∫_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
-$$
-
-
-
-**END**
-
-
-**Problem 6(a)** Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $ℝ$
-with the normalisation
-$$
-H_n(x) = 2^n x^n + O(x^{n-1}).
-$$
-Prove the Rodrigues formula
-$$
-H_n(x) = (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2).
-$$
-Hint: use integration-by-parts.
-
-**SOLUTION**
-Define
-$$
-p_n(x) := (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2)
-$$
-
-We need to verify that $p_n$
-1. are graded polynomials
-2. are orthogonal to all lower degree polynomials on $\mathbb{R}$, and
-3. have the right leading coefficient $2^n$.
-
-Comparing the Rodrigues formula for $n$ and $n-1$, we find that
-$$
-(-1)^n\exp(-x^2)p_n(x)={{\rm d} \over {\rm d}x}\left((-1)^{n-1}\exp(-x^2)p_{n-1}(x)\right)
-$$
-which reduces to
-$$p_n(x)=2xp_{n-1}(x)-p_{n-1}'(x).$$
-
-(1) and (3) then follows from induction since $p_0(x)=1$.
-
-(2) follows by integration by parts. If $r_m$ is any degree $m<n$ polynomial we have:
+which has roots, $𝐱 = \left\{-\frac{1}{5} ± \frac{\sqrt{6}}{5} \right\}$. The Lagrange polynomials are then,
 $$
 \begin{align*}
-\int_{-∞}^∞ p_n(x)r_m(x)\exp(-x^2){\rm d}x&=\int_{-∞}^∞{{\rm d}^n \over {\rm d}x^n} \exp(-x^2)r(x){\rm d}x = -\int_{-∞}^∞{{\rm d}^{n-1} \over {\rm d}x^{n-1}} \exp(-x^2)r'(x){\rm d}x\\
-&=⋯\text{integration by parts $n$ times}…=(-1)^n\int_{-∞}^∞ \exp(-x^2)r_m^{(n)}(x)=0
+	ℓ_1(x) &= \frac{x - (-\frac{1}{5} + \frac{\sqrt{6}}{5} )}{-\frac{1}{5} - \frac{\sqrt{6}}{5} - (-\frac{1}{5} + \frac{\sqrt{6}}{5}) } \\
+	&= \frac{x - (-\frac{1}{5} + \frac{\sqrt{6}}{5} )}{-\frac{2\sqrt{6}}{5}} \\
+	&=-\frac{5}{2\sqrt{6}}x - \frac{1}{2\sqrt{6}} + \frac{1}{2} \\
+	ℓ_2(x) &= \frac{x - (-\frac{1}{5} - \frac{\sqrt{6}}{5} )}{\frac{2\sqrt{6}}{5}} \\
+	&= \frac{5}{2\sqrt{6}}x + \frac{1}{2\sqrt{6}} + \frac{1}{2}
 \end{align*}
 $$
-Thus $p_n(x) = H_n(x)$ by uniqueness.
-
-**END**
-
-**Problem 6(b)** What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+From which we can compute the weights,
 $$
-H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
+\begin{align*}
+	w_1 &= 1 + \frac{\sqrt{6}}{9}, \\
+	w_2 &= 1 - \frac{\sqrt{6}}{9},
+\end{align*}
 $$
-
-**SOLUTION**
-
-From the previous part we know:
+giving the quadrature rule,
 $$
-\meeq{
-H_{n+1}(x)=2xH_n(x)-H_n'(x) = 2x (2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})) -
- (n 2^n x^{n-1} +  O(x^{n-2}) \ccr
-  = 2^{n+1} x^{n+1} + 2 k_n^{(1)} x^n + (2k_n^{(2)} - n 2^n) x^{n-1} + O(x^{n-2})
-}
+Σ_2^{w,𝐱}(f) = \left[\left(1 + \frac{\sqrt{6}}{9} \right)f\left(-\frac{1}{5} - \frac{\sqrt{6}}{5} \right) + \left(1 - \frac{\sqrt{6}}{9} \right)f\left(-\frac{1}{5} + \frac{\sqrt{6}}{5} \right) \right]
 $$
-hence
-$$
-\meeq{
-k_{n+1}^{(1)}=2k_n^{(1)}, \ccr
-k_{n+1}^{(2)}=2k_n^{(2)}-n2^n
-}
-$$
-Since $k_0^{(1)}=0$, we have $k_n^{(1)}=0$ (which also follows by symmetry in the weight).
-For the second recurrence, lets see the pattern for the first few:
-$$
-\meeq{
-k_0^{(2)} = k_1^{(2)} = 0 \ccr
-k_2^{(2)} = -2 \ccr
-k_3^{(2)} = 2×(-2) - 2×2^2 = -3×2^2 = -12 \ccr
-k_4^{(2)} = 2×(-3×2^2) - 3×2^3 = -6×2^3 = -48 \ccr
-k_5^{(2)} = 2×(-6×2^3) - 4×2^4 = -10×2^4 = -160
-}
-$$
-From this the pattern is clear:
-$$
-k_n^{(2)} = -(∑_{k=1}^{n-1} k) 2^{n-1} = -n(n-1)2^{n-2}.
-$$
-This can be confirmed by induction:
-$$
-k_{n+1}^{(2)}=2k_n^{(2)}-n2^n = -n(n-1)2^{n-1} - n2^n = -n(n+1)2^{n-1}.
-$$
-**END**
-
-**Problem 6(c)** Deduce the 3-term recurrence relationship for $H_n(x)$.
-
-**SOLUTION**
-
-Our goal is to find $a_n$, $b_n$ and $c_n$ such that
-$$
-xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).
-$$
-Matching terms we have $b_n = 1/2$ and $a_n = 0$ so that
-$$
-\meeq{
-c_{n-1} H_{n-1}(x) = xH_n(x) - H_{n+1}(x)/2 = 2^n x^{n+1} + k_n^{(2)}x^{n-1} 
-- 2^n x^{n+1} - k_{n+1}^{(2)}/2 x^{n-1} + O(x^{n-2}) \ccr
-= (k_n^{(2)} - k_{n+1}^{(2)}/2 ) x^{n-1} + O(x^{n-2}) \ccr 
-= (-n(n-1)2^{n-2} +n(n+1)2^{n-2}) x^{n-1} + O(x^{n-2}) \ccr
-= n2^{n-1} x^{n-1} + O(x^{n-2}).
-}
-$$
-Therefore we choose
-$$
-c_{n-1} = {n2^{n-1} \over 2^{n-1}} = n.
-$$
-
-**END**
-
-**Problem 6(d)** Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials,
-and that the normalisation constants match.
-
-**SOLUTION**
-
-We have for $f_m$ degree $m < n-1$, using integration by parts
-$$
-⟨H_n', f_m⟩ = ∫_{-∞}^∞ H_n'(x) f_m(x) {\rm e}^{-x^2} {\rm d} x =  ∫_{-∞}^∞ H_n(x) \underbrace{(f_m'(x) -2x f_m)}_{\hbox{degree $m+1 < n$}}  {\rm e}^{-x^2} {\rm d} x = 0.
-$$
-Further,
-$$
-H_n'(x) = n 2^n x^{n-1} + O(x^{n-1}) = 2n (2^{n-1} x^{n-1} + O(x^{n-1}))
-$$
-hence the normalisation constants match.
-
 **END**
