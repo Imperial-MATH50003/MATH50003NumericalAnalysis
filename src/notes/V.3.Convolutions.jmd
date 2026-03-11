@@ -202,8 +202,15 @@ This plays an important role in accelerating Convolutional Neural Networks when 
 
 ## Lab and Problem Sheet
 
-In the lab we investigate computing convolutions using the FFT and representing circulant matrices. We also explore a relationship with discrete random variables: if we have two random variables $X,Y$ who takes values of $1,…,n$ with probabilities given by vector $𝐱$ and $𝐲$ then the probabilities of $\mod(X + Y,n)+1$ are given by $𝐱 ⋆ 𝐲$. Thus the DFT is important in discrete probability as well.
+In the lab we investigate computing convolutions using the FFT and representing circulant matrices. We also explore a relationship with discrete random variables: if we have two random variables $X,Y$ who takes values of $0,…,n-1$ with probabilities given by vectors $𝐟$ and $𝐠$ then the probabilities of $\mod(X + Y,n)$ are given by $𝐟 ⋆ 𝐠$. Thus the DFT is important in discrete probability as well. 
 
+In the problem sheet we discuss some of the basic properties of discrete convolution such as commutativity and associativity.
+We also investigate how discrete convolutions provide a way of approximating continuous convolutions of periodic functions,
+and relate the errors to those of the Fourier coefficients of the convolved functions. Finally, we discuss how a discrete cross-correlation
+$$
+∑_{j=0}^{n-1} a_j f_{{\rm mod}(j+k,n)},
+$$
+which is what Convolutional Neural Networks are usually defined in terms of, is equivalent to a convolution.
 
 
 

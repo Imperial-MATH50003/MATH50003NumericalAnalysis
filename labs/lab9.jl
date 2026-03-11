@@ -1,14 +1,5 @@
 # # MATH50003 (2025–26)
-# # Lab 9: V.3 Discrete Convolutions and VI.1 Orthogonal Polynomials
-
-# Here we explore the practical implementation of discrete convolutions using
-# the FFT, which achieves $O(n \log n)$ complexity, which is a notable improvement
-# over the $O(n^2)$ complexity of a direct matrix-vector product using the formulation as a
-# circulant matrix.  We also explore experimentally the connection to random numbers, in particular,
-# how discrete convolutions give us the probabilities of the (periodic) addition of two random variables.
-#
-# For orthogonal polynomials we introduce the basic family of Chebyshev polynomials. We see how properties
-# such as 
+# # Lab 9: V.3 Convolutions and VI.1 Orthogonal Polynomials
 
 # **Learning Outcomes**
 #
@@ -79,18 +70,13 @@ size(C::Circulant) = (length(C.a), length(C.a))
 function getindex(C::Circulant, k::Int, j::Int)
     ## TODO: return the (k,j) entry of the circulant matrix defined by C.a
     ## You may wish to use the `mod` function to handle the wrap-around.
-    ## SOLUTION
-    n = length(C.a)
-    return C.a[mod(k-j, n) + 1]
-    ## END
+    
 end
 
 function *(C::Circulant, x::Vector)
     ## TODO: compute the product of the circulant matrix C with the vector x.
     ## using the FFT to achieve O(n log n) complexity.
-    ## SOLUTION
-    return real(ifft(fft(C.a) .* fft(x))) # we use real since the result should be real, but the FFT may introduce small imaginary parts due to numerical errors.
-    ## END
+    
 end
 
 
@@ -203,9 +189,7 @@ end
 
 function discretechebyshevcoefficient(f, k, n)
     ## TODO: Use discretecosinecoefficient to approximate the Chebyshev coefficients of f
-    ## SOLUTION
-    discretecosinecoefficient(θ -> f(cos(θ)), k, n)
-    ## END
+    
 end
 
 n = 15
@@ -233,17 +217,7 @@ T = chebyshevt.(0:n-1,x)' # Chebyshev T
 
 function chebyshevu(n, x)
     ## TODO: Implement U_n(x) via the 3-term recurrence relationship
-    ## SOLUTION
-    Uₖ₋₁ = 1.0
-    if n == 0
-        return Uₖ₋₁
-    end
-    Uₖ = 2x
-    for k = 1:n-1
-        Uₖ,Uₖ₋₁ = 2x*Uₖ - Uₖ₋₁, Uₖ
-    end
-    Uₖ
-    ## END
+    
 end
 
 @test chebyshevu(10, 0.1) ≈ sin(11*acos(0.1))/sin(acos(0.1))
@@ -254,11 +228,7 @@ end
 function chebyshevdifferentiation(f, n, x)
     ## TODO: Use discretechebyshevcoefficient and the derivative relationship to approximate the derivative of f,
     ## using a Chebyshev expansion of f up to degree n-1
-    ## SOLUTION
-    c = [discretechebyshevcoefficient(f, k, n) for k=0:n-1]
-    U = [chebyshevu(k,x) for k=0:n-2] # Actually, would be faster to record the values
-    U' * ((1:n-1) .* c[2:end])
-    ## END
+    
 end
 
 @test chebyshevdifferentiation(cos, 15, 0.1) ≈ -sin(0.1)
@@ -269,8 +239,3 @@ end
 # Can you achieve higher accuracy than central differences?
 
 ## TODO: use chebyshevdifferentiation to approximate the derivative of f and observe the convergence
-## SOLUTION
-plot([abs(chebyshevdifferentiation(exp, n, 0.) - 1) for n =1:50]; yscale=:log10, yticks= 10.0 .^ (-17:0))
-## We see that the error decays faster than exponentially and gets almost as low as 10^(-16)
-## This is much! better than central differences which got at most 10^(-8) accuracy
-## END
