@@ -8,7 +8,7 @@
 # how discrete convolutions give us the probabilities of the (periodic) addition of two random variables.
 #
 # For orthogonal polynomials we introduce the basic family of Chebyshev polynomials. We see how properties
-# such as 
+# such as three-term recurrences can be used 
 
 # **Learning Outcomes**
 #
