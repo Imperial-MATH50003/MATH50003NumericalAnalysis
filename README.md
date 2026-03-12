@@ -30,7 +30,7 @@ directly examined in the computer-based or final exam, though they may give good
    ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3s.ipynb))
    - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf)
    ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3s.pdf))
-   - Optional Problems: Sheet 1–5. Lab 1–3.
+   - Optional Problems: Sheet 1–5. Lab 1–5.
 4. II.3 Interval Arithmetic and III.1 Structured Matrices
    - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb)
    ([Solution](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4s.ipynb))
