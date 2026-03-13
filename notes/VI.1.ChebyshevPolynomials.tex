@@ -1,0 +1,163 @@
+
+\section{Chebyshev Polynomials}
+How can we approximate functions that are not periodic? The answer is to use orthogonal polynomials, but we will begin with a special case that are, in fact, Fourier series in disguise.  Consider a real smooth function $f : [-1,1] \ensuremath{\rightarrow} \ensuremath{\bbR}$. We can turn it into a smooth 2\ensuremath{\pi}-periodic function via
+\[
+g(\ensuremath{\theta}) := f(\cos \ensuremath{\theta}).
+\]
+First note this is a periodic ($g(\ensuremath{\theta}) = g(\ensuremath{\theta}+2\ensuremath{\pi})$) and even ($g(\ensuremath{\theta}) = g(-\ensuremath{\theta})= g(2\ensuremath{\pi}-\ensuremath{\theta})$) function.  This tells us, using the change-of-variables $\ensuremath{\varphi} = 2\ensuremath{\pi}-\ensuremath{\theta}$,
+\[
+\hat{g}_k = {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} \E^{-\I k \ensuremath{\theta}} g(\ensuremath{\theta}) \D \ensuremath{\theta} = {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} \E^{\I k \ensuremath{\varphi}} g(2\ensuremath{\pi}-\ensuremath{\varphi}) \D \ensuremath{\varphi} = \hat{g}_{-k}.
+\]
+We can thus expand
+\[
+g(\ensuremath{\theta}) = \ensuremath{\sum}_{k=-\ensuremath{\infty}}^\ensuremath{\infty} \hat{g}_k \E^{\I k \ensuremath{\theta}} = \hat{g}_0 + \ensuremath{\sum}_{k=1}^\ensuremath{\infty} \hat{g}_k \underbrace{(\E^{\I k \ensuremath{\theta}} + \E^{-\I k \ensuremath{\theta}})}_{2 \cos k \ensuremath{\theta}}.
+\]
+But using $\ensuremath{\theta} = \acos x$ this turns into a \emph{Chebyshev expansion}:
+\[
+f(x) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \check{f}_k T_k(x)
+\]
+where we define
+\[
+T_k(x) := \cos k\, \acos x
+\]
+and then using the change-of-variables
+\[
+x = \cos \ensuremath{\theta}\qquad \dx =  -\sin \ensuremath{\theta} \D \ensuremath{\theta} = - \sqrt{1-x^2} \D \ensuremath{\theta}
+\]
+we define (using the evenness of $g$ again)
+\meeq{
+\check{f}_0 := \hat{g}_0 = {1 \over 2\ensuremath{\pi}} \int_0^{2\ensuremath{\pi}} g(\ensuremath{\theta}) \D \ensuremath{\theta} = {1 \over \ensuremath{\pi}} \int_0^\ensuremath{\pi} g(\ensuremath{\theta}) \D \ensuremath{\theta} =  {1 \over \ensuremath{\pi}} \int_{-1}^1 {f(x) \over \sqrt{1-x^2}} \dx, \ccr
+\check{f}_k := 2 \hat{g}_k = \hat{g}_k+\hat{g}_{-k}  = {1 \over \ensuremath{\pi}} \int_0^{2\ensuremath{\pi}} g(\ensuremath{\theta}) \cos k \ensuremath{\theta} \D \ensuremath{\theta} = {2 \over \ensuremath{\pi}} \int_0^{\ensuremath{\pi}} g(\ensuremath{\theta}) \cos k \ensuremath{\theta} \D \ensuremath{\theta} =
+{2 \over \ensuremath{\pi}} \int_{-1}^1 {f(x) T_k(x) \over \sqrt{1-x^2}} \dx.
+}
+The functions $T_k(x)$ have a number of wonderful properties:
+
+\begin{itemize}
+\item[1. ] They are \emph{classical} orthogonal polynomials, with respect to the weight $1/\sqrt{1-x^2}$ on $[-1,1]$.
+
+
+\item[2. ] They satisfy a simple three-term recurrence (as do all orthogonal polynomials!).
+
+
+\item[3. ] Their roots give excellent interpolation points (as do all orthogonal polynomials!).
+
+\end{itemize}
+Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series. 
+
+\subsection{Chebyshev polynomials are orthogonal polynomials}
+We want to establish the fact that $T_k(x)$ are in fact (1) polynomials and (2) orthogonal. We start by showing that they satisfy a simple three-term recurrence:
+
+\begin{lemma}[Chebyshev 3-term recurrence]
+\begin{align*}
+x T_0(x) &= T_1(x) \\
+x T_n(x) &= {T_{n-1}(x) + T_{n+1}(x) \over 2}
+\end{align*}
+\end{lemma}
+\textbf{Proof} This follows from trigonometry:
+\[
+x T_n(x) = \cos \ensuremath{\theta} \cos n \ensuremath{\theta} = {\cos(n-1)\ensuremath{\theta} + \cos(n+1)\ensuremath{\theta} \over 2} = {T_{n-1}(x) + T_{n+1}(x) \over 2}.
+\]
+\ensuremath{\QED}
+
+We now show that they are in fact orthogonal with respect to a simple weight:
+
+\begin{theorem}[Chebyshev polynomials, 1st kind] $T_n(x)$ are orthogonal polynomials with respect to the inner product
+\[
+\int_{-1}^1 {f(x) g(x) \over \sqrt{1-x^2}} \dx.
+\]
+\end{theorem}
+\textbf{Proof}
+
+The fact that they are polynomials follows from the three-term recurrence. In detail: we know $T_0(x) = 1$ and $T_1(x) = x$. Now assume
+\[
+T_k(x) = 2^{k-1} x^k + O(x^{k-1})
+\]
+are polynomials polynomial for $k = 0,\ensuremath{\ldots},n$. Then 
+\[
+T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x) = 2^n x^{n+1} + O(x^n)
+\]
+is a degree $n+1$ polynomial of the assumed form.
+
+Orthogonality follows under a change of variables:
+\[
+\int_{-1}^1 {T_n(x) T_m(x) \over \sqrt{1-x^2}} {\rm d} x =
+\int_0^\ensuremath{\pi} {\cos(n\ensuremath{\theta}) \cos(m\ensuremath{\theta}) \over \sqrt{1-\cos^2 \ensuremath{\theta}}} \sin \ensuremath{\theta} {\rm d} \ensuremath{\theta} =
+\int_0^\ensuremath{\pi} \cos(n\ensuremath{\theta}) \cos(m\ensuremath{\theta}) {\rm d} \ensuremath{\theta} = 0
+\]
+if $n \ensuremath{\neq} m$, which can be verified using complex exponentials.
+
+\ensuremath{\QED}
+
+\subsection{Interpolation at roots of Chebyshev polynomials}
+The roots of $T_n(x)$ give an excellent set of points for interpolation, particularly if we represent the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7.  Note that $T_n$ has $n$ roots, which are exactly the points tested in Lab 7:
+\[
+x_j = \cos\pr(\ensuremath{\pi}{j-1/2 \over n})
+\]
+since
+\[
+T_n(x_j) = \cos(\ensuremath{\pi}(j-1/2)) = 0.
+\]
+We can construct a Vandermonde-like matrix using Chebyshev polynomials via:
+\[
+V := \begin{bmatrix}
+T_0(x_1) & \ensuremath{\cdots} & T_{n-1}(x_1) \\
+\ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+T_0(x_n) & \ensuremath{\cdots} & T_{n-1}(x_n)
+\end{bmatrix}.
+\]
+This is a map from expansion coefficients in a Chebyhev expansion and its values at the points $x_j$. 
+
+The magic here is we can construct $V^{-1}$ explicitly:
+
+\begin{theorem}[inverse Chebyshev Vandermonde] We have
+\[
+V^{-1} = {1 \over n} \begin{bmatrix}
+1 \\
+ & 2 \\
+ && \ensuremath{\ddots} \\
+ &&& 2
+ \end{bmatrix} V^\ensuremath{\top}. 
+\]
+\end{theorem}
+\textbf{Proof}
+
+Note that 
+\[
+V := \begin{bmatrix}
+1 & \cos \ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos((n-1)\ensuremath{\theta}_1) \\
+\ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+1 & \cos \ensuremath{\theta}_n & \ensuremath{\cdots} & \cos((n-1)\ensuremath{\theta}_n)
+\end{bmatrix}.
+\]
+But then we can see that
+\[
+\underbrace{\begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\
+ && \ensuremath{\ddots} \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}}_{=:D} V^\ensuremath{\top} = C_n
+\]
+where $C_n$ is the Discrete Cosine Transform (DCT), i.e., the orthogonal matrix from PS8 Q4(b). Thus we have
+\[
+V^{-1} = (C_n^\ensuremath{\top} D^{-1})^{-1} = D C_n = D^2 V^\ensuremath{\top}.
+\]
+\ensuremath{\QED}
+
+This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time  which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted \emph{stably}: we do not see  the instability observed with monomials in Lab 7. 
+
+The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
+
+\subsection{Lab and Problem Sheet}
+In the problem sheet we investigate a second kind of Chebyshev polynomials defined as
+\[
+U_n(x) = {\sin (n+1) \acos x \over \sqrt{1-x^2}}.
+\]
+These are orthogonal with respect to the \emph{semicircle weight} $\sqrt{1-x^2}$, and we can relate the derivative of $T_n$ to $U_n$. 
+
+In the lab we explore the computation of Chebyshev polynomials, in particular using their three-term recurrence to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry).  We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous problem sheet/lab. Finally, we explore the usage of Chebyshev U polynomials for differentiation, observing that we can achieve faster than exponential convergence to the true derivative, and avoiding (to some extent) the instability observed in divided differences.
+
+This connection with differentiation underlies spectral methods, which can solve Ordinary and Partial Differential Equations (ODEs and PDEs) to very high accuracy. In particular, the relationship can be viewed as a \emph{banded} matrix, which leads to fast algorithms.  See for example my own work with \href{https://pi.math.cornell.edu/~ajt/}{Alex Townsend} on the \href{https://epubs.siam.org/doi/10.1137/120865458}{ultraspherical spectral method}.
+
+
+

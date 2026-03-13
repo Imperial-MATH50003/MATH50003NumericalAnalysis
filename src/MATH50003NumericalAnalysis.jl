@@ -40,9 +40,14 @@ function fixunderbars(path)
     write(path, replace(read(path, String), "Q\\ensuremath{\\hat}" => "\\hat{Q}"))
     write(path, replace(read(path, String), "Q\\ensuremath{\\tilde}" => "\\tilde{Q}"))
     write(path, replace(read(path, String), "R\\ensuremath{\\hat}" => "\\hat{R}"))
+    write(path, replace(read(path, String), "a\\ensuremath{\\hat}" => "\\hat{a}"))
+    write(path, replace(read(path, String), "f\\ensuremath{\\hat}" => "\\hat{f}"))
+    write(path, replace(read(path, String), "g\\ensuremath{\\hat}" => "\\hat{g}"))
+    write(path, replace(read(path, String), "f\\ensuremath{\\check}" => "\\check{f}"))
+    write(path, replace(read(path, String), "g\\ensuremath{\\check}" => "\\check{g}"))
 end
 
-function compilenotes(filename) 
+function compilenotes(filename)
     weave("src/notes/$filename.jmd"; out_path="notes/", doctype="md2tex", template="src/notes/template.tpl")
     path = "notes/$filename.tex"
     replacetheorem(path, "theorem", "Theorem")
@@ -54,7 +59,7 @@ function compilenotes(filename)
     # work around double newline before equation
     fixwhitespace(path)
     fixunderbars(path)
-    # work around meeq 
+    # work around meeq
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
@@ -73,7 +78,7 @@ function compilesheet(k)
     # work around double newline before equation
     fixwhitespace(path)
     fixunderbars(path)
-    # work around meeq 
+    # work around meeq
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
@@ -85,7 +90,7 @@ function compilesheetsolution(k)
     # work around double newline before equation
     fixwhitespace(path)
     fixunderbars(path)
-    # work around meeq 
+    # work around meeq
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 

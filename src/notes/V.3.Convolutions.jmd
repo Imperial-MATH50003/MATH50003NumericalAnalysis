@@ -1,0 +1,220 @@
+# Discrete convolutions
+
+Convolutions are a fundamental concept in mathematics that are intrinsically linked to Fourier series and transforms. At the continuous level you have likely seen convolutions of the form
+$$
+(a ⋆ f)(x) := ∫_{-∞}^∞ a(x-t) f(t) \dt.
+$$
+This was probably introduced in the context of random variables: if $X$ has a probabilty density function (PDF) given by $a$ and $Y$ has a PDF give by $f$ then the PDF of $X + Y$ is given by $a ⋆ f$. But this can also be viewed as a linear operator acting on $f$ with the basic property that it commutes with translation: if we shift the point evaluation by $τ$, $f_τ(x) = f(x - τ)$, then we have
+$$
+(a ⋆ f_τ)(x) = ∫_{-∞}^∞ a(x-t) f(t-τ) \dt = ∫_{-∞}^∞ a(x-(s+τ)) f(s) \ds = (a ⋆ f)(x - τ).
+$$
+
+
+All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x- τ$. Common examples are differentiation ($f_τ'(x) = f'(x - τ)$) or even the identity operator. Thus this property is fundamental. 
+
+In this section we are interested in a discrete analogue: matrices which commute with translations (in a periodic sense), which we shall show must be of the form of a _discrete_ convolution. In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be the same even if we shift the number up or down. To achieve this it is beneficial to have intermediate layers of the Neural Network commute with translations, and this is exactly what convolutional layers do.
+
+There is also a natural link between continuous convolutions and Fourier transforms: Fourier transforms turn convolutions into pointwise multiplication.   Here we will derive a natural link between discrete convolutions and the DFT, exactly mimicking the continuous version.
+
+## Matrices that commute with translations
+
+The starting point is a discrete version of a translation, which are give by the periodic (right) shift operator:
+$$
+S := \begin{bmatrix}
+0 & & & &  1\\
+ 1 \\
+& 1 \\
+&& ⋱ \\
+&&& 1 & 0 \\
+\end{bmatrix} = P_σ
+$$
+for the permutation
+$$
+σ = \begin{pmatrix}1 & 2 & 3 & ⋯  & n \\
+n & 1 & 2 & ⋯  & n-1 \end{pmatrix}.
+$$
+These shift vectors to the right in a periodic way:
+$$
+S \Vectt[f_1,f_2,\dots, f_{n-1},f_n] = \Vectt[f_n,f_1,f_2,\dots,f_{n-1}]
+$$
+Thus $S 𝐟$ is a discrete, periodic version of the translation $f(x-τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$:
+$$
+S \Vectt[f(θ_0),\dots,f(θ_{n-2}), f(θ_{n-1})] = \Vectt[f(θ_{n-1}), f(θ_0),\dots,f(θ_{n-2})],
+$$
+thus it is equivalent to sampling the function $f(θ-τ)$ with shift $τ = 2π/n$.
+
+What matrices commute with such discrete translations? We can categorise all possible matrices in terms of a _circluant matrix_:
+
+**Definition (circulant matrix)** Given 
+$$
+𝐚 = \Vectt[a_0,\cdots,a_{n-1}] ∈ ℂ^n
+$$
+the associated _circulant matrix_ is 
+$$
+C[𝐚] := \begin{bmatrix}
+a_0 & a_{n-1} & ⋯ & a_2 & a_1 \\ 
+a_1 & a_0 & a_{n-1}&  ⋯ & ⋮ \\
+⋮ &  a_1 & a_0 & ⋱ &  ⋮  \\
+a_{n-2}  & ⋯ & ⋱ & ⋱ & a_{n-1} \\
+a_{n-1} & a_{n-2} & ⋯ & a_1 & a_0
+\end{bmatrix}  = a_0I + a_1S + ⋯ + a_{n-1} S^{n-1} = a(S),
+$$
+for the polynomial (which we call the _symbol_)
+$$
+a(z) = a_0 + a_1 z + … + a_{n-1} z^{n-1}.
+$$
+∎
+
+
+Every operator that commutes with (periodic) translations is a circulant matrix:
+
+**Lemma (operators which commute with translations)** A matrix $A ∈ ℂ^{n × n}$ satisfies $A S = S A$ if and only if it is a circulant matrix.
+
+**Proof**
+
+Circulant matrices follow this property because we have
+$$
+S C[𝐚] = \underbrace{\begin{bmatrix}
+a_{n-1} & a_{n-2} & ⋯ & a_1 & a_0 \\
+a_0 & a_{n-1} & ⋯ & a_2 & a_1 \\ 
+⋮ &  a_0 & a_{n-1} & ⋱ &  ⋮  \\
+a_{n-3}  & ⋯ & ⋱ & ⋱ & a_{n-2} \\
+a_{n-2} & a_{n-3} & ⋯ & a_0 & a_{n-1}
+\end{bmatrix}}_{C[S 𝐚]} = C[𝐚] S.
+$$
+
+Now writing any square matrix as
+$$
+A = \begin{bmatrix}
+a_{11} & ⋯ & a_{1n} \\
+⋮ & ⋱ & ⋮ \\
+a_{n1} & ⋯ & a_{nn}
+\end{bmatrix}
+$$
+we want
+$$
+\underbrace{\begin{bmatrix}
+a_{n1} & ⋯ & a_{nn}\\
+a_{11} & ⋯ & a_{1n} \\
+⋮ & ⋱ & ⋮ \\
+a_{n-1,1} & ⋯ & a_{n-1n} 
+\end{bmatrix}}_{SA} = \underbrace{\begin{bmatrix}
+a_{12} & ⋯ & a_{1n} & a_{11} \\
+a_{22} & ⋯ & a_{2n} & a_{21} \\
+⋮ & ⋱ &  ⋱ & ⋮ \\
+a_{n2} & ⋯ & a_{nn} & a_{n1}
+\end{bmatrix}}_{AS}
+$$
+These conditions require that $A$ is circulant. In particular,  we have for $k = 1,…,n$
+$$
+𝐞_k^⊤ S A 𝐞_j =  𝐞_k^⊤ A S 𝐞_j ⇔ 
+ 𝐞_{{\rm mod}(k-1,n)+1}^⊤ A 𝐞_j =  𝐞_k^⊤ A 𝐞_{{\rm mod}(k-1,n)+1} ⇔
+ a_{k-1,j} = a_{k,j+1},
+$$
+where we interpret this in a periodic way: i.e., for $k,j ∉ \{1,…n\}$ we define
+ $a_{k,j} := a_{\mod(k-1,n)+1, \mod(j-1,n)+1}$. In other words:
+$$
+\meeq{
+a_0 := a_{11} = a_{22} = ⋯ = a_{nn}, \ccr 
+a_1 := a_{21} = ⋯ a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
+&⋮ \ccr
+a_{n-1} := a_{n1}  = \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = ⋯ = a_{n-1,n}.
+}
+$$
+∎
+
+A cirulant matrix defines a discrete convolution:
+
+**Definition (discrete convolution)**
+The _discrete convolution_ of two vectors $𝐚, 𝐟 ∈ ℂ^n$  is given by
+$$
+𝐚 ⋆ 𝐟 := C[𝐚] 𝐟.
+$$
+∎
+
+
+The entries of the discrete convolution have a similar formula to that of continuous convolution but with a summation instead of an integral. In particular, if we write
+$$
+𝐚 = \Vectt[a_0,⋮,a_{n-1}], 
+𝐟 = \Vectt[f_0,⋮,f_{n-1}]
+$$
+then we have
+$$
+(𝐚 * 𝐟)[k+1] = ∑_{j=0}^{n-1} a_{{\rm mod}(k-j,n)} f_j.
+$$
+
+The analogue between this discrete convolution and the continuous convolution is immediate, and this can be thought of as a discretisation of the continuous convolution using a trapezium rule.
+
+## Diagonalising convolutions
+
+Since a circlulant matrix is defined in terms of powers of $S$,
+ diagonalising $S$ allows us to diagonalise any circulant matrix. A nice property is that the DFT gives us the eigenvectors of $S$:
+
+**Proposition (diagonalising $S$)**
+$$
+S  = Q_n^⋆ \begin{bmatrix}1 \\ & ω^{-1}
+\\&& ⋱\\
+ &&& ω^{1-n} \end{bmatrix} Q_n
+$$
+where $Q_n$ is the DFT matrix and $ω = \E^{2π\I/n}$.
+
+**Proof**
+
+We can verify that the columns of $Q_n^⋆$ are eigenvectors of $S$:
+$$
+S \Vectt[1, ω^k , \dots, ω^{k(n-2)}, ω^{k(n-1)}] = \Vectt[ω^{k(n-1)},ω^k ,  1, \dots, ω^{k(n-2)}] = 
+ω^{-k} \Vectt[1, ω^k , \dots, ω^{k(n-1)}],
+$$
+since we have $ω^{-k} =  ω^{k(n-1)}$. 
+
+∎
+
+This immediately gives us a diagonalisation of circulant matrices:
+
+**Theorem (diagonalising circulants)**
+$$
+C[𝐚]  = Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n
+$$
+
+**Proof**
+
+We first see that
+$$
+\meeq{
+C[𝐚] = ∑_{k=0}^{n-1} a_k S^k = 
+∑_{k=0}^{n-1} a_k Q_n^⋆ \begin{bmatrix}1 \\ & ⋱ && ω^{k(1-n)} \end{bmatrix} Q_n \ccr
+= 
+ Q_n^⋆ \begin{bmatrix} ∑_{k=0}^{n-1} a_k \\ & ⋱ && 
+ ∑_{k=0}^{n-1} a_k ω^{k(1-n)} \end{bmatrix} Q_n
+= \begin{bmatrix} a(1) \\ & a(ω^{-1}) \\ && ⋱ \\ &&& a(ω^{1-n}) \end{bmatrix}.
+}
+$$
+But we can further observe that
+$$
+a(ω^{-j}) = ∑_{k=0}^{n-1} a_k ω^{-kj} = \vectt[1,ω^{-j},…,ω^{-kj}] 𝐚 = 
+𝐞_{j+1}^⊤ Q_n 𝐚.
+$$
+∎
+
+The impact of this is that we can apply a convolution in $O(n \log n)$ when we use the FFT to apply the DFT.  That is, we have
+$$
+𝐚 ⋆ 𝐟 = C[𝐚]𝐟 = Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n 𝐟.
+$$
+In other words, in direct analogy to continuous Fourier transforms, we can convolve two vectors by taking their DFT, multiplying entrywise, and taking an inverse DFT. 
+This plays an important role in accelerating Convolutional Neural Networks when the _convolutional kernel_ (essentially, our $𝐚$) is large. 
+
+
+## Lab and Problem Sheet
+
+In the lab we investigate computing convolutions using the FFT and representing circulant matrices. We also explore a relationship with discrete random variables: if we have two random variables $X,Y$ who takes values of $0,…,n-1$ with probabilities given by vectors $𝐟$ and $𝐠$ then the probabilities of ${\rm mod}(X + Y,n)$ are given by $𝐟 ⋆ 𝐠$. Thus the DFT is important in discrete probability just as Fourier transforms are important in studying continuous PDFs. 
+
+In the problem sheet we discuss some of the basic properties of discrete convolution such as commutativity and associativity.
+We also investigate how discrete convolutions provide a way of approximating continuous convolutions of periodic functions,
+and relate the errors to those of the Fourier coefficients of the convolved functions. Finally, we discuss how a discrete cross-correlation
+$$
+∑_{j=0}^{n-1} a_j f_{{\rm mod}(j+k,n)},
+$$
+which is what Convolutional Neural Networks are usually defined in terms of, is equivalent to a convolution.
+
+
+
