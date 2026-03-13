@@ -59,6 +59,10 @@ directly examined in the computer-based or final exam, though they may give good
    - [Lab 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb)
    - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf)
    - Optional Problems: Sheet 4. Lab 1–2.
+9. V.3 Discrete Convolutions and VI.1 Chebyshev Polynomials
+   - [Lab 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab9.ipynb)
+   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)
+   - Optional Problems: Sheet 1–3. Lab 1–2.   
 
 ## Revision
 

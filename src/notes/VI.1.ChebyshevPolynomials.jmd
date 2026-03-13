@@ -3,7 +3,7 @@
 
 
 How can we approximate functions that are not periodic? The answer is to use orthogonal polynomials, but we will begin with a special
-case that are , in fact, Fourier series in disguise. 
+case that are, in fact, Fourier series in disguise. 
 Consider a real smooth function $f : [-1,1] → ℝ$. We can turn it into a smooth 2π-periodic function via
 $$
 g(θ) := f(\cos θ).
@@ -11,17 +11,18 @@ $$
 First note this is a periodic ($g(θ) = g(θ+2π)$) and even ($g(θ) = g(-θ)= g(2π-θ)$) function.  This tells us, using the change-of-variables $φ = 2π-θ$,
 $$
 ĝ_k = {1 \over 2π} ∫_0^{2π} \E^{-\I k θ} g(θ) \D θ = {1 \over 2π} ∫_0^{2π} \E^{\I k φ} g(2π-φ) \D φ = ĝ_{-k}.
+$$
 We can thus expand
 $$
 g(θ) = ∑_{k=-∞}^∞ ĝ_k \E^{\I k θ} = ĝ_0 + ∑_{k=1}^∞ ĝ_k \underbrace{(\E^{\I k θ} + \E^{-\I k θ})}_{2 \cos k θ}.
-$
-But using $θ = {\rm acos} x$ this turns into a _Chebyshev expansion_:
+$$
+But using $θ = \acos x$ this turns into a _Chebyshev expansion_:
 $$
 f(x) = ∑_{k=0}^∞ f̌_k T_k(x)
 $$
 where we define
 $$
-T_k(x) := \cos k {\rm acos} x
+T_k(x) := \cos k\, \acos x
 $$
 and then using the change-of-variables
 $$
@@ -30,7 +31,7 @@ $$
 we define (using the evenness of $g$ again)
 $$
 \meeq{
-f̌_0 := ĝ_0 = {1 \over 2π} \int_0^{2π} g(θ) \D θ = {1 \over π} \int_0^π g(θ) \D θ =  {1 \over π} \int_{-1}^1 {f(x) \over \sqrt{1-x^2}} \dx,
+f̌_0 := ĝ_0 = {1 \over 2π} \int_0^{2π} g(θ) \D θ = {1 \over π} \int_0^π g(θ) \D θ =  {1 \over π} \int_{-1}^1 {f(x) \over \sqrt{1-x^2}} \dx, \ccr
 f̌_k := 2 ĝ_k = ĝ_k+ĝ_{-k}  = {1 \over π} \int_0^{2π} g(θ) \cos k θ \D θ = {2 \over π} \int_0^{π} g(θ) \cos k θ \D θ =
 {2 \over π} \int_{-1}^1 {f(x) T_k(x) \over \sqrt{1-x^2}} \dx.
 }
@@ -38,9 +39,11 @@ $$
 
 The functions $T_k(x)$ have a number of wonderful properties:
 
-1. They are classical orthogonal polynomials.
-2. They satisfy a simple three-term recurrence.
-3. Their roots give excellent interpolation points.
+1. They are _classical_ orthogonal polynomials, with respect to the weight $1/\sqrt{1-x^2}$ on $[-1,1]$.
+2. They satisfy a simple three-term recurrence (as do all orthogonal polynomials!).
+3. Their roots give excellent interpolation points (as do all orthogonal polynomials!).
+
+Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series. 
 
 ## Chebyshev polynomials are orthogonal polynomials
 
@@ -50,8 +53,8 @@ three-term recurrence:
 **Lemma (Chebyshev 3-term recurrence)**
 $$
 \begin{align*}
-x T_0(x) = T_1(x) \\
-x T_n(x) = {T_{n-1}(x) + T_{n+1}(x) \over 2}
+x T_0(x) &= T_1(x) \\
+x T_n(x) &= {T_{n-1}(x) + T_{n+1}(x) \over 2}
 \end{align*}
 $$
 **Proof**
@@ -61,6 +64,8 @@ x T_n(x) = \cos θ \cos n θ = {\cos(n-1)θ + \cos(n+1)θ \over 2} = {T_{n-1}(x)
 $$
 
 ∎
+
+We now show that they are in fact orthogonal with respect to a simple weight:
 
 
 **Theorem (Chebyshev polynomials, 1st kind)** $T_n(x)$ are orthogonal polynomials with respect to the inner product
@@ -96,13 +101,10 @@ if $n ≠ m$, which can be verified using complex exponentials.
 ## Interpolation at roots of Chebyshev polynomials
 
 The roots of $T_n(x)$ give an excellent set of points for interpolation, particularly if we represent
-the interpolatory polynomial in a Chebyshev expansion.  In particular, we can construct the interpolatory
-polynomial without inverting a Vandermonde matrix.
-
-
-Note that $T_n$ has $n$ roots:
+the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7. 
+Note that $T_n$ has $n$ roots, which are exactly the points tested in Lab 7:
 $$
-x_j = \cos(π{j-1/2 \over n})
+x_j = \cos\pr(π{j-1/2 \over n})
 $$
 since
 $$
@@ -124,7 +126,7 @@ The magic here is we can construct $V^{-1}$ explicitly:
 **Theorem (inverse Chebyshev Vandermonde)** We have
 $$
 V^{-1} = {1 \over n} \begin{bmatrix}
-1/ \\
+1 \\
  & 2 \\
  && ⋱ \\
  &&& 2
@@ -150,12 +152,19 @@ $$
  &&& \sqrt{2/n}
  \end{bmatrix}}_{=:D} V^⊤ = C_n
 $$
-where $C_n$ is the orthogonal matrix from PS8 Q4(b). Thus we have
+where $C_n$ is the Discrete Cosine Transform (DCT), i.e., the orthogonal matrix from PS8 Q4(b). Thus we have
 $$
 V^{-1} = (C_n^⊤ D^{-1})^{-1} = D C_n = D^2 V^⊤.
 $$
 
 ∎
+
+
+This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time
+ which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted _stably_: we do not see
+ the instability observed with monomials in Lab 7. 
+
+ The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
 ## Lab and Problem Sheet
 
@@ -168,10 +177,10 @@ relate the derivative of $T_n$ to $U_n$.
 
 In the lab we explore the computation of Chebyshev polynomials, in particular using their three-term recurrence
 to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry). 
-We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous lab.
+We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous problem sheet/lab.
 Finally, we explore the usage of Chebyshev U polynomials for differentiation, observing that
 we can achieve faster than exponential convergence to the true derivative, and avoiding (to some extent)
 the instability observed in divided differences.
 
-This connection underlies spectral methods, which can solve Ordinary and Partial Differential Equations (ODEs and PDEs)
-to very high accuracy, see for example the [ultraspherical spectral method](https://epubs.siam.org/doi/10.1137/120865458).
+This connection with differentiation underlies spectral methods, which can solve Ordinary and Partial Differential Equations (ODEs and PDEs)
+to very high accuracy. In particular, the relationship can be viewed as a _banded_ matrix, which leads to fast algorithms.  See for example my own work with [Alex Townsend](https://pi.math.cornell.edu/~ajt/) on the [ultraspherical spectral method](https://epubs.siam.org/doi/10.1137/120865458).

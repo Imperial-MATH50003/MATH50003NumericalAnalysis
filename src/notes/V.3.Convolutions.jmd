@@ -12,7 +12,7 @@ $$
 
 All operators coming from physics commute with translations: the physics at a point $x$ are exactly the same as the physics at the point $x- τ$. Common examples are differentiation ($f_τ'(x) = f'(x - τ)$) or even the identity operator. Thus this property is fundamental. 
 
-In this section we are interested in a discrete analogue: matrices which commute with translations (in a periodic sense), which we shall show must be of the form of a _discrete_ convolution. In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be same even if we shift the number up or down. 
+In this section we are interested in a discrete analogue: matrices which commute with translations (in a periodic sense), which we shall show must be of the form of a _discrete_ convolution. In the context of machine learning, this property underlies _Convolutional Neural Networks_: often we want to incorporate translational invariance into training. For example, if we are constructing a Neural Network to recognise numbers from their pixels, we want to the answer to be the same even if we shift the number up or down. To achieve this it is beneficial to have intermediate layers of the Neural Network commute with translations, and this is exactly what convolutional layers do.
 
 There is also a natural link between continuous convolutions and Fourier transforms: Fourier transforms turn convolutions into pointwise multiplication.   Here we will derive a natural link between discrete convolutions and the DFT, exactly mimicking the continuous version.
 
@@ -26,19 +26,24 @@ S := \begin{bmatrix}
 & 1 \\
 && ⋱ \\
 &&& 1 & 0 \\
-\end{bmatrix}.
+\end{bmatrix} = P_σ
+$$
+for the permutation
+$$
+σ = \begin{pmatrix}1 & 2 & 3 & ⋯  & n \\
+n & 1 & 2 & ⋯  & n-1 \end{pmatrix}.
 $$
 These shift vectors to the right in a periodic way:
 $$
 S \Vectt[f_1,f_2,\dots, f_{n-1},f_n] = \Vectt[f_n,f_1,f_2,\dots,f_{n-1}]
 $$
-Thus $S 𝐟$ is a discrete, periodic version of the translation $f(x-τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$, we have
+Thus $S 𝐟$ is a discrete, periodic version of the translation $f(x-τ)$, which can be made precise if we think of $𝐟$ as samples of $f$ on an evenly spaced grid $θ_j = 2πj/n$:
 $$
 S \Vectt[f(θ_0),\dots,f(θ_{n-2}), f(θ_{n-1})] = \Vectt[f(θ_{n-1}), f(θ_0),\dots,f(θ_{n-2})],
 $$
 thus it is equivalent to sampling the function $f(θ-τ)$ with shift $τ = 2π/n$.
 
-What matrices commute with such discrete translations? We can categorise all possible matrices in terms of a _circluant matrix_ which will be helpful to associate with a Taylor series as follows:
+What matrices commute with such discrete translations? We can categorise all possible matrices in terms of a _circluant matrix_:
 
 **Definition (circulant matrix)** Given 
 $$
@@ -100,21 +105,20 @@ a_{22} & ⋯ & a_{2n} & a_{21} \\
 a_{n2} & ⋯ & a_{nn} & a_{n1}
 \end{bmatrix}}_{AS}
 $$
-These conditions require that $A$ is circulant. In particular, define we have for $k = 1,…,n$
+These conditions require that $A$ is circulant. In particular,  we have for $k = 1,…,n$
 $$
 𝐞_k^⊤ S A 𝐞_j =  𝐞_k^⊤ A S 𝐞_j ⇔ 
- 𝐞_{k-1}^⊤ A 𝐞_j =  𝐞_k^⊤ A 𝐞_{j+1} ⇔
+ 𝐞_{{\rm mod}(k-1,n)+1}^⊤ A 𝐞_j =  𝐞_k^⊤ A 𝐞_{{\rm mod}(k-1,n)+1} ⇔
  a_{k-1,j} = a_{k,j+1},
 $$
-where we interpret this in a periodic way: i.e., for $k,j ∉ \{1,…n\}$ we have
-This tells us that $a_{k,j} := a_{\mod(k-1,n)+1, 
-\mod(j-1,n)+1}$. In other words:
+where we interpret this in a periodic way: i.e., for $k,j ∉ \{1,…n\}$ we define
+ $a_{k,j} := a_{\mod(k-1,n)+1, \mod(j-1,n)+1}$. In other words:
 $$
 \meeq{
-\underbrace{a_{11}}_{=: a_0} = a_{22} = ⋯ = a_{nn} \ccr 
-\underbrace{a_{21}}_{=: a_1} = ⋯ a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}} \\
+a_0 := a_{11} = a_{22} = ⋯ = a_{nn}, \ccr 
+a_1 := a_{21} = ⋯ a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
 &⋮ \ccr
-\underbrace{a_{n1}}_{=: a_{n-1}}  = \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = ⋯ = a_{n-1,n}.
+a_{n-1} := a_{n1}  = \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = ⋯ = a_{n-1,n}.
 }
 $$
 ∎
@@ -136,15 +140,15 @@ $$
 $$
 then we have
 $$
-(𝐚 * 𝐟)[k+1] = ∑_{j=0}^{n-1} a_{\mod(k-j,n)} f_j.
+(𝐚 * 𝐟)[k+1] = ∑_{j=0}^{n-1} a_{{\rm mod}(k-j,n)} f_j.
 $$
 
-The analogue between this discsrete convolution and the continuous convolution is immediate, and this can be thought of as a discretisation of the continuous convolution using a trapezium rule.
+The analogue between this discrete convolution and the continuous convolution is immediate, and this can be thought of as a discretisation of the continuous convolution using a trapezium rule.
 
 ## Diagonalising convolutions
 
 Since a circlulant matrix is defined in terms of powers of $S$,
- diagonalising $S$ allows us to diagonalise any circulant matrix. The nice property is that the DFT diagonalises $S$:
+ diagonalising $S$ allows us to diagonalise any circulant matrix. A nice property is that the DFT gives us the eigenvectors of $S$:
 
 **Proposition (diagonalising $S$)**
 $$
@@ -202,7 +206,7 @@ This plays an important role in accelerating Convolutional Neural Networks when 
 
 ## Lab and Problem Sheet
 
-In the lab we investigate computing convolutions using the FFT and representing circulant matrices. We also explore a relationship with discrete random variables: if we have two random variables $X,Y$ who takes values of $0,…,n-1$ with probabilities given by vectors $𝐟$ and $𝐠$ then the probabilities of $\mod(X + Y,n)$ are given by $𝐟 ⋆ 𝐠$. Thus the DFT is important in discrete probability as well. 
+In the lab we investigate computing convolutions using the FFT and representing circulant matrices. We also explore a relationship with discrete random variables: if we have two random variables $X,Y$ who takes values of $0,…,n-1$ with probabilities given by vectors $𝐟$ and $𝐠$ then the probabilities of ${\rm mod}(X + Y,n)$ are given by $𝐟 ⋆ 𝐠$. Thus the DFT is important in discrete probability just as Fourier transforms are important in studying continuous PDFs. 
 
 In the problem sheet we discuss some of the basic properties of discrete convolution such as commutativity and associativity.
 We also investigate how discrete convolutions provide a way of approximating continuous convolutions of periodic functions,

@@ -28,12 +28,7 @@ compilenotes("V.2.DFT")
 compilenotes("V.3.Convolutions")
 
 
-
-# compilenotes("IV.3.DifferentialEquations")
-# compilenotes("VI.1.OrthogonalPolynomials")
-# compilenotes("VI.2.ClassicalOPs")
-# compilenotes("VI.3.GaussianQuadrature")
-
+compilenotes("VI.1.ChebyshevPolynomials")
 
 compilenotes("A.Asymptotics")
 compilenotes("A.Integers")

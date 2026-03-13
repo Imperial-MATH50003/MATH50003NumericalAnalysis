@@ -109,6 +109,8 @@
 \newcommand{\HLJLgt}[1]{#1}
 
 
+\def\ala{{\it \'a la}}
+
 \let\QED=\blacksquare
 \def\bbD{{\mathbb D}}
 \def\bbZ{{\mathbb Z}}
@@ -128,6 +130,7 @@
 \def\c{{\vc c}}
 \def\e{{\vc e}}
 \def\f{{\vc f}}
+\def\g{{\vc g}}
 \def\u{{\vc u}}
 \def\w{{\vc w}}
 \def\v{{\vc v}}
@@ -153,6 +156,7 @@
 
 \def\fldown{{\rm fl}^{\rm down}}
 \def\flup{{\rm fl}^{\rm up}}
+\def\acos{{\rm acos}\,}
 
 \let\adots=\iddots
 
@@ -353,18 +357,20 @@ $$
 f(x) = \sum_{k=0}^\infty c_k p_k(x)
 $$
 where $p_k(x)$ are special families of polynomials and $c_k$ are expansion coefficients.
-The approximation of the coefficients $c_k \approx c_k^n$ using quadrature will be explored later.
+We can approximate the coefficients $c_k \approx c_k^n$ using quadrature, just as we did with Fourier series.
 
-Why not use monomials as in Taylor series? Hidden in the discussion on Fourier series was that we could effectively
+Why not use monomials \ala\  Taylor series? Hidden in the discussion on Fourier series was that we could effectively
 compute Taylor coefficients by evaluating on the unit circle in the complex plane, only if the radius of convergence
-was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.:
+was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.  {\it Runge's function}:
 $$
-{1 \over 25x^2 + 1}
+{1 \over 25x^2 + 1},
 $$
-While orthogonal polynomials span the same space as monomials, orthogonal polynomials are much more stable and can effectively and accurately
+the function we have seen in Lab 7 is difficult to interpolate. While orthogonal polynomials span the same space as monomials, orthogonal polynomials are much more stable and can effectively and accurately
 approximate such functions. In particular, where we saw that interpolation
 by monomials at evenly spaced points performed horribly in practice we can use orthogonal polynomials
 with specially chosen points to get reliable interpolation of functions. 
+
+Due to time constraints we will only discuss one, extremely important, family of orthogonal polynomials:
 
 
 
@@ -380,60 +386,53 @@ with specially chosen points to get reliable interpolation of functions.
 
 
 
-% \begin{enumerate}
-%     \item VI.1 General Orthogonal Polynomials: For non-periodic functions we consider the definition of orthogonal polynomials, and discuss their basic properties.
-%     \item VI.2 Classical Orthogonal Polynomials: For certain weights, orthogonal polynomials are classical and have addition structure that are useful for computations.
-%     \item VI.3 Gaussian Quadrature: Finally, we revisit the  problem of computing integrals, and see that using orthogonal polynomials we can derive much more accurate methods.
-%     \end{enumerate}
-
-% We stop at integration, but Fourier and orthogonal polynomial expansions also lead to very effective scheme for solving differential equations
-% and many other applications. In addition to numerics, OPs play a very important role in many mathematical areas
-% including functional analysis, integrable systems, singular integral equations,
-% complex analysis, and random matrix theory.
+Fourier and orthogonal polynomial expansions also lead to very effective schemes for solving differential equations
+and many other applications. In addition to numerics, OPs play an important role in many mathematical areas
+including functional analysis, integrable systems, singular integral equations,
+complex analysis, and random matrix theory.
 
 
-% \input{VI.1.OrthogonalPolynomials}
+\input{VI.1.ChebyshevPolynomials}
 % \input{VI.2.ClassicalOPs}
 % \input{VI.3.GaussianQuadrature}
 
 
-% \chapter{Future Directions}
+\chapter{Future Directions}
 
-% In these notes we explored some basic numerical algorithms for integration, differentiation, root-finding, solving differential equations, and
-% polynomial regression.
-% We further saw that rigorous computations and analysis could be deduced by understanding floating point arithmetic, and its usage in
-% constructing interval arithmetic.
-% We also saw the relationship between these problems and numerical linear algebra, exploring some fundamental algorithms for solving linear
-% systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials.
-% Gaussian quadrature was a final example where more sophisticated mathematics can lead to more powerful numerical algorithms,
-% achieving exponential convergence for smooth functions.
+In these notes we explored some basic numerical algorithms for integration, differentiation, root-finding, and
+polynomial regression.
+We further saw that rigorous computations and analysis could be deduced by understanding floating point arithmetic, and its usage in
+constructing interval arithmetic.
+We also saw the relationship between these problems and numerical linear algebra, exploring some fundamental algorithms for solving linear
+systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials.
 
-% This sets the ground work for many areas of computational, applied and even pure mathematics:
 
-% \begin{enumerate}
-% \item Machine Learning (ML): Dual numbers (forward-mode automatic differentiation), Newton's method, and polynomial regression
-%  are baby versions of how ML trains neural networks.  As an example, consider a neural network trained to recognise whether a picture
-%  is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog" (or in practice, a 2-dimensional vector space where $e_1$ corresponds to cat and $e_2$ corresponds to dog to turn it into a continuous problem).
-%  The process of training is essentially regression: find the right parameters so that our function equals (or approximately equals) the
-%  training data at the given ``samples". Since this problem is nonlinear its not as simple as least squares, instead, it relies on more sophisticated
-%  optimisation techniques, that require automatic differentiation to compute gradients for the parameters.
-% \item \href{https://sciml.ai}{Scientific Machine Learning (SciML)}: A particular exciting field is the combination of ML and traditional numerical algorithms for differential equations.
-% For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to
-% fit real-world data. This is an area where Julia has excelled as it allows high-level, differentiable, code that is compiled and hence efficient.
-%  \item Computer-assisted proofs: By combining interval arithmetic with methods for solving differential equations important theorems in dynamical
-%  systems and elsewhere have been proven. The synthesis of numerical analysis and pure mathematics is really just at the beginning and will likely
-%  become increasingly important as we run into the limits of what theorems humans can prove without computer assistance.
-% \item Finite Element Methods (FEM): going beyond finite differences, finite elements are powerful techniques for solving partial differential
-% equations using specially designed bases built from piecewise polynomials. Gaussian quadrature is a basic tool used to set up the
-% sparse linear systems that result from this approach. \href{https://www.firedrakeproject.org}{Firedrake} is a software package for
-% PDEs based on FEM that is developed at Imperial.
-% \item Spectral methods: orthogonal polynomials in higher dimensions and spherical harmonics (which can be viewed as Fourier series on the sphere)
-% underly spectral methods, which are powerful high-accuracy techniques for solving PDEs, used a lot in fluid simulations which
-% need more accuracy than conventional FEM allows. \href{https://dedalus-project.org}{Dedalus} is a software package for
-% solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package
-% \href{https://github.com/JuliaApproximation/ApproxFun.jl}{ApproxFun.jl} give a user friendly way of computing with functions built
-% on orthogonal polynomials.
-% \end{enumerate}
+This sets the ground work for many areas of computational, applied and even pure mathematics:
+
+\begin{enumerate}
+\item Machine Learning (ML): Dual numbers (forward-mode automatic differentiation), Newton's method, and polynomial regression
+ are baby versions of how ML trains neural networks.  As an example, consider a neural network trained to recognise whether a picture
+ is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog" (or in practice, a 2-dimensional vector space where $e_1$ corresponds to cat and $e_2$ corresponds to dog to turn it into a continuous problem).
+ The process of training is essentially regression: find the right parameters so that our function equals (or approximately equals) the
+ training data at the given ``samples". Since this problem is nonlinear its not as simple as least squares, instead, it relies on more sophisticated
+ optimisation techniques, that require automatic differentiation to compute gradients for the parameters.
+\item \href{https://sciml.ai}{Scientific Machine Learning (SciML)}: A particular exciting field is the combination of ML and traditional numerical algorithms for differential equations.
+For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to
+fit real-world data. This is an area where Julia has excelled as it allows high-level, differentiable, code that is compiled and hence efficient.
+ \item Computer-assisted proofs: By combining interval arithmetic with methods for solving differential equations important theorems in dynamical
+ systems and elsewhere have been proven. The synthesis of numerical analysis and pure mathematics is really just at the beginning and will likely
+ become increasingly important as we run into the limits of what theorems humans can prove without computer assistance.
+\item Finite Element Methods (FEM): finite elements are powerful techniques for solving partial differential
+equations using specially designed bases built from piecewise polynomials. Orthogonal polynomials underly the quadrature rules  used to turn PDEs into
+sparse linear system. \href{https://www.firedrakeproject.org}{Firedrake} is a popular software package for
+PDEs based on FEM that is developed at Imperial.
+\item Spectral methods: orthogonal polynomials in higher dimensions and spherical harmonics (which can be viewed as Fourier series on the sphere)
+underly spectral methods, which are powerful high-accuracy techniques for solving PDEs, used a lot in fluid simulations which
+need more accuracy than conventional FEM allows. \href{https://dedalus-project.org}{Dedalus} is a software package for
+solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package
+\href{https://github.com/JuliaApproximation/ApproxFun.jl}{ApproxFun.jl} give a user friendly way of computing with functions built
+on orthogonal polynomials.
+\end{enumerate}
 
 
 
