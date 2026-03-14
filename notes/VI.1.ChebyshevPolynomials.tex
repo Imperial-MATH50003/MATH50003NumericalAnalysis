@@ -1,6 +1,6 @@
 
 \section{Chebyshev Polynomials}
-How can we approximate functions that are not periodic? The answer is to use orthogonal polynomials, but we will begin with a special case that are, in fact, Fourier series in disguise.  Consider a real smooth function $f : [-1,1] \ensuremath{\rightarrow} \ensuremath{\bbR}$. We can turn it into a smooth 2\ensuremath{\pi}-periodic function via
+How can we approximate functions that are not periodic? The answer is to use orthogonal polynomials, but we will begin with a special case that are, in fact, Fourier series in disguise. Consider a real smooth function $f : [-1,1] \ensuremath{\rightarrow} \ensuremath{\bbR}$. We can turn it into a smooth 2\ensuremath{\pi}-periodic function via
 \[
 g(\ensuremath{\theta}) := f(\cos \ensuremath{\theta}).
 \]
@@ -42,7 +42,7 @@ The functions $T_k(x)$ have a number of wonderful properties:
 \item[3. ] Their roots give excellent interpolation points (as do all orthogonal polynomials!).
 
 \end{itemize}
-Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series. 
+Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series.
 
 \subsection{Chebyshev polynomials are orthogonal polynomials}
 We want to establish the fact that $T_k(x)$ are in fact (1) polynomials and (2) orthogonal. We start by showing that they satisfy a simple three-term recurrence:
@@ -59,6 +59,15 @@ x T_n(x) = \cos \ensuremath{\theta} \cos n \ensuremath{\theta} = {\cos(n-1)\ensu
 \]
 \ensuremath{\QED}
 
+Note that the recurrence gives an easy means for systematically determining the Chebyshev polynomials in a monomial expansion, eg., we can rapidly deduce $T_5(x)$:
+\meeq{
+T_0(x) = 1, \ccr
+T_1(x) = x T_0(x) = x, \ccr
+T_2(x) = 2xT_1(x) - T_0(x) = 2x^2-1, \ccr
+T_3(x) = 2xT_2(x) - T_1(x) = 4x^3 - 3x, \ccr
+T_4(x) = 2xT_3(x) - T_2(x) = 8x^4 - 8x^2 + 1, \ccr
+T_5(x) = 2xT_4(x) - T_3(x) = 16x^5 - 20x^3 + 5x.
+}
 We now show that they are in fact orthogonal with respect to a simple weight:
 
 \begin{theorem}[Chebyshev polynomials, 1st kind] $T_n(x)$ are orthogonal polynomials with respect to the inner product
@@ -72,7 +81,7 @@ The fact that they are polynomials follows from the three-term recurrence. In de
 \[
 T_k(x) = 2^{k-1} x^k + O(x^{k-1})
 \]
-are polynomials polynomial for $k = 0,\ensuremath{\ldots},n$. Then 
+are polynomials polynomial for $k = 0,\ensuremath{\ldots},n$. Then
 \[
 T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x) = 2^n x^{n+1} + O(x^n)
 \]
@@ -89,7 +98,7 @@ if $n \ensuremath{\neq} m$, which can be verified using complex exponentials.
 \ensuremath{\QED}
 
 \subsection{Interpolation at roots of Chebyshev polynomials}
-The roots of $T_n(x)$ give an excellent set of points for interpolation, particularly if we represent the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7.  Note that $T_n$ has $n$ roots, which are exactly the points tested in Lab 7:
+The roots of $T_n(x)$ give an excellent set of points for interpolation, particularly if we represent the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7. Note that $T_n$ has $n$ roots, which are exactly the points tested in Lab 7:
 \[
 x_j = \cos\pr(\ensuremath{\pi}{j-1/2 \over n})
 \]
@@ -105,7 +114,7 @@ T_0(x_1) & \ensuremath{\cdots} & T_{n-1}(x_1) \\
 T_0(x_n) & \ensuremath{\cdots} & T_{n-1}(x_n)
 \end{bmatrix}.
 \]
-This is a map from expansion coefficients in a Chebyhev expansion and its values at the points $x_j$. 
+This is a map from expansion coefficients in a Chebyhev expansion and its values at the points $x_j$.
 
 The magic here is we can construct $V^{-1}$ explicitly:
 
@@ -116,12 +125,12 @@ V^{-1} = {1 \over n} \begin{bmatrix}
  & 2 \\
  && \ensuremath{\ddots} \\
  &&& 2
- \end{bmatrix} V^\ensuremath{\top}. 
+ \end{bmatrix} V^\ensuremath{\top}.
 \]
 \end{theorem}
 \textbf{Proof}
 
-Note that 
+Note that, for $\ensuremath{\theta}_j = \ensuremath{\pi}{j-1/2 \over n}$,
 \[
 V := \begin{bmatrix}
 1 & \cos \ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos((n-1)\ensuremath{\theta}_1) \\
@@ -144,7 +153,15 @@ V^{-1} = (C_n^\ensuremath{\top} D^{-1})^{-1} = D C_n = D^2 V^\ensuremath{\top}.
 \]
 \ensuremath{\QED}
 
-This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time  which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted \emph{stably}: we do not see  the instability observed with monomials in Lab 7. 
+This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted \emph{stably}: we do not see the instability observed with monomials in Lab 7.  We can make this precise in terms of the singular values: we can understand how a matrix blows up errors by looking at the norm of its inverse, i.e., if $\ensuremath{\varepsilon}$ represents errors in a vector $\ensuremath{\bm{\x}}$ we can bound the error in the solution by:
+\[
+\| V^{-1}(\ensuremath{\bm{\x}} + \ensuremath{\varepsilon}) - V^{-1} \ensuremath{\bm{\x}}\| = \| V^{-1}\ensuremath{\varepsilon}\| \ensuremath{\leq} \underbrace{\|V^{-1}\|}_{\ensuremath{\sigma}_n^{-1}} \|\ensuremath{\varepsilon}\|.
+\]
+But in this case we can directly bound $\|V^{-1}\|$, since $D$ is diagonal and $C_n$ is orthogonal,
+\[
+\| V^{-1}\| \ensuremath{\leq} \| D \| \| C_n\| = \sqrt{2/n}.
+\]
+(Actually this bound is achieved and we have equality: $\| V^{-1}\| = \sqrt{2/n}$.) Thus the blow up of error in a 2-norm sense actually decreases with $n$!  Though this doesn't take into account floating point round-off error.
 
 The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
@@ -153,9 +170,9 @@ In the problem sheet we investigate a second kind of Chebyshev polynomials defin
 \[
 U_n(x) = {\sin (n+1) \acos x \over \sqrt{1-x^2}}.
 \]
-These are orthogonal with respect to the \emph{semicircle weight} $\sqrt{1-x^2}$, and we can relate the derivative of $T_n$ to $U_n$. 
+These are orthogonal with respect to the \emph{semicircle weight} $\sqrt{1-x^2}$, and we can relate the derivative of $T_n$ to $U_n$.
 
-In the lab we explore the computation of Chebyshev polynomials, in particular using their three-term recurrence to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry).  We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous problem sheet/lab. Finally, we explore the usage of Chebyshev U polynomials for differentiation, observing that we can achieve faster than exponential convergence to the true derivative, and avoiding (to some extent) the instability observed in divided differences.
+In the lab we explore the computation of Chebyshev polynomials, in particular using their three-term recurrence to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry). We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous problem sheet/lab. Finally, we explore the usage of Chebyshev U polynomials for differentiation, observing that we can achieve faster than exponential convergence to the true derivative, and avoiding (to some extent) the instability observed in divided differences.
 
 This connection with differentiation underlies spectral methods, which can solve Ordinary and Partial Differential Equations (ODEs and PDEs) to very high accuracy. In particular, the relationship can be viewed as a \emph{banded} matrix, which leads to fast algorithms.  See for example my own work with \href{https://pi.math.cornell.edu/~ajt/}{Alex Townsend} on the \href{https://epubs.siam.org/doi/10.1137/120865458}{ultraspherical spectral method}.
 

@@ -47,7 +47,7 @@ What matrices commute with such discrete translations? We can categorise all pos
 
 **Definition (circulant matrix)** Given 
 $$
-𝐚 = \Vectt[a_0,\cdots,a_{n-1}] ∈ ℂ^n
+𝐚 = \Vectt[a_0,⋮,a_{n-1}] ∈ ℂ^n
 $$
 the associated _circulant matrix_ is 
 $$

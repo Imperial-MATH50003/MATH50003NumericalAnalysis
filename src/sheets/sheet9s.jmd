@@ -163,6 +163,7 @@ x U_0(x) &= U_1(x)/2, \\
 x U_n(x) &= {U_{n-1}(x)+U_{n+1}(x) \over 2}, \qquad n > 0.
 \end{align*}
 $$
+Use this to deduce $U_5(x)$.
 
 **SOLUTION**
 
@@ -181,6 +182,18 @@ $$
 Similarly, from trigonometric identities (or rewriting as complex exponentials)we find
 $$
 x U_n(x) = {\cos θ\sin(n+1)θ \over \sin θ} = {\sin n θ + \sin (n+1) θ \over 2 \sin θ} = {U_{n-1}(x) + U_{n+1}(x) \over 2}.
+$$
+
+We can now build these up using the recurrence:
+$$
+\meeq{
+U_0(x) = 1 \ccr
+U_1(x) = 2xU_0(x) = 2x \\
+U_2(x) = 2xU_1(x)-U_0(x) = 4x^2-1 \\
+U_3(x) = 2xU_2(x)-U_1(x) = 8x^3 - 4x \\
+U_4(x) = 2xU_3(x) - U_2(x) = 16x^4-12x^2 + 1 \\
+U_5(x) = 2xU_4(x)-U_3(x) = 32x^5 - 32x^3 + 6x
+}
 $$
 
 **END**

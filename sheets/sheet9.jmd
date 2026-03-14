@@ -96,6 +96,7 @@ x U_0(x) &= U_1(x)/2, \\
 x U_n(x) &= {U_{n-1}(x)+U_{n+1}(x) \over 2}, \qquad n > 0.
 \end{align*}
 $$
+Use this to deduce $U_5(x)$.
 
 
 

@@ -3,7 +3,7 @@
 
 
 How can we approximate functions that are not periodic? The answer is to use orthogonal polynomials, but we will begin with a special
-case that are, in fact, Fourier series in disguise. 
+case that are, in fact, Fourier series in disguise.
 Consider a real smooth function $f : [-1,1] → ℝ$. We can turn it into a smooth 2π-periodic function via
 $$
 g(θ) := f(\cos θ).
@@ -43,7 +43,7 @@ The functions $T_k(x)$ have a number of wonderful properties:
 2. They satisfy a simple three-term recurrence (as do all orthogonal polynomials!).
 3. Their roots give excellent interpolation points (as do all orthogonal polynomials!).
 
-Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series. 
+Here we establish these properties in the case of Chebyshev polynomials via their connection with Fourier series. But these properties can be extended to general families of orthogonal polynomials directly, without building on the link with Fourier series.
 
 ## Chebyshev polynomials are orthogonal polynomials
 
@@ -65,6 +65,20 @@ $$
 
 ∎
 
+Note that the recurrence gives an easy means for systematically determining the Chebyshev polynomials
+in a monomial expansion, eg., we can rapidly deduce $T_5(x)$:
+$$
+\meeq{
+T_0(x) = 1, \ccr
+T_1(x) = x T_0(x) = x, \ccr
+T_2(x) = 2xT_1(x) - T_0(x) = 2x^2-1, \ccr
+T_3(x) = 2xT_2(x) - T_1(x) = 4x^3 - 3x, \ccr
+T_4(x) = 2xT_3(x) - T_2(x) = 8x^4 - 8x^2 + 1, \ccr
+T_5(x) = 2xT_4(x) - T_3(x) = 16x^5 - 20x^3 + 5x.
+}
+$$
+
+
 We now show that they are in fact orthogonal with respect to a simple weight:
 
 
@@ -81,7 +95,7 @@ $T_1(x) = x$. Now assume
 $$
 T_k(x) = 2^{k-1} x^k + O(x^{k-1})
 $$
-are polynomials polynomial for $k = 0,…,n$. Then 
+are polynomials polynomial for $k = 0,…,n$. Then
 $$
 T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x) = 2^n x^{n+1} + O(x^n)
 $$
@@ -101,7 +115,7 @@ if $n ≠ m$, which can be verified using complex exponentials.
 ## Interpolation at roots of Chebyshev polynomials
 
 The roots of $T_n(x)$ give an excellent set of points for interpolation, particularly if we represent
-the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7. 
+the interpolatory polynomial in a Chebyshev expansion. In fact, we saw this already in initial experiments in Lab 7.
 Note that $T_n$ has $n$ roots, which are exactly the points tested in Lab 7:
 $$
 x_j = \cos\pr(π{j-1/2 \over n})
@@ -119,7 +133,7 @@ T_0(x_n) & ⋯ & T_{n-1}(x_n)
 \end{bmatrix}.
 $$
 This is a map from expansion coefficients in a Chebyhev expansion and its values at the
-points $x_j$. 
+points $x_j$.
 
 The magic here is we can construct $V^{-1}$ explicitly:
 
@@ -130,12 +144,12 @@ V^{-1} = {1 \over n} \begin{bmatrix}
  & 2 \\
  && ⋱ \\
  &&& 2
- \end{bmatrix} V^⊤. 
+ \end{bmatrix} V^⊤.
 $$
 
 **Proof**
 
-Note that 
+Note that, for $θ_j = π{j-1/2 \over n}$,
 $$
 V := \begin{bmatrix}
 1 & \cos θ_1 & ⋯ & \cos((n-1)θ_1) \\
@@ -161,8 +175,18 @@ $$
 
 
 This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time
- which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted _stably_: we do not see
- the instability observed with monomials in Lab 7. 
+which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted _stably_: we do not see
+the instability observed with monomials in Lab 7.  We can make this precise in terms of the singular values: we can understand how a matrix blows up
+errors by looking at the norm of its inverse, i.e., if $ε$ represents errors in a vector $𝐱$ we can bound the error in the solution by:
+$$
+\| V^{-1}(𝐱 + ε) - V^{-1} 𝐱\| = \| V^{-1}ε\| ≤ \underbrace{\|V^{-1}\|}_{σ_n^{-1}} \|ε\|.
+$$
+ But in this case we can directly bound $\|V^{-1}\|$, since $D$ is diagonal and $C_n$ is orthogonal,
+$$
+\| V^{-1}\| ≤ \| D \| \| C_n\| = \sqrt{2/n}.
+$$
+(Actually this bound is achieved and we have equality: $\| V^{-1}\| = \sqrt{2/n}$.) Thus the blow up of error in a 2-norm sense actually
+decreases with $n$!  Though this doesn't take into account floating point round-off error.
 
  The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
@@ -173,10 +197,10 @@ $$
 U_n(x) = {\sin (n+1) \acos x \over \sqrt{1-x^2}}.
 $$
 These are orthogonal with respect to the _semicircle weight_ $\sqrt{1-x^2}$, and we can
-relate the derivative of $T_n$ to $U_n$. 
+relate the derivative of $T_n$ to $U_n$.
 
 In the lab we explore the computation of Chebyshev polynomials, in particular using their three-term recurrence
-to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry). 
+to construct them using only basic floating point operations (avoiding the need for more expensive trigonometry).
 We also see how their coefficients can be computed using the Discrete Cosine Transform (DCT) from the previous problem sheet/lab.
 Finally, we explore the usage of Chebyshev U polynomials for differentiation, observing that
 we can achieve faster than exponential convergence to the true derivative, and avoiding (to some extent)
