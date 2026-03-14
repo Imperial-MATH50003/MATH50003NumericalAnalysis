@@ -162,7 +162,7 @@ This immediately gives us a diagonalisation of circulant matrices:
 
 \begin{theorem}[diagonalising circulants]
 \[
-C[\ensuremath{\bm{\a}}]  = Q_n^\ensuremath{\star} {\rm diag}(Q_n \ensuremath{\bm{\a}}) Q_n
+C[\ensuremath{\bm{\a}}]  = \sqrt{n} Q_n^\ensuremath{\star} {\rm diag}(Q_n \ensuremath{\bm{\a}}) Q_n.
 \]
 \end{theorem}
 \textbf{Proof}
@@ -178,14 +178,14 @@ C[\ensuremath{\bm{\a}}] = \ensuremath{\sum}_{k=0}^{n-1} a_k S^k =
 }
 But we can further observe that
 \[
-a(\ensuremath{\omega}^{-j}) = \ensuremath{\sum}_{k=0}^{n-1} a_k \ensuremath{\omega}^{-kj} = \vectt[1,\ensuremath{\omega}^{-j},\ensuremath{\ldots},\ensuremath{\omega}^{-kj}] \ensuremath{\bm{\a}} = 
-\ensuremath{\bm{\e}}_{j+1}^\ensuremath{\top} Q_n \ensuremath{\bm{\a}}.
+a(\ensuremath{\omega}^{-j}) = \ensuremath{\sum}_{k=0}^{n-1} a_k \ensuremath{\omega}^{-kj} = \vectt[1,\ensuremath{\omega}^{-j},\ensuremath{\ldots},\ensuremath{\omega}^{-(n-1)j}] \ensuremath{\bm{\a}} = 
+\sqrt{n}\ensuremath{\bm{\e}}_{j+1}^\ensuremath{\top} Q_n \ensuremath{\bm{\a}}.
 \]
 \ensuremath{\QED}
 
 The impact of this is that we can apply a convolution in $O(n \log n)$ when we use the FFT to apply the DFT.  That is, we have
 \[
-\ensuremath{\bm{\a}} \ensuremath{\star} \ensuremath{\bm{\f}} = C[\ensuremath{\bm{\a}}]\ensuremath{\bm{\f}} = Q_n^\ensuremath{\star} {\rm diag}(Q_n \ensuremath{\bm{\a}}) Q_n \ensuremath{\bm{\f}}.
+\ensuremath{\bm{\a}} \ensuremath{\star} \ensuremath{\bm{\f}} = C[\ensuremath{\bm{\a}}]\ensuremath{\bm{\f}} = \sqrt{n} Q_n^\ensuremath{\star} {\rm diag}(Q_n \ensuremath{\bm{\a}}) Q_n \ensuremath{\bm{\f}}.
 \]
 In other words, in direct analogy to continuous Fourier transforms, we can convolve two vectors by taking their DFT, multiplying entrywise, and taking an inverse DFT.  This plays an important role in accelerating Convolutional Neural Networks when the \emph{convolutional kernel} (essentially, our $\ensuremath{\bm{\a}}$) is large. 
 

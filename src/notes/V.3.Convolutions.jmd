@@ -173,7 +173,7 @@ This immediately gives us a diagonalisation of circulant matrices:
 
 **Theorem (diagonalising circulants)**
 $$
-C[𝐚]  = Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n
+C[𝐚]  = \sqrt{n} Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n.
 $$
 
 **Proof**
@@ -191,14 +191,14 @@ C[𝐚] = ∑_{k=0}^{n-1} a_k S^k =
 $$
 But we can further observe that
 $$
-a(ω^{-j}) = ∑_{k=0}^{n-1} a_k ω^{-kj} = \vectt[1,ω^{-j},…,ω^{-kj}] 𝐚 = 
-𝐞_{j+1}^⊤ Q_n 𝐚.
+a(ω^{-j}) = ∑_{k=0}^{n-1} a_k ω^{-kj} = \vectt[1,ω^{-j},…,ω^{-(n-1)j}] 𝐚 = 
+\sqrt{n}𝐞_{j+1}^⊤ Q_n 𝐚.
 $$
 ∎
 
 The impact of this is that we can apply a convolution in $O(n \log n)$ when we use the FFT to apply the DFT.  That is, we have
 $$
-𝐚 ⋆ 𝐟 = C[𝐚]𝐟 = Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n 𝐟.
+𝐚 ⋆ 𝐟 = C[𝐚]𝐟 = \sqrt{n} Q_n^⋆ {\rm diag}(Q_n 𝐚) Q_n 𝐟.
 $$
 In other words, in direct analogy to continuous Fourier transforms, we can convolve two vectors by taking their DFT, multiplying entrywise, and taking an inverse DFT. 
 This plays an important role in accelerating Convolutional Neural Networks when the _convolutional kernel_ (essentially, our $𝐚$) is large. 
