@@ -104,16 +104,16 @@ a_{n2} & \ensuremath{\cdots} & a_{nn} & a_{n1}
 These conditions require that $A$ is circulant. In particular,  we have for $k = 1,\ensuremath{\ldots},n$
 \[
 \ensuremath{\bm{\e}}_k^\ensuremath{\top} S A \ensuremath{\bm{\e}}_j =  \ensuremath{\bm{\e}}_k^\ensuremath{\top} A S \ensuremath{\bm{\e}}_j \ensuremath{\Leftrightarrow} 
- \ensuremath{\bm{\e}}_{{\rm mod}(k-1,n)+1}^\ensuremath{\top} A \ensuremath{\bm{\e}}_j =  \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_{{\rm mod}(k-1,n)+1} \ensuremath{\Leftrightarrow}
+ \ensuremath{\bm{\e}}_{{\rm mod}(k-1,n)+1}^\ensuremath{\top} A \ensuremath{\bm{\e}}_j =  \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_{{\rm mod}(j+1,n)+1} \ensuremath{\Leftrightarrow}
  a_{k-1,j} = a_{k,j+1},
 \]
-where we interpret this in a periodic way: i.e., for $k,j \ensuremath{\notin} \{1,\ensuremath{\ldots}n\}$ we define  $a_{k,j} := a_{\mod(k-1,n)+1, \mod(j-1,n)+1}$. In other words:
-\meeq{
-a_0 := a_{11} = a_{22} = \ensuremath{\cdots} = a_{nn}, \ccr 
-a_1 := a_{21} = \ensuremath{\cdots} a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
-&\ensuremath{\vdots} \ccr
-a_{n-1} := a_{n1}  = \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = \ensuremath{\cdots} = a_{n-1,n}.
-}
+where we interpret this in a periodic way: i.e., for $k,j \ensuremath{\notin} \{1,\ensuremath{\ldots}n\}$ we define  $a_{k,j} := a_{{\rm mod}(k-1,n)+1, {\rm mod}(j-1,n)+1}$. In other words:
+\begin{align*}
+a_0 := a_{11} &= a_{22} = \ensuremath{\cdots} = a_{nn}, \\
+a_1 := a_{21} &= \ensuremath{\cdots} = a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
+&\ensuremath{\vdots} \\
+a_{n-1} := a_{n1} &= \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = \ensuremath{\cdots} = a_{n-1,n}.
+\end{align*}
 \ensuremath{\QED}
 
 A cirulant matrix defines a discrete convolution:

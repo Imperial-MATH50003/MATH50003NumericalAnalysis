@@ -108,18 +108,18 @@ $$
 These conditions require that $A$ is circulant. In particular,  we have for $k = 1,…,n$
 $$
 𝐞_k^⊤ S A 𝐞_j =  𝐞_k^⊤ A S 𝐞_j ⇔ 
- 𝐞_{{\rm mod}(k-1,n)+1}^⊤ A 𝐞_j =  𝐞_k^⊤ A 𝐞_{{\rm mod}(k-1,n)+1} ⇔
+ 𝐞_{{\rm mod}(k-1,n)+1}^⊤ A 𝐞_j =  𝐞_k^⊤ A 𝐞_{{\rm mod}(j+1,n)+1} ⇔
  a_{k-1,j} = a_{k,j+1},
 $$
 where we interpret this in a periodic way: i.e., for $k,j ∉ \{1,…n\}$ we define
- $a_{k,j} := a_{\mod(k-1,n)+1, \mod(j-1,n)+1}$. In other words:
+ $a_{k,j} := a_{{\rm mod}(k-1,n)+1, {\rm mod}(j-1,n)+1}$. In other words:
 $$
-\meeq{
-a_0 := a_{11} = a_{22} = ⋯ = a_{nn}, \ccr 
-a_1 := a_{21} = ⋯ a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
-&⋮ \ccr
-a_{n-1} := a_{n1}  = \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = ⋯ = a_{n-1,n}.
-}
+\begin{align*}
+a_0 := a_{11} &= a_{22} = ⋯ = a_{nn}, \\
+a_1 := a_{21} &= ⋯ = a_{n,n-1} = \underbrace{a_{n+1,n}}_{=a_{1,n}}, \\
+&⋮ \\
+a_{n-1} := a_{n1} &= \underbrace{a_{n+1,2}}_{=a_{12}}  = a_{23} = ⋯ = a_{n-1,n}.
+\end{align*}
 $$
 ∎
 
