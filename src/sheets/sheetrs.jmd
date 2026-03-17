@@ -1,54 +1,31 @@
-**Numerical Analysis MATH50003 (2024–25) Revision Sheet**
+**Numerical Analysis MATH50003 (2025–26) Revision Sheet**
 
 
-**Problem 1(a)** State which real number is represented by an IEEE 16-bit floating point number (with $σ = 15, Q = 5$, and $S = 10$) with bits
+**Problem 1** Show that
 $$
-{\tt 1\ 01000\ 0000000001}
+{f(x+2h) - f(x-h) \over 3 h} = f'(x) + δ
 $$
+where
+$$
+|δ| ≤ 5Mh/6
+$$
+for $M = \sup_{x-h ≤ t ≤ x+2h}|f''(t)|$
+
 
 **SOLUTION**
-The sign bit is 1 so the answer is negative. The exponent bits correspond to
+We have
 $$
-q = 2^3 = 8
+\begin{align*}
+f(x+2h) &= f(x) + f'(x)2h + f''(t_1) 2h^2 \\
+f(x-h) &= f(x) - f'(x)h + {f''(t_2) \over 2} h^2
+\end{align*}
 $$
-The significand is
+for $t_1,t_2 \in [x-h,x+2h]$.
+Thus the error is:
 $$
-(1.0000000001)_2 = 1 + 2^{-10}
-$$
-So this represents
-$$
--2^{8-σ} (1 + 2^{-10}) = - 2^{-7} (1 + 2^{-10})
-$$
-
-**END**
-
-**Problem 1(b)**  How are the following real numbers rounded to the nearest $F_{16}$?
-$$
-1/2, 1/2 + 2^{-12}, 3 + 2^{-9} + 2^{-10}, 3 + 2^{-10} + 2^{-11}.
+|f'(x) - {f(x+2h) - f(x-h) \over 3h}| = |{2f''(t_1)/3 - f''(t_2)/6} h| \leq 5Mh/6.
 $$
 
-**SOLUTION**
-$1/2$ is already a float. We have
-$$
-1/2 + 2^{-12} = (0.100000000001)_2 = 2^{-1} (1.00000000001)_2
-$$
-This is exactly at the midpoint so is rounded down so the last bit is 0, that is, it is rounded
-to $1/2$.  Next we have
-$$
-3 + 2^{-9}  + 2^{-10} = (11.0000000011)_2 = 2(1.10000000011)_2.
-$$
-This time we are are exactly at the midpoint but we round up so the last bit is 0 giving us
-$$
-2(1.100000001)_2 = 3 + 2^{-8}.
-$$
-Finally,
-$$
-3 + 2^{-10} + 2^{-11} = 2(1.100000000011)_2
-$$
-This we round up since we are above the midpoint giving us
-$$
-2(1.1000000001)_2 = 3 + 2^{-9}.
-$$
 **END**
 
 **Problem 2(a)** Consider a Lower triangular matrix with floating point entries:
@@ -195,27 +172,30 @@ $$
 
 **END**
 
-**Problem 5** Use reflections to determine the entries of an orthogonal matrix $Q$ such that
+**Problem 5** Compute the QR factorisation of
 $$
-Q \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix} =  \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}.
+\begin{bmatrix}
+-3 & 1 \\
+4 & 2
+\end{bmatrix}
 $$
 
 **SOLUTION**
-
+We write
 $$
 \begin{align*}
-𝐱 &:= [2,1,2], \| 𝐱 \| = 3\\
-𝐲 &:= \|𝐱\| 𝐞_1 + 𝐱 = [5,1,2], \| 𝐲 \| = \sqrt{30} \\
-𝐰 &:= 𝐲 / \| 𝐲 \| = [5,1,2] /  \sqrt{30} \\
-Q &:= I - 2𝐰 𝐰^⊤ = I - {1 \over 15} \begin{bmatrix}5 \\ 1 \\ 2 \end{bmatrix} [5\ 1\ 2] = I - {1 \over 15} \begin{bmatrix} 25 & 5 & 10 \\5 & 1 & 2 \\ 10 & 2 & 4 \end{bmatrix} \\
-&= {1 \over 15} \begin{bmatrix} -10 & -5 & -10 \\ -5 & 14 & -2 \\ -10 & -2 & 11 \end{bmatrix}
+𝐱 &= \Vectt[-3,4], 𝐲 = 𝐱 - \| 𝐱\| 𝐞_1 = 
+\Vectt[-8,4], \\
+ 𝐰 &= {𝐲 \over \| 𝐲 \|} = {1 \over \sqrt{5}} \Vectt[-2,1],\\
+ Q = I - 2 𝐰 𝐰^⊤ = {1 \over 5} \begin{bmatrix} -3 & 4 \\ 4 & 3 \end{bmatrix}.
 \end{align*}
+$$
+Thus we find
+$$
+R = Q A = \begin{bmatrix} 5 & 1 \\ & 2 \end{bmatrix}.
 $$
 
 **END**
-
-
-
 
 
 **Problem 6** For the function $f(θ) = \sin 3 θ$, state explicit formulae for its Fourier coefficients
@@ -253,223 +233,38 @@ and all other $\hat f_k^n = 0$.
 
 **END**
 
-
-
-
-
-
-**Problem 7** Consider orthogonal polynomials
+**Problem 7(a)** Prove that the second kind Chebyshev polynomials
 $$
-H_n(x) = 2^n x^n + O (x^{n-1})
+U_n(x) := {\sin (n+1) \acos x \over \sqrt{1-x^2}}
 $$
-as $x → ∞$ and $n = 0, 1, 2, …$,  orthogonal with respect to the inner product
+satisfy for any polynomial $p(x)$ of degree $m < n$
 $$
-\langle f, g \rangle = \int_{-∞}^∞ f(x) g(x) w(x) {\rm d}x, \qquad w(x) = \exp(-x^2)
-$$
-Construct $H_0(x)$, $H_1(x)$, $H_2(x)$ and hence show that $H_3(x) = 8x^3-12x$. You may use without proof the formulae
-$$
-\int_{-∞}^∞ w(x) {\rm d}x = \sqrt{π}, \int_{-∞}^∞ x^2 w(x) {\rm d}x = \sqrt{π}/2,
-\int_{-∞}^∞ x^4 w(x) {\rm d}x = 3\sqrt{π}/4.
+\int_{-1}^1 U_n(x) p(x) \sqrt{1-x^2} {\rm d}x.
 $$
 
-**SOLUTION**
-
-Because $w(x) = w(-x)$ we know that $a_k$ is zero. We further know that $H_0(x) = 1$ with $\|H_0\|^2 = \sqrt{π}$
- and $H_1(x) = 2x$ with
+**Problem 7(b)** Use this to prove that
 $$
-\| H_1 \|^2 = 4 ∫_{-∞}^∞ x^2 w(x) {\rm d}x = 2 \sqrt{π}.
+C_n(x) := U_{n+1}'(x)
 $$
-
-We have
+are orthogonal with respect to the inner product
 $$
- x H_1(x) = c_0 H_0(x) + H_2(x)/2
+∫_{-1}^1 f(x)g(x) (1-x^2)^{3/2} {\rm d}x.
 $$
-where
-$$
-c_0 = {⟨ x H_1(x), H_0(x) ⟩ \over \|H_0\|^2 } = {\sqrt{π}  \over \sqrt{π}} = 1
-$$
-Hence $H_2(x) = 2 x H_1(x) - H_0(x) = 4x^2-2$, which satisfies
-$$
-\|H_2\|^2 = 16 ∫_{-∞}^∞ x^4 w(x) {\rm d } x - 16∫_{-∞}^∞ x^2 w(x) {\rm d}x + 4 ∫_{-∞}^∞  w(x) {\rm d}x =
-(12 -8 + 4) \sqrt{π} = 8 \sqrt{π}.
-$$
-We further have
-$$
-⟨ x H_2(x), H_1(x) ⟩ =  ∫_{-∞}^∞ (8x^4 - 4 x^2) w(x) {\rm d} x = (6 -2) \sqrt{π} = 4 \sqrt{π}
-$$
-Finally we have
-$$
- x H_2(x) = c_1 H_1(x) + H_3(x)/2
-$$
-where
-$$
-c_1 = {⟨ x H_2(x), H_1(x) ⟩ \over \|H_1\|^2 } = { 4 \sqrt{π}  \over 2 \sqrt{π}} = 2
-$$
-Hence
-$$
-H_3(x) = 2x H_2(x) - 4 H_1(x) = 8x^3 - 12x.
-$$
-
-
-
-**END**
-
-
-
-**Problem 8(a)** Derive the 3-point Gauss quadrature formula
-$$
-\int_{-∞}^∞ f(x) \exp(-x^2) {\rm d}x ≈ w_1 f(x_1) + w_2 f(x_2) + w_3 f(x_3)
-$$
-with analytic expressions for $x_j$ and $w_j$.
 
 **SOLUTION**
 
-We know $x_k$ are the roots of $H_3(x) = 8x^3 - 12x$ hence we have $x_2 = 0$ and the other roots satisfy
+We use integration by parts:
 $$
-2x^2 - 3 = 0,
+∫_{-1}^1 C_n C_m (1-x^2)^{3/2} {\rm d}x = 
+[U_{n+1} C_m (1-x^2)^{3/2}]_{-1}^1 -
+∫_{-1}^1 U_{n+1} {\D \over \D x}[C_m (1-x^2)^{3/2}] {\rm d}x 
 $$
-i.e., $x_1 = -\sqrt{3/2}$ and $x_2 = \sqrt{3/2}$. To deduce the weights the easiest approach is to use Lagrange
-interpolation. An alternative is to orthonormalise. Note the Jacobi matrix satisfies
+But we have
 $$
-x [H_0 | H_1 | H_2 | H_3 | …] = [H_0 | H_1 | H_2 | H_3 | …] \underbrace{\begin{bmatrix} 0 & 1  \\
-                                                                    1/2 & 0 & 2 \\
-                                                                       & 1/2 & 0 &  ⋱\\
-                                                                          && 1/2 & ⋱ \\
-                                                                                &&& ⋱ \end{bmatrix}}_X
+{\D \over \D x}[C_m (1-x^2)^{3/2}] = 
+\underbrace{\br[C_m'(1-x^2) - 3x C_m]_{\hbox{degree $m+1$}} \sqrt{1-x^2}.
 $$
-To find $q_k = d_k H_k$, orthonormalised versions of Hermite, we need to choose $d_k$ to symmetrise $X$,
-that is for $D = {\rm diag}(d_0,d_1,…)$ we have
-$$
-x [q_0 | q_1 | …] = x [H_0 | H_1 | …] D = [H_0 | H_1 | …] X D = [q_0 | q_1 | …] D^{-1} X D
-$$
-where
-$$
-D^{-1} X D = \begin{bmatrix}                                                 0 & d_1/d_0  \\
-                                                                    d_0/(2d_1) & 0 & 2d_2/d_1 \\
-                                                                    & d_1/(2d_2) & 0 &  ⋱\\
-                                                                        && d_2/(2d_3) & ⋱ \\
-                                                                     &&& ⋱ \end{bmatrix}
-$$
-Note $d_0 = 1/\sqrt{∫_{-∞}^∞ \exp(-x^2) {\rm d} x } = 1/π^{1/4}$
-then we have
-$$
-\begin{align*}
-d_0^2 &= 2 d_1^2 ⇒ d_1 = 1/(\sqrt{2} π^{1/4}) \\
-d_1^2 &= 4 d_2^2 ⇒ d_2 = 1/(2\sqrt{2} π^{1/4})
-\end{align*}
-$$
-We thus have
-$$
-\meeq{
-w_1 = {1 \over q_0(-\sqrt{3/2})^2 + q_1(-\sqrt{3/2})^2 + q_2(-\sqrt{3/2})^2} =
-{1 \over d_0^2 + 4d_1^2 (3/2) + d_2^2 (6 - 2)^2} = {\sqrt{π} \over 6} \ccr
-w_2 = {1 \over q_0(0)^2 + q_1(0)^2 + q_2(0)^2} =
-{1 \over d_0^2 + d_2^2 (2)^2} = {2\sqrt{π} \over  3} \ccr
-w_3 = w_1 = {\sqrt{π} \over 6}.
-}
-$$
-
-
-**END**
-
-
-
-**Problem 8(b)** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
-
-**SOLUTION**
-
-For the weights $w(x) = 1$, the orthogonal polynomials of degree $≤ 3$ are the Legendre polynomials,
-$$
-\begin{align*}
-	P_0(x) = 1, \\
-	P_1(x) = x, \\
-	P_2(x) = \frac{1}{2}(3x^2  - 1), \\
-	P_3(x) = \frac{1}{2}(5x^3 - 3x)
-\end{align*}
-$$
-which can be found from, e.g, the Rodriguez formula or by direct construction.
-We can normalise each to get $q_j(x) = P_j(x)/\|P_j\|$, with $\|P_j\|^2 = \int_{-1}^1 P_j^2 dx$. This gives,
-$$
-\begin{align*}
-	q_0(x) &= \frac{1}{\sqrt{2}}, \\
-	q_1(x) &= \sqrt{\frac{3}{2}}x, \\
-	q_2(x) &= \sqrt{\frac{5}{8}}(3x^2  - 1), \\
-	q_3(x) &= \sqrt{\frac{7}{8}}(5x^3 - 3x).
-\end{align*}
-$$
-For the first part we use the roots of $P_2(x)$ which are $𝐱 = \left\{± \frac{1}{\sqrt{3}}\right\}$. The weights are,
-$$
-w_j = \frac{1}{α_j^2} = \frac{1}{q_0(x_j)^2 + q_1(x_j)^2} = \frac{1}{\frac{1}{2}+\frac{3}{2}x_j^2},
-$$
-where $α_j$ is the same as in III.6 Lemma 2,
-so that,
-$$
-w_1 = w_2 = 1,
-$$
-and the Gaussian Quadrature rule is,
-$$
-Σ_2^w[f] = f\left(-\frac{1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)
-$$
-For the second part, we use the roots of $P_3(x)$ which are $𝐱 = \left\{0, ± \sqrt{\frac{3}{5}} \right\}$. The weights are then,
-$$
-w_j = \frac{1}{α_j^2} = \frac{1}{q_0(x_j)^2 + q_1(x_j)^2 + q_2(x_j)^2} = \frac{1}{\frac{9}{8} -\frac{9}{4}x_j^2 + \frac{45}{8}x_j^4 }
-$$
-Giving us,
-$$
-\begin{align*}
-	w_1 = w_3 = \frac{1}{\frac{9}{8} - \frac{9}{4}\frac{3}{5} + \frac{45}{8}\frac{9}{25}} &= \frac{5}{9} \\
-	w_2 &= \frac{8}{9}
-\end{align*}
-$$
-Then the Gaussian Quadrature rule is,
-$$
-Σ_3^w[f] = \frac{1}{9} \left[5f\left(-\sqrt\frac{3}{5}\right) +8f(0) + 5f\left(\sqrt\frac{3}{5}\right) \right]
-$$
-
-**END**
-
-
-
-**Problem 9** Solve Problem 4(b) from PS8 using **Lemma 13 (discrete orthogonality)** with
-$w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
-show that the Discrete Cosine Transform
-$$
-C_n := \begin{bmatrix}
-\sqrt{1/n} \\
- & \sqrt{2/n} \\
- && ⋱ \\
- &&& \sqrt{2/n}
- \end{bmatrix}
-\begin{bmatrix}
-    1 & ⋯ & 1\\
-    \cos θ_1 & ⋯ & \cos θ_n \\
-    ⋮ & ⋱ & ⋮ \\
-    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
-\end{bmatrix}
-$$
-for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
-
-**SOLUTION**
-
-
-Our goal is to show that $C_n C_n^⊤ = I$. By  Lemma 13 (Discrete Orthogonality) and PS10 Q4, we have,
-$$
-\begin{align*}
-	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}.
-\end{align*}
-$$
-where for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have the orthonormal polynomials $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
-Thus we have:
-$$
-\meeq{
-𝐞_1^⊤ C_n C_n^⊤ 𝐞_1 = \sqrt{1/n} [1,1,…,1] \begin{bmatrix}1 \\ ⋮ \\ 1 \end{bmatrix}  \sqrt{1/n} = {1 \over n} ∑_{j=1}^n 1 = 1 \ccr
-𝐞_k^⊤ C_n C_n^⊤ 𝐞_1 = 𝐞_1^⊤ C_n C_n^⊤ 𝐞_k = \sqrt{1/n} [1,1,…,1] \begin{bmatrix}\cos (k-1) θ_1 \\ ⋮ \\ \cos (k-1) θ_n \end{bmatrix}  \sqrt{2/n} \ccr
-=
- {1 \over n} π ∑_{ℓ=1}^n q_k(x_ℓ)q_0(x_ℓ) = 0 \ccr
- 𝐞_k^⊤ C_n C_n^⊤ 𝐞_j = \sqrt{2/n} [\cos (k-1) θ_1, … , \cos (k-1) θ_n] \begin{bmatrix}\cos (j-1) θ_1 \\ ⋮ \\ \cos (j-1) θ_n \end{bmatrix}  \sqrt{2/n} \ccr 
- =
- {π \over n} ∑_{ℓ=1}^n q_k(x_ℓ)q_j(x_ℓ) = δ_{kj}.
-}
-$$
+Thus by the previous part the integral is zero if $m < n$. 
+Swapping the integration by parts shows its also zero if $m > n$.
 
 **END**

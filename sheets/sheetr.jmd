@@ -1,0 +1,118 @@
+**Numerical Analysis MATH50003 (2025–26) Revision Sheet**
+
+
+**Problem 1** Show that
+$$
+{f(x+2h) - f(x-h) \over 3 h} = f'(x) + δ
+$$
+where
+$$
+|δ| ≤ 5Mh/6
+$$
+for $M = \sup_{x-h ≤ t ≤ x+2h}|f''(t)|$
+
+
+
+
+**Problem 2(a)** Consider a Lower triangular matrix with floating point entries:
+$$
+L = \begin{bmatrix}
+ℓ_{11} \\
+ ℓ_{21} & ℓ_{22} \\
+ ⋮ & ⋱ & ⋱ \\
+ ℓ_{n1} & ⋯ & ℓ_{n,n-1} & ℓ_{nn}
+ \end{bmatrix} ∈ F_{σ,Q,S}^{n × n}
+$$
+and a vector $𝐱 \in F_{σ,Q,S}^{n}$, where $F_{σ,Q,S}$ is a set of floating-point numbers.
+Denoting matrix-vector multiplication implemented using floating point arithmetic as
+$$
+𝐛 := {\tt lowermul}(L,𝐱)
+$$
+express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, 
+using rounded floating-point operations $⊕$ and $⊗$.
+
+
+
+**Problem 2(b)** Assuming all operations involve normal floating numbers, show that your approximation has the form
+$$
+L 𝐱 = {\tt lowermul}(L, 𝐱) + 𝛜
+$$
+where, for $ϵ_{\rm m}$ denoting machine epsilon and $E_{n,ϵ}:= {n ϵ \over 1-nϵ}$ and assuming $n ϵ_{\rm m} < 2$,
+$$
+\| 𝛜 \|_1 ≤   2E_{n,ϵ_{\rm m}/2}   \|L\|_1 \| 𝐱 \|_1.
+$$
+Here we use  the matrix norm $\| A \|_1 := \max_j ∑_{k=1}^n |a_{kj}|$
+and the vector norm $\| 𝐱 \|_1 := ∑_{k=1}^n |x_k|$. You may use the fact that
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where
+$$
+|σ_n| ≤ \| 𝐱 \|_1 E_{n-1,ϵ_{\rm m}/2}.
+$$
+
+
+
+
+
+
+**Problem 3** What is the dual extension of square-roots? I.e. what should $\sqrt{a + b ϵ}$ equal assuming $a > 0$?
+
+
+
+
+
+
+
+**Problem 4** Use the Cholesky factorisation to determine
+whether the following matrix is symmetric positive definite:
+$$
+\begin{bmatrix} 2 & 2 & 1  \\
+2 & 3 & 2\\
+1 & 2 & 2
+\end{bmatrix}
+$$
+
+
+
+**Problem 5** Compute the QR factorisation of
+$$
+\begin{bmatrix}
+-3 & 1 \\
+4 & 2
+\end{bmatrix}
+$$
+
+
+
+
+**Problem 6** For the function $f(θ) = \sin 3 θ$, state explicit formulae for its Fourier coefficients
+$$
+\hat f_k := {1 \over 2π} \int_0^{2π} f(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ
+$$
+and  their discrete approximation:
+$$
+\hat f_k^n := {1 \over n} \sum_{j=0}^{n-1} f(θ_j) {\rm e}^{-{\rm i} k θ_j}.
+$$
+for _all_ integers $k$, $n = 1,2,…$, where $θ_j = 2π j/n$.
+
+
+
+**Problem 7(a)** Prove that the second kind Chebyshev polynomials
+$$
+U_n(x) := {\sin (n+1) \acos x \over \sqrt{1-x^2}}
+$$
+satisfy for any polynomial $p(x)$ of degree $m < n$
+$$
+\int_{-1}^1 U_n(x) p(x) \sqrt{1-x^2} {\rm d}x.
+$$
+
+**Problem 7(b)** Use this to prove that
+$$
+C_n(x) := U_{n+1}'(x)
+$$
+are orthogonal with respect to the inner product
+$$
+∫_{-1}^1 f(x)g(x) (1-x^2)^{3/2} {\rm d}x.
+$$
+
