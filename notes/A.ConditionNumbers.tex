@@ -1,0 +1,196 @@
+
+We have seen that floating point arithmetic induces errors in computations, and that we can typically bound the absolute errors to be proportional to $C \ensuremath{\epsilon}_{\rm m}$. We want a way to bound the effect of more complicated calculations like computing $A \ensuremath{\bm{\x}}$ or $A^{-1} \ensuremath{\bm{\y}}$ without having to deal with the exact nature of floating point arithmetic, as it will depend on the \emph{data} $A$ and $\ensuremath{\bm{\x}}$.  That is, we want to reduce floating point stability to a more fundamental property: \emph{mathematical stability}: how does a mathematical operation like $A \ensuremath{\bm{\x}}$ change in the precense of  small perturbations (random noise or structured floating point errors)?
+
+\begin{itemize}
+\item[1. ] Backward error analysis: We introduce the concept of \emph{backward error} analysis, which is a more practical way of understanding and bounding floating point errors.
+
+
+\item[2. ] Condition numbers: We introduce a \emph{condition numbers}, which can capture the effect of perturbations in $A$ for linear algebra operations. More precisely: matrix operations are mathematically \emph{stable}  when the condition number is small.
+
+
+\item[3. ] Bounding floating point errors for linear algebra: we see how simple operations like $A \ensuremath{\bm{\x}}$ can be put into a backward error analysis framework, leading to bounds on the errors in terms of the condition number. 
+
+\end{itemize}
+\subsection{Backward error analysis}
+In the notes we have done forward error analysis, e.g., to understand $f(x) \ensuremath{\approx} f^{\rm FP}(x)$ we consider either the absolute
+\[
+f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_{\rm a}
+\]
+or relative
+\[
+f^{\rm FP}(x) = f(x)(1 + \ensuremath{\delta}_{\rm r})
+\]
+errors of the \emph{output}. More generally, for two vector spaces $V$ and $W$ (e.g. $V = \ensuremath{\bbR}^n$ and $W = \ensuremath{\bbR}^m$) consider functions $\ensuremath{\bm{\f}} = V \ensuremath{\rightarrow} W$. We write
+\[
+\ensuremath{\bm{\f}}^{\rm FP}(\ensuremath{\bm{\x}}) = \ensuremath{\bm{\f}}(\ensuremath{\bm{\x}}) + \ensuremath{\delta}_{\rm f}
+\]
+where we bound a norm of $\ensuremath{\delta}_{\rm f} \ensuremath{\in} W$ either \emph{absolutely}:
+\[
+\|\ensuremath{\delta}_{\rm f}\|_W \ensuremath{\leq} C \ensuremath{\varepsilon}
+\]
+or \emph{relative} to the true result:
+\[
+\|\ensuremath{\delta}_{\rm f}\|_W \ensuremath{\leq} C \| \ensuremath{\bm{\f}}(\ensuremath{\bm{\x}}) \|_W \ensuremath{\varepsilon}.
+\]
+On the other hand, \emph{backward error analysis}  considers computations as errors in the \emph{input}. That is, one writes the approximate function as the true function with a perturbed input: e.g. find $\tilde{\x} \ensuremath{\in} V$  such that
+\[
+\ensuremath{\bm{\f}}^{\rm FP}(\ensuremath{\bm{\x}}) = \ensuremath{\bm{\f}}(\tilde{\x}).
+\]
+We study the \emph{backward  error}, the error in the input
+\[
+\tilde{\x} = \ensuremath{\bm{\x}} + \ensuremath{\delta}_{\rm b}
+\]
+where $\ensuremath{\delta}_{\rm b} \ensuremath{\in} \ensuremath{\bbR}^n$ by bounding either the absolute error
+\[
+\|\ensuremath{\delta}_{\rm b}\|_V \ensuremath{\leq} C\ensuremath{\varepsilon}
+\]
+or relative error:
+\[
+\ensuremath{\delta}_{\rm b}\|_V \ensuremath{\leq} C \|\ensuremath{\bm{\x}}\|_V \ensuremath{\varepsilon}
+\]
+We shall see that \emph{some} algorithms (like \texttt{mul\_rows}) lead naturally to backward error results. 
+
+\subsection{Condition numbers}
+So now we get to a mathematical question independent of floating point:  can we bound the \emph{relative error} in approximating
+\[
+A \ensuremath{\bm{\x}} \ensuremath{\approx} (A + \ensuremath{\delta}A) \ensuremath{\bm{\x}}
+\]
+if we know a bound on the relative backward error   $\|\ensuremath{\delta}A\|$? It turns out we can in turns of the \emph{condition number} of the matrix:
+
+\begin{definition}[condition number] For a square matrix $A$, the \emph{condition number} (in $p$-norm) is
+\[
+\ensuremath{\kappa}_p(A) := \| A \|_p \| A^{-1} \|_p
+\]
+with the default being the $2$-norm condition number, writable in terms of the singular values as:
+\[
+\ensuremath{\kappa}(A) := \ensuremath{\kappa}_2(A) = \| A \|_2 \| A^{-1} \|_2 = {\ensuremath{\sigma}_1 \over \ensuremath{\sigma}_n}.
+\]
+\end{definition}
+
+\begin{theorem}[relative forward error for matrix-vector] Assume we have the relative backward error bound $\|\ensuremath{\delta}A\| \ensuremath{\leq} \|A \| \ensuremath{\varepsilon}$. Then for 
+\[
+(A + \ensuremath{\delta}A) \ensuremath{\bm{\x}} = A \ensuremath{\bm{\x}} + \ensuremath{\delta}_{\rm f}
+\]
+the forward error has the relative error bound
+\[
+\|\ensuremath{\delta}_{\rm f}\|  \ensuremath{\leq} \| A \ensuremath{\bm{\x}} \| \ensuremath{\kappa}(A) \ensuremath{\varepsilon}
+\]
+\end{theorem}
+\textbf{Proof} We can assume $A$ is invertible (as otherwise $\ensuremath{\kappa}(A) = \ensuremath{\infty}$). Denote $\ensuremath{\bm{\y}} = A \ensuremath{\bm{\x}}$ and we have
+\[
+{\|\ensuremath{\bm{\x}} \| \over \| A \ensuremath{\bm{\x}} \|} = {\|A^{-1} \ensuremath{\bm{\y}} \| \over \|\ensuremath{\bm{\y}} \|} \ensuremath{\leq} \| A^{-1}\|
+\]
+Thus we have:
+\[
+{\|\ensuremath{\delta}_{\rm f}\|  \over \| A \ensuremath{\bm{\x}} \|} \ensuremath{\leq} {\| \ensuremath{\delta}A \| \| \ensuremath{\bm{\x}} \| \over \| A \ensuremath{\bm{\x}} \| } \ensuremath{\leq} \underbrace{\|A \| \|A^{-1}\|}_{\ensuremath{\kappa}(A)} \ensuremath{\varepsilon}.
+\]
+\ensuremath{\QED}
+
+\subsection{Bounding floating point errors for linear algebra}
+We now observe that errors in implementing matrix-vector multiplication using floating points can be captured by considering the multiplication to be exact on the wrong matrix: that is, \texttt{A*x} (implemented with floating point as \texttt{mul\_rows}) is precisely $A + \ensuremath{\delta}A$ where $\ensuremath{\delta}A$ has small norm, relative to $A$. That is, we have a bound on the \emph{backward relative error}.
+
+To discuss floating point errors we need to be precise which order the operations happened. We will use the definition \texttt{mul\_rows(A,x)} (which is equivalent to \texttt{mul\_cols(A,x)}).  Note that each entry of the result is in fact a dot-product of the corresponding rows so we first consider the error in the dot product  \texttt{dot(\ensuremath{\bm{\x}},\ensuremath{\bm{\y}})} as implemented in floating-point:
+\[
+{\rm dot}(\ensuremath{\bm{\x}},\ensuremath{\bm{\y}}) = \ensuremath{\bigoplus}_{k=1}^n (x_k \ensuremath{\otimes} y_k).
+\]
+We first need a helper proposition:
+
+\begin{proposition}[products of errors] If $|\ensuremath{\epsilon}_i| \ensuremath{\leq} \ensuremath{\epsilon}$ and $n \ensuremath{\epsilon} < 1$, then
+\[
+\prod_{k=1}^n (1+\ensuremath{\epsilon}_i) = 1+\ensuremath{\theta}_n
+\]
+for some constant $\ensuremath{\theta}_n$ satisfying
+\[
+|\ensuremath{\theta}_n| \ensuremath{\leq} \underbrace{n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}_{E_{n,\ensuremath{\epsilon}}}.
+\]
+\end{proposition}
+\textbf{Proof}
+
+See PS3 Q8(a).
+
+\ensuremath{\QED}
+
+\textbf{Lemma 1 (dot product backward error)} For $\ensuremath{\bm{\x}}, \ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbR}^n$,
+\[
+{\rm dot}(\ensuremath{\bm{\x}}, \ensuremath{\bm{\y}}) = (\ensuremath{\bm{\x}} + \ensuremath{\delta}\ensuremath{\bm{\x}})^\ensuremath{\top} \ensuremath{\bm{\y}}
+\]
+where, assuming $n \ensuremath{\epsilon}_{\rm m} < 2$, the entries satisfy
+\[
+|\ensuremath{\delta}x_k| \ensuremath{\leq}  E_{n,\ensuremath{\epsilon}_{\rm m}/2} |x_k |.
+\]
+\textbf{Proof}
+
+This is related to PS4 Q3 but asks for the \emph{backward error} instead of the \emph{forward error}. Note
+\[
+{\rm dot}(\ensuremath{\bm{\x}}, \ensuremath{\bm{\y}}) = \ensuremath{\bigoplus}_{j=1}^n (x_j \ensuremath{\otimes} y_j) = \ensuremath{\bigoplus}_{j=1}^n (x_j  y_j) (1 + \ensuremath{\delta}_j)
+= x_1 y_1 (1 + \tilde{\theta}_{n}) +   \ensuremath{\sum}_{j=2}^n x_j y_j (1 + \ensuremath{\theta}_{n-j+2})
+\]
+where $|\tilde{\theta}_n|, |\ensuremath{\theta}_k| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$ (the subscript denotes the number of terms bounded by $\ensuremath{\varepsilon}_{\rm m}/2$). Thus we can define
+\[
+\ensuremath{\delta}\ensuremath{\bm{\x}}  := \begin{bmatrix}
+x_1 \tilde{\theta}_n \\
+x_2 \ensuremath{\theta}_n \\
+\ensuremath{\vdots} \\
+x_n \ensuremath{\theta}_2
+\end{bmatrix}
+\]
+where
+\[
+| \ensuremath{\delta}x_k | \ensuremath{\leq}  E_{n,\ensuremath{\epsilon}_{\rm m}/2} | x_k |.
+\]
+\ensuremath{\QED}
+
+We can use this to get a relative backward error bound on \texttt{mul\_rows}:
+
+\textbf{Theorem 2 (matrix-vector backward error)} For $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$ (both with normal float entries) we have
+\[
+\hbox{mul$\_$rows}(A, \ensuremath{\bm{\x}}) = (A + \ensuremath{\delta}A) \ensuremath{\bm{\x}}
+\]
+where, assuming $n \ensuremath{\epsilon}_{\rm m} < 2$ and all operations are in the normalised range, the entries (denoting $\ensuremath{\delta}a_{kj} = \ensuremath{\delta}A[k,j] = \ensuremath{\bm{\e}}_k^\ensuremath{\top} \ensuremath{\delta}A \ensuremath{\bm{\e}}_j$) satisfy
+\[
+|\ensuremath{\delta}a_{kj}| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}  |a_{kj}|.
+\]
+\textbf{Proof} The bound on the entries of $\ensuremath{\delta}A$ is implied by the previous lemma since each row is equivalent to a dot product. \ensuremath{\QED}
+
+\begin{corollary}[Norms]
+\begin{align*}
+\|\ensuremath{\delta}A\|_1 &\ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2} \|A \|_1 \\
+\|\ensuremath{\delta}A\|_2 &\ensuremath{\leq} \sqrt{\min(m,n)} E_{n,\ensuremath{\epsilon}_{\rm m}/2} \|A \|_2 \\
+\|\ensuremath{\delta}A\|_\ensuremath{\infty} &\ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2} \|A \|_\ensuremath{\infty}
+\end{align*}
+In particular, 
+\[
+\hbox{mul$\_$rows}(A, \ensuremath{\bm{\x}}) =A \ensuremath{\bm{\x}} + \ensuremath{\delta}_{\rm f}
+\]
+where
+\[
+\|\ensuremath{\delta}_{\rm f}\| \ensuremath{\leq} \|A \ensuremath{\bm{\x}}\| \ensuremath{\kappa}(A) E_{n,\ensuremath{\epsilon}_{\rm m}/2}
+\]
+\end{corollary}
+\textbf{Proof}
+
+The $1$-norm follow since
+\[
+\|\ensuremath{\delta}A\|_1  = \max_j \ensuremath{\sum}_{k=1}^m |\ensuremath{\delta}a_{kj}| \ensuremath{\leq}
+ E_{n,\ensuremath{\epsilon}_{\rm m}/2}  \max_j \ensuremath{\sum}_{k=1}^m |a_{kj}|  = E_{n,\ensuremath{\epsilon}_{\rm m}/2} \|A\|_1
+\]
+and the proof for the $\ensuremath{\infty}$-norm is similar.
+
+This leaves the 2-norm, which is a bit more challenging. We will prove the result by going through the Fröbenius norm and using
+\[
+\|A \|_2 \ensuremath{\leq} \|A\|_F \ensuremath{\leq} \sqrt{r} \| A\|_2
+\]
+where $r$ is rank of $A$. So we deduce
+\begin{align*}
+\|\ensuremath{\delta}A \|_2^2 &\ensuremath{\leq} \| \ensuremath{\delta}A\|_F^2 = \ensuremath{\sum}_{k=1}^m \ensuremath{\sum}_{j=1}^n |\ensuremath{\delta}a_{kj}|^2 \ensuremath{\leq}
+E_{n,\ensuremath{\epsilon}_{\rm m}/2}^2 \ensuremath{\sum}_{k=1}^m \ensuremath{\sum}_{j=1}^n |a_{kj}|^2 \\
+&=  E_{n,\ensuremath{\epsilon}_{\rm m}/2}^2 \|A \|_F^2 \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}^2 r \|A \|_2^2.
+\end{align*}
+and the rank of $A$ is bounded by $\min(m,n)$. The bound on the forward error then follows.
+
+\ensuremath{\QED}
+
+We can also bound the error of back-substitution in terms of the condition number. If one uses QR to solve $A \ensuremath{\bm{\x}} = \ensuremath{\bm{\y}}$ the condition number also gives a meaningful bound on the error.  As we have already noted, there are some matrices where PLU decompositions introduce large errors, so in that case well-conditioning is not a guarantee  of accuracy (but it still usually works).
+
+
+

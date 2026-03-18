@@ -173,6 +173,8 @@ $$
 
 ∎
 
+## Stability of Chebyshev interpolation
+
 
 This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time
 which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted _stably_: we do not see
@@ -186,9 +188,13 @@ $$
 \| V^{-1}\| ≤ \| D \| \| C_n\| = \sqrt{2/n}.
 $$
 (Actually this bound is achieved and we have equality: $\| V^{-1}\| = \sqrt{2/n}$.) Thus the blow up of error in a 2-norm sense actually
-decreases with $n$!  Though this doesn't take into account floating point round-off error.
+decreases with $n$!  
 
- The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
+This doesn't take into account floating point round-off error. To do so we need to bound the condition number (see appendix), which is given by:
+$$
+κ(V) := \underbrace{\| V \|}_{σ_1} \underbrace{\|V^{-1}\|}_{σ_n^{-1}} ≤ \| C_n^⊤ \| \| D^{-1}\| \sqrt{2/n} = 1.
+$$
+That is: the transform from Chebyshev points to coefficients is guaranteed to not amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
 ## Lab and Problem Sheet
 

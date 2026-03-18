@@ -34,6 +34,7 @@ compilenotes("A.Asymptotics")
 compilenotes("A.Integers")
 compilenotes("A.Permutations")
 compilenotes("A.Norms")
+compilenotes("A.ConditionNumbers")
 
 
 ####

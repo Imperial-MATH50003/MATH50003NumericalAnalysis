@@ -153,6 +153,7 @@ V^{-1} = (C_n^\ensuremath{\top} D^{-1})^{-1} = D C_n = D^2 V^\ensuremath{\top}.
 \]
 \ensuremath{\QED}
 
+\subsection{Stability of Chebyshev interpolation}
 This connection between the Vandermonde-like matrix $V$ and the DCT guarantees that we can apply and invert $V$ in $O(n \log n)$ time which is much faster than the $O(n^3)$ time required for a general matrix. Moreover, because the DCT is orthogonal it can be applied and inverted \emph{stably}: we do not see the instability observed with monomials in Lab 7.  We can make this precise in terms of the singular values: we can understand how a matrix blows up errors by looking at the norm of its inverse, i.e., if $\ensuremath{\varepsilon}$ represents errors in a vector $\ensuremath{\bm{\x}}$ we can bound the error in the solution by:
 \[
 \| V^{-1}(\ensuremath{\bm{\x}} + \ensuremath{\varepsilon}) - V^{-1} \ensuremath{\bm{\x}}\| = \| V^{-1}\ensuremath{\varepsilon}\| \ensuremath{\leq} \underbrace{\|V^{-1}\|}_{\ensuremath{\sigma}_n^{-1}} \|\ensuremath{\varepsilon}\|.
@@ -161,9 +162,13 @@ But in this case we can directly bound $\|V^{-1}\|$, since $D$ is diagonal and $
 \[
 \| V^{-1}\| \ensuremath{\leq} \| D \| \| C_n\| = \sqrt{2/n}.
 \]
-(Actually this bound is achieved and we have equality: $\| V^{-1}\| = \sqrt{2/n}$.) Thus the blow up of error in a 2-norm sense actually decreases with $n$!  Though this doesn't take into account floating point round-off error.
+(Actually this bound is achieved and we have equality: $\| V^{-1}\| = \sqrt{2/n}$.) Thus the blow up of error in a 2-norm sense actually decreases with $n$!  
 
-The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
+This doesn't take into account floating point round-off error. To do so we need to bound the condition number (see appendix), which is given by:
+\[
+\ensuremath{\kappa}(V) := \underbrace{\| V \|}_{\ensuremath{\sigma}_1} \underbrace{\|V^{-1}\|}_{\ensuremath{\sigma}_n^{-1}} \ensuremath{\leq} \| C_n^\ensuremath{\top} \| \| D^{-1}\| \sqrt{2/n} = 1.
+\]
+That is: the transform from Chebyshev points to coefficients is guaranteed to not amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
 \subsection{Lab and Problem Sheet}
 In the problem sheet we investigate a second kind of Chebyshev polynomials defined as
