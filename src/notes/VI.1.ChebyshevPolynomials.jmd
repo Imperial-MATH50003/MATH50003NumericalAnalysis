@@ -192,9 +192,9 @@ decreases with $n$!
 
 This doesn't take into account floating point round-off error. To do so we need to bound the condition number (see appendix), which is given by:
 $$
-κ(V) := \underbrace{\| V \|}_{σ_1} \underbrace{\|V^{-1}\|}_{σ_n^{-1}} ≤ \| C_n^⊤ \| \| D^{-1}\| \sqrt{2/n} = 1.
+κ(V) := \underbrace{\| V \|}_{σ_1} \underbrace{\|V^{-1}\|}_{σ_n^{-1}} ≤ \| C_n^⊤ \| \| D^{-1}\| \sqrt{2/n} = \sqrt{2}.
 $$
-That is: the transform from Chebyshev points to coefficients is guaranteed to not amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
+That is: the transform from Chebyshev points to coefficients is guaranteed to only slightly amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
 ## Lab and Problem Sheet
 

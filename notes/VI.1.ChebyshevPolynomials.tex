@@ -166,9 +166,9 @@ But in this case we can directly bound $\|V^{-1}\|$, since $D$ is diagonal and $
 
 This doesn't take into account floating point round-off error. To do so we need to bound the condition number (see appendix), which is given by:
 \[
-\ensuremath{\kappa}(V) := \underbrace{\| V \|}_{\ensuremath{\sigma}_1} \underbrace{\|V^{-1}\|}_{\ensuremath{\sigma}_n^{-1}} \ensuremath{\leq} \| C_n^\ensuremath{\top} \| \| D^{-1}\| \sqrt{2/n} = 1.
+\ensuremath{\kappa}(V) := \underbrace{\| V \|}_{\ensuremath{\sigma}_1} \underbrace{\|V^{-1}\|}_{\ensuremath{\sigma}_n^{-1}} \ensuremath{\leq} \| C_n^\ensuremath{\top} \| \| D^{-1}\| \sqrt{2/n} = \sqrt{2}.
 \]
-That is: the transform from Chebyshev points to coefficients is guaranteed to not amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
+That is: the transform from Chebyshev points to coefficients is guaranteed to only slightly amplify errors even when implemented in floating point! The power and reliability of Chebyshev interpolation is the starting point of what makes them such powerful tools in computation.
 
 \subsection{Lab and Problem Sheet}
 In the problem sheet we investigate a second kind of Chebyshev polynomials defined as
