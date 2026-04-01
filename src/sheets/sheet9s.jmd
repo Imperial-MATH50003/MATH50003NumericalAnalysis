@@ -22,8 +22,10 @@ It follows directly from the relationship with the DFT and the fact that ${\rm d
 $$
 \meeq{
 𝐟 ⋆ 𝐠 = Q_n^⋆ {\rm diag}(Q_n 𝐟) Q_n 𝐠 = Q_n^⋆ {\rm diag}(Q_n 𝐠) Q_n 𝐟 = 𝐠 ⋆ 𝐟 \ccr
-(𝐟 ⋆ 𝐠) ⋆ 𝐡 =  Q_n^⋆ {\rm diag}(Q_n Q_n^⋆ {\rm diag}(Q_n 𝐟) Q_n 𝐠) Q_n 𝐡 = Q_n^⋆ {\rm diag}(Q_n 𝐟) {\rm diag}(Q_n 𝐠) Q_n 𝐡
-= Q_n^⋆ {\rm diag}(Q_n 𝐟) Q_n Q_n^⋆ {\rm diag}(Q_n 𝐠) Q_n 𝐡 = 𝐟 ⋆ (𝐠 ⋆ 𝐡).
+(𝐟 ⋆ 𝐠) ⋆ 𝐡 =  Q_n^⋆ {\rm diag}(Q_n Q_n^⋆ {\rm diag}(Q_n 𝐟) Q_n 𝐠) Q_n 𝐡 \ccr
+= Q_n^⋆ {\rm diag}(Q_n 𝐟) {\rm diag}(Q_n 𝐠) Q_n 𝐡
+= Q_n^⋆ {\rm diag}(Q_n 𝐟) Q_n Q_n^⋆ {\rm diag}(Q_n 𝐠) Q_n 𝐡  \ccr
+= 𝐟 ⋆ (𝐠 ⋆ 𝐡).
 }
 $$
 
@@ -89,10 +91,14 @@ $$
 
 We thus deduce
 $$
-|a ⋆_n f - a ⋆ f| ≤ ∑_{k=0}^∞ |ĉ_k - â_k f̂_k| = ∑_{k=0}^{n-1} \br[|â_k| (|f̂_{k+n}| + f̂_{k+2n}| + …) +
- (|â_{k+n}| + |â_{k+2n}| + …) (|f̂_k| + |f̂_{k+n}| + …)] ≤
- \| 𝐚̂ \|_1 ∑_{k=0}^{n-1}  ∑_{p=1}^∞ |f̂_{k+pn}| + \|𝐟̂\|_1 ∑_{k=0}^{n-1}  ∑_{p=1}^∞ |â_{k+pn}|
+\begin{align*}
+|a ⋆_n f - a ⋆ f| &≤ ∑_{k=0}^∞ |ĉ_k - â_k f̂_k| \ccr
+= ∑_{k=0}^{n-1} \br[|â_k| (|f̂_{k+n}| + f̂_{k+2n}| + …) +
+ (|â_{k+n}| + |â_{k+2n}| + …) (|f̂_k| + |f̂_{k+n}| + …)]\\
+ & ≤
+ \| 𝐚̂ \|_1 ∑_{k=0}^{n-1}  ∑_{p=1}^∞ |f̂_{k+pn}| + \|𝐟̂\|_1 ∑_{k=0}^{n-1}  ∑_{p=1}^∞ |â_{k+pn}| \ccr
  = \| 𝐚̂ \|_1 ∑_{j=n}^∞ |f̂_j| + \|𝐟̂\|_1 ∑_{j=n}^∞ |â_j|.
+\end{align*}
 $$
 Both sums go to zero as $n → ∞$ since they are absolutely summable.
 

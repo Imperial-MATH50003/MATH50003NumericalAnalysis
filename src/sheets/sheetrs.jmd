@@ -262,7 +262,7 @@ $$
 But we have
 $$
 {\D \over \D x}[C_m (1-x^2)^{3/2}] = 
-\underbrace{\br[C_m'(1-x^2) - 3x C_m]_{\hbox{degree $m+1$}} \sqrt{1-x^2}.
+\underbrace{\br[C_m'(1-x^2) - 3x C_m]}_{\hbox{degree $m+1$}} \sqrt{1-x^2}.
 $$
 Thus by the previous part the integral is zero if $m < n$. 
 Swapping the integration by parts shows its also zero if $m > n$.

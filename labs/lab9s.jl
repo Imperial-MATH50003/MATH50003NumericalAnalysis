@@ -149,16 +149,14 @@ histogram(mod.(X+Y,n); normalized=:probability, label="X+Y mod n")
 scatter!(0:n-1, periodicconv(𝐟,𝐠); ylims=(0,0.5), label="f ⋆ g")
 
 
-# **Problem 2(a)** 
-# Consider a discrete periodic version of the Central Limit Theorem (CLT), that is, 
-# if we take $X_1,…,X_m$ to be independent random variables distributed according to $𝐟$, we want to study the distribution of $Z_m = X_1 + ⋯ + X_m \mod n$.
+# **Problem 2(a)**  Consider a discrete periodic version of the Central Limit Theorem (CLT), that is, if we take $X_1,…,X_m$ to be independent random variables distributed according to $𝐟$, we want to study the distribution of $Z_m = X_1 + ⋯ + X_m \mod n$.
 #  Can you express the distribution in terms of a single FFT and inverse FFT?
 # Compare the predicted distribution with the empirical distribution obtained by sampling from $Z_m$ for $m = 10$.
 
 
 𝐟 = [1,2,50,3,40,1]; 𝐟 = 𝐟/sum(𝐟) # some arbitrary distribution
 ## TODO: sample from Z_m = X_1 + ... + X_m mod n for increasing choices of m.
-## SOLUTION
+## SOLUTION
 m = 10
 n = length(𝐟)
 histogram([mod(sum(sample(0:n-1, Weights(𝐟), m)), n) for _=1:2000]; normalized=:probability, label="Z_m")
@@ -169,12 +167,12 @@ scatter!(0:n-1, 𝐝; ylims=(0,0.5), label="predicted distribution")
 
 # **Problem 2(b)** Use the connection to the DFT to plot the distrubtion of $Z_{100000}$.  What do you conjecture is the limitting distribution as $m → ∞$? Can you explain this in terms of absolute values of the DFT of $𝐟$? 
 
-## TODO: what is the distribution with the sum of 100,000 samples of X?
+## TODO: what is the distribution with the sum of 100,000 samples of X?
 ## SOLUTION
 𝐝 = real(ifft(fft(𝐟) .^ 100_000)) # true distribution
 scatter(0:n-1, 𝐝; ylims=(0,0.5), label="predicted distribution")
 ## evenly distributed.
-## Since everything apart from $f̂_0^n$ satisfies $|f̂_k^n| < 1$, we have that $f̂_k^n → 0$ as $n → ∞$ for all $k ≠ 0$. Hence, the distribution tends to the uniform distribution, which is the distribution with DFT given by $[1,0,…,0]$.
+## Since everything apart from $f̂_0^n$ satisfies $|f̂_k^n| < 1$, we have that $f̂_k^n → 0$ as $n → ∞$ for all $k ≠ 0$. Hence, the distribution tends to the uniform distribution, which is the distribution with DFT given by $[1,0,…,0]$.
 
 
 
@@ -183,8 +181,7 @@ scatter(0:n-1, 𝐝; ylims=(0,0.5), label="predicted distribution")
 
 
 
-# **Problem 2(c)** Come up with a special distribution $𝐟$ that violates the CLT, that is, it tends to a different distribution. What feature does the DFT of $𝐟$
-# have that breaks the CLT?
+# **Problem 2(c)** Come up with a special distribution $𝐟$ that violates the CLT, that is, it tends to a different distribution. What feature does the DFT of $𝐟$ have that breaks the CLT?
 ## TODO: come up with a special distribution that doesn't tend to the uniform distribution, and explain why in terms of the DFT.
 
 ## SOLUTION
@@ -193,6 +190,7 @@ scatter(0:n-1, 𝐝; ylims=(0,0.5), label="predicted distribution")
 𝐟 = [1,0,2,0,3,0]; 𝐟 = 𝐟/sum(𝐟)
 n = length(𝐟)
 histogram([mod(sum(sample(0:n-1, Weights(𝐟), m)), n) for _=1:2000])
+#
 ## thus we only ever get even numbers. Looking at the DFT we see that there are actually two entries with absolute value 1:
 
 abs.(fft(𝐟))
@@ -202,22 +200,20 @@ abs.(fft(𝐟))
 
 # ## VI.1 Chebyshev Polynomials
 
-# We now turn to 
-# Chebyshev polynomials are orthogonal on $[-1,1]$ with respect to $w(x) = 1/\sqrt{1-x^2}$.
+# We now turn to  Chebyshev polynomials are orthogonal on $[-1,1]$ with respect to $w(x) = 1/\sqrt{1-x^2}$.
 # They actually have an explicit formula as $T_n(x) = \cos n{\rm acos}\, x$. We can plot the first 5:
 
 g = range(-1,1,100) # plot grid
 plot(g, cos.((0:4)' .* acos.(g)); label=["T₀" "T₁" "T₂" "T₃" "T₄"])
 
-# These satisfy a simple 3-term recurrence:
+# These satisfy a simple 3-term recurrence expressing $T_{n+1}(x)$ in terms of $T_n(x)$ and $T_{n-1}(x)$:
 # $$
 # \begin{align*}
-# x T_0(x) &= T_1(x) \\
-# x T_n(x) &= T_{n-1}(x)/2 + T_{n+1}(x)/2 
+# x T_0(x) &= T_1(x), \\
+# x T_n(x) &= T_{n-1}(x)/2 + T_{n+1}(x)/2.
 # \end{align*}
 # $$
-# The recurrence gives us a way of computing $T_n(x)$ without the need for expensive
-# trigonometric functions used in the explicit formula:
+# The recurrence gives us a way of computing $T_n(x)$ without the need for expensive trigonometric functions used in the explicit formula:
 
 function chebyshevt(n, x)
     Tₖ₋₁ = 1.0
@@ -240,8 +236,7 @@ x = 0.1
 
 # ------
 
-# **Problem 3(a)** The previous code actually computes $T_0(x),…,T_n(x)$. Alter the implementation in the function `chebyshevt_vec(n, x)` to return a vector of these value
-# in $O(n)$ operations.
+# **Problem 3(a)** The previous code actually computes $T_0(x),…,T_n(x)$. Alter the implementation in the function `chebyshevt_vec(n, x)` to return a vector of these values in $O(n)$ operations.
 
 function chebyshevt_vec(n, x)
     T = zeros(typeof(x), n+1)
@@ -288,8 +283,7 @@ T = chebyshevt_vec(n-1,x) # Chebyshev T
 @test T'*c ≈ exp(x) # we have high-accuracy at any point in [-1,1]
 
 
-# **Problem 3(c)** Reconsider Lab 7, Q1. Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at the $n$
-# Chebyshev points $x_j = \cos(π(j-1/2)/n)$, plotting the solution at a grid of $1000$ evenly points for $n = 5, 20, and 400$. 
+# **Problem 3(c)** Reconsider Lab 7, Q1. Interpolate $1/(4x^2+1)$ and $1/(25x^2 + 1)$ at the $n$ Chebyshev points $x_j = \cos(π(j-1/2)/n)$, plotting the solution at a grid of $1000$ evenly points for $n = 5, 20$, and $400$. 
 # For which functions does it appear to converge? Do you think it is stable?
 
 ## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at n Chebyshev spaced points, plotting both solutions evaluated at
@@ -317,10 +311,8 @@ scatter!(𝐱, f_4.(𝐱))
 plot!(𝐠, V_g*𝐜_25; ylims=(-1,1.1))
 plot!(𝐠, f_25.(𝐠))
 scatter!(𝐱, f_25.(𝐱))
+#
 
-
-
-##
 n = 20
 𝐱 = cos.(π*((1:n) .- 1/2)/n)
 𝐠 = range(-1, 1; length=1000) # plotting grid
@@ -340,7 +332,7 @@ scatter!(𝐱, f_4.(𝐱))
 plot!(𝐠, V_g*𝐜_25; ylims=(-1,1.1))
 plot!(𝐠, f_25.(𝐠))
 scatter!(𝐱, f_25.(𝐱))
-##
+#
 
 n = 400
 𝐱 = cos.(π*((1:n) .- 1/2)/n)
@@ -375,13 +367,13 @@ scatter!(𝐱, f_25.(𝐱))
 # which satisfy the recurrence relationship:
 # $$
 # \begin{align*}
-# x U_0(x) &= U_1(x)/2 \\
+# x U_0(x) &= U_1(x)/2, \\
 # x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
 # \end{align*}
 # $$
+# Here we adapt the techniques for the Chebyshev T polynomials to this second family, which hints that many properties apply for general orthogonal polynomials:
 
-# **Problem 4(a)** Use the recurrence relationship to evaluate $U_n(x)$
-# using only floating point arithmetic operations (i.e., no trigonometry).
+# **Problem 4(a)** Use the recurrence relationship to evaluate $U_n(x)$ using only floating point arithmetic operations (i.e., no trigonometry).
 
 function chebyshevu(n, x)
     ## TODO: Implement U_n(x) via the 3-term recurrence relationship
