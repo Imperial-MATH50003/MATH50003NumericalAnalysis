@@ -200,7 +200,7 @@ Note the standard continuous convolution involves an integral over $\ensuremath{
 \rule{\textwidth}{1pt}
 \textbf{Problem 2}  For $2\ensuremath{\pi}$-periodic smooth functions $a$ and $f$ (i.e., such that $a(\ensuremath{\theta}+2\ensuremath{\pi}) = a(\ensuremath{\theta})$ and $b(\ensuremath{\theta}+2\ensuremath{\pi}) = b(\ensuremath{\theta})$) with no negative Fourier coefficients ($0 = \hat{a}_{-1} = \hat{a}_{-2} = \ensuremath{\ldots}$ and $0 = \hat{f}_{-1} = \hat{f}_{-2} = \ensuremath{\ldots}$ ) consider the periodic Trapezium rule approximation to the (continuous) convolution:
 \[
-\underbrace{ {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  a(\ensuremath{\theta}-\ensuremath{\varphi}) f(\ensuremath{\varphi}) \D \ensuremath{\varphi}}_{=: (a \ensuremath{\star} f)(\ensuremath{\theta})} \ensuremath{\approx} \underbrace{\ensuremath{\sum}_{j=0}^{n-1} a(\ensuremath{\theta}-\ensuremath{\theta}_j) f(\ensuremath{\theta}_j)}_{
+\underbrace{ {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  a(\ensuremath{\theta}-\ensuremath{\varphi}) f(\ensuremath{\varphi}) \D \ensuremath{\varphi}}_{=: (a \ensuremath{\star} f)(\ensuremath{\theta})} \ensuremath{\approx} \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} a(\ensuremath{\theta}-\ensuremath{\theta}_j) f(\ensuremath{\theta}_j)}_{
 =: (a \ensuremath{\star}_n f)(\ensuremath{\theta})}
 \]
 for $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$. Express the Fourier coefficients of $a \ensuremath{\star}_n f$  in terms of $\hat{a}_k$ and $\hat{f}_k$ and thereby prove uniform convergence as $n \ensuremath{\rightarrow} \ensuremath{\infty}$ provided both $a$ and $f$ have absolutely summable Fourier coefficients. Hint: Integrals and infinite sums can be swapped due to uniform and absolute convergence.
@@ -209,24 +209,24 @@ for $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$. Express the Fourier coeffici
 
 Note that
 \[
-\ensuremath{\sum}_{k,j=0}^\ensuremath{\infty} |\hat{a}_k| |\hat{f}_j| =  \ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k| \ensuremath{\sum}_{j=0}^\ensuremath{\infty} |\hat{a}_j| = \|\ensuremath{\bm{\a}}\ensuremath{\hat}\|_1 \| \ensuremath{\bm{\f}}\ensuremath{\hat}\|_1
+\ensuremath{\sum}_{k,j=0}^\ensuremath{\infty} |\hat{a}_k| |\hat{f}_j| =  \ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k| \ensuremath{\sum}_{j=0}^\ensuremath{\infty} |\hat{a}_j| = \|\hat{\a}\|_1 \| \hat{\f}\|_1
 \]
 which allows us to interchange infinite sums. The true convolution satisfies (using uniform convergence to swap integrals and sums):
 \[
-(a \ensuremath{\star} f)(\ensuremath{\theta}) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty}  \hat{f}_k \ensuremath{\int}_0^{2\ensuremath{\pi}} a(\ensuremath{\theta}-\ensuremath{\varphi}) \E^{\I k \ensuremath{\varphi}} \D \ensuremath{\varphi} =  \ensuremath{\sum}_{j=0}^\ensuremath{\infty} \hat{a}_j \E^{\I j \ensuremath{\theta}}   \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{f}_k \underbrace{\ensuremath{\int}_0^{2\ensuremath{\pi}} \E^{-I j \ensuremath{\varphi}} \E^{\I k \ensuremath{\varphi}} \D \ensuremath{\varphi}}_{=\ensuremath{\delta}_{kj}}  = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{f}_k \hat{a}_k \E^{\I k \ensuremath{\theta}}.
+(a \ensuremath{\star} f)(\ensuremath{\theta}) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty}  \hat{f}_k {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} a(\ensuremath{\theta}-\ensuremath{\varphi}) \E^{\I k \ensuremath{\varphi}} \D \ensuremath{\varphi} =  \ensuremath{\sum}_{j=0}^\ensuremath{\infty} \hat{a}_j \E^{\I j \ensuremath{\theta}}   \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{f}_k \underbrace{{1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} \E^{-\I j \ensuremath{\varphi}} \E^{\I k \ensuremath{\varphi}} \D \ensuremath{\varphi}}_{=\ensuremath{\delta}_{kj}}  = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{f}_k \hat{a}_k \E^{\I k \ensuremath{\theta}}.
 \]
 Note that this has absolutely summable Fourier coefficients  since:
 \[
-\ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k \hat{a}_k| \ensuremath{\leq} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k| \ensuremath{\sum}_{j=0}^\ensuremath{\infty} |\hat{a}_j| = \|\ensuremath{\bm{\a}}\ensuremath{\hat}\|_1 \| \ensuremath{\bm{\f}}\ensuremath{\hat}\|_1.
+\ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k \hat{a}_k| \ensuremath{\leq} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat{f}_k| \ensuremath{\sum}_{j=0}^\ensuremath{\infty} |\hat{a}_j| = \|\hat{\a}\|_1 \| \hat{\f}\|_1.
 \]
 We can similarly write
 \meeq{
-(a \ensuremath{\star}_n f)(\ensuremath{\theta})  = \ensuremath{\sum}_{j=0}^{n-1} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{a}_k E^{\I k (\ensuremath{\theta}-\ensuremath{\theta}_j)} f(\ensuremath{\theta}_j)
-=  \ensuremath{\sum}_{k=0}^\ensuremath{\infty} E^{\I k \ensuremath{\theta}} \hat{a}_k \underbrace{\ensuremath{\sum}_{j=0}^{n-1}  E^{-\I k \ensuremath{\theta}_j} f(\ensuremath{\theta}_j)}_{\hat{f}_k^n}.
+(a \ensuremath{\star}_n f)(\ensuremath{\theta})  = {1 \over n} \ensuremath{\sum}_{j=0}^{n-1} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \hat{a}_k \E^{\I k (\ensuremath{\theta}-\ensuremath{\theta}_j)} f(\ensuremath{\theta}_j)
+=  \ensuremath{\sum}_{k=0}^\ensuremath{\infty} \E^{\I k \ensuremath{\theta}} \hat{a}_k \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1}  \E^{-\I k \ensuremath{\theta}_j} f(\ensuremath{\theta}_j)}_{\hat{f}_k^n}.
 }
 That is, its Fourier coefficients are given by, for $c := a \ensuremath{\star}_n f$,
 \[
-\hat{c}_k = \hat{a}_k \hat{f}_k^n = \hat{a}_k \ensuremath{\sum}_{p=0}^\ensuremath{\infty} \hat{f}_{\mod(k,n)+pn}
+\hat{c}_k = \hat{a}_k \hat{f}_k^n = \hat{a}_k \ensuremath{\sum}_{p=0}^\ensuremath{\infty} \hat{f}_{{\rm mod}(k,n)+pn}
 \]
 We thus deduce
 \begin{align*}
@@ -234,8 +234,8 @@ We thus deduce
 = \ensuremath{\sum}_{k=0}^{n-1} \br[|\hat{a}_k| (|\hat{f}_{k+n}| + \hat{f}_{k+2n}| + \ensuremath{\ldots}) +
  (|\hat{a}_{k+n}| + |\hat{a}_{k+2n}| + \ensuremath{\ldots}) (|\hat{f}_k| + |\hat{f}_{k+n}| + \ensuremath{\ldots})]\\
  & \ensuremath{\leq}
- \| \ensuremath{\bm{\a}}\ensuremath{\hat} \|_1 \ensuremath{\sum}_{k=0}^{n-1}  \ensuremath{\sum}_{p=1}^\ensuremath{\infty} |\hat{f}_{k+pn}| + \|\ensuremath{\bm{\f}}\ensuremath{\hat}\|_1 \ensuremath{\sum}_{k=0}^{n-1}  \ensuremath{\sum}_{p=1}^\ensuremath{\infty} |\hat{a}_{k+pn}| \ccr
- = \| \ensuremath{\bm{\a}}\ensuremath{\hat} \|_1 \ensuremath{\sum}_{j=n}^\ensuremath{\infty} |\hat{f}_j| + \|\ensuremath{\bm{\f}}\ensuremath{\hat}\|_1 \ensuremath{\sum}_{j=n}^\ensuremath{\infty} |\hat{a}_j|.
+ \| \hat{\a} \|_1 \ensuremath{\sum}_{k=0}^{n-1}  \ensuremath{\sum}_{p=1}^\ensuremath{\infty} |\hat{f}_{k+pn}| + \|\hat{\f}\|_1 \ensuremath{\sum}_{k=0}^{n-1}  \ensuremath{\sum}_{p=1}^\ensuremath{\infty} |\hat{a}_{k+pn}| \ccr
+ = \| \hat{\a} \|_1 \ensuremath{\sum}_{j=n}^\ensuremath{\infty} |\hat{f}_j| + \|\hat{\f}\|_1 \ensuremath{\sum}_{j=n}^\ensuremath{\infty} |\hat{a}_j|.
 \end{align*}
 Both sums go to zero as $n \ensuremath{\rightarrow} \ensuremath{\infty}$ since they are absolutely summable.
 
@@ -255,7 +255,7 @@ Cross-correlations can be interpreted as a heuristic means to identify when two 
 \]
 \textbf{SOLUTION} Here we find (using 0-based indexing):
 \[
-\ensuremath{\bm{\e}}_k S(\ensuremath{\bm{\a}} \ensuremath{\otimes} \ensuremath{\bm{\f}} ) = \ensuremath{\bm{\e}}_{\mod(k-1,n)} (\ensuremath{\bm{\a}} \ensuremath{\otimes} \ensuremath{\bm{\f}} ) = \ensuremath{\sum}_{j=0}^{n-1} a_j f_{\mod(j+k-1,n)} = \ensuremath{\bm{\a}} \ensuremath{\otimes} S \ensuremath{\bm{\f}}.
+\ensuremath{\bm{\e}}_k S(\ensuremath{\bm{\a}} \ensuremath{\otimes} \ensuremath{\bm{\f}} ) = \ensuremath{\bm{\e}}_{{\rm mod}(k-1,n)} (\ensuremath{\bm{\a}} \ensuremath{\otimes} \ensuremath{\bm{\f}} ) = \ensuremath{\sum}_{j=0}^{n-1} a_j f_{{\rm mod}(j+k-1,n)} = \ensuremath{\bm{\a}} \ensuremath{\otimes} S \ensuremath{\bm{\f}}.
 \]
 Thus it must be equivalent to a convolution, i.e., a Circulant matrix. We can test on $\ensuremath{\bm{\e}}_0$ to figure out what the first column is:
 \[
@@ -273,7 +273,7 @@ Note that $C[\ensuremath{\bm{\b}}] = C[\ensuremath{\bm{\a}}]^\ensuremath{\top}$.
 \rule{\textwidth}{1pt}
 We now move on to Chebyshev polynomials, which are a canonical example of orthogonal polynomials and allow us to use the approximation power of Fourier series for non-periodic functions. In the notes we investigated the standard Chebyshev polynomials $T_n(x) = \cos n \acos x$. Here we investigate a second kind of Chebyshev polynomials:
 \[
-U_n(x) := {\sin(n+1) \acos x \over \sqrt{1-x^2}}.
+U_n(x) := {\sin((n+1) \acos x) \over \sqrt{1-x^2}}.
 \]
 These correspond to sine expansions in a similar way to how $T_n$ correspond to cosine expansions. We will show they are orthogonal polynomials by proving that they are (1) polynomials and (2) orthogonal with respect to a specific inner product.
 
@@ -309,10 +309,10 @@ x U_n(x) = {\cos \ensuremath{\theta}\sin(n+1)\ensuremath{\theta} \over \sin \ens
 We can now build these up using the recurrence:
 \meeq{
 U_0(x) = 1 \ccr
-U_1(x) = 2xU_0(x) = 2x \\
-U_2(x) = 2xU_1(x)-U_0(x) = 4x^2-1 \\
-U_3(x) = 2xU_2(x)-U_1(x) = 8x^3 - 4x \\
-U_4(x) = 2xU_3(x) - U_2(x) = 16x^4-12x^2 + 1 \\
+U_1(x) = 2xU_0(x) = 2x \ccr
+U_2(x) = 2xU_1(x)-U_0(x) = 4x^2-1 \ccr
+U_3(x) = 2xU_2(x)-U_1(x) = 8x^3 - 4x \ccr
+U_4(x) = 2xU_3(x) - U_2(x) = 16x^4-12x^2 + 1 \ccr
 U_5(x) = 2xU_4(x)-U_3(x) = 32x^5 - 32x^3 + 6x
 }
 \textbf{END}
@@ -332,7 +332,7 @@ This follows from a change-of-variables:
 \int_{-1}^1 U_n(x)U_m(x)\sqrt{1-x^2}{\rm d}x &= \int_0^{\ensuremath{\pi}}U_n(\cos \ensuremath{\theta})U_m(\cos \ensuremath{\theta})\sin^2 \ensuremath{\theta}{\rm d} \ensuremath{\theta} \\
 &= \int_0^{\ensuremath{\pi}}\sin(n+1) \ensuremath{\theta}\sin(m+1) \ensuremath{\theta}{\rm d} \ensuremath{\theta}=\frac{\ensuremath{\pi}}{2}\ensuremath{\delta}_{mn}
 \end{align*}
-where the last step can be shown by substituting $\sin k\ensuremath{\theta} = (\exp(ik\ensuremath{\theta})-\exp(-ik\ensuremath{\theta})/(2i)$.
+where the last step can be shown by substituting $\sin k\ensuremath{\theta} = (\exp(\I k\ensuremath{\theta})-\exp(-\I k\ensuremath{\theta})/(2\I)$.
 
 \textbf{END}
 

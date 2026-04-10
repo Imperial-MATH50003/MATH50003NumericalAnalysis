@@ -51,7 +51,7 @@ in terms of the true Fourier coefficients.
 and $b(θ+2π) = b(θ)$) with no negative Fourier coefficients ($0 = â_{-1} = â_{-2} = …$ and $0 = f̂_{-1} = f̂_{-2} = …$ )
 consider the periodic Trapezium rule approximation to the (continuous) convolution:
 $$
-\underbrace{ {1 \over 2π} ∫_0^{2π}  a(θ-φ) f(φ) \D φ}_{=: (a ⋆ f)(θ)} ≈ \underbrace{∑_{j=0}^{n-1} a(θ-θ_j) f(θ_j)}_{
+\underbrace{ {1 \over 2π} ∫_0^{2π}  a(θ-φ) f(φ) \D φ}_{=: (a ⋆ f)(θ)} ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} a(θ-θ_j) f(θ_j)}_{
 =: (a ⋆_n f)(θ)}
 $$
 for $θ_j = 2πj/n$.
@@ -69,7 +69,7 @@ $$
 which allows us to interchange infinite sums.
 The true convolution satisfies (using uniform convergence to swap integrals and sums):
 $$
-(a ⋆ f)(θ) = ∑_{k=0}^∞  f̂_k ∫_0^{2π} a(θ-φ) \E^{\I k φ} \D φ =  ∑_{j=0}^∞ â_j \E^{\I j θ}   ∑_{k=0}^∞ f̂_k \underbrace{∫_0^{2π} \E^{-I j φ} \E^{\I k φ} \D φ}_{=δ_{kj}}  = ∑_{k=0}^∞ f̂_k â_k \E^{\I k θ}.
+(a ⋆ f)(θ) = ∑_{k=0}^∞  f̂_k {1 \over 2π} ∫_0^{2π} a(θ-φ) \E^{\I k φ} \D φ =  ∑_{j=0}^∞ â_j \E^{\I j θ}   ∑_{k=0}^∞ f̂_k \underbrace{{1 \over 2π} ∫_0^{2π} \E^{-\I j φ} \E^{\I k φ} \D φ}_{=δ_{kj}}  = ∑_{k=0}^∞ f̂_k â_k \E^{\I k θ}.
 $$
 Note that this has absolutely summable Fourier coefficients  since:
 $$
@@ -79,13 +79,13 @@ $$
 We can similarly write
 $$
 \meeq{
-(a ⋆_n f)(θ)  = ∑_{j=0}^{n-1} ∑_{k=0}^∞ â_k E^{\I k (θ-θ_j)} f(θ_j)
-=  ∑_{k=0}^∞ E^{\I k θ} â_k \underbrace{∑_{j=0}^{n-1}  E^{-\I k θ_j} f(θ_j)}_{f̂_k^n}.
+(a ⋆_n f)(θ)  = {1 \over n} ∑_{j=0}^{n-1} ∑_{k=0}^∞ â_k \E^{\I k (θ-θ_j)} f(θ_j)
+=  ∑_{k=0}^∞ \E^{\I k θ} â_k \underbrace{{1 \over n} ∑_{j=0}^{n-1}  \E^{-\I k θ_j} f(θ_j)}_{f̂_k^n}.
 }
 $$
 That is, its Fourier coefficients are given by, for $c := a ⋆_n f$,
 $$
-ĉ_k = â_k f̂_k^n = â_k ∑_{p=0}^∞ f̂_{\mod(k,n)+pn}
+ĉ_k = â_k f̂_k^n = â_k ∑_{p=0}^∞ f̂_{{\rm mod}(k,n)+pn}
 $$
 
 
@@ -130,7 +130,7 @@ $$
 **SOLUTION**
 Here we find (using 0-based indexing):
 $$
-𝐞_k S(𝐚 ⊗ 𝐟 ) = 𝐞_{\mod(k-1,n)} (𝐚 ⊗ 𝐟 ) = ∑_{j=0}^{n-1} a_j f_{\mod(j+k-1,n)} = 𝐚 ⊗ S 𝐟.
+𝐞_k S(𝐚 ⊗ 𝐟 ) = 𝐞_{{\rm mod}(k-1,n)} (𝐚 ⊗ 𝐟 ) = ∑_{j=0}^{n-1} a_j f_{{\rm mod}(j+k-1,n)} = 𝐚 ⊗ S 𝐟.
 $$
 Thus it must be equivalent to a convolution, i.e., a Circulant matrix. We can test on $𝐞_0$ to figure out what the first column is:
 $$
@@ -150,7 +150,7 @@ Note that $C[𝐛] = C[𝐚]^⊤$.
 
 We now move on to Chebyshev polynomials, which are a canonical example of orthogonal polynomials and allow us to use the approximation power of Fourier series for non-periodic functions. In the notes we investigated the standard Chebyshev polynomials $T_n(x) = \cos n \acos x$. Here we investigate a second kind of Chebyshev polynomials:
 $$
-U_n(x) := {\sin(n+1) \acos x \over \sqrt{1-x^2}}.
+U_n(x) := {\sin((n+1) \acos x) \over \sqrt{1-x^2}}.
 $$
 These correspond to
 sine expansions in a similar way to how $T_n$ correspond to cosine expansions. We will show they are orthogonal
@@ -194,10 +194,10 @@ We can now build these up using the recurrence:
 $$
 \meeq{
 U_0(x) = 1 \ccr
-U_1(x) = 2xU_0(x) = 2x \\
-U_2(x) = 2xU_1(x)-U_0(x) = 4x^2-1 \\
-U_3(x) = 2xU_2(x)-U_1(x) = 8x^3 - 4x \\
-U_4(x) = 2xU_3(x) - U_2(x) = 16x^4-12x^2 + 1 \\
+U_1(x) = 2xU_0(x) = 2x \ccr
+U_2(x) = 2xU_1(x)-U_0(x) = 4x^2-1 \ccr
+U_3(x) = 2xU_2(x)-U_1(x) = 8x^3 - 4x \ccr
+U_4(x) = 2xU_3(x) - U_2(x) = 16x^4-12x^2 + 1 \ccr
 U_5(x) = 2xU_4(x)-U_3(x) = 32x^5 - 32x^3 + 6x
 }
 $$
@@ -229,7 +229,7 @@ $$
 &= \int_0^{π}\sin(n+1) θ\sin(m+1) θ{\rm d} θ=\frac{π}{2}δ_{mn}
 \end{align*}
 $$
-where the last step can be shown by substituting $\sin kθ = (\exp(ikθ)-\exp(-ikθ)/(2i)$.
+where the last step can be shown by substituting $\sin kθ = (\exp(\I kθ)-\exp(-\I kθ)/(2\I)$.
 
 
 

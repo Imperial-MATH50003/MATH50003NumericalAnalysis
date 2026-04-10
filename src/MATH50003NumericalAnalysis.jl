@@ -47,6 +47,8 @@ function fixunderbars(path)
     write(path, replace(read(path, String), "f\\ensuremath{\\check}" => "\\check{f}"))
     write(path, replace(read(path, String), "g\\ensuremath{\\check}" => "\\check{g}"))
     write(path, replace(read(path, String), "\\ensuremath{\\bm{\\x}}\\ensuremath{\\tilde}" => "\\tilde{\\x}"))
+    write(path, replace(read(path, String), "\\ensuremath{\\bm{\\a}}\\ensuremath{\\hat}" => "\\hat{\\a}"))
+    write(path, replace(read(path, String), "\\ensuremath{\\bm{\\f}}\\ensuremath{\\hat}" => "\\hat{\\f}"))
     write(path, replace(read(path, String), "\\ensuremath{\\theta}\\ensuremath{\\tilde}" => "\\tilde{\\theta}"))
 end
 

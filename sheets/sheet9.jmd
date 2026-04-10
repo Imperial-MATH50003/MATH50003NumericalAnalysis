@@ -38,7 +38,7 @@ in terms of the true Fourier coefficients.
 and $b(θ+2π) = b(θ)$) with no negative Fourier coefficients ($0 = â_{-1} = â_{-2} = …$ and $0 = f̂_{-1} = f̂_{-2} = …$ )
 consider the periodic Trapezium rule approximation to the (continuous) convolution:
 $$
-\underbrace{ {1 \over 2π} ∫_0^{2π}  a(θ-φ) f(φ) \D φ}_{=: (a ⋆ f)(θ)} ≈ \underbrace{∑_{j=0}^{n-1} a(θ-θ_j) f(θ_j)}_{
+\underbrace{ {1 \over 2π} ∫_0^{2π}  a(θ-φ) f(φ) \D φ}_{=: (a ⋆ f)(θ)} ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} a(θ-θ_j) f(θ_j)}_{
 =: (a ⋆_n f)(θ)}
 $$
 for $θ_j = 2πj/n$.
@@ -77,7 +77,7 @@ $$
 
 We now move on to Chebyshev polynomials, which are a canonical example of orthogonal polynomials and allow us to use the approximation power of Fourier series for non-periodic functions. In the notes we investigated the standard Chebyshev polynomials $T_n(x) = \cos n \acos x$. Here we investigate a second kind of Chebyshev polynomials:
 $$
-U_n(x) := {\sin(n+1) \acos x \over \sqrt{1-x^2}}.
+U_n(x) := {\sin((n+1) \acos x) \over \sqrt{1-x^2}}.
 $$
 These correspond to
 sine expansions in a similar way to how $T_n$ correspond to cosine expansions. We will show they are orthogonal

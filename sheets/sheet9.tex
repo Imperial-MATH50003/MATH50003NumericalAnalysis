@@ -188,7 +188,7 @@ Note the standard continuous convolution involves an integral over $\ensuremath{
 \rule{\textwidth}{1pt}
 \textbf{Problem 2}  For $2\ensuremath{\pi}$-periodic smooth functions $a$ and $f$ (i.e., such that $a(\ensuremath{\theta}+2\ensuremath{\pi}) = a(\ensuremath{\theta})$ and $b(\ensuremath{\theta}+2\ensuremath{\pi}) = b(\ensuremath{\theta})$) with no negative Fourier coefficients ($0 = \hat{a}_{-1} = \hat{a}_{-2} = \ensuremath{\ldots}$ and $0 = \hat{f}_{-1} = \hat{f}_{-2} = \ensuremath{\ldots}$ ) consider the periodic Trapezium rule approximation to the (continuous) convolution:
 \[
-\underbrace{ {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  a(\ensuremath{\theta}-\ensuremath{\varphi}) f(\ensuremath{\varphi}) \D \ensuremath{\varphi}}_{=: (a \ensuremath{\star} f)(\ensuremath{\theta})} \ensuremath{\approx} \underbrace{\ensuremath{\sum}_{j=0}^{n-1} a(\ensuremath{\theta}-\ensuremath{\theta}_j) f(\ensuremath{\theta}_j)}_{
+\underbrace{ {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  a(\ensuremath{\theta}-\ensuremath{\varphi}) f(\ensuremath{\varphi}) \D \ensuremath{\varphi}}_{=: (a \ensuremath{\star} f)(\ensuremath{\theta})} \ensuremath{\approx} \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} a(\ensuremath{\theta}-\ensuremath{\theta}_j) f(\ensuremath{\theta}_j)}_{
 =: (a \ensuremath{\star}_n f)(\ensuremath{\theta})}
 \]
 for $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$. Express the Fourier coefficients of $a \ensuremath{\star}_n f$  in terms of $\hat{a}_k$ and $\hat{f}_k$ and thereby prove uniform convergence as $n \ensuremath{\rightarrow} \ensuremath{\infty}$ provided both $a$ and $f$ have absolutely summable Fourier coefficients. Hint: Integrals and infinite sums can be swapped due to uniform and absolute convergence.
@@ -208,7 +208,7 @@ Cross-correlations can be interpreted as a heuristic means to identify when two 
 \rule{\textwidth}{1pt}
 We now move on to Chebyshev polynomials, which are a canonical example of orthogonal polynomials and allow us to use the approximation power of Fourier series for non-periodic functions. In the notes we investigated the standard Chebyshev polynomials $T_n(x) = \cos n \acos x$. Here we investigate a second kind of Chebyshev polynomials:
 \[
-U_n(x) := {\sin(n+1) \acos x \over \sqrt{1-x^2}}.
+U_n(x) := {\sin((n+1) \acos x) \over \sqrt{1-x^2}}.
 \]
 These correspond to sine expansions in a similar way to how $T_n$ correspond to cosine expansions. We will show they are orthogonal polynomials by proving that they are (1) polynomials and (2) orthogonal with respect to a specific inner product.
 
