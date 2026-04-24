@@ -242,6 +242,26 @@ $$
 \int_{-1}^1 U_n(x) p(x) \sqrt{1-x^2} {\rm d}x.
 $$
 
+**SOLUTION**
+
+PS9 Q4(a) implies that $\{U_k(x)\}$ are a basis of polynomials. Hence we can 
+expand
+$$
+p(x) = ∑_{k=0}^m c_k U_k(x)
+$$
+for some coefficients $c_k$. Then:
+$$
+\int_{-1}^1 U_n(x) p(x) \sqrt{1-x^2} {\rm d}x 
+= ∑_{k=0}^m c_k \int_{-1}^1 U_n(x) U_k(x) \sqrt{1-x^2} {\rm d}x  = 0
+$$
+since Q9 4(b) shows that
+$$
+\int_{-1}^1 U_n(x) U_k(x) \sqrt{1-x^2} {\rm d}x  = 0
+$$
+when $k ≠ n$ (which is always true since $k < n$).
+
+**END**
+
 **Problem 7(b)** Use this to prove that
 $$
 C_n(x) := U_{n+1}'(x)
